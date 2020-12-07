@@ -1,0 +1,23 @@
+{
+  "name": "cids-cgi",
+  "version": "0.0.5-beta",
+  "description": "CGI Design System for Vue",
+  "main": "index.js",
+  "private": false,
+  "scripts": {
+    "build": "vue-cli-service build --target lib --name cids src/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Vinicius Boscardin",
+  "license": "ISC",
+  "devDependencies": {
+    "@mdi/font": "^5.8.55",
+    "bili": "^5.0.5",
+    "vue-template-compiler": "^2.6.12",
+    "@vue/cli-service": "~4.5.0"
+  },
+  "dependencies": {
+    "vuedraggable": "^2.24.3",
+    "vuetify": "^2.3.19"
+  }
+}

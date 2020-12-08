@@ -87,13 +87,14 @@ Nos seus componentes do projeto use:
 | colunas-fixas            |   false   | Boolean |          true |
 | mostra-agrupador         |   false   | Boolean |         false |
 | agrupar-por              |   false   |  Array  |            [] |
-| ordenadar-varios         |   false   | Boolean |          true |
+| ordenar-varios           |   false   | Boolean |          true |
 | ordenar-por              |   false   |  Array  |            [] |
 | pesquisa                 |   false   | String  |          null |
 | chave-tabela             |   false   | String  |           seq |
 | selecionar-varios        |   false   | Boolean |         false |
 | mostra-acoes             |   false   | Boolean |         false |
 | altura                   |   false   | String  |         100vh |
+| carregar                 |   false   | Boolean |         false |
 
 <br>
 

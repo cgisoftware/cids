@@ -1,5 +1,11 @@
 <template>
+  <v-skeleton-loader
+    type="table"
+    v-if="carregar"
+  >
+  </v-skeleton-loader>
   <v-data-table
+    v-else
     :hide-default-footer="!mostraPaginacao"
     :disable-pagination="!mostraPaginacao"
     :hide-default-header="!mostraColunas"
@@ -214,6 +220,7 @@
     </template>
 
   </v-data-table>
+
 </template>
 
 <script>
@@ -308,12 +315,12 @@ export default {
     colunas: {
       type: Array,
       default: () => undefined,
-      required: true
+      required: true,
     },
     linhas: {
       type: Array,
       default: () => undefined,
-      required: true
+      required: true,
     },
     "mostra-propriedades": {
       type: Boolean,
@@ -339,7 +346,7 @@ export default {
       type: Array,
       default: () => [],
     },
-    "ordenadar-varios": {
+    "ordenar-varios": {
       type: Boolean,
       default: () => true,
     },
@@ -373,11 +380,15 @@ export default {
     },
     "nome-tabela": {
       type: String,
-      default: () => '',
+      default: () => "",
     },
-    "altura": {
+    altura: {
       type: String,
-      default: () => '100vh',
+      default: () => "100vh",
+    },
+    carregar: {
+      type: Boolean,
+      default: () => false,
     },
   },
 };

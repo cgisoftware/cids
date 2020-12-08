@@ -285,7 +285,7 @@ export default {
   },
   methods: {
     salvarPropriedades() {
-      this.$emit("click-salvar-propriedades", [
+      this.$emit("salvar-propriedades", [
         ...this.visibleColumns,
         ...this.hiddenColumns,
       ]);

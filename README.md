@@ -100,12 +100,12 @@ Nos seus componentes do projeto use:
 
 ## - Events
 
-| Event                      |                Return |
-| :------------------------- | --------------------: |
-| @click-salvar-propriedades | Array de propriedades |
-| @paginando                 |   Object de paginação |
-| @alterar-item              |        Object de item |
-| @deletar-item              |        Object de item |
+| Event                |                Return |
+| :------------------- | --------------------: |
+| @salvar-propriedades | Array de propriedades |
+| @paginando           |   Object de paginação |
+| @alterar-item        |        Object de item |
+| @deletar-item        |        Object de item |
 
 <br>
 

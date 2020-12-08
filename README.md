@@ -46,7 +46,6 @@ import cids from 'cids-cgi/lib'
 Vue.use(cids)
 ```
 
-
 <br>
 <br>
 
@@ -62,11 +61,18 @@ Nos seus componentes do projeto use:
 
 ```html
 <template>
-  <cgi-data-table></cgi-data-table>
+  <cgi-data-table>
+    <!-- 
+        slot usado somente quando for customizar suas colunas, como formatar a data, por exemplo 
+    -->
+    <template v-slot:name_of_column="{ item }">
+      {{ item.name }}
+    </template>
+  </cgi-data-table>
 </template>
 ```
 
-## - Propriedades
+## - Props
 
 | Propriedade              | Required? |  Type   | Default value |
 | :----------------------- | :-------: | :-----: | ------------: |
@@ -91,14 +97,22 @@ Nos seus componentes do projeto use:
 
 <br>
 
+## - Events
 
-## - Slots
-| Slot                       |                Return |
+| Event                      |                Return |
 | :------------------------- | --------------------: |
 | @click-salvar-propriedades | Array de propriedades |
 | @paginando                 |   Object de paginação |
 | @alterar-item              |        Object de item |
 | @deletar-item              |        Object de item |
+
+<br>
+
+## - Slots
+
+| Slot           | For                                        |
+| :------------- | :----------------------------------------- |
+| v-slot:\<name> | Slot para customizar uma coluna especifica |
 
 <br>
 <br>

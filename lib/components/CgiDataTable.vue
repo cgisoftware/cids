@@ -3,7 +3,7 @@
     :hide-default-footer="!mostraPaginacao"
     :disable-pagination="!mostraPaginacao"
     :hide-default-header="!mostraColunas"
-    :multi-sort="mostraOrdenacao"
+    :multi-sort="ordenarVarios"
     :fixed-header="colunasFixas"
     :headers="visibleColumns"
     :options.sync="options"
@@ -16,7 +16,7 @@
     @click:row="clickRow"
     :show-select="selecionarVarios"
     :item-key="chaveTabela"
-    :height="altura ? altura : '100vh'"
+    :height="altura"
   >
     <template v-slot:top>
       <v-toolbar
@@ -307,11 +307,13 @@ export default {
   props: {
     colunas: {
       type: Array,
-      default: () => [],
+      default: () => undefined,
+      required: true
     },
     linhas: {
       type: Array,
-      default: () => [],
+      default: () => undefined,
+      required: true
     },
     "mostra-propriedades": {
       type: Boolean,
@@ -337,7 +339,7 @@ export default {
       type: Array,
       default: () => [],
     },
-    "mostra-ordenacao": {
+    "ordenadar-varios": {
       type: Boolean,
       default: () => true,
     },
@@ -375,7 +377,7 @@ export default {
     },
     "altura": {
       type: String,
-      default: () => '',
+      default: () => '100vh',
     },
   },
 };

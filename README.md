@@ -126,7 +126,7 @@ Nos seus componentes do projeto use:
 ```html
 <!-- Instância unica no sistema, deve ser declarado uma unica vez no App.vue -->
 <template>
-  <cgi-snackbar/>
+  <cgi-snackbar />
 </template>
 ```
 
@@ -142,10 +142,21 @@ const response = await snackbar.confirm({message: "Mensagem para mostrar ao usu�
 if (response) {
   // executa algo se o usuário confirmou
 }
+
+// parâmetros que podem ser usados no snackbar
+snackbar.show({
+  message,
+  timeout = 10000,  // default em 10 segundos
+  color = 'red',    // default vermelho
+  position = {      // posição da mensagem na tela, default direita inferior
+    right: true,
+    center: true,
+    top: false,
+  }
+})
 ```
 
 ## - Sem Props
-
 
 <br>
 

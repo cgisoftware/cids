@@ -1,11 +1,11 @@
 {
   "name": "cids-cgi",
-  "version": "0.0.8-beta",
+  "version": "0.0.9-beta",
   "description": "CGI Design System for Vue",
   "main": "index.js",
   "private": false,
   "scripts": {
-    "build": "vue-cli-service build --target lib --name cids src/index.js",
+    "build": "vue-cli-service build --target lib --name cids lib/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Vinicius Boscardin",

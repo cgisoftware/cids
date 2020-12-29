@@ -118,3 +118,43 @@ Nos seus componentes do projeto use:
 <br>
 <br>
 <br>
+
+# Snackbar
+
+### - Componente
+
+```html
+<!-- Instância unica no sistema, deve ser declarado uma unica vez no App.vue -->
+<template>
+  <cgi-snackbar/>
+</template>
+```
+
+```js
+import { snackbar } from "cids-cgi/util"
+
+// mensagem sem ações
+snackbar.show({message: "Mensagem para mostrar ao usuário!"})
+
+// mensagem de confirmação (promise que retorna true ou false)
+const response = await snackbar.confirm({message: "Mensagem para mostrar ao usuário!"})
+
+if (response) {
+  // executa algo se o usuário confirmou
+}
+```
+
+## - Sem Props
+
+
+<br>
+
+## - Sem Events
+
+<br>
+
+## - Sem Slots
+
+<br>
+<br>
+<br>

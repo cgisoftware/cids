@@ -131,7 +131,7 @@ Nos seus componentes do projeto use:
 ```
 
 ```js
-import { snackbar } from "cids-cgi/util"
+import { snackbar } from "cids-cgi/lib/util"
 
 // mensagem sem ações
 snackbar.show({message: "Mensagem para mostrar ao usuário!"})

@@ -135,6 +135,7 @@ Nos seus componentes do projeto use:
 | :---------- | :-------: | :-----: | ------------: |
 | compacto    |   false   | Boolean |         false |
 | nome        |   true    | String  |     undefined |
+| tipo        |   false   | Boolean |        "date" |
 
 <br>
 

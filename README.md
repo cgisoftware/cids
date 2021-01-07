@@ -57,7 +57,7 @@ Nos seus componentes do projeto use:
 
 # DataTable
 
-## - Componente
+## - Component
 
 ```html
 <template>
@@ -119,9 +119,67 @@ Nos seus componentes do projeto use:
 <br>
 <br>
 
+# CgiDatePicker
+
+## - Component
+
+```html
+<template>
+  <cgi-date-picker compacto nome="Data" v-model="data" />
+</template>
+```
+
+## - Props
+
+| Propriedade | Required? |  Type   | Default value |
+| :---------- | :-------: | :-----: | ------------: |
+| compacto    |   false   | Boolean |         false |
+| nome        |   true    | String  |     undefined |
+
+<br>
+
+## - Sem Events
+
+<br>
+
+## - Sem Slots
+
+<br>
+<br>
+<br>
+
+# CgiTimePicker
+
+## - Component
+
+```html
+<template>
+  <cgi-time-picker compacto nome="Hora" v-model="hora" />
+</template>
+```
+
+## - Props
+
+| Propriedade | Required? |  Type   | Default value |
+| :---------- | :-------: | :-----: | ------------: |
+| compacto    |   false   | Boolean |         false |
+| nome        |   true    | String  |     undefined |
+
+<br>
+
+## - Sem Events
+
+<br>
+
+## - Sem Slots
+
+<br>
+<br>
+<br>
+
 # Snackbar
 
-## - Componente
+## - Component
 
 ```html
 <!-- Instância unica no sistema, deve ser declarado uma unica vez no App.vue -->
@@ -170,7 +228,6 @@ snackbar.show({
 <br>
 <br>
 
-
 # Handler
 
 ## - Sem Component
@@ -178,28 +235,25 @@ snackbar.show({
 <br>
 
 ```js
-import { toAblDate, formatNumber, toExcel, groupBy } from "cids-cgi/lib/util"
+import { toAblDate, formatNumber, toExcel, groupBy } from 'cids-cgi/lib/util'
 
 // converte data para o formato que o progress espera
-const dataAbl = toAblDate("2021-10-08", "dia") // retorna = DATE(8, 10, 2021)
+const dataAbl = toAblDate('2021-10-08', 'dia') // retorna = DATE(8, 10, 2021)
 
 // converte data para o formato que o progress espera
-const dataAbl = toAblDate("2021-10-08", "mes") // retorna = DATE(1, 10, 2021)
+const dataAbl = toAblDate('2021-10-08', 'mes') // retorna = DATE(1, 10, 2021)
 
 // converte data para o formato que o progress espera
-const dataAbl = toAblDate("2021-10-08", "ano") // retorna = DATE(1, 1, 2021)
+const dataAbl = toAblDate('2021-10-08', 'ano') // retorna = DATE(1, 1, 2021)
 
 // formata numeros para padrão brasileiro
 const stringNumber = formatNumber(1234.12) //retorna = "1.234,12"
 
 // exporta e faz download de um arquivo XLSX a partir de um dataset
-toExcel(dataset, "placas"); // retorna = download de arquivo chamado placas.xlsx
+toExcel(dataset, 'placas') // retorna = download de arquivo chamado placas.xlsx
 
 // agrupa dataset por 0 ou n chaves
-const datasetGrouped = groupBy(
-  dataset,
-  (item) => ["nome", "cod_emp"]
-); // retorna = dataset agrupado por nome e cod_emp respectivamente
+const datasetGrouped = groupBy(dataset, (item) => ['nome', 'cod_emp']) // retorna = dataset agrupado por nome e cod_emp respectivamente
 ```
 
 ## - Sem Props

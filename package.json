@@ -17,6 +17,7 @@
     "@vue/cli-service": "~4.5.0"
   },
   "dependencies": {
+    "ke-the-mask": "0.0.3",
     "vuedraggable": "^2.24.3",
     "vuetify": "^2.3.19",
     "xlsx": "^0.16.9"

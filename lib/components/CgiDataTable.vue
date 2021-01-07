@@ -42,6 +42,7 @@
           label="Pesquisar..."
           color="primary"
           v-model="search"
+          v-if="mostraPesquisa"
         >
 
         </v-text-field>
@@ -84,6 +85,7 @@
                       <div
                         v-for="(coluna, id) in visibleColumns"
                         :key="id"
+                         v-show="coluna.text !== 'Ações'"
                         class="text-center my-1"
                       >
                         <v-chip
@@ -97,6 +99,7 @@
 
                             <v-icon
                               small
+                             
                               @click="coluna.hidden = true"
                               style="position: absolute; right: 10px; cursor: pointer;"
                             >mdi-close</v-icon>
@@ -333,6 +336,10 @@ export default {
     "mostra-paginacao": {
       type: Boolean,
       default: () => true,
+    },
+    "mostra-pesquisa": {
+      type: Boolean,
+      default: () => false,
     },
     "colunas-fixas": {
       type: Boolean,

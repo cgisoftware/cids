@@ -86,6 +86,7 @@ Nos seus componentes do projeto use:
 | paginacao-servidor       |   false   | Boolean |         false |
 | mostra-colunas           |   false   | Boolean |          true |
 | mostra-paginacao         |   false   | Boolean |          true |
+| mostra-pesquisa          |   false   | Boolean |         false |
 | colunas-fixas            |   false   | Boolean |          true |
 | mostra-agrupador         |   false   | Boolean |         false |
 | agrupar-por              |   false   |  Array  |            [] |

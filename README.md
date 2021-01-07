@@ -57,7 +57,7 @@ Nos seus componentes do projeto use:
 
 # DataTable
 
-### - Componente
+## - Componente
 
 ```html
 <template>
@@ -121,7 +121,7 @@ Nos seus componentes do projeto use:
 
 # Snackbar
 
-### - Componente
+## - Componente
 
 ```html
 <!-- Instância unica no sistema, deve ser declarado uma unica vez no App.vue -->
@@ -154,6 +154,52 @@ snackbar.show({
     top: false,
   }
 })
+```
+
+## - Sem Props
+
+<br>
+
+## - Sem Events
+
+<br>
+
+## - Sem Slots
+
+<br>
+<br>
+<br>
+
+
+# Handler
+
+## - Sem Component
+
+<br>
+
+```js
+import { toAblDate, formatNumber, toExcel, groupBy } from "cids-cgi/lib/util"
+
+// converte data para o formato que o progress espera
+const dataAbl = toAblDate("2021-10-08", "dia") // retorna = DATE(8, 10, 2021)
+
+// converte data para o formato que o progress espera
+const dataAbl = toAblDate("2021-10-08", "mes") // retorna = DATE(1, 10, 2021)
+
+// converte data para o formato que o progress espera
+const dataAbl = toAblDate("2021-10-08", "ano") // retorna = DATE(1, 1, 2021)
+
+// formata numeros para padrão brasileiro
+const stringNumber = formatNumber(1234.12) //retorna = "1.234,12"
+
+// exporta e faz download de um arquivo XLSX a partir de um dataset
+toExcel(dataset, "placas"); // retorna = download de arquivo chamado placas.xlsx
+
+// agrupa dataset por 0 ou n chaves
+const datasetGrouped = groupBy(
+  dataset,
+  (item) => ["nome", "cod_emp"]
+); // retorna = dataset agrupado por nome e cod_emp respectivamente
 ```
 
 ## - Sem Props

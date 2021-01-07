@@ -125,7 +125,7 @@ Nos seus componentes do projeto use:
 
 ```html
 <template>
-  <cgi-date-picker compacto nome="Data" v-model="data" />
+  <cgi-date-picker compacto tipo="mes" nome="Data" v-model="data" />
 </template>
 ```
 
@@ -135,7 +135,7 @@ Nos seus componentes do projeto use:
 | :---------- | :-------: | :-----: | ------------: |
 | compacto    |   false   | Boolean |         false |
 | nome        |   true    | String  |     undefined |
-| tipo        |   false   | Boolean |        "date" |
+| tipo        |   false   | String  |        "date" |
 
 <br>
 

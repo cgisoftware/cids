@@ -3,7 +3,7 @@
     :dense="compacto"
     :label="nome"
     :rules="regras"
-    v-mask="mask"
+    v-cgi-mask="mask"
     v-model="data"
     @blur="formataData"
     persistent-hint
@@ -63,10 +63,14 @@ export default {
     mask() {
       switch (this.tipo) {
         case "mes":
-          return "##/####";
+          return {
+            tipo: "mes-ano",
+          };
       }
 
-      return "##/##/####";
+      return {
+        tipo: "dia-mes-ano",
+      };
     },
     tipoDate() {
       switch (this.tipo) {
@@ -81,7 +85,7 @@ export default {
     formataData() {
       if (this.data) {
         let dia, mes, ano;
-        if (this.mask == "##/####") {
+        if (this.mask.tipo == "mes-ano") {
           [mes, ano] = this.data.split("/");
         } else {
           [dia, mes, ano] = this.data.split("/");

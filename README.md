@@ -55,9 +55,11 @@ Nos seus componentes do projeto use:
 
 <br>
 
-# DataTable
+# - Components
 
-## - Component
+## DataTable
+
+### - Component
 
 ```html
 <template>
@@ -72,7 +74,7 @@ Nos seus componentes do projeto use:
 </template>
 ```
 
-## - Props
+### - Props
 
 | Propriedade              | Required? |  Type   | Default value |
 | :----------------------- | :-------: | :-----: | ------------: |
@@ -98,7 +100,7 @@ Nos seus componentes do projeto use:
 
 <br>
 
-## - Events
+### - Events
 
 | Event                |                Return |
 | :------------------- | --------------------: |
@@ -109,7 +111,7 @@ Nos seus componentes do projeto use:
 
 <br>
 
-## - Slots
+### - Slots
 
 | Slot           | For                                        |
 | :------------- | :----------------------------------------- |
@@ -119,9 +121,9 @@ Nos seus componentes do projeto use:
 <br>
 <br>
 
-# CgiDatePicker
+## CgiDatePicker
 
-## - Component
+### - Component
 
 ```html
 <template>
@@ -129,7 +131,7 @@ Nos seus componentes do projeto use:
 </template>
 ```
 
-## - Props
+### - Props
 
 | Propriedade | Required? |  Type   | Default value |
 | :---------- | :-------: | :-----: | ------------: |
@@ -139,19 +141,19 @@ Nos seus componentes do projeto use:
 
 <br>
 
-## - Sem Events
+### - Sem Events
 
 <br>
 
-## - Sem Slots
+### - Sem Slots
 
 <br>
 <br>
 <br>
 
-# CgiTimePicker
+## CgiTimePicker
 
-## - Component
+### - Component
 
 ```html
 <template>
@@ -159,7 +161,7 @@ Nos seus componentes do projeto use:
 </template>
 ```
 
-## - Props
+### - Props
 
 | Propriedade | Required? |  Type   | Default value |
 | :---------- | :-------: | :-----: | ------------: |
@@ -168,19 +170,19 @@ Nos seus componentes do projeto use:
 
 <br>
 
-## - Sem Events
+### - Sem Events
 
 <br>
 
-## - Sem Slots
+### - Sem Slots
 
 <br>
 <br>
 <br>
 
-# Snackbar
+## Snackbar
 
-## - Component
+### - Component
 
 ```html
 <!-- Instância unica no sistema, deve ser declarado uma unica vez no App.vue -->
@@ -215,23 +217,23 @@ snackbar.show({
 })
 ```
 
-## - Sem Props
+### - Sem Props
 
 <br>
 
-## - Sem Events
+### - Sem Events
 
 <br>
 
-## - Sem Slots
+### - Sem Slots
 
 <br>
 <br>
 <br>
 
-# Handler
+## Handler
 
-## - Sem Component
+### - Sem Component
 
 <br>
 
@@ -257,16 +259,50 @@ toExcel(dataset, 'placas') // retorna = download de arquivo chamado placas.xlsx
 const datasetGrouped = groupBy(dataset, (item) => ['nome', 'cod_emp']) // retorna = dataset agrupado por nome e cod_emp respectivamente
 ```
 
-## - Sem Props
+### - Sem Props
 
 <br>
 
-## - Sem Events
+### - Sem Events
 
 <br>
 
-## - Sem Slots
+### - Sem Slots
 
 <br>
 <br>
 <br>
+
+# Directives
+
+## v-cgi-mask
+
+```html
+<template>
+  <v-text-field label="Data" v-cgi-mask="mask"></v-text-field>
+</template>
+
+<script>
+  export default {
+    data: () => ({
+      mask: {
+        tipo: 'dia-mes-ano', // tipos: dia-mes-ano; dia-mes; mes-ano; hora; cpf; cnpj;
+        multiplo: true, // não obrigatorio, usado para multiplas mascaras no mesmo campo (CPF/CNPJ)
+      },
+    }),
+  }
+</script>
+```
+
+<br>
+<br>
+<br>
+
+## v-cgi-money
+
+```html
+<template>
+  <!-- Converte os dados digitados na moeda brasileira -->
+  <v-text-field label="Valor" v-cgi-money></v-text-field>
+</template>
+```

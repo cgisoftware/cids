@@ -3,7 +3,7 @@
     :dense="compacto"
     :label="nome"
     :rules="regras"
-    v-mask="mask"
+    v-cgi-mask="mask"
     v-model="hora"
     @blur="formataData"
   >
@@ -44,7 +44,9 @@ export default {
     hora: vm.value,
     picker: null,
     menu: false,
-    mask: "##:##",
+    mask: {
+      tipo: "hora"
+    },
   }),
   watch: {
     picker() {

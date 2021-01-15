@@ -1,11 +1,10 @@
 <template>
-  <v-skeleton-loader
+  <!-- <v-skeleton-loader
     type="table"
     v-if="carregar"
   >
-  </v-skeleton-loader>
+  </v-skeleton-loader> -->
   <v-data-table
-    v-else
     :hide-default-footer="!mostraPaginacao"
     :disable-pagination="!mostraPaginacao"
     :hide-default-header="!mostraColunas"
@@ -13,16 +12,18 @@
     :fixed-header="colunasFixas"
     :headers="visibleColumns"
     :options.sync="options"
-    :group-by="agruparPor"
-    :sort-by="ordenarPor"
+    :server-items-length="totalItens"
+    :group-by="agrupador"
     :search="!paginacaoServidor ? search : null"
     :items="linhas"
     dense
+    :loading="carregar"
     :item-class="rowClass"
     @click:row="clickRow"
     :show-select="selecionarVarios"
     :item-key="chaveTabela"
     :height="altura"
+    :footer-props="{ itemsPerPageOptions: [30,60,100], itemsPerPageText: 'Linhas por pagina' }"
   >
     <template v-slot:top>
       <v-toolbar
@@ -44,8 +45,18 @@
           v-model="search"
           v-if="mostraPesquisa"
         >
-
         </v-text-field>
+
+        <slot
+          name="pesquisa"
+          v-else
+        >
+        </slot>
+
+        <div class="ml-3">
+          <slot name="botoes">
+          </slot>
+        </div>
 
         <v-menu
           v-model="menu"
@@ -56,7 +67,7 @@
         >
           <template v-slot:activator="{ on, attrs }">
             <v-icon
-              class="mt-2 ml-4"
+              class="mt-0 ml-4"
               v-if="mostraPropriedades"
               text
               v-bind="attrs"
@@ -66,14 +77,28 @@
             </v-icon>
           </template>
 
-          <v-card>
+          <v-card scrollable>
             <v-toolbar
               flat
               dense
             >
               <v-toolbar-title>Organizar tabela</v-toolbar-title>
             </v-toolbar>
-            <v-card-text class="px-0">
+            <v-card-text
+              class="px-0"
+              style="overflow-y: scroll; height:300px"
+            >
+              <v-autocomplete
+                dense
+                class="mt-4 px-3"
+                :items="visibleColumns"
+                item-text="text"
+                item-value="value"
+                label="Agrupar por"
+                v-model="agruparPor"
+                clearable
+                no-data-text="Sem dados"
+              ></v-autocomplete>
               <v-container
                 fluid
                 grid-list-md
@@ -81,11 +106,11 @@
                 <v-layout>
                   <v-flex xs6>
                     Colunas na tela
-                    <draggable v-model="cols">
+                    <draggable :list="visibleColumns">
                       <div
-                        v-for="(coluna, id) in visibleColumns"
-                        :key="id"
-                         v-show="coluna.text !== 'Ações'"
+                        v-for="coluna in visibleColumns"
+                        :key="coluna.text"
+                        v-show="coluna.text !== 'Ações'"
                         class="text-center my-1"
                       >
                         <v-chip
@@ -99,8 +124,7 @@
 
                             <v-icon
                               small
-                             
-                              @click="coluna.hidden = true"
+                              @click="removeCol(coluna)"
                               style="position: absolute; right: 10px; cursor: pointer;"
                             >mdi-close</v-icon>
                           </template>
@@ -110,30 +134,28 @@
                   </v-flex>
                   <v-flex xs6>
                     Colunas para usar
-                    <draggable v-model="hiddenColumns">
-                      <div
-                        v-for="(coluna, id) in hiddenColumns"
-                        :key="id"
-                        class="text-center my-1"
+                    <div
+                      v-for="(coluna, id) in hiddenColumns"
+                      :key="id"
+                      class="text-center my-1"
+                    >
+                      <v-chip
+                        v-if="!coluna.actions"
+                        style="width: 100%;"
+                        small
+                        label
                       >
-                        <v-chip
-                          v-if="!coluna.actions"
-                          style="width: 100%;"
-                          small
-                          label
-                        >
-                          <template v-slot:default>
-                            {{coluna.text}}
+                        <template v-slot:default>
+                          {{coluna.text}}
 
-                            <v-icon
-                              small
-                              @click="coluna.hidden = false"
-                              style="position: absolute; right: 10px; cursor: pointer;"
-                            >mdi-plus</v-icon>
-                          </template>
-                        </v-chip>
-                      </div>
-                    </draggable>
+                          <v-icon
+                            small
+                            @click="addCol(coluna)"
+                            style="position: absolute; right: 10px; cursor: pointer;"
+                          >mdi-plus</v-icon>
+                        </template>
+                      </v-chip>
+                    </div>
                   </v-flex>
                 </v-layout>
               </v-container>
@@ -144,27 +166,23 @@
                 color="red"
                 outlined
                 @click="menu = false"
+                block
               >
                 <v-icon
                   small
                   left
                 >mdi-close</v-icon>Fechar
               </v-btn>
-              <v-spacer></v-spacer>
-              <v-btn
-                small
-                color="primary"
-                outlined
-                @click="salvarPropriedades"
-              >
-                <v-icon
-                  small
-                  left
-                >mdi-content-save</v-icon> Salvar
-              </v-btn>
             </v-card-actions>
           </v-card>
         </v-menu>
+        <v-btn
+          icon
+          v-if="mostraPropriedades"
+          @click="salvarPropriedades"
+        >
+          <v-icon small>mdi-content-save</v-icon>
+        </v-btn>
       </v-toolbar>
     </template>
 
@@ -179,7 +197,7 @@
     </template>
 
     <template v-slot:[`group.header`]="{ isOpen, toggle, group, groupBy }">
-      <th colspan="12">
+      <th colspan="90">
         <v-icon @click="toggle">{{ isOpen ? "mdi-minus" : "mdi-plus" }}
         </v-icon>
         {{
@@ -227,51 +245,71 @@
 </template>
 
 <script>
-import moment from "moment";
 import { VDataTable } from "vuetify/lib";
 import draggable from "vuedraggable";
 export default {
   data: (vm) => ({
     menu: false,
     cols: vm.colunas,
-    options: {},
+    options: vm.paginacao,
     search: vm.pesquisa,
-    selectedLine: null,
+    selectedLine: vm.value,
+    agruparPor: null,
+    hiddenColumns: [],
+    visibleColumns: [],
   }),
+  mounted() {
+    this.ajustaCols();
+  },
   computed: {
-    hiddenColumns() {
-      return this.cols.filter((coluna) => coluna.hidden);
+    // hiddenColumns() {
+    //   return this.cols.filter((coluna) => coluna.hidden);
+    // },
+    // visibleColumns() {
+    //   const cols = this.cols.filter((coluna) => !coluna.hidden);
+
+    //   if (this.mostraAcoes) {
+    //     cols.push({
+    //       text: "Ações",
+    //       align: "end",
+    //       sortable: false,
+    //       hidden: false,
+    //       custom: true,
+    //       value: "acoes",
+    //     });
+    //   }
+
+    //   return cols;
+    // },
+    customColumns() {
+      return this.visibleColumns.filter((coluna) => coluna?.custom ?? false);
     },
-    visibleColumns() {
-      const cols = this.cols.filter((coluna) => !coluna.hidden);
-
-      // const index = cols.map((item) => item.value).indexOf("acoes");
-      // if (index > -1) {
-      //   const acoes = cols.splice(index, 1);
-      //   cols.push(acoes[0]);
-      // }
-
-      if (this.mostraAcoes) {
-        cols.push({
-          text: "Ações",
-          align: "end",
-          sortable: false,
-          hidden: false,
-          custom: true,
-          value: "acoes",
-        });
+    agrupador() {
+      if (this.agruparPor) {
+        return [this.agruparPor];
       }
 
-      return cols;
-    },
-    customColumns() {
-      return this.cols.filter((coluna) => coluna?.custom ?? false);
+      return [];
     },
   },
   watch: {
-    options() {
+    colunas() {
+      this.cols = this.colunas;
+      this.ajustaCols();
+    },
+    options(n, o) {
       if (this.paginacaoServidor) {
+        if (!(JSON.stringify(n) === JSON.stringify(o))) {
+          n["search"] = this.search;
+          this.$emit("paginando", n);
+        }
+      }
+    },
+    paginacao() {
+      if (this.paginacaoServidor) {
+        this.options = this.paginacao;
         this.options["search"] = this.search;
+        this.agruparPor = this.paginacao?.groupBy?.[0] ?? "";
         this.$emit("paginando", this.options);
       }
     },
@@ -287,18 +325,41 @@ export default {
     draggable,
   },
   methods: {
+    ajustaCols() {
+      this.hiddenColumns = this.cols.filter((coluna) => coluna.hidden);
+      this.visibleColumns = this.cols.filter((coluna) => !coluna.hidden);
+
+      if (this.mostraAcoes) {
+        this.visibleColumns.push({
+          text: "Ações",
+          align: "end",
+          sortable: false,
+          hidden: false,
+          custom: true,
+          value: "acoes",
+        });
+      }
+    },
+    removeCol(item) {
+      item.hidden = true;
+      this.ajustaCols();
+    },
+    addCol(item) {
+      item.hidden = false;
+      this.ajustaCols();
+    },
     salvarPropriedades() {
-      this.$emit("salvar-propriedades", [
-        ...this.visibleColumns,
-        ...this.hiddenColumns,
-      ]);
+      this.$emit("salvar-propriedades", {
+        colunas: [...this.visibleColumns, ...this.hiddenColumns],
+        paginacao: this.options,
+      });
       this.menu = false;
     },
     rowClass(item) {
       if (this.mostraLinhaSelecionada) {
         if (this.selectedLine) {
           if (this.selectedLine[this.chaveTabela] == item[this.chaveTabela]) {
-            return "primary white--text";
+            return "blue lighten-5";
           }
         }
       }
@@ -306,6 +367,7 @@ export default {
     clickRow(item) {
       this.selectedLine = item;
       this.$emit("linha-selecionada", item);
+      // this.$emit("input", item);
     },
     clickEdit(item) {
       this.$emit("alterar-item", item);
@@ -349,17 +411,9 @@ export default {
       type: Boolean,
       default: () => false,
     },
-    "agrupar-por": {
-      type: Array,
-      default: () => [],
-    },
     "ordenar-varios": {
       type: Boolean,
       default: () => true,
-    },
-    "ordenar-por": {
-      type: Array,
-      default: () => [],
     },
     pesquisa: {
       type: String,
@@ -396,6 +450,15 @@ export default {
     carregar: {
       type: Boolean,
       default: () => false,
+    },
+    paginacao: {
+      type: Object,
+      default: () => {},
+    },
+    value: Object,
+    "total-itens": {
+      type: Number,
+      default: () => 30,
     },
   },
 };

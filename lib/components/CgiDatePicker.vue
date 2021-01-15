@@ -46,6 +46,9 @@ export default {
     menu: false,
   }),
   watch: {
+    value() {
+      this.data = this.value;
+    },
     picker() {
       this.data = moment(this.picker, "YYYY-MM-DD").format(this.format);
       this.$emit("input", this.data);

@@ -49,6 +49,9 @@ export default {
     },
   }),
   watch: {
+    value() {
+      this.hora = this.value
+    },
     picker() {
       this.hora = moment(this.picker, "HH:mm").format("HH:mm");
       this.$emit("input", this.hora);

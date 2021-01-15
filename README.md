@@ -1,7 +1,5 @@
 # CGI Design System for Vue
 
-<!-- <img src="https://raw.githubusercontent.com/booscaaa/midow/master/screenshots/midow.png"  width="100%" /> -->
-
 ## Sobre o projeto
 
 _"O projeto veio para trazer um conforto a todos os desenvolvedores com casos onde o desenvolvimento se repete constantemente, como em casos de tabelas de CRUD, campos customizados de data, entre outros..."._
@@ -76,28 +74,28 @@ Nos seus componentes do projeto use:
 
 ### - Props
 
-| Propriedade              | Required? |  Type   | Default value |
-| :----------------------- | :-------: | :-----: | ------------: |
-| nome-tabela              |   false   | String  |          null |
-| linhas                   |   true    |  Array  |     undefined |
-| colunas                  |   true    |  Array  |     undefined |
-| mostra-linha-selecionada |   false   | Boolean |         false |
-| mostra-propriedades      |   false   | Boolean |         false |
-| paginacao-servidor       |   false   | Boolean |         false |
-| mostra-colunas           |   false   | Boolean |          true |
-| mostra-paginacao         |   false   | Boolean |          true |
-| mostra-pesquisa          |   false   | Boolean |         false |
-| colunas-fixas            |   false   | Boolean |          true |
-| mostra-agrupador         |   false   | Boolean |         false |
-| agrupar-por              |   false   |  Array  |            [] |
-| ordenar-varios           |   false   | Boolean |          true |
-| ordenar-por              |   false   |  Array  |            [] |
-| pesquisa                 |   false   | String  |          null |
-| chave-tabela             |   false   | String  |           seq |
-| selecionar-varios        |   false   | Boolean |         false |
-| mostra-acoes             |   false   | Boolean |         false |
-| altura                   |   false   | String  |         100vh |
-| carregar                 |   false   | Boolean |         false |
+| Propriedade              | Required? |  Type   |        Default value |
+| :----------------------- | :-------: | :-----: | -------------------: |
+| nome-tabela              |   false   | String  |                 null |
+| linhas                   |   true    |  Array  |            undefined |
+| colunas                  |   true    |  Array  |            undefined |
+| mostra-linha-selecionada |   false   | Boolean |                false |
+| mostra-propriedades      |   false   | Boolean |                false |
+| paginacao-servidor       |   false   | Boolean |                false |
+| mostra-colunas           |   false   | Boolean |                 true |
+| mostra-paginacao         |   false   | Boolean |                 true |
+| mostra-pesquisa          |   false   | Boolean |                false |
+| colunas-fixas            |   false   | Boolean |                 true |
+| mostra-agrupador         |   false   | Boolean |                false |
+| ordenar-varios           |   false   | Boolean |                 true |
+| pesquisa                 |   false   | String  |                 null |
+| chave-tabela             |   false   | String  |                  seq |
+| selecionar-varios        |   false   | Boolean |                false |
+| mostra-acoes             |   false   | Boolean |                false |
+| altura                   |   false   | String  |                100vh |
+| carregar                 |   false   | Boolean |                false |
+| total-itens              |   false   | Number  |                   30 |
+| paginacao                |   false   | Object  | vuetify_page_options |
 
 <br>
 
@@ -114,9 +112,11 @@ Nos seus componentes do projeto use:
 
 ### - Slots
 
-| Slot           | For                                        |
-| :------------- | :----------------------------------------- |
-| v-slot:\<name> | Slot para customizar uma coluna especifica |
+| Slot            | For                                                                                       |
+| :-------------- | :---------------------------------------------------------------------------------------- |
+| v-slot:\<name>  | Slot para customizar uma coluna especifica                                                |
+| v-slot:botoes   | Slot para incluir botões no header da tabela, como botões de filtro e alterar por exemplo |
+| v-slot:pesquisa | Slot para customizar o text-field default de pesquisa da tabela                           |
 
 <br>
 <br>

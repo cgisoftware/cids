@@ -68,6 +68,17 @@ Nos seus componentes do projeto use:
     <template v-slot:name_of_column="{ item }">
       {{ item.name }}
     </template>
+
+    <template v-slot:botoes>
+      <!-- 
+        botões customizados
+    -->
+    </template>
+    <template v-slot:pesquisa>
+      <!-- 
+        campo de pesquisa customizado
+    -->
+    </template>
   </cgi-data-table>
 </template>
 ```

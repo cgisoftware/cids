@@ -107,6 +107,7 @@ Nos seus componentes do projeto use:
 | carregar                 |   false   | Boolean |                false |
 | total-itens              |   false   | Number  |                   30 |
 | paginacao                |   false   | Object  | vuetify_page_options |
+| agrupar                  |   false   | String  |                 null |
 
 <br>
 

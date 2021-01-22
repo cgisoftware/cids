@@ -285,6 +285,9 @@ export default {
       return this.visibleColumns.filter((coluna) => coluna?.custom ?? false);
     },
     agrupador() {
+      if (this.agrupar) {
+        return this.agrupar
+      }
       if (this.agruparPor) {
         return [this.agruparPor];
       }
@@ -460,6 +463,10 @@ export default {
       type: Number,
       default: () => 30,
     },
+    "agrupar": {
+      type: String,
+      default: () => null,
+    }
   },
 };
 </script>

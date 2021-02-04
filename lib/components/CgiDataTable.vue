@@ -91,7 +91,7 @@
               <v-autocomplete
                 dense
                 class="mt-4 px-3"
-                :items="visibleColumns"
+                :items="listaAgrupador"
                 item-text="text"
                 item-value="value"
                 label="Agrupar por"
@@ -110,7 +110,7 @@
                       <div
                         v-for="coluna in visibleColumns"
                         :key="coluna.text"
-                        v-show="coluna.text !== 'Ações'"
+                        v-show="coluna.text !== 'Ações' && coluna.value !== 'view'"
                         class="text-center my-1"
                       >
                         <v-chip
@@ -135,6 +135,7 @@
                   <v-flex xs6>
                     Colunas para usar
                     <div
+                      v-show="coluna.text !== 'Ações' && coluna.value !== 'view'"
                       v-for="(coluna, id) in hiddenColumns"
                       :key="id"
                       class="text-center my-1"
@@ -250,43 +251,23 @@ import draggable from "vuedraggable";
 export default {
   data: (vm) => ({
     menu: false,
-    cols: vm.colunas,
     options: vm.paginacao,
     search: vm.pesquisa,
     selectedLine: vm.value,
     agruparPor: null,
     hiddenColumns: [],
-    visibleColumns: [],
+    visibleColumns: vm.colunas,
   }),
   mounted() {
     this.ajustaCols();
   },
   computed: {
-    // hiddenColumns() {
-    //   return this.cols.filter((coluna) => coluna.hidden);
-    // },
-    // visibleColumns() {
-    //   const cols = this.cols.filter((coluna) => !coluna.hidden);
-
-    //   if (this.mostraAcoes) {
-    //     cols.push({
-    //       text: "Ações",
-    //       align: "end",
-    //       sortable: false,
-    //       hidden: false,
-    //       custom: true,
-    //       value: "acoes",
-    //     });
-    //   }
-
-    //   return cols;
-    // },
     customColumns() {
       return this.visibleColumns.filter((coluna) => coluna?.custom ?? false);
     },
     agrupador() {
       if (this.agrupar) {
-        return this.agrupar
+        return this.agrupar;
       }
       if (this.agruparPor) {
         return [this.agruparPor];
@@ -294,10 +275,14 @@ export default {
 
       return [];
     },
+    listaAgrupador() {
+      return this.visibleColumns.filter(
+        (col) => col.text !== "Ações" && col.value !== "view"
+      );
+    },
   },
   watch: {
-    colunas() {
-      this.cols = this.colunas;
+    propriedades() {
       this.ajustaCols();
     },
     options(n, o) {
@@ -329,8 +314,27 @@ export default {
   },
   methods: {
     ajustaCols() {
-      this.hiddenColumns = this.cols.filter((coluna) => coluna.hidden);
-      this.visibleColumns = this.cols.filter((coluna) => !coluna.hidden);
+      const colunasManipuladas = [...this.colunas];
+      const propriedadesManipuladas = [...this.propriedades];
+      if (propriedadesManipuladas.length > 0) {
+        this.visibleColumns = propriedadesManipuladas.filter(
+          (coluna) => !coluna.hidden
+        );
+
+        for (let col of colunasManipuladas) {
+          if (this.visibleColumns.some((prop) => prop.text === col.text)) {
+            this.removeFromArray(colunasManipuladas, col);
+          }
+        }
+        this.hiddenColumns = colunasManipuladas;
+      } else {
+        this.visibleColumns = colunasManipuladas.filter(
+          (coluna) => !coluna.hidden
+        );
+        this.hiddenColumns = colunasManipuladas.filter(
+          (coluna) => coluna.hidden
+        );
+      }
 
       if (this.mostraAcoes) {
         this.visibleColumns.push({
@@ -345,15 +349,17 @@ export default {
     },
     removeCol(item) {
       item.hidden = true;
-      this.ajustaCols();
+      this.removeFromArray(this.visibleColumns, item);
+      this.hiddenColumns.push(item);
     },
     addCol(item) {
       item.hidden = false;
-      this.ajustaCols();
+      this.removeFromArray(this.hiddenColumns, item);
+      this.visibleColumns.push(item);
     },
     salvarPropriedades() {
       this.$emit("salvar-propriedades", {
-        colunas: [...this.visibleColumns, ...this.hiddenColumns],
+        colunas: this.visibleColumns,
         paginacao: this.options,
       });
       this.menu = false;
@@ -362,7 +368,7 @@ export default {
       if (this.mostraLinhaSelecionada) {
         if (this.selectedLine) {
           if (this.selectedLine[this.chaveTabela] == item[this.chaveTabela]) {
-            return "blue lighten-5";
+            return this.$vuetify.theme.isDark ? "primary" : "blue lighten-5";
           }
         }
       }
@@ -377,6 +383,14 @@ export default {
     },
     clickDel(item) {
       this.$emit("deletar-item", item);
+    },
+    removeFromArray(array, item) {
+      var idx = array.indexOf(item);
+      console.log(idx);
+      if (idx !== -1) {
+        array.splice(idx, 1);
+      }
+      return array;
     },
   },
   props: {
@@ -463,10 +477,14 @@ export default {
       type: Number,
       default: () => 30,
     },
-    "agrupar": {
+    agrupar: {
       type: String,
       default: () => null,
-    }
+    },
+    propriedades: {
+      type: Array,
+      default: () => [],
+    },
   },
 };
 </script>

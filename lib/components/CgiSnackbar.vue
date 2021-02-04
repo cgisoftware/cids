@@ -8,7 +8,7 @@
     multi-line
     :timeout="alert.timeout"
   >
-    {{ alert.message }}
+    <div v-html="alert.message"></div>
     <template v-slot:action="{ attrs }">
       <v-btn
         v-show="alert.actions.accept"
@@ -18,6 +18,14 @@
       >
         Sim
       </v-btn>
+      <!-- <v-btn
+        v-show="alert.actions.accept"
+        text
+        v-bind="attrs"
+        @click="alert.snackbar = false"
+      >
+        Não
+      </v-btn> -->
     </template>
     <v-spacer></v-spacer>
   </v-snackbar>

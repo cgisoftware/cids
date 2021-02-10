@@ -85,46 +85,51 @@ Nos seus componentes do projeto use:
 
 ### - Props
 
-| Propriedade              | Required? |  Type   |        Default value |
-| :----------------------- | :-------: | :-----: | -------------------: |
-| nome-tabela              |   false   | String  |                 null |
-| linhas                   |   true    |  Array  |            undefined |
-| colunas                  |   true    |  Array  |            undefined |
-| mostra-linha-selecionada |   false   | Boolean |                false |
-| mostra-propriedades      |   false   | Boolean |                false |
-| paginacao-servidor       |   false   | Boolean |                false |
-| mostra-colunas           |   false   | Boolean |                 true |
-| mostra-paginacao         |   false   | Boolean |                 true |
-| mostra-pesquisa          |   false   | Boolean |                false |
-| colunas-fixas            |   false   | Boolean |                 true |
-| mostra-agrupador         |   false   | Boolean |                false |
-| ordenar-varios           |   false   | Boolean |                 true |
-| pesquisa                 |   false   | String  |                 null |
-| chave-tabela             |   false   | String  |                  seq |
-| selecionar-varios        |   false   | Boolean |                false |
-| mostra-acoes             |   false   | Boolean |                false |
-| altura                   |   false   | String  |                100vh |
-| carregar                 |   false   | Boolean |                false |
-| total-itens              |   false   | Number  |                   30 |
-| paginacao                |   false   | Object  | vuetify_page_options |
-| agrupar                  |   false   | String  |                 null |
+| Propriedade              | Required? |  Type   |        Default value | Descrição                                                                        |
+| :----------------------- | :-------: | :-----: | -------------------: | :------------------------------------------------------------------------------- |
+| nome-tabela              |   false   | String  |                 null | Define um nome no cabeçalho da tabela                                            |
+| linhas                   |   true    |  Array  |            undefined | Define as linhas no corpo da tabela                                              |
+| colunas                  |   true    |  Array  |            undefined | Define as colunas da tabela                                                      |
+| mostra-linha-selecionada |   false   | Boolean |                false | Mostra com uma cor diferente a linha selecionada                                 |
+| mostra-propriedades      |   false   | Boolean |                false | Mostra as propriedade de ordenação/ocultação/agrupamento das colunas             |
+| paginacao-servidor       |   false   | Boolean |                false | Desabilita a paginação no front-end e habilita a paginação no servidor           |
+| mostra-colunas           |   false   | Boolean |                 true | Remove ou mostra as colunas da tabela                                            |
+| mostra-paginacao         |   false   | Boolean |                 true | Remove ou mostra a paginação no rodapé                                           |
+| mostra-pesquisa          |   false   | Boolean |                false | Remove ou mostra o cmapo de pesquisa na no cabeçalho                             |
+| colunas-fixas            |   false   | Boolean |                 true | Fixa as colunas para não ter scroll                                              |
+| mostra-agrupador         |   false   | Boolean |                false | Mostra o agrupador                                                               |
+| ordenar-varios           |   false   | Boolean |                 true | Define de pode ordenar por varias colunas                                        |
+| pesquisa                 |   false   | String  |                 null | Valor do campo pesquisa                                                          |
+| chave-tabela             |   false   | String  |                  seq | Define uma chave para a tabela                                                   |
+| selecionar-varios        |   false   | Boolean |                false | Define se pode selecionar varios itens                                           |
+| mostra-acoes             |   false   | Boolean |                false | Mostra ou esconde ações de alterar/excluir                                       |
+| altura                   |   false   | String  |                100vh | Define uma nova altura para a tabela                                             |
+| carregar                 |   false   | Boolean |                false | Cria um efeito de loading na tabela                                              |
+| total-itens              |   false   | Number  |                   30 | Seta o total de itens para paginação no servidor                                 |
+| paginacao                |   false   | Object  | vuetify_page_options | Seta o objeto default de paginação no servidor                                   |
+| agrupar                  |   false   | String  |                 null | Seta por qual coluna deve agrupar                                                |
+| propriedades             |   false   |  Array  |                   [] | Seta as colunas visiveis na tabela                                               |
+| mostra-detalhes          |   false   | Boolean |                false | Mostra um icone de olho em cada linha para um evento customizado de detalhamento |
+| mostra-toolbar           |   false   | Boolean |                false | Esconde ou mostra o cabeçalho da tabela                                          |
 
 <br>
 
 ### - Events
 
-| Event                |                Return |
-| :------------------- | --------------------: |
-| @salvar-propriedades | Array de propriedades |
-| @paginando           |   Object de paginação |
-| @alterar-item        |        Object de item |
-| @deletar-item        |        Object de item |
+| Event                |                Return | Descrição                                                                   |
+| :------------------- | --------------------: | :-------------------------------------------------------------------------- |
+| @salvar-propriedades | Array de propriedades | Retorna as colunas/agrupamento e paginação atual para salvar em tela padrão |
+| @linha-selecionada   |                Object | Retorna um objeto com a linha atual selecionanda                            |
+| @paginando           |   Object de paginação | Retorna um objeto de paginação para usar com server side pagination         |
+| @alterar-item        |                Object | Retorna a linha selecionada para alterar                                    |
+| @deletar-item        |                Object | Retorna a linha selecionada para deletar                                    |
+| @ver-detalhes        |                Object | Retorna a linha selecionada para uma ação customizada                       |
 
 <br>
 
 ### - Slots
 
-| Slot            | For                                                                                       |
+| Slot            | Descrição                                                                                       |
 | :-------------- | :---------------------------------------------------------------------------------------- |
 | v-slot:\<name>  | Slot para customizar uma coluna especifica                                                |
 | v-slot:botoes   | Slot para incluir botões no header da tabela, como botões de filtro e alterar por exemplo |

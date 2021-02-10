@@ -15,7 +15,7 @@
     :server-items-length="totalItens"
     :group-by="agrupador"
     :search="!paginacaoServidor ? search : null"
-    :items="linhas"
+    :items="linhasCustomizadas"
     dense
     :loading="carregar"
     :item-class="rowClass"
@@ -29,6 +29,7 @@
       <v-toolbar
         flat
         dense
+        v-if="mostraToolbar"
       >
 
         <v-toolbar-title>{{nomeTabela}}</v-toolbar-title>
@@ -110,7 +111,7 @@
                       <div
                         v-for="coluna in visibleColumns"
                         :key="coluna.text"
-                        v-show="coluna.text !== 'Ações' && coluna.value !== 'view'"
+                        v-show="coluna.text !== 'Ações' && coluna.value !== 'tb_detalhe'"
                         class="text-center my-1"
                       >
                         <v-chip
@@ -135,7 +136,7 @@
                   <v-flex xs6>
                     Colunas para usar
                     <div
-                      v-show="coluna.text !== 'Ações' && coluna.value !== 'view'"
+                      v-show="coluna.text !== 'Ações' && coluna.value !== 'tb_detalhe'"
                       v-for="(coluna, id) in hiddenColumns"
                       :key="id"
                       class="text-center my-1"
@@ -211,10 +212,15 @@
       </th>
     </template>
 
-    <template
-      v-if="mostraAcoes"
-      v-slot:[`item.acoes`]="{item}"
-    >
+    <template v-slot:[`item.tb_detalhe`]="{item}">
+      <v-icon
+        @click="clickDetails(item)"
+        small
+        color="green"
+      >mdi-eye</v-icon>
+    </template>
+
+    <template v-slot:[`item.acoes`]="{item}">
       <v-icon
         small
         @click="clickEdit(item)"
@@ -257,9 +263,11 @@ export default {
     agruparPor: null,
     hiddenColumns: [],
     visibleColumns: vm.colunas,
+    linhasCustomizadas: [],
   }),
   mounted() {
     this.ajustaCols();
+    this.ajustaLinhas(this.linhas);
   },
   computed: {
     customColumns() {
@@ -277,11 +285,14 @@ export default {
     },
     listaAgrupador() {
       return this.visibleColumns.filter(
-        (col) => col.text !== "Ações" && col.value !== "view"
+        (col) => col.text !== "Ações" && col.value !== "tb_detalhe"
       );
     },
   },
   watch: {
+    linhas() {
+      this.ajustaLinhas(this.linhas);
+    },
     propriedades() {
       this.ajustaCols();
     },
@@ -313,9 +324,38 @@ export default {
     draggable,
   },
   methods: {
+    ajustaLinhas(linhas) {
+      const l = [...linhas];
+      if (this.options.groupBy.length > 0) {
+        this.linhasCustomizadas = l.sort(
+          this.dynamicSort(this.options.groupBy[0])
+        );
+      } else {
+        this.linhasCustomizadas = l;
+      }
+    },
+    dynamicSort(property) {
+      var sortOrder = 1;
+      if (property[0] === "-") {
+        sortOrder = -1;
+        property = property.substr(1);
+      }
+      return function (a, b) {
+        var result =
+          a[property] < b[property] ? -1 : a[property] > b[property] ? 1 : 0;
+        return result * sortOrder;
+      };
+    },
     ajustaCols() {
       const colunasManipuladas = [...this.colunas];
-      const propriedadesManipuladas = [...this.propriedades];
+      const propriedadesManipuladas = [
+        ...this.propriedades.filter(
+          (item) =>
+            item.value !== "tb_detalhe" &&
+            item.value !== "acoes" &&
+            item.value !== "view"
+        ),
+      ];
       if (propriedadesManipuladas.length > 0) {
         this.visibleColumns = propriedadesManipuladas.filter(
           (coluna) => !coluna.hidden
@@ -331,9 +371,19 @@ export default {
         this.visibleColumns = colunasManipuladas.filter(
           (coluna) => !coluna.hidden
         );
+
         this.hiddenColumns = colunasManipuladas.filter(
           (coluna) => coluna.hidden
         );
+      }
+      if (this.mostraDetalhes) {
+        this.visibleColumns.unshift({
+          align: "start",
+          sortable: false,
+          hidden: false,
+          value: "tb_detalhe",
+          width: "20px",
+        });
       }
 
       if (this.mostraAcoes) {
@@ -342,10 +392,11 @@ export default {
           align: "end",
           sortable: false,
           hidden: false,
-          custom: true,
           value: "acoes",
         });
       }
+
+      console.log(this.visibleColumns);
     },
     removeCol(item) {
       item.hidden = true;
@@ -359,7 +410,9 @@ export default {
     },
     salvarPropriedades() {
       this.$emit("salvar-propriedades", {
-        colunas: this.visibleColumns,
+        colunas: this.visibleColumns.filter(
+          (item) => item.value !== "tb_detalhe" && item.value !== "acoes"
+        ),
         paginacao: this.options,
       });
       this.menu = false;
@@ -380,6 +433,9 @@ export default {
     },
     clickEdit(item) {
       this.$emit("alterar-item", item);
+    },
+    clickDetails(item) {
+      this.$emit("ver-detalhes", item);
     },
     clickDel(item) {
       this.$emit("deletar-item", item);
@@ -484,6 +540,14 @@ export default {
     propriedades: {
       type: Array,
       default: () => [],
+    },
+    "mostra-detalhes": {
+      type: Boolean,
+      default: () => false,
+    },
+    "mostra-toolbar": {
+      type: Boolean,
+      default: () => true,
     },
   },
 };

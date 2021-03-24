@@ -11,8 +11,8 @@
     :multi-sort="ordenarVarios"
     :fixed-header="colunasFixas"
     :headers="visibleColumns"
-    :options.sync="options"
-    :server-items-length="totalItens"
+    :options.sync="customOptions"
+    :server-items-length="paginacaoServidor ? totalItens : undefined"
     :group-by="agrupador"
     :search="!paginacaoServidor ? search : null"
     :items="linhasCustomizadas"
@@ -44,13 +44,12 @@
           label="Pesquisar..."
           color="primary"
           v-model="search"
-          v-if="mostraPesquisa"
+          v-if="mostraPesquisa && !customPesquisa"
         >
         </v-text-field>
 
         <slot
           name="pesquisa"
-          v-else
         >
         </slot>
 
@@ -270,6 +269,21 @@ export default {
     this.ajustaLinhas(this.linhas);
   },
   computed: {
+    customOptions: {
+      get: function () {
+        if (this.paginacaoServidor) {
+          return this.options;
+        }
+
+        return undefined;
+      },
+      set: function (value) {
+        this.options = value
+      },
+    },
+    customPesquisa() {
+      return !!this.$slots['pesquisa']
+    },
     customColumns() {
       return this.visibleColumns.filter((coluna) => coluna?.custom ?? false);
     },
@@ -326,7 +340,7 @@ export default {
   methods: {
     ajustaLinhas(linhas) {
       const l = [...linhas];
-      if (this.options.groupBy.length > 0) {
+      if (this.options?.groupBy?.length > 0 ?? false) {
         this.linhasCustomizadas = l.sort(
           this.dynamicSort(this.options.groupBy[0])
         );

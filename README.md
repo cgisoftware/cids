@@ -129,7 +129,7 @@ Nos seus componentes do projeto use:
 
 ### - Slots
 
-| Slot            | Descrição                                                                                       |
+| Slot            | Descrição                                                                                 |
 | :-------------- | :---------------------------------------------------------------------------------------- |
 | v-slot:\<name>  | Slot para customizar uma coluna especifica                                                |
 | v-slot:botoes   | Slot para incluir botões no header da tabela, como botões de filtro e alterar por exemplo |
@@ -303,10 +303,7 @@ const datasetGrouped = groupBy(dataset, (item) => ['nome', 'cod_emp']) // retorn
 <script>
   export default {
     data: () => ({
-      mask: {
-        tipo: 'dia-mes-ano', // tipos: dia-mes-ano; dia-mes; mes-ano; hora; cpf; cnpj;
-        multiplo: true, // não obrigatorio, usado para multiplas mascaras no mesmo campo (CPF/CNPJ)
-      },
+      mask: 'dia-mes-ano', // tipos: dia-mes-ano; dia-mes; mes-ano; hora; cpf; cnpj, cpf-cnpj;
     }),
   }
 </script>
@@ -322,5 +319,14 @@ const datasetGrouped = groupBy(dataset, (item) => ['nome', 'cod_emp']) // retorn
 <template>
   <!-- Converte os dados digitados na moeda brasileira -->
   <v-text-field label="Valor" v-cgi-money></v-text-field>
+</template>
+```
+
+## v-cgi-number
+
+```html
+<template>
+  <!-- Converte os dados digitados no padrão brasileiro de numeros -->
+  <v-text-field label="Valor" v-cgi-number></v-text-field>
 </template>
 ```

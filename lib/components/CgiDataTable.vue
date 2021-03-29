@@ -409,8 +409,6 @@ export default {
           value: "acoes",
         });
       }
-
-      console.log(this.visibleColumns);
     },
     removeCol(item) {
       item.hidden = true;
@@ -456,7 +454,6 @@ export default {
     },
     removeFromArray(array, item) {
       var idx = array.indexOf(item);
-      console.log(idx);
       if (idx !== -1) {
         array.splice(idx, 1);
       }

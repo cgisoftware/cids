@@ -66,14 +66,10 @@ export default {
     mask() {
       switch (this.tipo) {
         case "mes":
-          return {
-            tipo: "mes-ano",
-          };
+          return "mes-ano"
       }
 
-      return {
-        tipo: "dia-mes-ano",
-      };
+      return "dia-mes-ano"
     },
     tipoDate() {
       switch (this.tipo) {
@@ -88,7 +84,7 @@ export default {
     formataData() {
       if (this.data) {
         let dia, mes, ano;
-        if (this.mask.tipo == "mes-ano") {
+        if (this.mask == "mes-ano") {
           [mes, ano] = this.data.split("/");
         } else {
           [dia, mes, ano] = this.data.split("/");

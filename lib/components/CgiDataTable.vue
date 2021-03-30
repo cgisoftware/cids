@@ -48,9 +48,7 @@
         >
         </v-text-field>
 
-        <slot
-          name="pesquisa"
-        >
+        <slot name="pesquisa">
         </slot>
 
         <div class="ml-3">
@@ -278,11 +276,11 @@ export default {
         return undefined;
       },
       set: function (value) {
-        this.options = value
+        this.options = value;
       },
     },
     customPesquisa() {
-      return !!this.$slots['pesquisa']
+      return !!this.$slots["pesquisa"];
     },
     customColumns() {
       return this.visibleColumns.filter((coluna) => coluna?.custom ?? false);
@@ -375,12 +373,15 @@ export default {
           (coluna) => !coluna.hidden
         );
 
-        for (let col of colunasManipuladas) {
-          if (this.visibleColumns.some((prop) => prop.text === col.text)) {
-            this.removeFromArray(colunasManipuladas, col);
+        for (let col of this.visibleColumns) {
+          for (let colh of colunasManipuladas) {
+            if (col.text === colh.text) {
+              this.removeFromArray(colunasManipuladas, colh);
+            }
           }
         }
         this.hiddenColumns = colunasManipuladas;
+
       } else {
         this.visibleColumns = colunasManipuladas.filter(
           (coluna) => !coluna.hidden

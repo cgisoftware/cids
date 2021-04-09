@@ -182,16 +182,17 @@ Nos seus componentes do projeto use:
 
 ```html
 <template>
-  <cgi-time-picker compacto nome="Hora" v-model="hora" />
+  <cgi-time-picker compacto nome="Hora" v-model="hora" :desabilitado="false" />
 </template>
 ```
 
 ### - Props
 
-| Propriedade | Required? |  Type   | Default value |
-| :---------- | :-------: | :-----: | ------------: |
-| compacto    |   false   | Boolean |         false |
-| nome        |   true    | String  |     undefined |
+| Propriedade  | Required? |  Type   | Default value |
+| :----------- | :-------: | :-----: | ------------: |
+| compacto     |   false   | Boolean |         false |
+| nome         |   true    | String  |     undefined |
+| desabilitado |   false   | Boolean |         false |
 
 <br>
 

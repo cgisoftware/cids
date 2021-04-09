@@ -5,6 +5,7 @@
     :rules="regras"
     v-cgi-mask="mask"
     v-model="hora"
+    :disabled="desabilitado"
     @blur="formataData"
   >
     <template v-slot:append>
@@ -99,6 +100,10 @@ export default {
     },
     value: {
       type: String,
+    },
+    desabilitado: {
+      type: Boolean,
+      default: false,
     },
   },
 };

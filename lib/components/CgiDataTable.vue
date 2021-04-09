@@ -256,7 +256,7 @@ export default {
     menu: false,
     options: vm.paginacao,
     search: vm.pesquisa,
-    selectedLine: vm.value,
+    selectedLine: null,
     agruparPor: null,
     hiddenColumns: [],
     visibleColumns: vm.colunas,
@@ -337,6 +337,7 @@ export default {
   },
   methods: {
     ajustaLinhas(linhas) {
+      this.selectedLine = null
       const l = [...linhas];
       if (this.options?.groupBy?.length > 0 ?? false) {
         this.linhasCustomizadas = l.sort(

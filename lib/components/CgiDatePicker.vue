@@ -5,6 +5,7 @@
     :rules="regras"
     v-cgi-mask="mask"
     v-model="data"
+    :disabled="desabilitado"
     @blur="formataData"
     persistent-hint
   >
@@ -66,10 +67,10 @@ export default {
     mask() {
       switch (this.tipo) {
         case "mes":
-          return "mes-ano"
+          return "mes-ano";
       }
 
-      return "dia-mes-ano"
+      return "dia-mes-ano";
     },
     tipoDate() {
       switch (this.tipo) {
@@ -136,6 +137,10 @@ export default {
     },
     tipo: {
       type: String,
+    },
+    desabilitado: {
+      type: Boolean,
+      default: false,
     },
   },
 };

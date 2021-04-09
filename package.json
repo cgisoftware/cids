@@ -1,6 +1,6 @@
 {
   "name": "cids-cgi",
-  "version": "0.1.0-beta",
+  "version": "0.1.1-beta",
   "description": "CGI Design System for Vue",
   "main": "index.js",
   "private": false,

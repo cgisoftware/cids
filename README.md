@@ -145,17 +145,24 @@ Nos seus componentes do projeto use:
 
 ```html
 <template>
-  <cgi-date-picker compacto tipo="mes" nome="Data" v-model="data" />
+  <cgi-date-picker
+    compacto
+    tipo="mes"
+    nome="Data"
+    v-model="data"
+    :desabilitado="false"
+  />
 </template>
 ```
 
 ### - Props
 
-| Propriedade | Required? |  Type   | Default value |
-| :---------- | :-------: | :-----: | ------------: |
-| compacto    |   false   | Boolean |         false |
-| nome        |   true    | String  |     undefined |
-| tipo        |   false   | String  |        "date" |
+| Propriedade  | Required? |  Type   | Default value |
+| :----------- | :-------: | :-----: | ------------: |
+| compacto     |   false   | Boolean |         false |
+| nome         |   true    | String  |     undefined |
+| tipo         |   false   | String  |        "date" |
+| desabilitado |   false   | Boolean |         false |
 
 <br>
 
@@ -321,6 +328,7 @@ const datasetGrouped = groupBy(dataset, (item) => ['nome', 'cod_emp']) // retorn
   <v-text-field label="Valor" v-cgi-money></v-text-field>
 </template>
 ```
+
 <br>
 <br>
 <br>

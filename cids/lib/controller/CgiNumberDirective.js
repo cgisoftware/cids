@@ -80,7 +80,8 @@ function formatBRNUmber(v) {
   const valor = v
     .split('.')
     .join('')
-    .replace(',', '')
+    .split(',')
+    .join('')
   const vc =
     valor.substr(0, valor.length - 2) + '.' + valor.substr(valor.length - 2)
 

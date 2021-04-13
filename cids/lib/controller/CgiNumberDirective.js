@@ -43,10 +43,8 @@ export default {
           zeroCents: false,
         })
 
-        el.addEventListener('blur', () => {
-          // if(el.value)
-          //     el.value = el.value.trim();
 
+        el.addEventListener('blur', () => {
           let event = new Event('input', { bubbles: true })
 
           const number = formatBRNUmber(el.value)
@@ -74,6 +72,11 @@ export default {
 }
 
 function formatBRNUmber(v) {
+
+  if (v.length === 1) {
+    v = "0" + v
+  }
+
   const valor = v
     .split('.')
     .join('')

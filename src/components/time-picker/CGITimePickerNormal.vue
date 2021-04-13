@@ -1,5 +1,8 @@
 <template>
   <div>
+     <strong>Campo hora default</strong>
+    <br>
+    <br>
     <cgi-time-picker
       v-model="hora"
       nome="Hora"

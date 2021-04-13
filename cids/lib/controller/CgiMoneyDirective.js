@@ -18,6 +18,7 @@ export default {
       inserted: (el) => {
         el = getInput(el)
 
+
         let event = new Event('input', { bubbles: true })
         const number = formatBRNUmber(el.value)
         el.value =
@@ -47,6 +48,8 @@ export default {
           // if(el.value)
           //     el.value = el.value.trim();
 
+
+
           let event = new Event('input', { bubbles: true })
 
           const number = formatBRNUmber(el.value)
@@ -69,7 +72,6 @@ export default {
             ? number
             : 'R$ 0,00'
 
-            
         el.dispatchEvent(event)
       },
     })
@@ -77,8 +79,13 @@ export default {
 }
 
 function formatBRNUmber(v) {
+
+  if (v.length === 1) {
+    v = "0" + v
+  }
+
   const valor = v
-    .replace('R$', "")
+    .replace('R$', '')
     .trim()
     .split('.')
     .join('')
@@ -93,3 +100,4 @@ function formatBRNUmber(v) {
 
   return number
 }
+

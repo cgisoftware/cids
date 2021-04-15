@@ -27,7 +27,7 @@ export default {
   install(Vue) {
     Vue.directive('cgi-mask', {
       // update(el, binding) {
-      //   // el = getInput(el)
+      //   el = getInput(el)
       //   // var event = new Event('input', { bubbles: true })
       //   // let maxChars = enums[binding.value].length
       //   // if (el.value.length > maxChars) {
@@ -38,7 +38,7 @@ export default {
       //   el = getInput(el)
       //   var event = new Event('input', { bubbles: true })
 
-      //   // VMasker(el).maskPattern(enums[binding.value])
+      //   VMasker(el).maskPattern(enums[binding.value])
 
       //   el.dispatchEvent(event)
       // },

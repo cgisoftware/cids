@@ -4,9 +4,17 @@ import { toExcel, toExcelID } from './controller/handler/ExportXlsx'
 import { toAblDate } from './controller/handler/FormatAblDate'
 import { formatNumber } from './controller/handler/FormatNumber'
 import { groupBy } from './controller/handler/GroupBy'
+import EventBus from './controller/handler/EventBus'
 
-
-
+const eventBus = new EventBus()
 const snackbar = new CgiSnackbarController()
 
-export { snackbar, toAblDate, formatNumber, toExcel, groupBy, toExcelID }
+export {
+  snackbar,
+  toAblDate,
+  formatNumber,
+  toExcel,
+  groupBy,
+  toExcelID,
+  eventBus,
+}

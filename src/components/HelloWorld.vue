@@ -135,9 +135,26 @@
               <CGIDataTablePropriedades />
               <CGIDataTableSelecionarVarios />
               <CGIDataTablePaginacao />
-              <CGIDataTableAcoes />
               <CGIDataTableSlotsToolbar />
               <CGIDataTableAgrupamento />
+              <CGIDataTableAcoes />
+            </v-card-text>
+          </v-card>
+        </v-col>
+      </v-row>
+      <v-row
+        justify="center"
+        align="start"
+      >
+        <v-col cols="4">
+          <v-card>
+            <v-card-title>
+              Zoons
+            </v-card-title>
+            <v-card-text>
+              <ZoomBasico />
+              <ZoomChange />
+              <ZoomCustom />
             </v-card-text>
           </v-card>
         </v-col>
@@ -161,6 +178,9 @@ import CGIDataTablePaginacao from "./table/CGIDataTablePaginacao";
 import CGIDataTableAcoes from "./table/CGIDataTableAcoes";
 import CGIDataTableSlotsToolbar from "./table/CGIDataTableSlotsToolbar";
 import CGIDataTableAgrupamento from "./table/CGIDataTableAgrupamento";
+import ZoomBasico from "./zoom/ZoomBasico";
+import ZoomChange from "./zoom/ZoomChange";
+import ZoomCustom from "./zoom/ZoomCustom";
 import Snackbar from "./snackbar/Snackbar";
 import Money from "./directives/Money";
 import Number from "./directives/Number";
@@ -183,7 +203,10 @@ export default {
     CGIDataTablePaginacao,
     CGIDataTableAcoes,
     CGIDataTableSlotsToolbar,
-    CGIDataTableAgrupamento
+    CGIDataTableAgrupamento,
+    ZoomBasico,
+    ZoomChange,
+    ZoomCustom
   },
   data: () => ({
     hora: "08:02",

@@ -62,6 +62,7 @@ export default {
   },
   methods: {
     setaValor: function (valor) {
+      console.log(valor);
       if (!this.custom) {
         this.valor = valor[this.chave];
         this.item = valor;

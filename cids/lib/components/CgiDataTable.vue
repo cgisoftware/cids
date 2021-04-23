@@ -241,7 +241,7 @@
               color="orange darken-2"
               :fab="true"
               v-on="on"
-              v-if="zoomDialog"
+              v-show="zoomDialog"
               @click="exportaZoom(item)"
             >
               <v-icon>mdi-arrow-down</v-icon>

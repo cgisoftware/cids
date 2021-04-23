@@ -28,7 +28,7 @@ export default {
     valor: "75,50",
     moneyExample: Prism.highlight(
       `
-        <templete>
+        <template>
             <v-text-field
                 label="Valor"
                 v-model="valor"

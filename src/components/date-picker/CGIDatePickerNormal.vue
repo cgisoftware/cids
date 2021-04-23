@@ -29,7 +29,7 @@ export default {
     data: "10/10/2021",
     dataExample: Prism.highlight(
       `
-        <templete>
+        <template>
             <cgi-date-picker
                 v-model="data"
                 nome="Data"

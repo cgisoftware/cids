@@ -28,7 +28,7 @@ export default {
   data: () => ({
     snackbarExample: Prism.highlight(
       `
-        <templete>
+        <template>
             <cgi-snackbar> 
             <!-- 
                 ^^^^

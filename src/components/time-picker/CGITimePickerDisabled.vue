@@ -30,7 +30,7 @@ export default {
     hora: "08:02",
     horaExample: Prism.highlight(
       `
-        <templete>
+        <template>
             <cgi-time-picker
                 v-model="hora"
                 nome="Hora"

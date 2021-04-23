@@ -6,7 +6,7 @@
       nome-tabela="Botões de ação e detalhamento"
       altura="200"
       mostra-acoes
-      mostraDetalhes
+      mostra-detalhes
       @alterar-item="alterarItem"
       @deletar-item="deletarItem"
       @exporta-zoom="exportaZoom"
@@ -90,7 +90,7 @@ export default {
             nome-tabela="Botões de ação e detalhamento"
             altura="200"
             mostra-acoes
-            mostraDetalhes
+            mostra-detalhes
             @alterar-item="alterarItem"
             @deletar-item="deletarItem"
             @exporta-zoom="exportaZoom"

@@ -17,12 +17,13 @@
     :search="!paginacaoServidor ? search : null"
     :items="linhasCustomizadas"
     dense
+    v-model="itensSelecionados"
     :loading="carregar"
     :item-class="rowClass"
     @click:row="clickRow"
     :show-select="selecionarVarios"
     :item-key="chaveTabela"
-    :height="altura"
+    :height="zoomDialog ? '50vh' : altura"
     :footer-props="{ itemsPerPageOptions: [30,60,100], itemsPerPageText: 'Linhas por pagina' }"
   >
     <template v-slot:top>
@@ -44,6 +45,7 @@
           label="Pesquisar..."
           color="primary"
           v-model="search"
+          @input="debounce"
           v-if="mostraPesquisa && !customPesquisa"
         >
         </v-text-field>
@@ -185,7 +187,7 @@
       </v-toolbar>
     </template>
 
-    <template v-slot:[`item.data-table-select`]="{ isSelected, select }">
+    <!-- <template v-slot:[`item.data-table-select`]="{ isSelected, select }">
       <v-checkbox
         hide-details
         class="mt-0"
@@ -193,7 +195,7 @@
         :value="isSelected"
         @change="select($event)"
       ></v-checkbox>
-    </template>
+    </template> -->
 
     <template v-slot:[`group.header`]="{ isOpen, toggle, group, groupBy }">
       <th colspan="90">
@@ -210,42 +212,89 @@
     </template>
 
     <template v-slot:[`item.tb_detalhe`]="{item}">
-      <v-icon
-        @click="clickDetails(item)"
-        small
-        color="green"
-      >mdi-eye</v-icon>
+
+      <v-tooltip top>
+        <template v-slot:activator="{ on }">
+          <v-btn
+            x-small
+            icon
+            color="green"
+            :fab="true"
+            v-on="on"
+            @click="clickDetails(item)"
+          >
+            <v-icon>mdi-eye</v-icon>
+          </v-btn>
+        </template>
+        <span>Ver detalhes</span>
+      </v-tooltip>
+
     </template>
 
     <template v-slot:[`item.acoes`]="{item}">
-      <v-icon
-        small
-        @click="clickEdit(item)"
-        :color="selectedLine ? item[chaveTabela] == selectedLine[chaveTabela] ? 'white' : 'blue' : 'blue'"
-        class="px-1"
-      >mdi-pencil</v-icon>
-      <v-icon
-        @click="clickDel(item)"
-        small
-        :color="selectedLine ? item[chaveTabela] == selectedLine[chaveTabela] ? 'white' : 'red': 'red'"
-        class="px-1"
-      >mdi-delete</v-icon>
+      <div>
+        <v-tooltip top>
+          <template v-slot:activator="{ on }">
+            <v-btn
+              x-small
+              icon
+              color="orange darken-2"
+              :fab="true"
+              v-on="on"
+              v-if="zoomDialog"
+              @click="exportaZoom(item)"
+            >
+              <v-icon>mdi-arrow-down</v-icon>
+            </v-btn>
+          </template>
+          <span>Usar registro na tela anterior</span>
+        </v-tooltip>
+
+        <v-tooltip top>
+          <template v-slot:activator="{ on }">
+            <v-btn
+              x-small
+              icon
+              color="blue"
+              :fab="true"
+              v-on="on"
+              @click="clickEdit(item)"
+            >
+              <v-icon>mdi-pencil</v-icon>
+            </v-btn>
+          </template>
+          <span>Alterar registro</span>
+        </v-tooltip>
+
+        <v-tooltip top>
+          <template v-slot:activator="{ on }">
+            <v-btn
+              x-small
+              icon
+              color="red"
+              :fab="true"
+              v-on="on"
+              @click="clickDel(item)"
+            >
+              <v-icon>mdi-delete</v-icon>
+            </v-btn>
+          </template>
+          <span>Deletar registro</span>
+        </v-tooltip>
+      </div>
     </template>
 
     <template
       v-for="(f) in customColumns"
       v-slot:[`item.${f.value}`]="{ item }"
     >
-
       <slot
         :name="f.value"
         v-bind:item="item"
       >
       </slot>
     </template>
-
   </v-data-table>
-
 </template>
 
 <script>
@@ -261,7 +310,12 @@ export default {
     hiddenColumns: [],
     visibleColumns: vm.colunas,
     linhasCustomizadas: [],
+    debounceSearch: null,
+    itensSelecionados: vm.value,
   }),
+  created() {
+    this.debounceSearch = this.debounce(this.updateSearch, 500);
+  },
   mounted() {
     this.ajustaCols();
     this.ajustaLinhas(this.linhas);
@@ -302,6 +356,12 @@ export default {
     },
   },
   watch: {
+    itensSelecionados() {
+      this.$emit("input", this.itensSelecionados);
+    },
+    pesquisa() {
+      this.search = this.pesquisa;
+    },
     linhas() {
       this.ajustaLinhas(this.linhas);
     },
@@ -325,10 +385,7 @@ export default {
       }
     },
     search() {
-      if (this.paginacaoServidor) {
-        this.options["search"] = this.search;
-        this.$emit("paginando", this.options);
-      }
+      this.debounceSearch();
     },
   },
   components: {
@@ -336,13 +393,25 @@ export default {
     draggable,
   },
   methods: {
+    debounce(func, wait) {
+      let timer = null;
+      return function () {
+        clearTimeout(timer);
+        timer = setTimeout(func, wait);
+      };
+    },
+    updateSearch() {
+      if (this.paginacaoServidor) {
+        this.options["search"] = this.search;
+        this.$emit("paginando", this.options);
+      }
+    },
     ajustaLinhas(linhas) {
-      this.selectedLine = null
+      this.selectedLine = null;
       const l = [...linhas];
       if (this.options?.groupBy?.length > 0 ?? false) {
-        this.linhasCustomizadas = l.sort(
-          this.dynamicSort(this.options.groupBy[0])
-        );
+        const sort = l.sort(this.dynamicSort(this.options.groupBy[0]));
+        this.linhasCustomizadas = sort.reverse();
       } else {
         this.linhasCustomizadas = l;
       }
@@ -382,7 +451,6 @@ export default {
           }
         }
         this.hiddenColumns = colunasManipuladas;
-
       } else {
         this.visibleColumns = colunasManipuladas.filter(
           (coluna) => !coluna.hidden
@@ -447,6 +515,9 @@ export default {
     },
     clickEdit(item) {
       this.$emit("alterar-item", item);
+    },
+    exportaZoom(item) {
+      this.$emit("exporta-zoom", item);
     },
     clickDetails(item) {
       this.$emit("ver-detalhes", item);
@@ -541,7 +612,7 @@ export default {
       type: Object,
       default: () => {},
     },
-    value: Object,
+    value: {},
     "total-itens": {
       type: Number,
       default: () => 30,
@@ -561,6 +632,10 @@ export default {
     "mostra-toolbar": {
       type: Boolean,
       default: () => true,
+    },
+    "zoom-dialog": {
+      type: Boolean,
+      default: () => false,
     },
   },
 };

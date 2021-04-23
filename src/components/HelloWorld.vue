@@ -115,8 +115,29 @@
               Diretivas
             </v-card-title>
             <v-card-text>
-              <Money/>
-              <Number/>
+              <Money />
+              <Number />
+            </v-card-text>
+          </v-card>
+        </v-col>
+      </v-row>
+      <v-row
+        justify="center"
+        align="start"
+      >
+        <v-col cols="10">
+          <v-card>
+            <v-card-title>
+              Tabelas
+            </v-card-title>
+            <v-card-text>
+              <CGIDataTableBasica />
+              <CGIDataTablePropriedades />
+              <CGIDataTableSelecionarVarios />
+              <CGIDataTablePaginacao />
+              <CGIDataTableAcoes />
+              <CGIDataTableSlotsToolbar />
+              <CGIDataTableAgrupamento />
             </v-card-text>
           </v-card>
         </v-col>
@@ -133,6 +154,13 @@ import CGIDatePickerNormal from "./date-picker/CGIDatePickerNormal";
 import CGIDatePickerCompacto from "./date-picker/CGIDatePickerCompacto";
 import CGIDatePickerDisabled from "./date-picker/CGIDatePickerDisabled";
 import CGIDatePickerTipo from "./date-picker/CGIDatePickerTipo";
+import CGIDataTableBasica from "./table/CGIDataTableBasica";
+import CGIDataTablePropriedades from "./table/CGIDataTablePropriedades";
+import CGIDataTableSelecionarVarios from "./table/CGIDataTableSelecionarVarios";
+import CGIDataTablePaginacao from "./table/CGIDataTablePaginacao";
+import CGIDataTableAcoes from "./table/CGIDataTableAcoes";
+import CGIDataTableSlotsToolbar from "./table/CGIDataTableSlotsToolbar";
+import CGIDataTableAgrupamento from "./table/CGIDataTableAgrupamento";
 import Snackbar from "./snackbar/Snackbar";
 import Money from "./directives/Money";
 import Number from "./directives/Number";
@@ -148,7 +176,14 @@ export default {
     CGIDatePickerTipo,
     Snackbar,
     Money,
-    Number
+    Number,
+    CGIDataTableBasica,
+    CGIDataTablePropriedades,
+    CGIDataTableSelecionarVarios,
+    CGIDataTablePaginacao,
+    CGIDataTableAcoes,
+    CGIDataTableSlotsToolbar,
+    CGIDataTableAgrupamento
   },
   data: () => ({
     hora: "08:02",

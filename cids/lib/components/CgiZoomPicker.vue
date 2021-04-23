@@ -1,11 +1,13 @@
 <template>
   <div>
     <v-text-field
+      v-if="!custom"
       :dense="compacto"
       :label="nome"
       :rules="regras"
       v-model="valor"
       type="number"
+      :disabled="desabilitado"
       @click:prepend="chamaZoom"
       @click:append="clear"
       prepend-icon="mdi-database-search-outline"
@@ -13,141 +15,77 @@
     >
     </v-text-field>
 
+    <slot
+      name="customcomp"
+      v-bind:chamaZoom="chamaZoom"
+    >
+    </slot>
+
     <v-dialog
       persistent
       v-model="dialog"
       class="pa-0"
-      width="70%"
+      :width="largura"
     >
-
-      <!-- <v-card height="90vh"> -->
-      <!-- <component
-              ref="component"
-              @click:zoom="setaZoom"
-              @click:close="close"
-              v-bind:is="zoom"
-              :registro="valor"
-            ></component> -->
-      <!-- </v-col>
-          <v-col>
-            
-          </v-col>
-        </v-row> -->
-      <!-- </v-card> -->
-      <!-- <component
+      <component
         ref="component"
-        @click:zoom="setaZoom"
         @click:close="close"
+        @cancelar-zoom="close"
+        @confirma-zoom="close"
         v-bind:is="zoom"
         :registro="valor"
-      ></component> -->
-
-      <v-card elevation="0">
-        <v-card-title>
-          <v-spacer></v-spacer>
-          <v-icon @click="close">mdi-close</v-icon>
-        </v-card-title>
-        <v-card-text
-          style="height: 800px"
-          class="pa-0"
-        >
-          <div v-show="loading">
-            <v-skeleton-loader
-              ref="skeleton"
-              type="table-thead"
-              class="mx-auto"
-            ></v-skeleton-loader>
-            <v-skeleton-loader
-              ref="skeleton"
-              type="table-theading"
-              class="mx-auto"
-            ></v-skeleton-loader>
-            <v-skeleton-loader
-              ref="skeleton"
-              type="table-tbody"
-              class="mx-auto"
-            ></v-skeleton-loader>
-            <v-skeleton-loader
-              ref="skeleton"
-              type="table-tbody"
-              class="mx-auto"
-            ></v-skeleton-loader>
-            <v-skeleton-loader
-              ref="skeleton"
-              type="table-tbody"
-              class="mx-auto"
-            ></v-skeleton-loader>
-          </div>
-          <iframe
-            v-show="!loading"
-            :id="posicao"
-            :src="zoom"
-            width="100%"
-            v-on:load="hideHeader"
-            height="100%"
-            frameborder="0"
-            sandbox="allow-same-origin allow-scripts allow-popups allow-forms"
-          ></iframe>
-        </v-card-text>
-      </v-card>
+        @exporta-zoom="setaValor"
+      ></component>
     </v-dialog>
   </div>
 </template>
 
 <script>
-import { eventBus } from "../util";
 export default {
   data: (vm) => ({
     valor: vm.value ? vm.value : vm.posicao === "inicial" ? 0 : 999999999,
     dialog: false,
     item: {},
-    baitaca: null,
-    loading: true,
   }),
   watch: {
     valor() {
       this.$emit("input", this.valor);
     },
   },
+  computed: {
+    custom() {
+      console.log(
+        !!this.$slots["customcomp"] || !!this.$scopedSlots["customcomp"]
+      );
+      return !!this.$slots["customcomp"] || !!this.$scopedSlots["customcomp"];
+    },
+  },
   methods: {
     setaValor: function (valor) {
-      this.valor = valor[this.chave];
-      this.item = valor;
-      this.dialog = false;
+      if (!this.custom) {
+        this.valor = valor[this.chave];
+        this.item = valor;
+        this.dialog = false;
 
-      eventBus.unsubscribe(this.evento, this.setaValor);
-      this.$emit("change", this.item);
-    },
-
-    sendMessage() {
-      const component = document.getElementById(this.posicao);
-      if (component) {
-        if (this.valor !== 999999999 && this.valor !== 0) {
-          eventBus.emmitIframe(
-            `${this.evento}-data`,
-            this.tipo === "valor" ? this.valor : this.item,
-            component
-          );
-        } else {
-          eventBus.emmitIframe(`${this.evento}-data`, "", component);
-        }
+        this.$emit("change", this.item);
       }
     },
-    hideHeader() {
-      this.loading = false;
-
-      this.sendMessage();
-    },
-    chamaZoom() {
-      eventBus.subscribe(this.evento, this.setaValor);
+    async chamaZoom() {
       this.dialog = true;
-
-      this.sendMessage();
-    },
-    setaZoom(item) {
-      this.item = item;
-      this.valor = item[this.chave];
-      this.dialog = false;
+      await new Promise((resolver) => setTimeout(resolver, 200));
+      this.$refs.component.controller.dialogZoom = true;
+      if (this.custom) {
+        this.$refs.component.controller.preencheFormulario(this.params);
+      } else {
+        this.$refs.component.controller.pesquisa = null;
+        await new Promise((resolver) => setTimeout(resolver, 400));
+        this.$refs.component.controller.pesquisa =
+          this.tipo === "valor"
+            ? this.valor !== 0
+              ? this.valor.toString()
+              : ""
+            : this.item;
+      }
     },
     close() {
       this.dialog = false;
@@ -166,7 +104,7 @@ export default {
       require: true,
     },
     zoom: {
-      type: String,
+      type: Object,
       require: true,
     },
     compacto: {
@@ -194,8 +132,12 @@ export default {
       type: String,
       default: () => "valor",
     },
-    evento: {
+    largura: {
       type: String,
+      default: () => "70%",
+    },
+    params: {
+      type: Object,
       require: true,
     },
   },

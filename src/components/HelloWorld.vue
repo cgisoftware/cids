@@ -112,6 +112,22 @@
         >
           <v-card>
             <v-card-title>
+              Alertas
+            </v-card-title>
+            <Alert />
+          </v-card>
+        </v-col>
+      </v-row>
+      <v-row
+        justify="center"
+        align="start"
+      >
+        <v-col
+          cols="12"
+          lg="4"
+        >
+          <v-card>
+            <v-card-title>
               Diretivas
             </v-card-title>
             <v-card-text>
@@ -159,6 +175,21 @@
           </v-card>
         </v-col>
       </v-row>
+      <v-row
+        justify="center"
+        align="start"
+      >
+        <v-col cols="6">
+          <v-card>
+            <v-card-title>
+              Tree View
+            </v-card-title>
+            <v-card-text>
+              <CGITreeView />
+            </v-card-text>
+          </v-card>
+        </v-col>
+      </v-row>
     </v-main>
   </v-app>
 </template>
@@ -178,10 +209,12 @@ import CGIDataTablePaginacao from "./table/CGIDataTablePaginacao";
 import CGIDataTableAcoes from "./table/CGIDataTableAcoes";
 import CGIDataTableSlotsToolbar from "./table/CGIDataTableSlotsToolbar";
 import CGIDataTableAgrupamento from "./table/CGIDataTableAgrupamento";
+import CGITreeView from "./treeview/CGITreeView";
 import ZoomBasico from "./zoom/ZoomBasico";
 import ZoomChange from "./zoom/ZoomChange";
 import ZoomCustom from "./zoom/ZoomCustom";
 import Snackbar from "./snackbar/Snackbar";
+import Alert from "./alert/Alert";
 import Money from "./directives/Money";
 import Number from "./directives/Number";
 
@@ -206,7 +239,9 @@ export default {
     CGIDataTableAgrupamento,
     ZoomBasico,
     ZoomChange,
-    ZoomCustom
+    ZoomCustom,
+    CGITreeView,
+    Alert
   },
   data: () => ({
     hora: "08:02",

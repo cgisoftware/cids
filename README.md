@@ -38,10 +38,10 @@ $ npm i cids-cgi
 **No arquivo main.js do seu projeto adicione**
 
 ```js
-import Vue from 'vue'
-import cids from 'cids-cgi/lib'
+import Vue from "vue";
+import cids from "cids-cgi/lib";
 
-Vue.use(cids)
+Vue.use(cids);
 ```
 
 <br>
@@ -134,6 +134,48 @@ Nos seus componentes do projeto use:
 | v-slot:\<name>  | Slot para customizar uma coluna especifica                                                |
 | v-slot:botoes   | Slot para incluir botões no header da tabela, como botões de filtro e alterar por exemplo |
 | v-slot:pesquisa | Slot para customizar o text-field default de pesquisa da tabela                           |
+
+<br>
+<br>
+<br>
+
+## TreeView
+
+### - Component
+
+```html
+<template>
+  <cgi-tree-view
+    :itens="lista"
+    chave-tree="codItem"
+    chave-pai-tree="codPai"
+    texto-item="descricao"
+  ></cgi-tree-view>
+</template>
+```
+
+### - Props
+
+| Propriedade    | Required? |  Type  | Default value | Descrição                                                   |
+| :------------- | :-------: | :----: | ------------: | :---------------------------------------------------------- |
+| itens          |   true    | Array  |     undefined | Define os itens que serão listados na arvore                |
+| chave-tree     |   true    | String |     undefined | Define a chave de cada registro da lista                    |
+| chave-pai-tree |   true    | String |     undefined | Define a chave pai para organizar os níveis da arvore       |
+| texto-item     |   true    | String |     undefined | Define o texto que será apresentado em cada linha da arvore |
+
+<br>
+
+### - Events
+
+| Event         | Return | Descrição                                    |
+| :------------ | -----: | :------------------------------------------- |
+| @exporta-zoom | Object | Retorna o item para usar em uma tela de zoom |
+
+<br>
+
+### - Slots
+
+Sem slots
 
 <br>
 <br>
@@ -257,6 +299,51 @@ snackbar.show({
 <br>
 <br>
 
+## Alert
+
+### - Component
+
+```html
+<!-- Instância unica no sistema, deve ser declarado uma unica vez no App.vue -->
+<template>
+  <cgi-alert />
+</template>
+```
+
+```js
+import { alert } from "cids-cgi/lib/util"
+
+// mensagem sem ações
+alert.show({message: "Mensagem para mostrar ao usuário!"})
+
+// mensagem de confirmação (promise que retorna true ou false)
+const response = await alert.confirm({message: "Mensagem para mostrar ao usuário!"})
+
+if (response) {
+  // executa algo se o usuário confirmou
+}
+
+// parâmetros que podem ser usados no snackbar
+alert.show({
+  message,
+  color = 'red',    // default vermelho
+})
+```
+
+### - Sem Props
+
+<br>
+
+### - Sem Events
+
+<br>
+
+### - Sem Slots
+
+<br>
+<br>
+<br>
+
 ## Handler
 
 ### - Sem Component
@@ -264,25 +351,25 @@ snackbar.show({
 <br>
 
 ```js
-import { toAblDate, formatNumber, toExcel, groupBy } from 'cids-cgi/lib/util'
+import { toAblDate, formatNumber, toExcel, groupBy } from "cids-cgi/lib/util";
 
 // converte data para o formato que o progress espera
-const dataAbl = toAblDate('2021-10-08', 'dia') // retorna = DATE(8, 10, 2021)
+const dataAbl = toAblDate("2021-10-08", "dia"); // retorna = DATE(8, 10, 2021)
 
 // converte data para o formato que o progress espera
-const dataAbl = toAblDate('2021-10-08', 'mes') // retorna = DATE(1, 10, 2021)
+const dataAbl = toAblDate("2021-10-08", "mes"); // retorna = DATE(1, 10, 2021)
 
 // converte data para o formato que o progress espera
-const dataAbl = toAblDate('2021-10-08', 'ano') // retorna = DATE(1, 1, 2021)
+const dataAbl = toAblDate("2021-10-08", "ano"); // retorna = DATE(1, 1, 2021)
 
 // formata numeros para padrão brasileiro
-const stringNumber = formatNumber(1234.12) //retorna = "1.234,12"
+const stringNumber = formatNumber(1234.12); //retorna = "1.234,12"
 
 // exporta e faz download de um arquivo XLSX a partir de um dataset
-toExcel(dataset, 'placas') // retorna = download de arquivo chamado placas.xlsx
+toExcel(dataset, "placas"); // retorna = download de arquivo chamado placas.xlsx
 
 // agrupa dataset por 0 ou n chaves
-const datasetGrouped = groupBy(dataset, (item) => ['nome', 'cod_emp']) // retorna = dataset agrupado por nome e cod_emp respectivamente
+const datasetGrouped = groupBy(dataset, (item) => ["nome", "cod_emp"]); // retorna = dataset agrupado por nome e cod_emp respectivamente
 ```
 
 ### - Sem Props
@@ -311,9 +398,9 @@ const datasetGrouped = groupBy(dataset, (item) => ['nome', 'cod_emp']) // retorn
 <script>
   export default {
     data: () => ({
-      mask: 'dia-mes-ano', // tipos: dia-mes-ano; dia-mes; mes-ano; hora; cpf; cnpj, cpf-cnpj;
+      mask: "dia-mes-ano", // tipos: dia-mes-ano; dia-mes; mes-ano; hora; cpf; cnpj, cpf-cnpj;
     }),
-  }
+  };
 </script>
 ```
 

@@ -4,11 +4,11 @@
       color="primary"
       class="mx-1"
       @click="mostraAlerta"
-    >Alerta!</v-btn>
+    >Alerta fixo!</v-btn>
     <v-btn
       class="secondary"
       @click="mostraConfirmacao"
-    >Confirmação</v-btn>
+    >Confirmação fixa</v-btn>
 
     <pre>
                 <code
@@ -23,13 +23,13 @@
 
 <script>
 import Prism from "prismjs";
-import { snackbar } from "cids-cgi/lib/util";
+import { alert } from "cids-cgi/lib/util";
 export default {
   data: () => ({
     snackbarExample: Prism.highlight(
       `
         <template>
-            <cgi-snackbar/> 
+            <cgi-alert/> 
             <!-- 
                 ^^^^
                 ||||
@@ -41,12 +41,12 @@ export default {
                 color="primary"
                 class="mx-1"
                 @click="mostraAlerta"
-            >Alerta!</v-btn>
+            >Alerta fixo!</v-btn>
             
             <v-btn
                 class="secondary"
                 @click="mostraConfirmacao"
-            >Confirmação</v-btn>
+            >Confirmação fixa</v-btn>
         <\/template>
 
         <script>
@@ -54,10 +54,10 @@ export default {
             export default {
                 methods: {
                     mostraAlerta() {
-                        snackbar.show({ message: "Alerta geral!" });
+                        alert.show({ message: "Alerta geral!" });
                     },
                     async mostraConfirmacao() {
-                        const confirmou = await snackbar.confirm({ message: "Confirmar algo" });
+                        const confirmou = await alert.confirm({ message: "Confirmar algo?" });
                         if (confirmou) {
 
                         }
@@ -71,10 +71,10 @@ export default {
   }),
   methods: {
     mostraAlerta() {
-      snackbar.show({ message: "Alerta geral!" });
+      alert.show({ message: "Alerta geral!" });
     },
     mostraConfirmacao() {
-      snackbar.confirm({ message: "Confirmar algo" });
+      alert.confirm({ message: "Confirmar algo" });
     },
   },
 };

@@ -15,14 +15,11 @@
     >
     </v-text-field>
 
-    <slot
-      name="customcomp"
-      v-bind:chamaZoom="chamaZoom"
-    >
-    </slot>
+    <slot name="customcomp" v-bind:chamaZoom="chamaZoom"> </slot>
 
     <v-dialog
       persistent
+      scrollable
       v-model="dialog"
       class="pa-0"
       :width="largura"
@@ -61,7 +58,7 @@ export default {
     },
   },
   methods: {
-    setaValor: function (valor) {
+    setaValor: function(valor) {
       console.log(valor);
       if (!this.custom) {
         this.valor = valor[this.chave];
@@ -81,11 +78,7 @@ export default {
         this.$refs.component.controller.pesquisa = null;
         await new Promise((resolver) => setTimeout(resolver, 400));
         this.$refs.component.controller.pesquisa =
-          this.tipo === "valor"
-            ? this.valor !== 0
-              ? this.valor.toString()
-              : ""
-            : this.item;
+          this.valor !== 0 ? this.valor.toString() : null;
       }
     },
     close() {

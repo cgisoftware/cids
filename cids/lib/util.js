@@ -5,12 +5,15 @@ import { toAblDate } from './controller/handler/FormatAblDate'
 import { formatNumber } from './controller/handler/FormatNumber'
 import { groupBy } from './controller/handler/GroupBy'
 import EventBus from './controller/handler/EventBus'
+import CgiAlertController from './controller/CgiAlert'
 
 const eventBus = new EventBus()
 const snackbar = new CgiSnackbarController()
+const alert = new CgiAlertController()
 
 export {
   snackbar,
+  alert,
   toAblDate,
   formatNumber,
   toExcel,

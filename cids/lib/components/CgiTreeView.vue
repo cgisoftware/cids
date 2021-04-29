@@ -1,0 +1,111 @@
+<template>
+  <v-treeview
+    dense
+    activatable
+    :active.sync="ativoData"
+    :color="'primary'"
+    :items="itensManipulados"
+    item-text="nomeComposto"
+    :item-key="chaveTree"
+    hoverable
+    rounded
+  >
+    <template v-slot:append="{ item }">
+      <div v-show="dialogZoom">
+        <v-tooltip top>
+          <template v-slot:activator="{ on }">
+            <v-btn
+              x-small
+              icon
+              color="orange darken-2"
+              :fab="true"
+              v-on="on"
+              @click="exportaZoom(item)"
+            >
+              <v-icon>mdi-arrow-down</v-icon>
+            </v-btn>
+          </template>
+          <span>Usar registro na tela anterior</span>
+        </v-tooltip>
+      </div>
+    </template>
+  </v-treeview>
+</template>
+
+<script>
+export default {
+  data: (vm) => ({
+    ativoTree: vm.ativo,
+  }),
+  computed: {
+    itensManipulados() {
+      return this.listToTree(this.itens);
+    },
+    ativoData: {
+      get: function() {
+        if (this.ativoTree) {
+          return [parseInt(this.ativoTree)];
+        }
+
+        return [];
+      },
+      set: function() {},
+    },
+  },
+  methods: {
+    exportaZoom(item) {
+      this.$emit("exporta-zoom", item);
+    },
+    listToTree(list) {
+      console.log(list);
+      var map = {},
+        node,
+        roots = [],
+        i;
+
+      for (i = 0; i < list.length; i += 1) {
+        map[list[i][this.chaveTree]] = i;
+        list[i].children = [];
+        list[i].nomeComposto = `${list[i][this.chaveTree]} - ${list[i][this.textoItem]}`;
+      }
+
+      for (i = 0; i < list.length; i += 1) {
+        node = list[i];
+        if (node[this.chavePaiTree] !== 0) {
+          list[map[node[this.chavePaiTree]]].children.push(node);
+        } else {
+          roots.push(node);
+        }
+      }
+
+      return roots;
+    },
+  },
+
+  props: {
+    itens: {
+      type: Array,
+      required: true,
+    },
+    "chave-tree": {
+      type: String,
+      required: true
+    },
+    "chave-pai-tree": {
+      type: String,
+      required: true
+    },
+    "dialog-zoom": {
+      type: Boolean,
+      default: () => false,
+    },
+    "texto-item": {
+      type: String,
+      required: true
+    },
+    ativo: {
+      default: () => 0,
+    },
+  },
+};
+</script>

@@ -2,6 +2,7 @@
   <div id="app">
     <HelloWorld msg="Welcome to Your Vue.js App"/>
     <cgi-snackbar/>
+    <cgi-alert/>
   </div>
 </template>
 

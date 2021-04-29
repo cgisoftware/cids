@@ -1,16 +1,19 @@
 <template>
-  <div>
-    <strong>Campo data desabilitado</strong>
-    <br>
-    <br>
-    <cgi-date-picker
-      v-model="data"
-      nome="Data"
-      desabilitado
-    ></cgi-date-picker>
-    Data v-model: {{data}}
+  <section id="data-picker-desabilitado">
+    <div>
+      <strong>
+        <a href="#data-picker-desabilitado">Campo data desabilitado</a>
+      </strong>
+      <br />
+      <br />
+      <cgi-date-picker
+        v-model="data"
+        nome="Data"
+        desabilitado
+      ></cgi-date-picker>
+      Data v-model: {{ data }}
 
-    <pre>
+      <pre>
                 <code
                 class="language-html py-5"
                 v-html="dataExample"
@@ -18,8 +21,9 @@
               ></code>
               </pre>
 
-    <v-divider class="my-5"></v-divider>
-  </div>
+      <v-divider class="my-5"></v-divider>
+    </div>
+  </section>
 </template>
 
 <script>

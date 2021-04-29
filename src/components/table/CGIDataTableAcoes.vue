@@ -46,14 +46,14 @@ export default {
     },
   },
   watch: {
-    "controller.dialogZoom": function () {
+    "controller.dialogZoom": function() {
       console.log(this.controller.dialogZoom);
     },
   },
   data: () => ({
     controller: {
       dialogZoom: false,
-      pesquisa: null
+      pesquisa: null,
     },
     linhas: [
       {
@@ -92,7 +92,7 @@ export default {
         text: "ID",
         align: "start",
         sortable: false,
-        value: "id"
+        value: "id",
       },
       {
         text: "Nome",

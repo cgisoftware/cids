@@ -1,16 +1,13 @@
 <template>
-  <div>
-    <strong>Campo data compacto</strong>
-    <br>
-    <br>
-    <cgi-date-picker
-      v-model="data"
-      nome="Data"
-      compacto
-    ></cgi-date-picker>
-    Data v-model: {{data}}
+  <section id="data-picker-compacto">
+    <div>
+      <strong><a href="#data-picker-compacto">Campo data compacto</a></strong>
+      <br />
+      <br />
+      <cgi-date-picker v-model="data" nome="Data" compacto></cgi-date-picker>
+      Data v-model: {{ data }}
 
-    <pre>
+      <pre>
                 <code
                 class="language-html py-5"
                 v-html="dataExample"
@@ -18,8 +15,9 @@
               ></code>
               </pre>
 
-    <v-divider class="my-5"></v-divider>
-  </div>
+      <v-divider class="my-5"></v-divider>
+    </div>
+  </section>
 </template>
 
 <script>

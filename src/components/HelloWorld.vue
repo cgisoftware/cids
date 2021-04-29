@@ -6,20 +6,13 @@
       <v-spacer></v-spacer>
     </v-app-bar>
     <v-main>
-      <v-row
-        justify="center"
-        align="start"
-      >
-        <v-col
-          cols="12"
-          lg="4"
-        >
+      <v-row justify="center" align="start">
+        <v-col cols="12" lg="4">
           <v-card>
             <v-card-title>
               Pickers - Hora
             </v-card-title>
             <v-card-text>
-
               <CGITimePickerNormal />
 
               <CGITimePickerCompacto />
@@ -61,14 +54,8 @@
           </v-card>
         </v-col> -->
       </v-row>
-      <v-row
-        justify="center"
-        align="start"
-      >
-        <v-col
-          cols="12"
-          lg="4"
-        >
+      <v-row justify="center" align="start">
+        <v-col cols="12" lg="4">
           <v-card>
             <v-card-title>
               Pickers - Data
@@ -83,17 +70,10 @@
               <CGIDatePickerTipo />
             </v-card-text>
           </v-card>
-
         </v-col>
       </v-row>
-      <v-row
-        justify="center"
-        align="start"
-      >
-        <v-col
-          cols="12"
-          lg="4"
-        >
+      <v-row justify="center" align="start">
+        <v-col cols="12" lg="4">
           <v-card>
             <v-card-title>
               Snackbar
@@ -102,30 +82,20 @@
           </v-card>
         </v-col>
       </v-row>
-      <v-row
-        justify="center"
-        align="start"
-      >
-        <v-col
-          cols="12"
-          lg="4"
-        >
-          <v-card>
-            <v-card-title>
-              Alertas
-            </v-card-title>
-            <Alert />
-          </v-card>
+      <v-row justify="center" align="start">
+        <v-col cols="12" lg="4">
+          <section id="alertas">
+            <v-card>
+              <v-card-title>
+                <a href="#alertas">Alertas</a>
+              </v-card-title>
+              <Alert />
+            </v-card>
+          </section>
         </v-col>
       </v-row>
-      <v-row
-        justify="center"
-        align="start"
-      >
-        <v-col
-          cols="12"
-          lg="4"
-        >
+      <v-row justify="center" align="start">
+        <v-col cols="12" lg="4">
           <v-card>
             <v-card-title>
               Diretivas
@@ -137,10 +107,7 @@
           </v-card>
         </v-col>
       </v-row>
-      <v-row
-        justify="center"
-        align="start"
-      >
+      <v-row justify="center" align="start">
         <v-col cols="10">
           <v-card>
             <v-card-title>
@@ -158,10 +125,7 @@
           </v-card>
         </v-col>
       </v-row>
-      <v-row
-        justify="center"
-        align="start"
-      >
+      <v-row justify="center" align="start">
         <v-col cols="4">
           <v-card>
             <v-card-title>
@@ -175,19 +139,18 @@
           </v-card>
         </v-col>
       </v-row>
-      <v-row
-        justify="center"
-        align="start"
-      >
+      <v-row justify="center" align="start">
         <v-col cols="6">
-          <v-card>
-            <v-card-title>
-              Tree View
-            </v-card-title>
-            <v-card-text>
-              <CGITreeView />
-            </v-card-text>
-          </v-card>
+          <section id="tree-view-default">
+            <v-card>
+              <v-card-title>
+                <a href="#tree-view-default">Tree View</a>
+              </v-card-title>
+              <v-card-text>
+                <CGITreeView />
+              </v-card-text>
+            </v-card>
+          </section>
         </v-col>
       </v-row>
     </v-main>
@@ -241,7 +204,7 @@ export default {
     ZoomChange,
     ZoomCustom,
     CGITreeView,
-    Alert
+    Alert,
   },
   data: () => ({
     hora: "08:02",

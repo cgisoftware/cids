@@ -1,14 +1,9 @@
 <template>
   <v-card-text>
-    <v-btn
-      color="primary"
-      class="mx-1"
-      @click="mostraAlerta"
-    >Alerta fixo!</v-btn>
-    <v-btn
-      class="secondary"
-      @click="mostraConfirmacao"
-    >Confirmação fixa</v-btn>
+    <v-btn color="primary" class="mx-1" @click="mostraAlerta"
+      >Alerta fixo!</v-btn
+    >
+    <v-btn class="secondary" @click="mostraConfirmacao">Confirmação fixa</v-btn>
 
     <pre>
                 <code
@@ -17,7 +12,6 @@
                 style="font-size: 14px; "
               ></code>
               </pre>
-
   </v-card-text>
 </template>
 

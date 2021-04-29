@@ -1,16 +1,13 @@
 <template>
-  <div>
-    <strong>v-cgi-number</strong>
-    <br>
-    <br>
-    <v-text-field
-      label="Valor"
-      v-model="valor"
-      v-cgi-number
-    ></v-text-field>
-    Valor v-model: {{ valor }}
+  <section id="v-cgi-number">
+    <div>
+      <strong> <a href="#v-cgi-number">v-cgi-number</a> </strong>
+      <br />
+      <br />
+      <v-text-field label="Valor" v-model="valor" v-cgi-number></v-text-field>
+      Valor v-model: {{ valor }}
 
-    <pre>
+      <pre>
                 <code
                 class="language-html py-5"
                 v-html="numberExample"
@@ -18,14 +15,15 @@
               ></code>
               </pre>
 
-    <v-divider class="my-5"></v-divider>
-  </div>
+      <v-divider class="my-5"></v-divider>
+    </div>
+  </section>
 </template>
 
 <script>
 export default {
   data: () => ({
-    valor: 750.50,
+    valor: 750.5,
     numberExample: Prism.highlight(
       `
         <template>

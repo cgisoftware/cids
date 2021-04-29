@@ -1,16 +1,13 @@
 <template>
-  <div>
-    <strong>v-cgi-money</strong>
-    <br>
-    <br>
-    <v-text-field
-      label="Valor"
-      v-model="valor"
-      v-cgi-money
-    ></v-text-field>
-    Valor v-model: {{ valor }}
+  <section id="v-cgi-money">
+    <div>
+      <strong> <a href="#v-cgi-money">v-cgi-money</a> </strong>
+      <br />
+      <br />
+      <v-text-field label="Valor" v-model="valor" v-cgi-money></v-text-field>
+      Valor v-model: {{ valor }}
 
-    <pre>
+      <pre>
                 <code
                 class="language-html py-5"
                 v-html="moneyExample"
@@ -18,8 +15,9 @@
               ></code>
               </pre>
 
-    <v-divider class="my-5"></v-divider>
-  </div>
+      <v-divider class="my-5"></v-divider>
+    </div>
+  </section>
 </template>
 
 <script>

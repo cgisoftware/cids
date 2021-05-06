@@ -62,18 +62,18 @@ export default {
           el.dispatchEvent(event)
         })
       },
-      update(el) {
-        let event = new Event('input', { bubbles: true })
-        el = getInput(el)
-        const number = formatBRNUmber(el.value)
+      // update(el) {
+      //   let event = new Event('input', { bubbles: true })
+      //   el = getInput(el)
+      //   const number = formatBRNUmber(el.value)
 
-        el.value =
-          number !== 'R$ NaN' && number !== undefined && number !== ''
-            ? number
-            : 'R$ 0,00'
+      //   el.value =
+      //     number !== 'R$ NaN' && number !== undefined && number !== ''
+      //       ? number
+      //       : 'R$ 0,00'
 
-        el.dispatchEvent(event)
-      },
+      //   el.dispatchEvent(event)
+      // },
     })
   },
 }

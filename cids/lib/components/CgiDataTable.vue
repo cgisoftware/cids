@@ -24,16 +24,20 @@
     :show-select="selecionarVarios"
     :item-key="chaveTabela"
     :height="zoomDialog ? '50vh' : altura"
-    :footer-props="{ itemsPerPageOptions: [30,60,100], itemsPerPageText: 'Linhas por pagina' }"
+    :footer-props="{
+      itemsPerPageOptions: [30, 60, 100],
+      itemsPerPageText: 'Linhas por pagina',
+    }"
   >
     <template v-slot:top>
-      <v-toolbar
-        flat
-        dense
-        v-if="mostraToolbar"
-      >
-
-        <v-toolbar-title>{{nomeTabela}}</v-toolbar-title>
+      <v-toolbar flat dense v-if="mostraToolbar">
+        <v-toolbar-title>{{ nomeTabela }}</v-toolbar-title>
+        <v-tooltip top>
+          <template v-slot:activator="{ on }">
+            <v-icon v-on="on">mdi-information-variant</v-icon>
+          </template>
+          <span>{{nomePrograma}}</span>
+        </v-tooltip>
         <v-spacer></v-spacer>
 
         <v-text-field
@@ -50,12 +54,10 @@
         >
         </v-text-field>
 
-        <slot name="pesquisa">
-        </slot>
+        <slot name="pesquisa"> </slot>
 
         <div class="ml-3">
-          <slot name="botoes">
-          </slot>
+          <slot name="botoes"> </slot>
         </div>
 
         <v-menu
@@ -78,16 +80,10 @@
           </template>
 
           <v-card scrollable>
-            <v-toolbar
-              flat
-              dense
-            >
+            <v-toolbar flat dense>
               <v-toolbar-title>Organizar tabela</v-toolbar-title>
             </v-toolbar>
-            <v-card-text
-              class="px-0"
-              style="overflow-y: scroll; height:300px"
-            >
+            <v-card-text class="px-0" style="overflow-y: scroll; height:300px">
               <v-autocomplete
                 dense
                 class="mt-4 px-3"
@@ -99,10 +95,7 @@
                 clearable
                 no-data-text="Sem dados"
               ></v-autocomplete>
-              <v-container
-                fluid
-                grid-list-md
-              >
+              <v-container fluid grid-list-md>
                 <v-layout>
                   <v-flex xs6>
                     Colunas na tela
@@ -110,7 +103,10 @@
                       <div
                         v-for="coluna in visibleColumns"
                         :key="coluna.text"
-                        v-show="coluna.text !== 'Ações' && coluna.value !== 'tb_detalhe'"
+                        v-show="
+                          coluna.text !== 'Ações' &&
+                            coluna.value !== 'tb_detalhe'
+                        "
                         class="text-center my-1"
                       >
                         <v-chip
@@ -120,13 +116,14 @@
                           label
                         >
                           <template v-slot:default>
-                            {{coluna.text}}
+                            {{ coluna.text }}
 
                             <v-icon
                               small
                               @click="removeCol(coluna)"
                               style="position: absolute; right: 10px; cursor: pointer;"
-                            >mdi-close</v-icon>
+                              >mdi-close</v-icon
+                            >
                           </template>
                         </v-chip>
                       </div>
@@ -135,7 +132,9 @@
                   <v-flex xs6>
                     Colunas para usar
                     <div
-                      v-show="coluna.text !== 'Ações' && coluna.value !== 'tb_detalhe'"
+                      v-show="
+                        coluna.text !== 'Ações' && coluna.value !== 'tb_detalhe'
+                      "
                       v-for="(coluna, id) in hiddenColumns"
                       :key="id"
                       class="text-center my-1"
@@ -147,13 +146,14 @@
                         label
                       >
                         <template v-slot:default>
-                          {{coluna.text}}
+                          {{ coluna.text }}
 
                           <v-icon
                             small
                             @click="addCol(coluna)"
                             style="position: absolute; right: 10px; cursor: pointer;"
-                          >mdi-plus</v-icon>
+                            >mdi-plus</v-icon
+                          >
                         </template>
                       </v-chip>
                     </div>
@@ -162,26 +162,13 @@
               </v-container>
             </v-card-text>
             <v-card-actions>
-              <v-btn
-                small
-                color="red"
-                outlined
-                @click="menu = false"
-                block
-              >
-                <v-icon
-                  small
-                  left
-                >mdi-close</v-icon>Fechar
+              <v-btn small color="red" outlined @click="menu = false" block>
+                <v-icon small left>mdi-close</v-icon>Fechar
               </v-btn>
             </v-card-actions>
           </v-card>
         </v-menu>
-        <v-btn
-          icon
-          v-if="mostraPropriedades"
-          @click="salvarPropriedades"
-        >
+        <v-btn icon v-if="mostraPropriedades" @click="salvarPropriedades">
           <v-icon small>mdi-content-save</v-icon>
         </v-btn>
       </v-toolbar>
@@ -199,20 +186,20 @@
 
     <template v-slot:[`group.header`]="{ isOpen, toggle, group, groupBy }">
       <th colspan="90">
-        <v-icon @click="toggle">{{ isOpen ? "mdi-minus" : "mdi-plus" }}
+        <v-icon @click="toggle"
+          >{{ isOpen ? "mdi-minus" : "mdi-plus" }}
         </v-icon>
         {{
-                    groupBy[0][0].toUpperCase() +
-                      groupBy[0]
-                        .split("_")
-                        .join(" ")
-                        .slice(1)
-                  }}: {{ group }}
+          groupBy[0][0].toUpperCase() +
+            groupBy[0]
+              .split("_")
+              .join(" ")
+              .slice(1)
+        }}: {{ group }}
       </th>
     </template>
 
-    <template v-slot:[`item.tb_detalhe`]="{item}">
-
+    <template v-slot:[`item.tb_detalhe`]="{ item }">
       <v-tooltip top>
         <template v-slot:activator="{ on }">
           <v-btn
@@ -228,10 +215,9 @@
         </template>
         <span>Ver detalhes</span>
       </v-tooltip>
-
     </template>
 
-    <template v-slot:[`item.acoes`]="{item}">
+    <template v-slot:[`item.acoes`]="{ item }">
       <div>
         <v-tooltip top>
           <template v-slot:activator="{ on }">
@@ -284,15 +270,8 @@
       </div>
     </template>
 
-    <template
-      v-for="(f) in customColumns"
-      v-slot:[`item.${f.value}`]="{ item }"
-    >
-      <slot
-        :name="f.value"
-        v-bind:item="item"
-      >
-      </slot>
+    <template v-for="f in customColumns" v-slot:[`item.${f.value}`]="{ item }">
+      <slot :name="f.value" v-bind:item="item"> </slot>
     </template>
   </v-data-table>
 </template>
@@ -322,14 +301,14 @@ export default {
   },
   computed: {
     customOptions: {
-      get: function () {
+      get: function() {
         if (this.paginacaoServidor) {
           return this.options;
         }
 
         return undefined;
       },
-      set: function (value) {
+      set: function(value) {
         this.options = value;
       },
     },
@@ -395,7 +374,7 @@ export default {
   methods: {
     debounce(func, wait) {
       let timer = null;
-      return function () {
+      return function() {
         clearTimeout(timer);
         timer = setTimeout(func, wait);
       };
@@ -411,7 +390,7 @@ export default {
       const l = [...linhas];
       if (this.options?.groupBy?.length > 0 ?? false) {
         const sort = l.sort(this.dynamicSort(this.options.groupBy[0]));
-        this.linhasCustomizadas = sort.reverse();
+        this.linhasCustomizadas = sort
       } else {
         this.linhasCustomizadas = l;
       }
@@ -422,7 +401,7 @@ export default {
         sortOrder = -1;
         property = property.substr(1);
       }
-      return function (a, b) {
+      return function(a, b) {
         var result =
           a[property] < b[property] ? -1 : a[property] > b[property] ? 1 : 0;
         return result * sortOrder;
@@ -637,6 +616,10 @@ export default {
       type: Boolean,
       default: () => false,
     },
+    "nome-programa": {
+      type: String,
+      default: () => ""
+    }
   },
 };
 </script>

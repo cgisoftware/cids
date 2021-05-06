@@ -28,7 +28,7 @@
         ref="component"
         @click:close="close"
         @cancelar-zoom="close"
-        @confirma-zoom="close"
+        @confirmar-zoom="confirma"
         v-bind:is="zoom"
         :registro="valor"
         @exporta-zoom="setaValor"
@@ -73,7 +73,7 @@ export default {
       await new Promise((resolver) => setTimeout(resolver, 200));
       this.$refs.component.controller.dialogZoom = true;
       if (this.custom) {
-        this.$refs.component.controller.preencheFormulario(this.params);
+        this.$refs.component.controller.preencheFormulario(this.params, this.desabilitaCampos);
       } else {
         this.$refs.component.controller.pesquisa = null;
         await new Promise((resolver) => setTimeout(resolver, 400));
@@ -83,6 +83,10 @@ export default {
     },
     close() {
       this.dialog = false;
+    },
+    confirma() {
+      this.dialog = false
+      this.$emit('confirmar-zoom')
     },
     clear() {
       if (this.posicao === "inicial") {
@@ -134,6 +138,10 @@ export default {
       type: Object,
       require: true,
     },
+    'desabilita-campos': {
+      type: Boolean,
+      default: () => false
+    }
   },
 };
 </script>

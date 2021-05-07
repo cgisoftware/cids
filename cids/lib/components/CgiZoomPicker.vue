@@ -15,12 +15,16 @@
     >
     </v-text-field>
 
-    <slot name="customcomp" v-bind:chamaZoom="chamaZoom"> </slot>
+    <slot
+      name="customcomp"
+      v-bind:chamaZoom="chamaZoom"
+    > </slot>
 
     <v-dialog
+      v-if="dialog"
       persistent
       scrollable
-      v-model="dialog"
+      :value="true"
       class="pa-0"
       :width="largura"
     >
@@ -40,13 +44,16 @@
 <script>
 export default {
   data: (vm) => ({
-    valor: vm.value ? vm.value : vm.posicao === "inicial" ? 0 : 999999999,
+    valor: vm.value,
     dialog: false,
     item: {},
   }),
   watch: {
     valor() {
       this.$emit("input", this.valor);
+    },
+    value() {
+      this.valor = this.value;
     },
   },
   computed: {
@@ -57,8 +64,11 @@ export default {
       return !!this.$slots["customcomp"] || !!this.$scopedSlots["customcomp"];
     },
   },
+  mounted() {
+    this.valor = this.value ? this.value : this.posicao === "inicial" ? 0 : 999999999;
+  },
   methods: {
-    setaValor: function(valor) {
+    setaValor: function (valor) {
       console.log(valor);
       if (!this.custom) {
         this.valor = valor[this.chave];
@@ -73,20 +83,23 @@ export default {
       await new Promise((resolver) => setTimeout(resolver, 200));
       this.$refs.component.controller.dialogZoom = true;
       if (this.custom) {
-        this.$refs.component.controller.preencheFormulario(this.params, this.desabilitaCampos);
+        this.$refs.component.controller.preencheFormulario(
+          this.params,
+          this.desabilitaCampos
+        );
       } else {
         this.$refs.component.controller.pesquisa = null;
         await new Promise((resolver) => setTimeout(resolver, 400));
         this.$refs.component.controller.pesquisa =
-          this.valor !== 0 ? this.valor.toString() : null;
+          this.valor !== 0 && this.valor ? this.valor.toString() : null;
       }
     },
     close() {
       this.dialog = false;
     },
     confirma() {
-      this.dialog = false
-      this.$emit('confirmar-zoom')
+      this.dialog = false;
+      this.$emit("confirmar-zoom");
     },
     clear() {
       if (this.posicao === "inicial") {
@@ -138,10 +151,10 @@ export default {
       type: Object,
       require: true,
     },
-    'desabilita-campos': {
+    "desabilita-campos": {
       type: Boolean,
-      default: () => false
-    }
+      default: () => false,
+    },
   },
 };
 </script>

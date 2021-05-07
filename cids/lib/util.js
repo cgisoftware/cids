@@ -7,6 +7,7 @@ import { groupBy } from './controller/handler/GroupBy'
 import EventBus from './controller/handler/EventBus'
 import CgiAlertController from './controller/CgiAlert'
 
+
 const eventBus = new EventBus()
 const snackbar = new CgiSnackbarController()
 const alert = new CgiAlertController()
@@ -19,5 +20,5 @@ export {
   toExcel,
   groupBy,
   toExcelID,
-  eventBus,
+  eventBus
 }

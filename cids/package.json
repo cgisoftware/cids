@@ -1,26 +1,54 @@
 {
-  "name": "cids-cgi",
-  "version": "0.3.1-beta",
-  "description": "CGI Design System for Vue",
-  "main": "index.js",
-  "private": false,
-  "scripts": {
-    "build": "vue-cli-service build --target lib --name cids lib/index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+  "_from": "cids-cgi@0.3.1-beta",
+  "_id": "cids-cgi@0.3.1-beta",
+  "_inBundle": false,
+  "_integrity": "sha512-1ZT3CbE/CY3vjGzVqNNFEmt0RMAInUnT4y9zXZLFCnnqEV0yKkZGdSd0FxmO8waRmFAsGqUCIEjnj20kjoHLKw==",
+  "_location": "/cids-cgi",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "version",
+    "registry": true,
+    "raw": "cids-cgi@0.3.1-beta",
+    "name": "cids-cgi",
+    "escapedName": "cids-cgi",
+    "rawSpec": "0.3.1-beta",
+    "saveSpec": null,
+    "fetchSpec": "0.3.1-beta"
   },
-  "author": "Vinicius Boscardin",
-  "license": "ISC",
-  "devDependencies": {
-    "@mdi/font": "^5.8.55",
-    "bili": "^5.0.5",
-    "vue-template-compiler": "^2.6.12",
-    "@vue/cli-service": "~4.5.0"
+  "_requiredBy": [
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/cids-cgi/-/cids-cgi-0.3.1-beta.tgz",
+  "_shasum": "92192e688589490da375f9deba09d737af8d19bb",
+  "_spec": "cids-cgi@0.3.1-beta",
+  "_where": "/home/vinicius/projects/cgi/consultors",
+  "author": {
+    "name": "Vinicius Boscardin"
   },
+  "bundleDependencies": false,
   "dependencies": {
     "cleave.js": "^1.6.0",
     "vanilla-masker": "^1.2.0",
     "vuedraggable": "^2.24.3",
     "vuetify": "^2.4.9",
     "xlsx": "^0.16.9"
-  }
+  },
+  "deprecated": false,
+  "description": "CGI Design System for Vue",
+  "devDependencies": {
+    "@mdi/font": "^5.8.55",
+    "@vue/cli-service": "~4.5.0",
+    "bili": "^5.0.5",
+    "vue-template-compiler": "^2.6.12",
+    "vuetify-loader": "^1.4.4"
+  },
+  "license": "ISC",
+  "main": "index.js",
+  "name": "cids-cgi",
+  "private": false,
+  "scripts": {
+    "build": "vue-cli-service build --target lib --name cids lib/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "version": "0.3.1-beta"
 }

@@ -34,7 +34,7 @@
         <v-toolbar-title>{{ nomeTabela }}</v-toolbar-title>
         <v-tooltip top>
           <template v-slot:activator="{ on }">
-            <v-icon v-on="on">mdi-information-variant</v-icon>
+            <v-icon v-on="on" v-if="nomePrograma">mdi-information-variant</v-icon>
           </template>
           <span>{{nomePrograma}}</span>
         </v-tooltip>

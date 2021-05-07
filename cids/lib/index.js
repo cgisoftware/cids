@@ -13,9 +13,6 @@ import CgiMaskDirective from './controller/CgiMaskDirective'
 import CgiMoneyDirective from './controller/CgiMoneyDirective'
 import CgiNumberDirective from './controller/CgiNumberDirective'
 
-window.cgiSnackbar = snackbar
-window.cgiAlert = alert
-
 export default {
   install(Vue) {
     Vue.component('cgi-date-picker', CgiDatePicker)
@@ -29,7 +26,9 @@ export default {
     Vue.use(CgiMaskDirective)
     Vue.use(CgiMoneyDirective)
     Vue.use(CgiNumberDirective)
-  },
-  snackbar: window.cgiSnackbar,
-  alert: window.cgiAlert
+  }
 }
+
+
+window.cgiSnackbar = snackbar
+window.cgiAlert = alert

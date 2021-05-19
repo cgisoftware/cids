@@ -4,7 +4,7 @@
       <cgi-data-table
         :linhas="linhas"
         :colunas="colunas"
-        nome-tabela="Botões de ação e detalhamento preparado para zoom"
+        nome-tabela="Botões de ação/cores e detalhamento preparado para zoom"
         altura="200"
         mostra-acoes
         mostra-detalhes
@@ -15,6 +15,9 @@
         :zoom-dialog="controller.dialogZoom"
         :pesquisa="controller.pesquisa"
         mostra-pesquisa
+        ordenar-por="nome"
+        ordenar-desc
+        chave-tabela="id"
       ></cgi-data-table>
       <pre v-if="!controller.dialogZoom">
                 <code
@@ -45,11 +48,6 @@ export default {
       // manipule o item
     },
   },
-  watch: {
-    "controller.dialogZoom": function() {
-      console.log(this.controller.dialogZoom);
-    },
-  },
   data: () => ({
     controller: {
       dialogZoom: false,
@@ -60,16 +58,19 @@ export default {
         id: 1,
         nome: "Vinicius",
         descricao: "Desenvolvedor de Software",
+        cor: 'yellow'
       },
       {
         id: 2,
         nome: "Sergio",
         descricao: "Desenvolvedor de Software",
+        cor: 'red'
       },
       {
         id: 3,
         nome: "Kirlan",
         descricao: "Desenvolvedor de Software",
+        cor: 'green'
       },
       {
         id: 4,
@@ -97,7 +98,7 @@ export default {
       {
         text: "Nome",
         align: "start",
-        sortable: false,
+        sortable: true,
         value: "nome",
       },
       {
@@ -111,9 +112,12 @@ export default {
       `
         <template>
           <cgi-data-table
+            ordenar-por="nome"
+            ordenar-desc
+            chave-tabela="id"
             :linhas="linhas"
             :colunas="colunas"
-            nome-tabela="Botões de ação e detalhamento preparado para zoom"
+            nome-tabela="Botões de ação/cores e detalhamento preparado para zoom"
             altura="200"
             mostra-acoes
             mostra-detalhes

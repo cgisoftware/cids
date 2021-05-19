@@ -24,17 +24,26 @@
     :show-select="selecionarVarios"
     :item-key="chaveTabela"
     :height="zoomDialog ? '50vh' : altura"
+    :sort-by.sync="ordenar"
+    :sort-desc.sync="desc"
     :footer-props="{
       itemsPerPageOptions: [30, 60, 100],
       itemsPerPageText: 'Linhas por pagina',
     }"
   >
     <template v-slot:top>
-      <v-toolbar flat dense v-if="mostraToolbar">
+      <v-toolbar
+        flat
+        dense
+        v-if="mostraToolbar"
+      >
         <v-toolbar-title>{{ nomeTabela }}</v-toolbar-title>
         <v-tooltip top>
           <template v-slot:activator="{ on }">
-            <v-icon v-on="on" v-if="nomePrograma">mdi-information-variant</v-icon>
+            <v-icon
+              v-on="on"
+              v-if="nomePrograma"
+            >mdi-information-variant</v-icon>
           </template>
           <span>{{nomePrograma}}</span>
         </v-tooltip>
@@ -80,10 +89,16 @@
           </template>
 
           <v-card scrollable>
-            <v-toolbar flat dense>
+            <v-toolbar
+              flat
+              dense
+            >
               <v-toolbar-title>Organizar tabela</v-toolbar-title>
             </v-toolbar>
-            <v-card-text class="px-0" style="overflow-y: scroll; height:300px">
+            <v-card-text
+              class="px-0"
+              style="overflow-y: scroll; height:300px"
+            >
               <v-autocomplete
                 dense
                 class="mt-4 px-3"
@@ -95,7 +110,10 @@
                 clearable
                 no-data-text="Sem dados"
               ></v-autocomplete>
-              <v-container fluid grid-list-md>
+              <v-container
+                fluid
+                grid-list-md
+              >
                 <v-layout>
                   <v-flex xs6>
                     Colunas na tela
@@ -122,8 +140,7 @@
                               small
                               @click="removeCol(coluna)"
                               style="position: absolute; right: 10px; cursor: pointer;"
-                              >mdi-close</v-icon
-                            >
+                            >mdi-close</v-icon>
                           </template>
                         </v-chip>
                       </div>
@@ -152,8 +169,7 @@
                             small
                             @click="addCol(coluna)"
                             style="position: absolute; right: 10px; cursor: pointer;"
-                            >mdi-plus</v-icon
-                          >
+                          >mdi-plus</v-icon>
                         </template>
                       </v-chip>
                     </div>
@@ -162,13 +178,26 @@
               </v-container>
             </v-card-text>
             <v-card-actions>
-              <v-btn small color="red" outlined @click="menu = false" block>
-                <v-icon small left>mdi-close</v-icon>Fechar
+              <v-btn
+                small
+                color="red"
+                outlined
+                @click="menu = false"
+                block
+              >
+                <v-icon
+                  small
+                  left
+                >mdi-close</v-icon>Fechar
               </v-btn>
             </v-card-actions>
           </v-card>
         </v-menu>
-        <v-btn icon v-if="mostraPropriedades" @click="salvarPropriedades">
+        <v-btn
+          icon
+          v-if="mostraPropriedades"
+          @click="salvarPropriedades"
+        >
           <v-icon small>mdi-content-save</v-icon>
         </v-btn>
       </v-toolbar>
@@ -186,8 +215,7 @@
 
     <template v-slot:[`group.header`]="{ isOpen, toggle, group, groupBy }">
       <th colspan="90">
-        <v-icon @click="toggle"
-          >{{ isOpen ? "mdi-minus" : "mdi-plus" }}
+        <v-icon @click="toggle">{{ isOpen ? "mdi-minus" : "mdi-plus" }}
         </v-icon>
         {{
           groupBy[0][0].toUpperCase() +
@@ -270,8 +298,14 @@
       </div>
     </template>
 
-    <template v-for="f in customColumns" v-slot:[`item.${f.value}`]="{ item }">
-      <slot :name="f.value" v-bind:item="item"> </slot>
+    <template
+      v-for="f in customColumns"
+      v-slot:[`item.${f.value}`]="{ item }"
+    >
+      <slot
+        :name="f.value"
+        v-bind:item="item"
+      > </slot>
     </template>
   </v-data-table>
 </template>
@@ -291,6 +325,8 @@ export default {
     linhasCustomizadas: [],
     debounceSearch: null,
     itensSelecionados: vm.value,
+    ordenar: vm.ordenarPor,
+    desc: vm.ordenarDesc,
   }),
   created() {
     this.debounceSearch = this.debounce(this.updateSearch, 500);
@@ -301,14 +337,14 @@ export default {
   },
   computed: {
     customOptions: {
-      get: function() {
+      get: function () {
         if (this.paginacaoServidor) {
           return this.options;
         }
 
         return undefined;
       },
-      set: function(value) {
+      set: function (value) {
         this.options = value;
       },
     },
@@ -374,7 +410,7 @@ export default {
   methods: {
     debounce(func, wait) {
       let timer = null;
-      return function() {
+      return function () {
         clearTimeout(timer);
         timer = setTimeout(func, wait);
       };
@@ -390,7 +426,7 @@ export default {
       const l = [...linhas];
       if (this.options?.groupBy?.length > 0 ?? false) {
         const sort = l.sort(this.dynamicSort(this.options.groupBy[0]));
-        this.linhasCustomizadas = sort
+        this.linhasCustomizadas = sort;
       } else {
         this.linhasCustomizadas = l;
       }
@@ -401,7 +437,7 @@ export default {
         sortOrder = -1;
         property = property.substr(1);
       }
-      return function(a, b) {
+      return function (a, b) {
         var result =
           a[property] < b[property] ? -1 : a[property] > b[property] ? 1 : 0;
         return result * sortOrder;
@@ -485,6 +521,10 @@ export default {
             return this.$vuetify.theme.isDark ? "primary" : "blue lighten-5";
           }
         }
+      }
+
+      if (item.cor) {
+        return item.cor;
       }
     },
     clickRow(item) {
@@ -618,8 +658,16 @@ export default {
     },
     "nome-programa": {
       type: String,
-      default: () => ""
-    }
+      default: () => "",
+    },
+    "ordenar-desc": {
+      type: Boolean,
+      default: () => false,
+    },
+    "ordenar-por": {
+      type: String,
+      default: () => null,
+    },
   },
 };
 </script>

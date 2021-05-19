@@ -57,7 +57,6 @@ export default {
       this.$emit("exporta-zoom", item);
     },
     listToTree(list) {
-      console.log(list);
       var map = {},
         node,
         roots = [],

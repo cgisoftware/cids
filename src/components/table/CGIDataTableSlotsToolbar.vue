@@ -16,6 +16,10 @@
       <template v-slot:botoes>
         <v-btn>Algum botão customizado</v-btn>
       </template>
+      <template v-slot:favoritos="{ item }">
+        <v-icon @click.stop="setaFavorito(item)" :color="item.favoritos ? 'orange' : 'primary'">mdi-star</v-icon>
+      </template>
+      
     </cgi-data-table>
     <pre>
                 <code
@@ -36,26 +40,32 @@ export default {
       {
         nome: "Vinicius",
         descricao: "Desenvolvedor de Software",
+        favoritos: false
       },
       {
         nome: "Sergio",
         descricao: "Desenvolvedor de Software",
+        favoritos: false
       },
       {
         nome: "Kirlan",
         descricao: "Desenvolvedor de Software",
+        favoritos: false
       },
       {
         nome: "Angelo",
         descricao: "Desenvolvedor de Software",
+        favoritos: false
       },
       {
         nome: "Mauricio",
         descricao: "Desenvolvedor de Software",
+        favoritos: false
       },
       {
         nome: "Marcelo",
         descricao: "Desenvolvedor de Software",
+        favoritos: false
       },
     ],
     colunas: [
@@ -70,6 +80,13 @@ export default {
         align: "start",
         sortable: false,
         value: "descricao",
+      },
+      {
+        text: "Favoritos",
+        align: "end",
+        sortable: false,
+        value: "favoritos",
+        custom: true
       },
     ],
     dataExample: Prism.highlight(
@@ -91,6 +108,9 @@ export default {
             <template v-slot:botoes>
               <v-btn>Algum botão customizado</v-btn>
             </template>
+            <template v-slot:favoritos="{ item }">
+              <v-icon @click.stop="setaFavorito(item)" :color="item.favoritos ? 'orange' : 'primary'">mdi-star</v-icon>
+            </template>
           </cgi-data-table>
         <\/template>
 
@@ -98,30 +118,36 @@ export default {
             export default {
                 data: () => ({
                     linhas: [
-                        {
-                            nome: "Vinicius",
-                            descricao: "Desenvolvedor de Software",
-                        },
-                        {
-                            nome: "Sergio",
-                            descricao: "Desenvolvedor de Software",
-                        },
-                        {
-                            nome: "Kirlan",
-                            descricao: "Desenvolvedor de Software",
-                        },
-                        {
-                            nome: "Angelo",
-                            descricao: "Desenvolvedor de Software",
-                        },
-                        {
-                            nome: "Mauricio",
-                            descricao: "Desenvolvedor de Software",
-                        },
-                        {
-                            nome: "Marcelo",
-                            descricao: "Desenvolvedor de Software",
-                        },
+                      {
+                        nome: "Vinicius",
+                        descricao: "Desenvolvedor de Software",
+                        favoritos: false
+                      },
+                      {
+                        nome: "Sergio",
+                        descricao: "Desenvolvedor de Software",
+                        favoritos: false
+                      },
+                      {
+                        nome: "Kirlan",
+                        descricao: "Desenvolvedor de Software",
+                        favoritos: false
+                      },
+                      {
+                        nome: "Angelo",
+                        descricao: "Desenvolvedor de Software",
+                        favoritos: false
+                      },
+                      {
+                        nome: "Mauricio",
+                        descricao: "Desenvolvedor de Software",
+                        favoritos: false
+                      },
+                      {
+                        nome: "Marcelo",
+                        descricao: "Desenvolvedor de Software",
+                        favoritos: false
+                      },
                     ],
                     colunas: [
                         {
@@ -136,13 +162,30 @@ export default {
                             sortable: false,
                             value: "descricao",
                         },
+                        {
+                          text: "Favoritos",
+                          align: "end",
+                          sortable: false,
+                          value: "favoritos",
+                          custom: true
+                        },
                     ],
-                })
+                }),
+                methods: {
+                  setaFavorito(item) {
+                    item.favoritos = !item.favoritos
+                  }
+                }
             };
         <\/script>
       `,
       Prism.languages.html
     ),
   }),
+  methods: {
+    setaFavorito(item) {
+      item.favoritos = !item.favoritos
+    }
+  }
 };
 </script>

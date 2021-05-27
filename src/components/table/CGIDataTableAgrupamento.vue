@@ -6,6 +6,7 @@
       nome-tabela="Agrupamento"
       altura="200"
       agrupar="descricao"
+      totalizar-grupo
     ></cgi-data-table>
     <pre>
                 <code
@@ -26,26 +27,34 @@ export default {
       {
         nome: "Vinicius",
         descricao: "Desenvolvedor de Software",
+        valor: 10,
       },
       {
         nome: "Sergio",
         descricao: "Desenvolvedor de Software",
+
+        valor: 10,
       },
       {
         nome: "Kirlan",
         descricao: "Desenvolvedor de Software",
+
+        valor: 10,
       },
       {
         nome: "Angelo",
         descricao: "Desenvolvedor de Software",
+        valor: 10,
       },
       {
         nome: "Mauricio",
         descricao: "Desenvolvedor de Software",
+        valor: 10,
       },
       {
         nome: "Marcelo",
         descricao: "Desenvolvedor de Software",
+        valor: 10,
       },
     ],
     colunas: [
@@ -54,12 +63,20 @@ export default {
         align: "start",
         sortable: false,
         value: "nome",
+        totalizar: true,
       },
       {
         text: "Descrição",
         align: "start",
         sortable: false,
         value: "descricao",
+      },
+      {
+        text: "Valor",
+        align: "start",
+        sortable: false,
+        value: "valor",
+        somar: true,
       },
     ],
     dataExample: Prism.highlight(

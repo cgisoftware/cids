@@ -227,6 +227,43 @@
       </th>
     </template>
 
+    <template
+      v-slot:[`group.summary`]="{ items }"
+      v-if="totalizarGrupo"
+    >
+      <td
+        v-show="column.value !== agruparPor && column.value !== agrupar"
+        v-for="(column, i) in visibleColumns"
+        :key="i"
+        :class="{'text-left': column.totalizar, 'text-right': column.somar}"
+        style="font-size: 12px"
+      >
+
+        <strong v-if="column.totalizar">
+          Total: {{ items.length }}
+        </strong>
+
+        <strong v-if="column.somar">
+          {{ sumField(column.value, items) }}
+        </strong>
+      </td>
+    </template>
+
+    <!-- <template v-slot:[`body.append`]="{ items }">
+       <td
+        v-show="column.value !== agruparPor && column.value !== agrupar"
+        v-for="(column, i) in visibleColumns"
+        :key="i"
+        class="text-right"
+        style="font-size: 12px"
+      >
+
+        <strong v-if="column.totalizar">{{
+              sumField(column.value, items)
+            }}</strong>
+      </td>
+    </template> -->
+
     <template v-slot:[`item.tb_detalhe`]="{ item }">
       <v-tooltip top>
         <template v-slot:activator="{ on }">
@@ -313,6 +350,7 @@
 <script>
 import { VDataTable } from "vuetify/lib";
 import draggable from "vuedraggable";
+import { formatNumber } from "../util";
 export default {
   data: (vm) => ({
     menu: false,
@@ -408,6 +446,15 @@ export default {
     draggable,
   },
   methods: {
+    sumField(key, items) {
+      if (items != undefined) {
+        const valor = items.reduce((a, b) => a + (b[key] || 0), 0);
+        return formatNumber(valor);
+      }
+      // sum data in give key (property)
+      const valor = this.curva.reduce((a, b) => a + (b[key] || 0), 0);
+      return formatNumber(valor);
+    },
     debounce(func, wait) {
       let timer = null;
       return function () {
@@ -667,6 +714,10 @@ export default {
     "ordenar-por": {
       type: String,
       default: () => null,
+    },
+    "totalizar-grupo": {
+      type: Boolean,
+      default: () => false,
     },
   },
 };

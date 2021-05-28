@@ -6,6 +6,9 @@
       nome-tabela="Com propriedades para customizar a tabela"
       altura="200"
       mostra-propriedades
+      :propriedades=colunasvisiveis
+      agrupar="nome"
+      totalizar-grupo
       @salvar-propriedades="salvarPropriedades"
     ></cgi-data-table>
     <pre>
@@ -32,26 +35,32 @@ export default {
       {
         nome: "Vinicius",
         descricao: "Desenvolvedor de Software",
+        contador: 1
       },
       {
         nome: "Sergio",
         descricao: "Desenvolvedor de Software",
+        contador: 1
       },
       {
         nome: "Kirlan",
         descricao: "Desenvolvedor de Software",
+        contador: 1
       },
       {
         nome: "Angelo",
         descricao: "Desenvolvedor de Software",
+        contador: 1
       },
       {
         nome: "Mauricio",
         descricao: "Desenvolvedor de Software",
+        contador: 1
       },
       {
         nome: "Marcelo",
         descricao: "Desenvolvedor de Software",
+        contador: 1
       },
     ],
     colunas: [
@@ -66,6 +75,34 @@ export default {
         align: "start",
         sortable: false,
         value: "descricao",
+      },
+      {
+        text: "Contador 123",
+        align: "start",
+        sortable: false,
+        value: "contador",
+        totalizar: true
+      },
+    ],
+    colunasvisiveis: [
+      {
+        text: "Nome",
+        align: "start",
+        sortable: false,
+        value: "nome",
+      },
+      {
+        text: "Descrição",
+        align: "start",
+        sortable: false,
+        hidden: true,
+        value: "descricao",
+      },
+        {
+        text: "Contador",
+        align: "start",
+        sortable: false,
+        value: "contador",
       },
     ],
     dataExample: Prism.highlight(

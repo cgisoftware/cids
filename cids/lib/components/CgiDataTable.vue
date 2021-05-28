@@ -370,6 +370,10 @@ export default {
     this.debounceSearch = this.debounce(this.updateSearch, 500);
   },
   mounted() {
+    if (this.agrupar) {
+      this.agruparPor = this.agrupar;
+    }
+
     this.ajustaCols();
     this.ajustaLinhas(this.linhas);
   },
@@ -393,9 +397,6 @@ export default {
       return this.visibleColumns.filter((coluna) => coluna?.custom ?? false);
     },
     agrupador() {
-      if (this.agrupar) {
-        return this.agrupar;
-      }
       if (this.agruparPor) {
         return [this.agruparPor];
       }
@@ -501,6 +502,15 @@ export default {
         ),
       ];
       if (propriedadesManipuladas.length > 0) {
+        for (let colh of colunasManipuladas) {
+          for (let i = 0; i < propriedadesManipuladas.length; i++) {
+            propriedadesManipuladas[i] = {
+              ...colh,
+              ...propriedadesManipuladas[i],
+            };
+          }
+        }
+
         this.visibleColumns = propriedadesManipuladas.filter(
           (coluna) => !coluna.hidden
         );
@@ -512,6 +522,13 @@ export default {
             }
           }
         }
+
+        // for (let col of this.visibleColumns) {
+        //   for (let colh of colunasManipuladas) {
+
+        //   }
+        // }
+
         this.hiddenColumns = colunasManipuladas;
       } else {
         this.visibleColumns = colunasManipuladas.filter(

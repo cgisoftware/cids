@@ -11,9 +11,8 @@
     :multi-sort="ordenarVarios"
     :fixed-header="colunasFixas"
     :headers="visibleColumns"
-    :options.sync="customOptions"
+    @update:options="teste"
     :server-items-length="paginacaoServidor ? totalItens : undefined"
-    :group-by="agrupador"
     :search="!paginacaoServidor ? search : null"
     :items="linhasCustomizadas"
     dense
@@ -24,8 +23,9 @@
     :show-select="selecionarVarios"
     :item-key="chaveTabela"
     :height="zoomDialog ? '50vh' : altura"
-    :sort-by.sync="ordenar"
-    :sort-desc.sync="desc"
+    :sort-by="options.sortBy"
+    :sort-desc="options.sortDesc"
+    :group-by="options.groupBy"
     :footer-props="{
       itemsPerPageOptions: [30, 60, 100],
       itemsPerPageText: 'Linhas por pagina',
@@ -354,10 +354,16 @@ import { formatNumber } from "../util";
 export default {
   data: (vm) => ({
     menu: false,
-    options: vm.paginacao,
+    options: {
+      page: 0,
+      itemsPerPage: 30,
+      sortBy: [],
+      sortDesc: [],
+      groupBy: [],
+      groupDesc: [],
+    },
     search: vm.pesquisa,
     selectedLine: null,
-    agruparPor: null,
     hiddenColumns: [],
     visibleColumns: vm.colunas,
     linhasCustomizadas: [],
@@ -365,9 +371,18 @@ export default {
     itensSelecionados: vm.value,
     ordenar: vm.ordenarPor,
     desc: vm.ordenarDesc,
+    localPaginacao: {
+      page: 0,
+      itemsPerPage: 30,
+      sortBy: [],
+      sortDesc: [],
+      groupBy: [],
+      groupDesc: [],
+    },
   }),
   created() {
     this.debounceSearch = this.debounce(this.updateSearch, 500);
+    this.debouncePagination = this.debounce(this.updatePagination, 500);
   },
   mounted() {
     if (this.agrupar) {
@@ -396,12 +411,14 @@ export default {
     customColumns() {
       return this.visibleColumns.filter((coluna) => coluna?.custom ?? false);
     },
-    agrupador() {
-      if (this.agruparPor) {
-        return [this.agruparPor];
-      }
-
-      return [];
+    agruparPor: {
+      get: function () {
+        return this.options.groupBy[0]
+      },
+      set: function (value) {
+        this.options.groupBy = [];
+        this.options.groupBy.push(value);
+      },
     },
     listaAgrupador() {
       return this.visibleColumns.filter(
@@ -420,6 +437,7 @@ export default {
       this.ajustaLinhas(this.linhas);
     },
     propriedades() {
+      debugger
       this.ajustaCols();
     },
     options(n, o) {
@@ -432,10 +450,9 @@ export default {
     },
     paginacao() {
       if (this.paginacaoServidor) {
-        this.options = this.paginacao;
-        this.options["search"] = this.search;
-        this.agruparPor = this.paginacao?.groupBy?.[0] ?? "";
-        this.$emit("paginando", this.options);
+        this.localPaginacao = this.paginacao;
+        this.localPaginacao["search"] = this.search;
+        this.debouncePagination();
       }
     },
     search() {
@@ -447,6 +464,11 @@ export default {
     draggable,
   },
   methods: {
+    teste(val) {
+      this.localPaginacao = val;
+      this.localPaginacao["search"] = this.search;
+      this.debouncePagination();
+    },
     sumField(key, items) {
       if (items != undefined) {
         const valor = items.reduce((a, b) => a + (b[key] || 0), 0);
@@ -467,6 +489,12 @@ export default {
       if (this.paginacaoServidor) {
         this.options["search"] = this.search;
         this.$emit("paginando", this.options);
+      }
+    },
+    updatePagination() {
+      if (this.paginacaoServidor) {
+        this.options["search"] = this.search;
+        this.options = this.localPaginacao;
       }
     },
     ajustaLinhas(linhas) {

@@ -92,6 +92,7 @@ export default {
     },
     close() {
       this.dialog = false;
+      this.$emit("cancelar-zoom");
     },
     confirma() {
       this.dialog = false;

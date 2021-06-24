@@ -9,6 +9,8 @@
     :item-key="chaveTree"
     hoverable
     rounded
+    :selectable="selecionavel"
+    v-model="selecionados"
   >
     <template v-slot:append="{ item }">
       <div v-show="dialogZoom">
@@ -36,20 +38,29 @@
 export default {
   data: (vm) => ({
     ativoTree: vm.ativo,
+    selecionados: vm.value,
   }),
+  watch: {
+    value() {
+      this.selecionados = this.value
+    },
+    selecionados() {
+      this.$emit("input", this.selecionados);
+    },
+  },
   computed: {
     itensManipulados() {
       return this.listToTree(this.itens);
     },
     ativoData: {
-      get: function() {
+      get: function () {
         if (this.ativoTree) {
           return [parseInt(this.ativoTree)];
         }
 
         return [];
       },
-      set: function() {},
+      set: function () {},
     },
   },
   methods: {
@@ -65,7 +76,9 @@ export default {
       for (i = 0; i < list.length; i += 1) {
         map[list[i][this.chaveTree]] = i;
         list[i].children = [];
-        list[i].nomeComposto = `${list[i][this.chaveTree]} - ${list[i][this.textoItem]}`;
+        list[i].nomeComposto = `${list[i][this.chaveTree]} - ${
+          list[i][this.textoItem]
+        }`;
       }
 
       for (i = 0; i < list.length; i += 1) {
@@ -88,11 +101,11 @@ export default {
     },
     "chave-tree": {
       type: String,
-      required: true
+      required: true,
     },
     "chave-pai-tree": {
       type: String,
-      required: true
+      required: true,
     },
     "dialog-zoom": {
       type: Boolean,
@@ -100,10 +113,15 @@ export default {
     },
     "texto-item": {
       type: String,
-      required: true
+      required: true,
     },
     ativo: {
       default: () => 0,
+    },
+    value: {},
+    selecionavel: {
+      type: Boolean,
+      default: () => false,
     },
   },
 };

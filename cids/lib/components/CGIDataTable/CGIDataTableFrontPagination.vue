@@ -5,7 +5,7 @@
     :hide-default-header="!mostraColunas"
     :multi-sort="ordenarVarios"
     :fixed-header="colunasFixas"
-    :headers="colunas"
+    :headers="visibleColumns"
     :group-by="agrupador"
     :search="search"
     :items="linhas"
@@ -162,7 +162,6 @@
 
 <script>
 import { VDataTable } from "vuetify/lib";
-import draggable from "vuedraggable";
 export default {
   data: (vm) => ({
     menu: false,
@@ -172,6 +171,7 @@ export default {
     itensSelecionados: vm.value,
     ordenar: vm.ordenarPor,
     desc: vm.ordenarDesc,
+    visibleColumns: []
   }),
   computed: {
     customOptions: {
@@ -206,6 +206,9 @@ export default {
       );
     },
   },
+  mounted() {
+    this.ajustaCols();
+  },
   watch: {
     itensSelecionados() {
       this.$emit("input", this.itensSelecionados);
@@ -216,7 +219,6 @@ export default {
   },
   components: {
     VDataTable,
-    draggable,
   },
   methods: {
     rowClass(item) {
@@ -229,6 +231,29 @@ export default {
       }
       if (item.cor) {
         return item.cor;
+      }
+    },
+    ajustaCols() {
+      this.visibleColumns = [...this.colunas]
+
+      if (this.mostraDetalhes) {
+        this.visibleColumns.unshift({
+          align: "start",
+          sortable: false,
+          hidden: false,
+          value: "tb_detalhe",
+          width: "20px",
+        });
+      }
+
+      if (this.mostraAcoes) {
+        this.visibleColumns.push({
+          text: "Ações",
+          align: "end",
+          sortable: false,
+          hidden: false,
+          value: "acoes",
+        });
       }
     },
     clickRow(item) {

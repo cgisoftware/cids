@@ -47,7 +47,7 @@ export default {
     menu: false,
   }),
   watch: {
-    value() {
+    value() {      
       this.data = this.value;
     },
     picker() {
@@ -108,15 +108,18 @@ export default {
         }
 
         const data = moment(`${d}/${m}/${y}`, "DD/MM/YYYY").format(this.format);
-
         if (moment(data, this.format, true).isValid()) {
           this.picker = moment(data, this.format).format("YYYY-MM-DD");
           this.data = moment(this.picker, "YYYY-MM-DD").format(this.format);
           this.$emit("input", this.data);
         } else {
           this.data = null;
+          this.$emit("input", null);
         }
+      } else {
+        this.$emit("input", null);
       }
+
     },
   },
   props: {

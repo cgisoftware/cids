@@ -76,7 +76,10 @@ export default {
           this.$emit("input", this.hora);
         } else {
           this.hora = null;
+          this.$emit("input", null);
         }
+      } else {
+        this.$emit("input", null);
       }
     },
   },

@@ -9,7 +9,10 @@
       v-model="nome"
       nome="Desenvolvedor"
       posicao="inicial"
+      formata-valor
     ></cgi-zoom-picker>
+
+    {{nome}}
 
     <pre>
                 <code

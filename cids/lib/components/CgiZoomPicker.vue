@@ -1,19 +1,32 @@
 <template>
   <div>
-    <v-text-field
-      v-if="!custom"
-      :dense="compacto"
-      :label="nome"
-      :rules="regras"
-      v-model="valor"
-      type="number"
-      :disabled="desabilitado"
-      @click:prepend="chamaZoom"
-      @click:append="clear"
-      prepend-icon="mdi-database-search-outline"
-      append-icon="mdi-close"
-    >
-    </v-text-field>
+    <v-row>
+      <v-col :cols="formataValor ? 4 : 12">
+        <v-text-field
+          v-if="!custom"
+          :dense="compacto"
+          :label="nome"
+          :rules="regras"
+          v-model="valor"
+          type="number"
+          :disabled="desabilitado"
+          @click:prepend="chamaZoom"
+          @click:append="clear"
+          prepend-icon="mdi-database-search-outline"
+          append-icon="mdi-close"
+        >
+        </v-text-field>
+      </v-col>
+      <v-col v-if="formataValor">
+        <v-text-field
+          v-if="!custom"
+          :dense="compacto"
+          :value="descricao"
+          disabled
+        >
+        </v-text-field>
+      </v-col>
+    </v-row>
 
     <slot
       name="customcomp"
@@ -46,6 +59,7 @@ export default {
   data: (vm) => ({
     valor: vm.value,
     dialog: false,
+    descricao: null,
     item: {},
   }),
   watch: {
@@ -62,12 +76,19 @@ export default {
     },
   },
   mounted() {
-    this.valor = this.value ? this.value : this.posicao === "inicial" ? 0 : 999999999;
+    this.valor = this.value
+      ? this.value
+      : this.posicao === "inicial"
+      ? 0
+      : 999999999;
   },
   methods: {
     setaValor: function (valor) {
       if (!this.custom) {
         this.valor = valor[this.chave];
+        if (this.formataValor) {
+          this.descricao = valor[this.campoValorFormatado];
+        }
         this.item = valor;
         this.dialog = false;
 
@@ -104,6 +125,7 @@ export default {
       } else {
         this.valor = 999999999;
       }
+      this.descricao = null
     },
   },
   props: {
@@ -152,6 +174,20 @@ export default {
       type: Boolean,
       default: () => false,
     },
+    "formata-valor": {
+      type: Boolean,
+      default: () => false,
+    },
+    "campo-valor-formatado": {
+      type: String,
+      default: () => "nome",
+    }
   },
 };
 </script>
+
+<style scoped>
+.input-witdh-normal {
+  width: 25%;
+}
+</style>

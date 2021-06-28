@@ -30,6 +30,7 @@
     @salvar-propriedades="salvarPropriedades"
     @linha-selecionada="linhaSelecionada"
     @alterar-item="alterarItem"
+    @copiar-item="copiarItem"
     @deletar-item="deletarItem"
     @ver-detalhes="verDetalhes"
     @exporta-zoom="exportaZoom"

@@ -5,7 +5,17 @@ import 'prismjs/themes/prism-coy.css'
 
 
 import cids from 'cids-cgi/lib'
-Vue.use(cids)
+
+const opt = {
+  theme: {
+    dataTable: {
+      checkboxColor: 'orange darken-2',
+      lineColor: 'blue'
+    }
+  }
+}
+
+Vue.use(cids, opt)
 
 Vue.config.productionTip = false
 

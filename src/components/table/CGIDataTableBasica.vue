@@ -5,6 +5,7 @@
       :colunas="colunas"
       nome-tabela="Basica"
       altura="200"
+      mostra-linha-selecionada
     ></cgi-data-table>
     <pre>
                 <code
@@ -23,26 +24,32 @@ export default {
   data: () => ({
     linhas: [
       {
+        seq: 1,
         nome: "Vinicius",
         descricao: "Desenvolvedor de Software",
       },
       {
+        seq: 2,
         nome: "Sergio",
         descricao: "Desenvolvedor de Software",
       },
       {
+        seq: 3,
         nome: "Kirlan",
         descricao: "Desenvolvedor de Software",
       },
       {
+        seq: 4,
         nome: "Angelo",
         descricao: "Desenvolvedor de Software",
       },
       {
+        seq: 5,
         nome: "Mauricio",
         descricao: "Desenvolvedor de Software",
       },
       {
+        seq: 6,
         nome: "Marcelo",
         descricao: "Desenvolvedor de Software",
       },

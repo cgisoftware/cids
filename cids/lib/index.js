@@ -13,8 +13,19 @@ import CgiMaskDirective from './controller/CgiMaskDirective'
 import CgiMoneyDirective from './controller/CgiMoneyDirective'
 import CgiNumberDirective from './controller/CgiNumberDirective'
 
+const opt = {
+  theme: {
+    dataTable: {
+      checkboxColor: '',
+      lineColor: ''
+    }
+  }
+}
+
 export default {
-  install(Vue) {
+  install(Vue, options) {
+    Vue.prototype.$cids = options ?? opt
+
     Vue.component('cgi-date-picker', CgiDatePicker)
     Vue.component('cgi-time-picker', CgiTimePicker)
     Vue.component('cgi-data-table', CgiDataTable)

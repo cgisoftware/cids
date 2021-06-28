@@ -16,7 +16,7 @@ jobs:
           registry-url: 'https://registry.npmjs.org'
       - run: |
           cd cids
-          sed -i -e 's/$version/'${{ GITHUB_REF##*/ }}'/g' package.json
+          sed -i -e 's/$version/'${GITHUB_REF##*/}'/g' package.json
           cat package.json
           npm publish
         env:

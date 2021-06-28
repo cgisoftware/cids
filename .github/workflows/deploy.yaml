@@ -11,7 +11,9 @@ jobs:
         with:
           node-version: '12.x'
           registry-url: 'https://registry.npmjs.org'
-      - run: cd cids
-      - run: npm publish
+      - run: |
+          cd cids
+          sed -i -e 's/$version/'${{ steps.tag.outputs.tag }}'/g' package.json
+          npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

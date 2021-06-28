@@ -1,5 +1,8 @@
 name: Deploy cids
 on:
+  push:
+    branches:
+      - master
   release:
     types: [created]
 jobs:
@@ -14,6 +17,7 @@ jobs:
       - run: |
           cd cids
           sed -i -e 's/$version/'${{ steps.tag.outputs.tag }}'/g' package.json
+          cat package.json
           npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

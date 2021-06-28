@@ -10,6 +10,7 @@
       nome="Desenvolvedor"
       posicao="inicial"
       formata-valor
+      @perde-foco="perdeFoco"
     ></cgi-zoom-picker>
 
     {{nome}}
@@ -29,6 +30,11 @@
 <script>
 import CGIDataTableAcoes from "../table/CGIDataTableAcoes";
 export default {
+  methods: {
+    perdeFoco(valor){
+      console.log(valor);
+    }
+  },
   data: () => ({
     component: CGIDataTableAcoes,
     nome: null,

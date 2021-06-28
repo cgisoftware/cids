@@ -79,6 +79,7 @@
     @salvar-propriedades="salvarPropriedades"
     @linha-selecionada="linhaSelecionada"
     @alterar-item="alterarItem"
+    @copiar-item="copiarItem"
     @deletar-item="deletarItem"
     @ver-detalhes="verDetalhes"
     @exporta-zoom="exportaZoom"
@@ -107,9 +108,11 @@
 <script>
 import CGIDataTableServerPagination from "./CGIDataTable/CGIDataTableServerPagination.vue";
 import CGIDataTableFrontPagination from "./CGIDataTable/CGIDataTableFrontPagination.vue";
+import copiarPrograma from "../controller/handler/copiarPrograma";
 export default {
   data: (vm) => ({
     itensSelecionados: vm.value,
+    item: null,
   }),
   components: {
     CGIDataTableServerPagination,
@@ -120,7 +123,52 @@ export default {
       this.$emit("input", this.itensSelecionados);
     },
   },
+  async mounted() {
+    if (this.ativarAtalhos) {
+      if (!this.zoomDialog) {
+        window.addEventListener("keydown", this.atalhos, false)
+      }
+    }
+  },
+  destroyed() {
+    window.removeEventListener("keydown", this.atalhos, false);
+  },
   methods: {
+    atalhos(e) {
+      const special = e.ctrlKey && e.shiftKey;
+
+      if (special && e.key === "F6") {
+        e.preventDefault();
+        copiarPrograma(this.nomePrograma);
+      }
+
+      if (special && e.key === "F1") {
+        e.preventDefault();
+        this.$emit("incluir-item");
+      }
+
+      if (this.item) {
+        if (special && e.key === "F2") {
+          e.preventDefault();
+          this.$emit("alterar-item", this.item);
+        }
+
+        if (special && e.key === "F3") {
+          e.preventDefault();
+          this.$emit("copiar-item", this.item);
+        }
+
+        if (special && e.key === "F4") {
+          e.preventDefault();
+          this.$emit("deletar-item", this.item);
+        }
+
+        if (special && e.key === "F5") {
+          e.preventDefault();
+          this.$emit("exporta-zoom", this.item);
+        }
+      }
+    },
     paginando(paginacao) {
       this.$emit("paginando", paginacao);
     },
@@ -128,10 +176,14 @@ export default {
       this.$emit("salvar-propriedades", propriedades);
     },
     linhaSelecionada(linha) {
+      this.item = linha;
       this.$emit("linha-selecionada", linha);
     },
     alterarItem(item) {
       this.$emit("alterar-item", item);
+    },
+    copiarItem(item) {
+      this.$emit("copiar-item", item);
     },
     exportaZoom(item) {
       this.$emit("exporta-zoom", item);
@@ -260,6 +312,10 @@ export default {
       default: () => null,
     },
     "totalizar-grupo": {
+      type: Boolean,
+      default: () => false,
+    },
+    "ativar-atalhos": {
       type: Boolean,
       default: () => false,
     },

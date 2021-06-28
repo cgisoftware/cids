@@ -275,6 +275,22 @@
             <v-btn
               x-small
               icon
+              color="green darken-2"
+              :fab="true"
+              v-on="on"
+              @click="clickCopy(item)"
+            >
+              <v-icon>mdi-content-copy</v-icon>
+            </v-btn>
+          </template>
+          <span>Copiar registro</span>
+        </v-tooltip>
+
+        <v-tooltip top>
+          <template v-slot:activator="{ on }">
+            <v-btn
+              x-small
+              icon
               color="blue"
               :fab="true"
               v-on="on"
@@ -568,6 +584,9 @@ export default {
     },
     clickEdit(item) {
       this.$emit("alterar-item", item);
+    },
+    clickCopy(item) {
+      this.$emit("copiar-item", item);
     },
     exportaZoom(item) {
       this.$emit("exporta-zoom", item);

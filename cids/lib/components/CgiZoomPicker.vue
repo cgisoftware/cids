@@ -14,6 +14,7 @@
           @click:append="clear"
           prepend-icon="mdi-database-search-outline"
           append-icon="mdi-close"
+          @blur="blur"
         >
         </v-text-field>
       </v-col>
@@ -110,6 +111,9 @@ export default {
         this.$refs.component.controller.pesquisa =
           this.valor !== 0 && this.valor ? this.valor.toString() : null;
       }
+    },
+    blur() {
+      this.$emit("perde-foco", this.valor)
     },
     close() {
       this.dialog = false;

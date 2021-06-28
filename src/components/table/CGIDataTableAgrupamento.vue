@@ -4,6 +4,8 @@
       :linhas="linhas"
       :colunas="colunas"
       nome-tabela="Agrupamento"
+      nome-programa="teste1"
+      ativar-atalhos
       altura="200"
       agrupar="descricao"
       totalizar-grupo

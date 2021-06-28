@@ -5,6 +5,7 @@
         :linhas="linhas"
         :colunas="colunas"
         nome-tabela="Botões de ação/cores e detalhamento preparado para zoom"
+        nome-programa="teste"
         altura="200"
         mostra-acoes
         mostra-detalhes

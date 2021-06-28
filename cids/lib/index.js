@@ -24,7 +24,7 @@ const opt = {
 
 export default {
   install(Vue, options) {
-    Vue.prototype.$cids = options ?? opt
+    Vue.prototype.cids = options ?? opt
 
     Vue.component('cgi-date-picker', CgiDatePicker)
     Vue.component('cgi-time-picker', CgiTimePicker)

@@ -25,6 +25,16 @@
       itemsPerPageText: 'Linhas por pagina',
     }"
   >
+
+    <template v-slot:[`item.data-table-select`]="{ isSelected, select }">
+      <v-checkbox
+        hide-details
+        class="mt-0"
+        :color="cids.theme.dataTable.checkboxColor"
+        :value="isSelected"
+        @change="select($event)"
+      ></v-checkbox>
+    </template>
     <template v-slot:top>
       <v-toolbar
         flat
@@ -568,7 +578,7 @@ export default {
       if (this.mostraLinhaSelecionada) {
         if (this.selectedLine) {
           if (this.selectedLine[this.chaveTabela] == item[this.chaveTabela]) {
-            return this.$vuetify.theme.isDark ? "primary" : "blue lighten-5";
+            return this.cids?.theme?.dataTable?.lineColor ?? "blue lighten-5";
           }
         }
       }

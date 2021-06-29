@@ -15,6 +15,7 @@
           prepend-icon="mdi-database-search-outline"
           append-icon="mdi-close"
           @blur="blur"
+          :loading="loading"
         >
         </v-text-field>
       </v-col>
@@ -62,12 +63,21 @@ export default {
     dialog: false,
     descricao: null,
     item: {},
+    debounceSearch: null,
+    loading: false,
   }),
   watch: {
     valor() {
-      this.$emit("input", this.valor);
+      if (this.formataValor) {
+        this.debounceSearch();
+      } else {
+        this.$emit("input", this.valor);
+      }
     },
     value() {
+      if (this.value === 0 || this.value === null || this.value === "") {
+        this.descricao = null;
+      }
       this.valor = this.value;
     },
   },
@@ -75,6 +85,9 @@ export default {
     custom() {
       return !!this.$slots["customcomp"] || !!this.$scopedSlots["customcomp"];
     },
+  },
+  created() {
+    this.debounceSearch = this.debounce(this.updateSearch, 500);
   },
   mounted() {
     this.valor = this.value
@@ -113,7 +126,7 @@ export default {
       }
     },
     blur() {
-      this.$emit("perde-foco", this.valor)
+      this.$emit("perde-foco", this.valor);
     },
     close() {
       this.dialog = false;
@@ -129,7 +142,18 @@ export default {
       } else {
         this.valor = 999999999;
       }
-      this.descricao = null
+      this.descricao = null;
+    },
+    async updateSearch() {
+      this.descricao = await this.aoDigitar();
+      this.$emit("input", this.valor);
+    },
+    debounce(func, wait) {
+      let timer = null;
+      return function () {
+        clearTimeout(timer);
+        timer = setTimeout(func, wait);
+      };
     },
   },
   props: {
@@ -185,7 +209,11 @@ export default {
     "campo-valor-formatado": {
       type: String,
       default: () => "nome",
-    }
+    },
+    "ao-digitar": {
+      type: Function,
+      default: () => {},
+    },
   },
 };
 </script>

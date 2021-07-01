@@ -145,7 +145,7 @@ export default {
       this.descricao = null;
     },
     async updateSearch() {
-      if (this.valor) {
+      if (this.valor && this.aoDigitar) {
         this.descricao = await this.aoDigitar(this.valor);
       }
       this.$emit("input", this.valor);

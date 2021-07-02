@@ -214,7 +214,6 @@ export default {
     },
     "ao-digitar": {
       type: Function,
-      default: () => {},
     },
   },
 };

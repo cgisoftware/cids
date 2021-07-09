@@ -22,6 +22,5 @@ export {
   groupBy,
   toExcelID,
   eventBus,
-  textEl,
   reticencias
 }

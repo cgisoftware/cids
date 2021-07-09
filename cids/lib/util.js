@@ -6,6 +6,7 @@ import { formatNumber } from './controller/handler/FormatNumber'
 import { groupBy } from './controller/handler/GroupBy'
 import EventBus from './controller/handler/EventBus'
 import CgiAlertController from './controller/CgiAlert'
+import reticencias from './controller/handler/reticencias'
 
 
 const eventBus = new EventBus()
@@ -20,5 +21,7 @@ export {
   toExcel,
   groupBy,
   toExcelID,
-  eventBus
+  eventBus,
+  textEl,
+  reticencias
 }

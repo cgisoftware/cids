@@ -7,7 +7,7 @@ import CgiZoomPicker from './components/CgiZoomPicker.vue'
 import CgiTreeView from './components/CgiTreeView.vue'
 
 import '@mdi/font/css/materialdesignicons.css'
-import { alert, snackbar } from './util'
+import { alert, snackbar, reticencias } from './util'
 
 import CgiMaskDirective from './controller/CgiMaskDirective'
 import CgiMoneyDirective from './controller/CgiMoneyDirective'
@@ -24,7 +24,10 @@ const opt = {
 
 export default {
   install(Vue, options = opt) {
-    Vue.prototype.cids = options
+    Vue.prototype.cids = {
+      theme: options.theme,
+      reticencias: reticencias
+    }
 
     Vue.component('cgi-date-picker', CgiDatePicker)
     Vue.component('cgi-time-picker', CgiTimePicker)

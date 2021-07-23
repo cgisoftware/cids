@@ -243,7 +243,7 @@
       </td>
     </template>
 
-    <template v-slot:[`item.tb_detalhe`]="{ item }">
+    <!-- <template v-slot:[`item.tb_detalhe`]="{ item }">
       <v-tooltip top>
         <template v-slot:activator="{ on }">
           <v-btn
@@ -259,10 +259,27 @@
         </template>
         <span>Ver detalhes</span>
       </v-tooltip>
-    </template>
+    </template> -->
 
     <template v-slot:[`item.acoes`]="{ item }">
       <div>
+        <v-tooltip top>
+          <template v-slot:activator="{ on }">
+            <v-btn
+              v-if="mostraDetalhes"
+              x-small
+              icon
+              color="green"
+              :fab="true"
+              v-on="on"
+              @click="clickDetails(item)"
+            >
+              <v-icon>mdi-eye</v-icon>
+            </v-btn>
+          </template>
+          <span>Ver detalhes</span>
+        </v-tooltip>
+
         <v-tooltip top>
           <template v-slot:activator="{ on }">
             <v-btn
@@ -535,15 +552,15 @@ export default {
           (coluna) => coluna.hidden
         );
       }
-      if (this.mostraDetalhes) {
-        this.visibleColumns.unshift({
-          align: "start",
-          sortable: false,
-          hidden: false,
-          value: "tb_detalhe",
-          width: "20px",
-        });
-      }
+      // if (this.mostraDetalhes) {
+      //   this.visibleColumns.unshift({
+      //     align: "start",
+      //     sortable: false,
+      //     hidden: false,
+      //     value: "tb_detalhe",
+      //     width: "20px",
+      //   });
+      // }
 
       if (this.mostraAcoes) {
         this.visibleColumns.push({

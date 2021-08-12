@@ -68,7 +68,6 @@ export default {
   }),
   watch: {
     valor() {
-      debugger
       if (this.formataValor) {
         this.debounceSearch();
       } else {
@@ -76,7 +75,6 @@ export default {
       }
     },
     value() {
-      debugger
       if (this.value === 0 || this.value === null || this.value === "") {
         this.descricao = null;
       }

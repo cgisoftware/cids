@@ -10,7 +10,7 @@
       nome="Desenvolvedor"
       posicao="inicial"
       formata-valor
-      @perde-foco="perdeFoco"
+      :ao-digitar="buscaDescricao"
     ></cgi-zoom-picker>
 
     {{nome}}
@@ -63,6 +63,17 @@ export default {
       Prism.languages.html
     ),
   }),
+  async mounted() {
+    await new Promise(resolve => setTimeout(() => {
+      resolve()
+    }, 5000))
+    this.nome = 4
+  },
+  methods: {
+    buscaDescricao() {
+      return "buongiorno"
+    }
+  }
 };
 </script>
 

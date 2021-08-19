@@ -59,10 +59,11 @@
     :linhas="linhas"
     :colunas="colunas"
     :colunas-fixas="colunasFixas"
+    :mostra-propriedades="mostraPropriedades"
     :mostra-colunas="mostraColunas"
     :mostra-pesquisa="mostraPesquisa"
     :mostra-agrupador="mostraAgrupador"
-    :ordenar-varios="ordenarVarios"
+    :mostra-paginacao="mostraPaginacao"
     :pesquisa="pesquisa"
     :chave-tabela="chaveTabela"
     :mostra-linha-selecionada="mostraLinhaSelecionada"
@@ -70,12 +71,14 @@
     :mostra-acoes="mostraAcoes"
     :nome-tabela="nomeTabela"
     :altura="altura"
+    :propriedades="propriedades"
     :carregar="carregar"
     :mostra-detalhes="mostraDetalhes"
     :mostra-toolbar="mostraToolbar"
     :zoom-dialog="zoomDialog"
     :nome-programa="nomePrograma"
     :totalizar-grupo="totalizarGrupo"
+    :agrupar="agrupar"
     @paginando="paginando"
     @salvar-propriedades="salvarPropriedades"
     @linha-selecionada="linhaSelecionada"
@@ -164,7 +167,7 @@ export default {
           this.$emit("deletar-item", this.item);
         }
 
-        if (special && e.key === "F5") {
+        if (special && e.key === "F7") {
           e.preventDefault();
           this.$emit("exporta-zoom", this.item);
         }

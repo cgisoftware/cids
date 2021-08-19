@@ -342,7 +342,7 @@
               <v-icon>mdi-delete</v-icon>
             </v-btn>
           </template>
-          <span>Deletar registro</span>
+          <span>Excluir registro</span>
         </v-tooltip>
       </div>
     </template>

@@ -3,7 +3,7 @@
     :hide-default-footer="!mostraPaginacao"
     :disable-pagination="!mostraPaginacao"
     :hide-default-header="!mostraColunas"
-    :multi-sort="ordenarVarios"
+    :multi-sort="false"
     :fixed-header="colunasFixas"
     :headers="visibleColumns"
     :group-by="agrupador"
@@ -70,20 +70,155 @@
         <div class="ml-3">
           <slot name="botoes"> </slot>
         </div>
+
+        <v-menu
+          v-model="menu"
+          :close-on-click="false"
+          :close-on-content-click="false"
+          :nudge-width="400"
+          offset-x
+        >
+          <template v-slot:activator="{ on, attrs }">
+            <v-icon
+              class="mt-0 ml-4"
+              v-if="mostraPropriedades"
+              text
+              v-bind="attrs"
+              v-on="on"
+            >
+              mdi-dots-vertical
+            </v-icon>
+          </template>
+
+          <v-card scrollable>
+            <v-toolbar
+              flat
+              dense
+            >
+              <v-toolbar-title>Organizar tabela</v-toolbar-title>
+            </v-toolbar>
+            <v-card-text
+              class="px-0"
+              style="overflow-y: scroll; height:300px"
+            >
+              <v-autocomplete
+                dense
+                class="mt-4 px-3"
+                :items="listaAgrupador"
+                item-text="text"
+                item-value="value"
+                label="Agrupar por"
+                v-model="agruparPor"
+                clearable
+                no-data-text="Sem dados"
+              ></v-autocomplete>
+              <v-container
+                fluid
+                grid-list-md
+              >
+                <v-layout>
+                  <v-flex xs6>
+                    Colunas na tela
+                    <draggable :list="visibleColumns">
+                      <div
+                        v-for="coluna in visibleColumns"
+                        :key="coluna.text"
+                        v-show="
+                          coluna.text !== 'Ações' &&
+                            coluna.value !== 'tb_detalhe'
+                        "
+                        class="text-center my-1"
+                      >
+                        <v-chip
+                          v-if="!coluna.actions"
+                          style="width: 100%;"
+                          small
+                          label
+                        >
+                          <template v-slot:default>
+                            {{ coluna.text }}
+
+                            <v-icon
+                              small
+                              @click="removeCol(coluna)"
+                              style="position: absolute; right: 10px; cursor: pointer;"
+                            >mdi-close</v-icon>
+                          </template>
+                        </v-chip>
+                      </div>
+                    </draggable>
+                  </v-flex>
+                  <v-flex xs6>
+                    Colunas para usar
+                    <div
+                      v-show="
+                        coluna.text !== 'Ações' && coluna.value !== 'tb_detalhe'
+                      "
+                      v-for="(coluna, id) in hiddenColumns"
+                      :key="id"
+                      class="text-center my-1"
+                    >
+                      <v-chip
+                        v-if="!coluna.actions"
+                        style="width: 100%;"
+                        small
+                        label
+                      >
+                        <template v-slot:default>
+                          {{ coluna.text }}
+
+                          <v-icon
+                            small
+                            @click="addCol(coluna)"
+                            style="position: absolute; right: 10px; cursor: pointer;"
+                          >mdi-plus</v-icon>
+                        </template>
+                      </v-chip>
+                    </div>
+                  </v-flex>
+                </v-layout>
+              </v-container>
+            </v-card-text>
+            <v-card-actions>
+              <v-btn
+                small
+                color="red"
+                outlined
+                @click="menu = false"
+                block
+              >
+                <v-icon
+                  small
+                  left
+                >mdi-close</v-icon>Fechar
+              </v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-menu>
+        <v-btn
+          icon
+          v-if="mostraPropriedades"
+          @click="salvarPropriedades"
+        >
+          <v-icon small>mdi-content-save</v-icon>
+        </v-btn>
       </v-toolbar>
     </template>
 
-    <template v-slot:[`group.header`]="{ isOpen, toggle, group, groupBy }">
+    <template v-slot:[`group.header`]="{ isOpen, toggle, group }">
       <th colspan="90">
         <v-icon @click="toggle">{{ isOpen ? "mdi-minus" : "mdi-plus" }}
-        </v-icon>
-        {{
+
+          <!-- {{
           groupBy[0][0].toUpperCase() +
             groupBy[0]
               .split("_")
               .join(" ")
               .slice(1)
-        }}: {{ group }}
+        }}: -->
+
+        </v-icon>
+         {{ group }}
       </th>
     </template>
 
@@ -186,7 +321,7 @@
               <v-icon>mdi-delete</v-icon>
             </v-btn>
           </template>
-          <span>Deletar registro</span>
+          <span>Excluir registro</span>
         </v-tooltip>
       </div>
     </template>
@@ -204,17 +339,19 @@
 </template>
 
 <script>
+import draggable from "vuedraggable";
 import { VDataTable } from "vuetify/lib";
 export default {
   data: (vm) => ({
     menu: false,
     search: vm.pesquisa,
     selectedLine: null,
-    agruparPor: null,
+    agruparPor: vm.agrupar,
     itensSelecionados: vm.value,
     ordenar: vm.ordenarPor,
     desc: vm.ordenarDesc,
-    visibleColumns: [],
+    visibleColumns: vm.colunas,
+    hiddenColumns: [],
   }),
   computed: {
     customOptions: {
@@ -232,15 +369,16 @@ export default {
       return !!this.$slots["pesquisa"];
     },
     customColumns() {
-      return this.colunas.filter((coluna) => coluna?.custom ?? false);
+      return this.visibleColumns.filter((coluna) => coluna?.custom ?? false);
     },
     agrupador() {
-      if (this.agrupar) {
-        return this.agrupar;
-      }
       if (this.agruparPor) {
         return [this.agruparPor];
       }
+
+      // if (this.agrupar) {
+      //   return this.agrupar;
+      // }
       return [];
     },
     listaAgrupador() {
@@ -253,6 +391,18 @@ export default {
     this.ajustaCols();
   },
   watch: {
+    agrupar() {
+      this.agruparPor = this.agrupar;
+    },
+    ordenarPor() {
+      this.ordenar = this.ordenarPor;
+    },
+    colunas() {
+      this.ajustaCols();
+    },
+    propriedades() {
+      this.ajustaCols();
+    },
     itensSelecionados() {
       this.$emit("input", this.itensSelecionados);
     },
@@ -262,8 +412,29 @@ export default {
   },
   components: {
     VDataTable,
+    draggable,
   },
   methods: {
+    addCol(item) {
+      item.hidden = false;
+      this.removeFromArray(this.hiddenColumns, item);
+      this.visibleColumns.push(item);
+    },
+    removeCol(item) {
+      item.hidden = true;
+      this.removeFromArray(this.visibleColumns, item);
+      this.hiddenColumns.push(item);
+    },
+    salvarPropriedades() {
+      this.$emit("salvar-propriedades", {
+        colunas: this.visibleColumns.filter(
+          (item) => item.value !== "tb_detalhe" && item.value !== "acoes"
+        ),
+        ordenacao: this.ordenar,
+        agrupamento: this.agruparPor,
+      });
+      this.menu = false;
+    },
     rowClass(item) {
       if (this.mostraLinhaSelecionada) {
         if (this.selectedLine) {
@@ -272,13 +443,55 @@ export default {
           }
         }
       }
+      
       if (item.cor) {
         return item.cor;
       }
     },
     ajustaCols() {
-      this.visibleColumns = [...this.colunas];
+      const colunasManipuladas = [...this.colunas];
+      const propriedadesManipuladas = [
+        ...this.propriedades.filter(
+          (item) =>
+            item.value !== "tb_detalhe" &&
+            item.value !== "acoes" &&
+            item.value !== "view"
+        ),
+      ];
+      if (propriedadesManipuladas.length > 0) {
+        for (let colh of colunasManipuladas) {
+          for (let i = 0; i < propriedadesManipuladas.length; i++) {
+            if (propriedadesManipuladas[i].value === colh.value) {
+              propriedadesManipuladas[i] = {
+                ...colh,
+                ...propriedadesManipuladas[i],
+              };
+            }
+          }
+        }
 
+        this.visibleColumns = propriedadesManipuladas.filter(
+          (coluna) => !coluna.hidden
+        );
+
+        for (let col of this.visibleColumns) {
+          for (let colh of colunasManipuladas) {
+            if (col.text === colh.text) {
+              this.removeFromArray(colunasManipuladas, colh);
+            }
+          }
+        }
+
+        this.hiddenColumns = colunasManipuladas;
+      } else {
+        this.visibleColumns = colunasManipuladas.filter(
+          (coluna) => !coluna.hidden
+        );
+
+        this.hiddenColumns = colunasManipuladas.filter(
+          (coluna) => coluna.hidden
+        );
+      }
       // if (this.mostraDetalhes) {
       //   this.visibleColumns.unshift({
       //     align: "start",
@@ -357,10 +570,6 @@ export default {
       type: Boolean,
       default: () => false,
     },
-    "ordenar-varios": {
-      type: Boolean,
-      default: () => true,
-    },
     pesquisa: {
       type: String,
       default: () => null,
@@ -421,6 +630,14 @@ export default {
     "ordenar-por": {
       type: String,
       default: () => null,
+    },
+    "mostra-propriedades": {
+      type: Boolean,
+      default: () => false,
+    },
+    propriedades: {
+      type: Array,
+      default: () => [],
     },
   },
 };

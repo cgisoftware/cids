@@ -8,7 +8,7 @@
           :label="nome"
           :rules="regras"
           v-model="valor"
-          type="number"
+          :type="tipo"
           :disabled="desabilitado"
           @click:prepend="chamaZoom"
           @click:append="clear"
@@ -215,6 +215,10 @@ export default {
     "ao-digitar": {
       type: Function,
     },
+    "tipo": {
+      type: String,
+      default: () => "number"
+    }
   },
 };
 </script>

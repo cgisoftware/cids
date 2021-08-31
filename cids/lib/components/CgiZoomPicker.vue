@@ -24,7 +24,7 @@
           v-if="!custom"
           :dense="compacto"
           :value="descricao"
-          disabled
+          readonly
         >
         </v-text-field>
       </v-col>
@@ -187,10 +187,6 @@ export default {
     posicao: {
       type: String,
       required: true,
-    },
-    tipo: {
-      type: String,
-      default: () => "valor",
     },
     largura: {
       type: String,

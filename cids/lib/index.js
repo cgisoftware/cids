@@ -4,6 +4,7 @@ import CgiDataTable from './components/CgiDataTable.vue'
 import CgiSnackbar from './components/CgiSnackbar.vue'
 import CgiAlert from './components/CgiAlert.vue'
 import CgiZoomPicker from './components/CgiZoomPicker.vue'
+import CgiZoomPad from './components/CgiZoomPad.vue'
 import CgiTreeView from './components/CgiTreeView.vue'
 
 import '@mdi/font/css/materialdesignicons.css'
@@ -35,6 +36,7 @@ export default {
     Vue.component('cgi-snackbar', CgiSnackbar)
     Vue.component('cgi-alert', CgiAlert)
     Vue.component('cgi-zoom-picker', CgiZoomPicker)
+    Vue.component('cgi-zoom-pad', CgiZoomPad)
     Vue.component('cgi-tree-view', CgiTreeView)
 
     Vue.use(CgiMaskDirective)

@@ -218,7 +218,7 @@
         }}: -->
 
         </v-icon>
-         {{ group }}
+        {{ group }}
       </th>
     </template>
 
@@ -279,6 +279,7 @@
         <v-tooltip top>
           <template v-slot:activator="{ on }">
             <v-btn
+              v-if="copiar"
               x-small
               icon
               color="green darken-2"
@@ -295,6 +296,7 @@
         <v-tooltip top>
           <template v-slot:activator="{ on }">
             <v-btn
+              v-if="alterar"
               x-small
               icon
               color="blue"
@@ -311,6 +313,7 @@
         <v-tooltip top>
           <template v-slot:activator="{ on }">
             <v-btn
+              v-if="deletar"
               x-small
               icon
               color="red"
@@ -443,7 +446,7 @@ export default {
           }
         }
       }
-      
+
       if (item.cor) {
         return item.cor;
       }
@@ -638,6 +641,18 @@ export default {
     propriedades: {
       type: Array,
       default: () => [],
+    },
+    copiar: {
+      type: Boolean,
+      default: () => true,
+    },
+    alterar: {
+      type: Boolean,
+      default: () => true,
+    },
+    deletar: {
+      type: Boolean,
+      default: () => true,
     },
   },
 };

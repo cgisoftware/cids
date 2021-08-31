@@ -56,6 +56,9 @@
   </CGIDataTableServerPagination>
   <CGIDataTableFrontPagination
     v-else
+    :copiar="copiar"
+    :deletar="deletar"
+    :alterar="alterar"
     :linhas="linhas"
     :colunas="colunas"
     :colunas-fixas="colunasFixas"
@@ -322,6 +325,18 @@ export default {
     "ativar-atalhos": {
       type: Boolean,
       default: () => false,
+    },
+        copiar: {
+      type: Boolean,
+      default: () => true,
+    },
+    alterar: {
+      type: Boolean,
+      default: () => true,
+    },
+    deletar: {
+      type: Boolean,
+      default: () => true,
     },
   },
 };

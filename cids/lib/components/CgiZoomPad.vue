@@ -98,7 +98,8 @@ export default {
     async buscaValores() {
       try {
         this.loading = true;
-        const url = localStorage.getItem("serviceURI");
+        const serviceURI = localStorage.getItem("serviceURI");
+        const url = serviceURI.split('|')[0]
         const response = await axios.get(`${url}/rest/admin/adm210`, {
           params: {
             filter: {

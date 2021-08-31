@@ -58,6 +58,8 @@
 
 <script>
 import axios from "axios";
+import { alert } from "../util"
+
 export default {
   data: (vm) => ({
     valor: vm.value,

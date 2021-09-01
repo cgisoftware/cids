@@ -1,6 +1,9 @@
 <template>
   <CGIDataTableServerPagination
     v-if="paginacaoServidor"
+    :copiar="copiar"
+    :deletar="deletar"
+    :alterar="alterar"
     :linhas="linhas"
     :colunas="colunas"
     :colunas-fixas="colunasFixas"
@@ -44,14 +47,8 @@
       <slot name="pesquisa"></slot>
     </template>
 
-    <template
-      v-for="coluna in colunas"
-      v-slot:[`${coluna.value}`]="{ item }"
-    >
-      <slot
-        :name=coluna.value
-        v-bind:item="item"
-      ></slot>
+    <template v-for="coluna in colunas" v-slot:[`${coluna.value}`]="{ item }">
+      <slot :name="coluna.value" v-bind:item="item"></slot>
     </template>
   </CGIDataTableServerPagination>
   <CGIDataTableFrontPagination
@@ -100,14 +97,8 @@
       <slot name="pesquisa"></slot>
     </template>
 
-    <template
-      v-for="coluna in colunas"
-      v-slot:[`${coluna.value}`]="{ item }"
-    >
-      <slot
-        :name=coluna.value
-        v-bind:item="item"
-      ></slot>
+    <template v-for="coluna in colunas" v-slot:[`${coluna.value}`]="{ item }">
+      <slot :name="coluna.value" v-bind:item="item"></slot>
     </template>
   </CGIDataTableFrontPagination>
 </template>
@@ -133,7 +124,7 @@ export default {
   async mounted() {
     if (this.ativarAtalhos) {
       if (!this.zoomDialog) {
-        window.addEventListener("keydown", this.atalhos, false)
+        window.addEventListener("keydown", this.atalhos, false);
       }
     }
   },
@@ -326,7 +317,7 @@ export default {
       type: Boolean,
       default: () => false,
     },
-        copiar: {
+    copiar: {
       type: Boolean,
       default: () => true,
     },

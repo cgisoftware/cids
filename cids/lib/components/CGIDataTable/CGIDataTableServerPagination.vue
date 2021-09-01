@@ -25,7 +25,6 @@
       itemsPerPageText: 'Linhas por pagina',
     }"
   >
-
     <template v-slot:[`item.data-table-select`]="{ isSelected, select }">
       <v-checkbox
         hide-details
@@ -36,20 +35,15 @@
       ></v-checkbox>
     </template>
     <template v-slot:top>
-      <v-toolbar
-        flat
-        dense
-        v-if="mostraToolbar"
-      >
+      <v-toolbar flat dense v-if="mostraToolbar">
         <v-toolbar-title>{{ nomeTabela }}</v-toolbar-title>
         <v-tooltip top>
           <template v-slot:activator="{ on }">
-            <v-icon
-              v-on="on"
-              v-if="nomePrograma"
-            >mdi-information-variant</v-icon>
+            <v-icon v-on="on" v-if="nomePrograma"
+              >mdi-information-variant</v-icon
+            >
           </template>
-          <span>{{nomePrograma}}</span>
+          <span>{{ nomePrograma }}</span>
         </v-tooltip>
         <v-spacer></v-spacer>
 
@@ -93,16 +87,10 @@
           </template>
 
           <v-card scrollable>
-            <v-toolbar
-              flat
-              dense
-            >
+            <v-toolbar flat dense>
               <v-toolbar-title>Organizar tabela</v-toolbar-title>
             </v-toolbar>
-            <v-card-text
-              class="px-0"
-              style="overflow-y: scroll; height:300px"
-            >
+            <v-card-text class="px-0" style="overflow-y: scroll; height: 300px">
               <v-autocomplete
                 dense
                 class="mt-4 px-3"
@@ -114,10 +102,7 @@
                 clearable
                 no-data-text="Sem dados"
               ></v-autocomplete>
-              <v-container
-                fluid
-                grid-list-md
-              >
+              <v-container fluid grid-list-md>
                 <v-layout>
                   <v-flex xs6>
                     Colunas na tela
@@ -127,13 +112,13 @@
                         :key="coluna.text"
                         v-show="
                           coluna.text !== 'Ações' &&
-                            coluna.value !== 'tb_detalhe'
+                          coluna.value !== 'tb_detalhe'
                         "
                         class="text-center my-1"
                       >
                         <v-chip
                           v-if="!coluna.actions"
-                          style="width: 100%;"
+                          style="width: 100%"
                           small
                           label
                         >
@@ -143,8 +128,13 @@
                             <v-icon
                               small
                               @click="removeCol(coluna)"
-                              style="position: absolute; right: 10px; cursor: pointer;"
-                            >mdi-close</v-icon>
+                              style="
+                                position: absolute;
+                                right: 10px;
+                                cursor: pointer;
+                              "
+                              >mdi-close</v-icon
+                            >
                           </template>
                         </v-chip>
                       </div>
@@ -162,7 +152,7 @@
                     >
                       <v-chip
                         v-if="!coluna.actions"
-                        style="width: 100%;"
+                        style="width: 100%"
                         small
                         label
                       >
@@ -172,8 +162,13 @@
                           <v-icon
                             small
                             @click="addCol(coluna)"
-                            style="position: absolute; right: 10px; cursor: pointer;"
-                          >mdi-plus</v-icon>
+                            style="
+                              position: absolute;
+                              right: 10px;
+                              cursor: pointer;
+                            "
+                            >mdi-plus</v-icon
+                          >
                         </template>
                       </v-chip>
                     </div>
@@ -182,26 +177,13 @@
               </v-container>
             </v-card-text>
             <v-card-actions>
-              <v-btn
-                small
-                color="red"
-                outlined
-                @click="menu = false"
-                block
-              >
-                <v-icon
-                  small
-                  left
-                >mdi-close</v-icon>Fechar
+              <v-btn small color="red" outlined @click="menu = false" block>
+                <v-icon small left>mdi-close</v-icon>Fechar
               </v-btn>
             </v-card-actions>
           </v-card>
         </v-menu>
-        <v-btn
-          icon
-          v-if="mostraPropriedades"
-          @click="salvarPropriedades"
-        >
+        <v-btn icon v-if="mostraPropriedades" @click="salvarPropriedades">
           <v-icon small>mdi-content-save</v-icon>
         </v-btn>
       </v-toolbar>
@@ -209,33 +191,25 @@
 
     <template v-slot:[`group.header`]="{ isOpen, toggle, group, groupBy }">
       <th colspan="90">
-        <v-icon @click="toggle">{{ isOpen ? "mdi-minus" : "mdi-plus" }}
+        <v-icon @click="toggle"
+          >{{ isOpen ? "mdi-minus" : "mdi-plus" }}
         </v-icon>
         {{
           groupBy[0][0].toUpperCase() +
-            groupBy[0]
-              .split("_")
-              .join(" ")
-              .slice(1)
+          groupBy[0].split("_").join(" ").slice(1)
         }}: {{ group }}
       </th>
     </template>
 
-    <template
-      v-slot:[`group.summary`]="{ items }"
-      v-if="totalizarGrupo"
-    >
+    <template v-slot:[`group.summary`]="{ items }" v-if="totalizarGrupo">
       <td
         v-show="column.value !== agruparPor"
         v-for="(column, i) in visibleColumns"
         :key="i"
-        :class="{'text-left': column.totalizar, 'text-right': column.somar}"
+        :class="{ 'text-left': column.totalizar, 'text-right': column.somar }"
         style="font-size: 12px"
       >
-
-        <strong v-if="column.totalizar">
-          Total: {{ items.length }}
-        </strong>
+        <strong v-if="column.totalizar"> Total: {{ items.length }} </strong>
 
         <strong v-if="column.somar">
           {{ sumField(column.value, items) }}
@@ -300,6 +274,7 @@
         <v-tooltip top>
           <template v-slot:activator="{ on }">
             <v-btn
+              v-if="copiar"
               x-small
               icon
               color="green darken-2"
@@ -316,6 +291,7 @@
         <v-tooltip top>
           <template v-slot:activator="{ on }">
             <v-btn
+              v-if="alterar"
               x-small
               icon
               color="blue"
@@ -332,6 +308,7 @@
         <v-tooltip top>
           <template v-slot:activator="{ on }">
             <v-btn
+              v-if="deletar"
               x-small
               icon
               color="red"
@@ -347,14 +324,8 @@
       </div>
     </template>
 
-    <template
-      v-for="f in customColumns"
-      v-slot:[`item.${f.value}`]="{ item }"
-    >
-      <slot
-        :name="f.value"
-        v-bind:item="item"
-      > </slot>
+    <template v-for="f in customColumns" v-slot:[`item.${f.value}`]="{ item }">
+      <slot :name="f.value" v-bind:item="item"> </slot>
     </template>
   </v-data-table>
 </template>

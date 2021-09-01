@@ -39,6 +39,7 @@
     @exporta-zoom="exportaZoom"
     v-model="itensSelecionados"
   >
+  
     <template v-slot:botoes>
       <slot name="botoes"></slot>
     </template>

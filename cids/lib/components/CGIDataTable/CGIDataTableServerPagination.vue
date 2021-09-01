@@ -707,6 +707,18 @@ export default {
       type: Boolean,
       default: () => false,
     },
+    copiar: {
+      type: Boolean,
+      default: () => true,
+    },
+    alterar: {
+      type: Boolean,
+      default: () => true,
+    },
+    deletar: {
+      type: Boolean,
+      default: () => true,
+    },
   },
 };
 </script>

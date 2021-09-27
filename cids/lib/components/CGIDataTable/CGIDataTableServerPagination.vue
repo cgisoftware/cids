@@ -236,7 +236,7 @@
     </template> -->
 
     <template v-slot:[`item.acoes`]="{ item }">
-      <div>
+      <div style="min-width: 150px">
         <v-tooltip top>
           <template v-slot:activator="{ on }">
             <v-btn

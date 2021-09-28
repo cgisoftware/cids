@@ -19,6 +19,7 @@
         ordenar-por="nome"
         ordenar-desc
         chave-tabela="id"
+        informacoes-da-pesquisa="Pesquisar por x y z"
       ></cgi-data-table>
       <pre v-if="!controller.dialogZoom">
                 <code

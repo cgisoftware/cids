@@ -80,6 +80,7 @@
     :nome-programa="nomePrograma"
     :totalizar-grupo="totalizarGrupo"
     :agrupar="agrupar"
+    :informacoes-da-pesquisa="informacoesDaPesquisa"
     @paginando="paginando"
     @salvar-propriedades="salvarPropriedades"
     @linha-selecionada="linhaSelecionada"
@@ -330,6 +331,10 @@ export default {
       type: Boolean,
       default: () => true,
     },
+    "informacoes-da-pesquisa": {
+      type: String,
+      default: () => null
+    }
   },
 };
 </script>

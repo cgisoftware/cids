@@ -59,6 +59,17 @@
           @input="debounce"
           v-if="mostraPesquisa && !customPesquisa"
         >
+          <template v-slot:prepend-inner v-if="informacoesDaPesquisa">
+            <v-tooltip top>
+              <template v-slot:activator="{ on, attrs }">
+                <v-icon
+                  v-bind="attrs"
+                  v-on="on"
+                >mdi-information-variant</v-icon>
+              </template>
+              <span>{{informacoesDaPesquisa}}</span>
+            </v-tooltip>
+          </template>
         </v-text-field>
 
         <slot name="pesquisa"> </slot>
@@ -719,6 +730,10 @@ export default {
       type: Boolean,
       default: () => true,
     },
+    "informacoes-da-pesquisa": {
+      type: String,
+      default: () => null
+    }
   },
 };
 </script>

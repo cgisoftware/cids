@@ -29,6 +29,7 @@
     :zoom-dialog="zoomDialog"
     :nome-programa="nomePrograma"
     :totalizar-grupo="totalizarGrupo"
+    :informacoes-da-pesquisa="informacoesDaPesquisa"
     @paginando="paginando"
     @salvar-propriedades="salvarPropriedades"
     @linha-selecionada="linhaSelecionada"

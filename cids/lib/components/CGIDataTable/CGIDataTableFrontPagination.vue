@@ -63,7 +63,10 @@
           v-model="search"
           v-if="mostraPesquisa && !customPesquisa"
         >
-          <template v-slot:prepend-inner v-if="informacoesDaPesquisa">
+          <template
+            v-slot:prepend-inner
+            v-if="informacoesDaPesquisa"
+          >
             <v-tooltip top>
               <template v-slot:activator="{ on, attrs }">
                 <v-icon
@@ -349,11 +352,51 @@
         v-bind:item="item"
       > </slot>
     </template>
+
+    <template
+      v-slot:[`group.summary`]="{ items }"
+      v-if="totalizar"
+    >
+      <td
+        v-show="column.value !== agruparPor"
+        v-for="(column, i) in visibleColumns"
+        :key="i"
+        :class="{ 'text-left': column.totalizar, 'text-right': column.somar }"
+        style="font-size: 12px"
+      >
+        <strong v-if="column.totalizar"> Total: {{ items.length }} </strong>
+
+        <strong v-if="column.somar">
+          {{ sumField(column.value, items) }}
+        </strong>
+      </td>
+    </template>
+
+    <template
+      v-slot:[`body.append`]="{ items }"
+      v-if="totalizar"
+    >
+      <td
+        v-show="column.value !== agruparPor"
+        v-for="(column, i) in visibleColumns"
+        :key="i"
+        :class="{ 'text-left': column.totalizar, 'text-right': column.somar }"
+        style="font-size: 12px"
+      >
+        <strong v-if="column.totalizar"> Total: {{ items.length }} </strong>
+
+        <strong v-if="column.somar">
+          {{ sumField(column.value, items) }}
+        </strong>
+      </td>
+    </template>
+
   </v-data-table>
 </template>
 
 <script>
 import draggable from "vuedraggable";
+import { formatNumber } from "../../util";
 import { VDataTable } from "vuetify/lib";
 export default {
   data: (vm) => ({
@@ -429,6 +472,15 @@ export default {
     draggable,
   },
   methods: {
+    sumField(key, items) {
+      if (items != undefined) {
+        const valor = items.reduce((a, b) => a + (b[key] || 0), 0);
+        return formatNumber(valor);
+      }
+      // sum data in give key (property)
+      const valor = this.curva.reduce((a, b) => a + (b[key] || 0), 0);
+      return formatNumber(valor);
+    },
     addCol(item) {
       item.hidden = false;
       this.removeFromArray(this.hiddenColumns, item);
@@ -667,8 +719,12 @@ export default {
     },
     "informacoes-da-pesquisa": {
       type: String,
-      default: () => null
-    }
+      default: () => null,
+    },
+    totalizar: {
+      type: Boolean,
+      default: () => false,
+    },
   },
 };
 </script>

@@ -212,7 +212,7 @@
       </th>
     </template>
 
-    <template v-slot:[`group.summary`]="{ items }" v-if="totalizarGrupo">
+    <template v-slot:[`group.summary`]="{ items }" v-if="totalizar">
       <td
         v-show="column.value !== agruparPor"
         v-for="(column, i) in visibleColumns"
@@ -337,6 +337,25 @@
 
     <template v-for="f in customColumns" v-slot:[`item.${f.value}`]="{ item }">
       <slot :name="f.value" v-bind:item="item"> </slot>
+    </template>
+
+    <template
+      v-slot:[`body.append`]="{ items }"
+      v-if="totalizar"
+    >
+      <td
+        v-show="column.value !== agruparPor"
+        v-for="(column, i) in visibleColumns"
+        :key="i"
+        :class="{ 'text-left': column.totalizar, 'text-right': column.somar }"
+        style="font-size: 12px"
+      >
+        <strong v-if="column.totalizar"> Total: {{ items.length }} </strong>
+
+        <strong v-if="column.somar">
+          {{ sumField(column.value, items) }}
+        </strong>
+      </td>
     </template>
   </v-data-table>
 </template>
@@ -714,7 +733,7 @@ export default {
       type: String,
       default: () => "",
     },
-    "totalizar-grupo": {
+    "totalizar": {
       type: Boolean,
       default: () => false,
     },

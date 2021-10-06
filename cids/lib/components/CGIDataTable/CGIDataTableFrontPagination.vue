@@ -361,10 +361,10 @@
         v-show="column.value !== agruparPor"
         v-for="(column, i) in visibleColumns"
         :key="i"
-        :class="{ 'text-left': column.totalizar, 'text-right': column.somar }"
+        :class="{ 'text-left': column.contar, 'text-right': column.somar }"
         style="font-size: 12px"
       >
-        <strong v-if="column.totalizar"> Total: {{ items.length }} </strong>
+        <strong v-if="column.contar"> Total: {{ items.length }} </strong>
 
         <strong v-if="column.somar">
           {{ sumField(column.value, items) }}
@@ -381,10 +381,10 @@
           v-for="(column, i) in visibleColumns"
           :key="i"
           v-show="column.value !== agruparPor"
-          :class="{ 'text-left': column.totalizar, 'text-right': column.somar }"
+          :class="{ 'text-left': column.contar, 'text-right': column.somar }"
           style="font-size: 12px"
         >
-          <strong v-if="column.totalizar"> Total: {{ items.length }} </strong>
+          <strong v-if="column.contar"> Total: {{ items.length }} </strong>
 
           <strong v-if="column.somar">
             {{ sumField(column.value, items) }}

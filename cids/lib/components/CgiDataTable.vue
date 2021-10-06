@@ -28,7 +28,7 @@
     :mostra-toolbar="mostraToolbar"
     :zoom-dialog="zoomDialog"
     :nome-programa="nomePrograma"
-    :totalizar-grupo="totalizarGrupo"
+    :totalizar="totalizar"
     :informacoes-da-pesquisa="informacoesDaPesquisa"
     @paginando="paginando"
     @salvar-propriedades="salvarPropriedades"
@@ -79,7 +79,7 @@
     :mostra-toolbar="mostraToolbar"
     :zoom-dialog="zoomDialog"
     :nome-programa="nomePrograma"
-    :totalizar-grupo="totalizarGrupo"
+    :totalizar="totalizar"
     :agrupar="agrupar"
     :informacoes-da-pesquisa="informacoesDaPesquisa"
     @paginando="paginando"
@@ -312,7 +312,7 @@ export default {
       type: String,
       default: () => null,
     },
-    "totalizar-grupo": {
+    "totalizar": {
       type: Boolean,
       default: () => false,
     },

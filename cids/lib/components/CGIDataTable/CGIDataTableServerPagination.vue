@@ -343,19 +343,18 @@
       v-slot:[`body.append`]="{ items }"
       v-if="totalizar"
     >
-      <td
-        v-show="column.value !== agruparPor"
-        v-for="(column, i) in visibleColumns"
-        :key="i"
-        :class="{ 'text-left': column.totalizar, 'text-right': column.somar }"
-        style="font-size: 12px"
-      >
-        <strong v-if="column.totalizar"> Total: {{ items.length }} </strong>
+      <tr v-for="(column, i) in visibleColumns" :key="i"  v-show="column.value !== agruparPor">
+        <th
+          :class="{ 'text-left': column.totalizar, 'text-right': column.somar }"
+          style="font-size: 12px"
+        >
+          <strong v-if="column.totalizar"> Total: {{ items.length }} </strong>
 
-        <strong v-if="column.somar">
-          {{ sumField(column.value, items) }}
-        </strong>
-      </td>
+          <strong v-if="column.somar">
+            {{ sumField(column.value, items) }}
+          </strong>
+        </th>
+      </tr>
     </template>
   </v-data-table>
 </template>

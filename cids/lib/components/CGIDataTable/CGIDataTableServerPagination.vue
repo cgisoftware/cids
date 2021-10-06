@@ -343,8 +343,11 @@
       v-slot:[`body.append`]="{ items }"
       v-if="totalizar"
     >
-      <tr v-for="(column, i) in visibleColumns" :key="i"  v-show="column.value !== agruparPor">
+      <tr>
         <th
+          v-for="(column, i) in visibleColumns"
+          :key="i"
+          v-show="column.value !== agruparPor"
           :class="{ 'text-left': column.totalizar, 'text-right': column.somar }"
           style="font-size: 12px"
         >

@@ -12,6 +12,11 @@
     :selectable="selecionavel"
     v-model="selecionados"
   >
+  <template v-slot:label="{ item }">
+    <div :style="{color: item.cor}">
+      {{ item.nomeComposto }}
+    </div>
+  </template>
     <template v-slot:append="{ item }">
       <div v-show="dialogZoom">
         <v-tooltip top>

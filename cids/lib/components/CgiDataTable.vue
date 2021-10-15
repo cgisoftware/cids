@@ -38,6 +38,7 @@
     @deletar-item="deletarItem"
     @ver-detalhes="verDetalhes"
     @exporta-zoom="exportaZoom"
+    @cancelar-zoom="cancelarZoom"
     v-model="itensSelecionados"
   >
   
@@ -90,6 +91,7 @@
     @deletar-item="deletarItem"
     @ver-detalhes="verDetalhes"
     @exporta-zoom="exportaZoom"
+    @cancelar-zoom="cancelarZoom"
     v-model="itensSelecionados"
   >
     <template v-slot:botoes>
@@ -195,6 +197,9 @@ export default {
     deletarItem(item) {
       this.$emit("deletar-item", item);
     },
+    cancelarZoom() {
+      this.$emit("cancelar-zoom")
+    }
   },
   props: {
     colunas: {

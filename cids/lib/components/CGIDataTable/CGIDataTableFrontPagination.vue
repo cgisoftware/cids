@@ -216,6 +216,13 @@
         >
           <v-icon small>mdi-content-save</v-icon>
         </v-btn>
+        <v-btn
+          icon
+          v-if="zoomDialog"
+          @click="$emit('cancelar-zoom')"
+        >
+          <v-icon small>mdi-close</v-icon>
+        </v-btn>
       </v-toolbar>
     </template>
 

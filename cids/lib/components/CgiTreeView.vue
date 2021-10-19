@@ -35,6 +35,9 @@
           <span>Usar registro na tela anterior</span>
         </v-tooltip>
       </div>
+      <div>
+        <slot name="botoes"></slot>
+      </div>
     </template>
   </v-treeview>
 </template>

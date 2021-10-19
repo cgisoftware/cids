@@ -36,7 +36,7 @@
         </v-tooltip>
       </div>
       <div>
-        <slot name="botoes"></slot>
+        <slot name="botoes" v-bind:item="item"></slot>
       </div>
     </template>
   </v-treeview>

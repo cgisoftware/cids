@@ -153,6 +153,20 @@
           </section>
         </v-col>
       </v-row>
+      <v-row justify="center" align="start">
+        <v-col cols="6">
+          <section id="tree-view-default">
+            <v-card>
+              <v-card-title>
+                <a href="#image-picker">Image picker</a>
+              </v-card-title>
+              <v-card-text>
+                <CGIImagePicker />
+              </v-card-text>
+            </v-card>
+          </section>
+        </v-col>
+      </v-row>
     </v-main>
   </v-app>
 </template>
@@ -180,6 +194,7 @@ import Snackbar from "./snackbar/Snackbar";
 import Alert from "./alert/Alert";
 import Money from "./directives/Money";
 import Number from "./directives/Number";
+import CGIImagePicker from './image-picker/CGIImagePicker.vue'
 
 export default {
   components: {
@@ -205,6 +220,7 @@ export default {
     ZoomCustom,
     CGITreeView,
     Alert,
+    CGIImagePicker,
   },
   data: () => ({
     hora: "08:02",

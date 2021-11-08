@@ -6,6 +6,7 @@ import CgiAlert from './components/CgiAlert.vue'
 import CgiZoomPicker from './components/CgiZoomPicker.vue'
 import CgiZoomPad from './components/CgiZoomPad.vue'
 import CgiTreeView from './components/CgiTreeView.vue'
+import CgiImagePicker from './components/CgiImagePicker.vue'
 
 import '@mdi/font/css/materialdesignicons.css'
 import { alert, snackbar, reticencias } from './util'
@@ -38,6 +39,7 @@ export default {
     Vue.component('cgi-zoom-picker', CgiZoomPicker)
     Vue.component('cgi-zoom-pad', CgiZoomPad)
     Vue.component('cgi-tree-view', CgiTreeView)
+    Vue.component('cgi-image-picker', CgiImagePicker)
 
     Vue.use(CgiMaskDirective)
     Vue.use(CgiMoneyDirective)

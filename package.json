@@ -10,6 +10,7 @@
     "axios": "^0.21.4",
     "cids-cgi": "./cids",
     "core-js": "^3.6.5",
+    "ke-the-mask": "0.0.3",
     "moment": "^2.29.1",
     "prismjs": "^1.23.0",
     "vue": "^2.6.11",

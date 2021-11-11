@@ -167,6 +167,20 @@
           </section>
         </v-col>
       </v-row>
+      <v-row justify="center" align="start">
+        <v-col cols="6">
+          <section id="tree-view-default">
+            <v-card>
+              <v-card-title>
+                <a href="#form">Form</a>
+              </v-card-title>
+              <v-card-text>
+                <CGIForm />
+              </v-card-text>
+            </v-card>
+          </section>
+        </v-col>
+      </v-row>
     </v-main>
   </v-app>
 </template>
@@ -195,6 +209,7 @@ import Alert from "./alert/Alert";
 import Money from "./directives/Money";
 import Number from "./directives/Number";
 import CGIImagePicker from './image-picker/CGIImagePicker.vue'
+import CGIForm from './form/CGIForm.vue'
 
 export default {
   components: {
@@ -221,6 +236,7 @@ export default {
     CGITreeView,
     Alert,
     CGIImagePicker,
+    CGIForm,
   },
   data: () => ({
     hora: "08:02",

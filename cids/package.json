@@ -15,10 +15,10 @@
     "@vue/cli-service": "~4.5.0",
     "bili": "^5.0.5",
     "vue-template-compiler": "^2.6.12",
-    "vuetify-loader": "^1.4.4",
-    "ke-the-mask": "0.0.3"
+    "vuetify-loader": "^1.4.4"
   },
   "dependencies": {
+    "ke-the-mask": "0.0.3",
     "cleave.js": "^1.6.0",
     "vanilla-masker": "^1.2.0",
     "vuedraggable": "^2.24.3",

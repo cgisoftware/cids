@@ -73,8 +73,9 @@ export default {
     mostraAlerta() {
       snackbar.show({ message: "Alerta geral!" });
     },
-    mostraConfirmacao() {
-      snackbar.confirm({ message: "Confirmar algo" });
+    async mostraConfirmacao() {
+      const confirmou = await snackbar.confirm({ message: "Confirmar algo" });
+      console.log(confirmou);
     },
   },
 };

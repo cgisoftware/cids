@@ -10,22 +10,24 @@
   >
     <div v-html="alert.message"></div>
     <template v-slot:action="{ attrs }">
-      <v-btn
-        v-show="alert.actions.accept"
-        text
-        v-bind="attrs"
-        @click="alert.accept()"
-      >
-        Sim
-      </v-btn>
-      <!-- <v-btn
-        v-show="alert.actions.accept"
-        text
-        v-bind="attrs"
-        @click="alert.snackbar = false"
-      >
-        Não
-      </v-btn> -->
+      <div style="padding-right: 10px;">
+        <v-btn
+          v-show="alert.actions.accept"
+          text
+          v-bind="attrs"
+          @click="alert.accept()"
+        >
+          Sim
+        </v-btn>
+        <v-btn
+          v-show="alert.actions.accept"
+          v-bind="attrs"
+          @click="alert.decline()"
+          icon
+        >
+          <v-icon>mdi-close</v-icon>
+        </v-btn>
+      </div>
     </template>
     <v-spacer></v-spacer>
   </v-snackbar>

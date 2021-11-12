@@ -13,6 +13,7 @@ export default class CgiSnackbarController {
       top: false,
     }
     this.isConfirm = false
+    this.isDecline = false
     this.context = null
   }
 
@@ -63,6 +64,11 @@ export default class CgiSnackbarController {
           clearTimeout(handlerTimeOut)
           resolve(true)
         }
+        if (this.isDecline) {
+          this.isDecline = false
+          clearTimeout(handlerTimeOut)
+          resolve(false)
+        }
       }, 500)
     })
     clearInterval(handlerInterval)
@@ -71,6 +77,11 @@ export default class CgiSnackbarController {
 
   accept() {
     this.isConfirm = true
+    this.snackbar = false
+  }
+
+  decline() {
+    this.isDecline = true
     this.snackbar = false
   }
 }

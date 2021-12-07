@@ -66,7 +66,7 @@
             <v-select
               :label="configuracao[`linha${linha}`][coluna-1].nome"
               v-if="configuracao[`linha${linha}`][coluna-1].campo == 'select'"
-              :regras="configuracao[`linha${linha}`][coluna-1].regras"
+              :rules="configuracao[`linha${linha}`][coluna-1].regras"
               v-model="internalForm[configuracao[`linha${linha}`][coluna-1].chave]"
               :dense="configuracao[`linha${linha}`][coluna-1].compacto"
               :items="customProps[configuracao[`linha${linha}`][coluna-1].chave]"
@@ -76,7 +76,7 @@
             <v-autocomplete
               :label="configuracao[`linha${linha}`][coluna-1].nome"
               v-if="configuracao[`linha${linha}`][coluna-1].campo == 'autocomplete'"
-              :regras="configuracao[`linha${linha}`][coluna-1].regras"
+              :rules="configuracao[`linha${linha}`][coluna-1].regras"
               v-model="internalForm[configuracao[`linha${linha}`][coluna-1].chave]"
               :dense="configuracao[`linha${linha}`][coluna-1].compacto"
               :items="customProps[configuracao[`linha${linha}`][coluna-1].chave]"
@@ -130,11 +130,31 @@
 // import { mask } from "ke-the-mask";
 export default {
   // directives: { mask },
-  data: () => ({
-    internalForm: {},
+  data: (vm) => ({
+    internalForm: vm.value,
   }),
   mounted() {
-    this.limpar();
+    const obj = {};
+    for (let linha of Object.entries(this.configuracao)) {
+      for (let item of linha[1]) {
+        if (item.chave) {
+          if (item.chave in this.internalForm) {
+            obj[item.chave] = this.internalForm[item.chave];
+          } else {
+            obj[item.chave] = "valorInicial" in item ? item.valorInicial : null;
+          }
+
+          this.$watch(`internalForm.${item.chave}`, function (newValue, oldValue) {
+            this.$emit(`change-${item.chave}`, {
+              valorAnterior: oldValue,
+              valorNovo: newValue
+            })
+          });
+        }
+      }
+    }
+    this.internalForm = obj;
+    this.$refs.form.resetValidation();
   },
   computed: {
     qtdLinhas() {
@@ -145,6 +165,15 @@ export default {
       return { ...this.$attrs };
     },
   },
+  watch: {
+    internalForm: {
+      handler(val) {
+        this.$emit("input", val);
+        this.$emit("change", val);
+      },
+      deep: true,
+    },
+  },
   methods: {
     cancelar() {
       this.limpar();
@@ -152,7 +181,7 @@ export default {
     },
     confirmar() {
       if (this.$refs.form.validate()) {
-        this.$emit("confirmar", this.internalForm);
+        this.$emit("confirmar");
         this.limpar();
         this.$refs.form.resetValidation();
       }
@@ -162,7 +191,7 @@ export default {
       for (let linha of Object.entries(this.configuracao)) {
         for (let item of linha[1]) {
           if (item.chave) {
-            obj[item.chave] = item.valorInicial || this.form[item.chave];
+            obj[item.chave] = "valorInicial" in item ? item.valorInicial : null;
           }
         }
       }
@@ -179,18 +208,15 @@ export default {
       type: Object,
       required: true,
     },
-    'mostra-toolbar': {
+    "mostra-toolbar": {
       type: Boolean,
       default: () => true,
     },
-    form: {
-      type: Object,
-      default: () => {}
-    },
-    'label-confirmacao': {
+    value: {},
+    "label-confirmacao": {
       type: String,
-      default: () => 'Salvar'
-    }
+      default: () => "Salvar",
+    },
   },
 };
 </script>

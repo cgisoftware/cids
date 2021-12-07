@@ -6,6 +6,7 @@
       @confirmar="confirmar"
       :selecionado1="itens"
       :selecionado="itens"
+      :form="form"
     ></cgi-form>
     <pre>
     <code
@@ -22,6 +23,9 @@ import moment from "moment";
 import CGIDataTableAcoes from "../table/CGIDataTableAcoes";
 export default {
   data: () => ({
+    form: {
+      observacao2: "kkkkkkkkk",
+    },
     dataExample: Prism.highlight(
       `
         <template>
@@ -152,6 +156,7 @@ export default {
           posicao: "inicial",
           formataValor: true,
           valorInicial: 4,
+     
         },
         {
           campo: "select",
@@ -207,6 +212,7 @@ export default {
           compacto: true,
           regras: [(v) => !!v || "Preencha o campo"],
           chave: "observacao2",
+          valorInicial: "teste"
         },
       ],
     },

@@ -26,7 +26,7 @@
               :label="configuracao[`linha${linha}`][coluna-1].nome"
               v-if="configuracao[`linha${linha}`][coluna-1].campo == 'texto'"
               :rules="configuracao[`linha${linha}`][coluna-1].regras"
-              v-model="form[configuracao[`linha${linha}`][coluna-1].chave]"
+              v-model="internalForm[configuracao[`linha${linha}`][coluna-1].chave]"
               v-mask="configuracao[`linha${linha}`][coluna-1].mascara"
               :type="configuracao[`linha${linha}`][coluna-1].tipo"
             ></v-text-field>
@@ -35,21 +35,21 @@
               :label="configuracao[`linha${linha}`][coluna-1].nome"
               v-if="configuracao[`linha${linha}`][coluna-1].campo == 'texto-area'"
               :rules="configuracao[`linha${linha}`][coluna-1].regras"
-              v-model="form[configuracao[`linha${linha}`][coluna-1].chave]"
+              v-model="internalForm[configuracao[`linha${linha}`][coluna-1].chave]"
             ></v-textarea>
             <cgi-date-picker
               :compacto="configuracao[`linha${linha}`][coluna-1].compacto"
               :nome="configuracao[`linha${linha}`][coluna-1].nome"
               v-if="configuracao[`linha${linha}`][coluna-1].campo == 'data'"
               :regras="configuracao[`linha${linha}`][coluna-1].regras"
-              v-model="form[configuracao[`linha${linha}`][coluna-1].chave]"
+              v-model="internalForm[configuracao[`linha${linha}`][coluna-1].chave]"
             ></cgi-date-picker>
             <cgi-time-picker
               :compacto="configuracao[`linha${linha}`][coluna-1].compacto"
               :nome="configuracao[`linha${linha}`][coluna-1].nome"
               v-if="configuracao[`linha${linha}`][coluna-1].campo == 'hora'"
               :regras="configuracao[`linha${linha}`][coluna-1].regras"
-              v-model="form[configuracao[`linha${linha}`][coluna-1].chave]"
+              v-model="internalForm[configuracao[`linha${linha}`][coluna-1].chave]"
             ></cgi-time-picker>
             <cgi-zoom-picker
               :compacto="configuracao[`linha${linha}`][coluna-1].compacto"
@@ -58,15 +58,16 @@
               :zoom="configuracao[`linha${linha}`][coluna-1].zoom"
               :regras="configuracao[`linha${linha}`][coluna-1].regras"
               :chave="configuracao[`linha${linha}`][coluna-1].chaveZoom"
-              v-model="form[configuracao[`linha${linha}`][coluna-1].chave]"
+              v-model="internalForm[configuracao[`linha${linha}`][coluna-1].chave]"
               :posicao="configuracao[`linha${linha}`][coluna-1].posicao"
               :formata-valor="configuracao[`linha${linha}`][coluna-1].formataValor"
+              :ao-digitar="configuracao[`linha${linha}`][coluna-1].aoDigitar"
             ></cgi-zoom-picker>
             <v-select
               :label="configuracao[`linha${linha}`][coluna-1].nome"
               v-if="configuracao[`linha${linha}`][coluna-1].campo == 'select'"
               :regras="configuracao[`linha${linha}`][coluna-1].regras"
-              v-model="form[configuracao[`linha${linha}`][coluna-1].chave]"
+              v-model="internalForm[configuracao[`linha${linha}`][coluna-1].chave]"
               :dense="configuracao[`linha${linha}`][coluna-1].compacto"
               :items="customProps[configuracao[`linha${linha}`][coluna-1].chave]"
               :item-text="configuracao[`linha${linha}`][coluna-1].textoItem"
@@ -76,7 +77,7 @@
               :label="configuracao[`linha${linha}`][coluna-1].nome"
               v-if="configuracao[`linha${linha}`][coluna-1].campo == 'autocomplete'"
               :regras="configuracao[`linha${linha}`][coluna-1].regras"
-              v-model="form[configuracao[`linha${linha}`][coluna-1].chave]"
+              v-model="internalForm[configuracao[`linha${linha}`][coluna-1].chave]"
               :dense="configuracao[`linha${linha}`][coluna-1].compacto"
               :items="customProps[configuracao[`linha${linha}`][coluna-1].chave]"
               :item-text="configuracao[`linha${linha}`][coluna-1].textoItem"
@@ -85,7 +86,7 @@
             <v-checkbox
               dense
               :label="configuracao[`linha${linha}`][coluna-1].nome"
-              v-model="form[configuracao[`linha${linha}`][coluna-1].chave]"
+              v-model="internalForm[configuracao[`linha${linha}`][coluna-1].chave]"
               :regras="configuracao[`linha${linha}`][coluna-1].regras"
               v-if="configuracao[`linha${linha}`][coluna-1].campo == 'checkbox'"
             >
@@ -119,7 +120,7 @@
         small
         @click="confirmar"
       >
-        <v-icon left>mdi-content-save</v-icon> Salvar
+        <v-icon left>mdi-content-save</v-icon> {{ labelConfirmacao }}
       </v-btn>
     </v-card-actions>
   </v-card>
@@ -130,7 +131,7 @@
 export default {
   // directives: { mask },
   data: () => ({
-    form: {},
+    internalForm: {},
   }),
   mounted() {
     this.limpar();
@@ -151,7 +152,7 @@ export default {
     },
     confirmar() {
       if (this.$refs.form.validate()) {
-        this.$emit("confirmar", this.form);
+        this.$emit("confirmar", this.internalForm);
         this.limpar();
         this.$refs.form.resetValidation();
       }
@@ -161,11 +162,11 @@ export default {
       for (let linha of Object.entries(this.configuracao)) {
         for (let item of linha[1]) {
           if (item.chave) {
-            obj[item.chave] = item.valorInicial;
+            obj[item.chave] = item.valorInicial || this.form[item.chave];
           }
         }
       }
-      this.form = obj;
+      this.internalForm = obj;
       this.$refs.form.resetValidation();
     },
   },
@@ -178,10 +179,18 @@ export default {
       type: Object,
       required: true,
     },
-    mostraToolbar: {
+    'mostra-toolbar': {
       type: Boolean,
       default: () => true,
     },
+    form: {
+      type: Object,
+      default: () => {}
+    },
+    'label-confirmacao': {
+      type: String,
+      default: () => 'Salvar'
+    }
   },
 };
 </script>

@@ -7,6 +7,7 @@ import { groupBy } from './controller/handler/GroupBy'
 import EventBus from './controller/handler/EventBus'
 import CgiAlertController from './controller/CgiAlert'
 import reticencias from './controller/handler/reticencias'
+import toAblQueryForm from './controller/handler/ToAblQueryForm'
 
 
 const eventBus = new EventBus()
@@ -22,5 +23,6 @@ export {
   groupBy,
   toExcelID,
   eventBus,
-  reticencias
+  reticencias,
+  toAblQueryForm
 }

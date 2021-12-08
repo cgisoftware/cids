@@ -1,5 +1,5 @@
 <template>
-  <v-card>
+  <v-card :width="largura">
     <v-card-title
       class="pa-0"
       v-if="mostraToolbar"
@@ -128,6 +128,7 @@
 
 <script>
 // import { mask } from "ke-the-mask";
+import { toAblQueryForm } from '../util'
 export default {
   // directives: { mask },
   data: (vm) => ({
@@ -176,13 +177,19 @@ export default {
   },
   methods: {
     cancelar() {
-      this.limpar();
+      //this.limpar();
       this.$emit("cancelar");
     },
     confirmar() {
       if (this.$refs.form.validate()) {
-        this.$emit("confirmar");
-        this.limpar();
+        if (this.retornarQuery) {
+          const query = toAblQueryForm(this.configuracao, this.internalForm)
+          this.$emit("confirmar", query);
+        } else {
+          this.$emit("confirmar");
+        }
+
+        // this.limpar();
         this.$refs.form.resetValidation();
       }
     },
@@ -217,6 +224,14 @@ export default {
       type: String,
       default: () => "Salvar",
     },
+    largura: {
+      type: String,
+      default: () => ""
+    },
+    'retornar-query': {
+      type: Boolean,
+      default: () => false,
+    }
   },
 };
 </script>

@@ -10,7 +10,7 @@ import CgiImagePicker from './components/CgiImagePicker.vue'
 import CgiForm from './components/CgiForm.vue'
 
 import '@mdi/font/css/materialdesignicons.css'
-import { alert, snackbar, reticencias } from './util'
+import { alert, snackbar, reticencias, formatNumber } from './util'
 
 import CgiMaskDirective from './controller/CgiMaskDirective'
 import CgiMoneyDirective from './controller/CgiMoneyDirective'
@@ -49,6 +49,8 @@ export default {
     Vue.use(CgiNumberDirective)
 
     Vue.use(VueTheMask)
+
+    Vue.prototype.formataMoeda = formatNumber
   },
 }
 

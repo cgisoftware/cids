@@ -38,10 +38,10 @@ $ npm i cids-cgi
 **No arquivo main.js do seu projeto adicione**
 
 ```js
-import Vue from "vue";
-import cids from "cids-cgi/lib";
+import Vue from 'vue'
+import cids from 'cids-cgi/lib'
 
-Vue.use(cids);
+Vue.use(cids)
 ```
 
 <br>
@@ -85,32 +85,42 @@ Nos seus componentes do projeto use:
 
 ### - Props
 
-| Propriedade              | Required? |  Type   |        Default value | Descrição                                                                        |
-| :----------------------- | :-------: | :-----: | -------------------: | :------------------------------------------------------------------------------- |
-| nome-tabela              |   false   | String  |                 null | Define um nome no cabeçalho da tabela                                            |
-| linhas                   |   true    |  Array  |            undefined | Define as linhas no corpo da tabela                                              |
-| colunas                  |   true    |  Array  |            undefined | Define as colunas da tabela                                                      |
-| mostra-linha-selecionada |   false   | Boolean |                false | Mostra com uma cor diferente a linha selecionada                                 |
-| mostra-propriedades      |   false   | Boolean |                false | Mostra as propriedade de ordenação/ocultação/agrupamento das colunas             |
-| paginacao-servidor       |   false   | Boolean |                false | Desabilita a paginação no front-end e habilita a paginação no servidor           |
-| mostra-colunas           |   false   | Boolean |                 true | Remove ou mostra as colunas da tabela                                            |
-| mostra-paginacao         |   false   | Boolean |                 true | Remove ou mostra a paginação no rodapé                                           |
-| mostra-pesquisa          |   false   | Boolean |                false | Remove ou mostra o cmapo de pesquisa na no cabeçalho                             |
-| colunas-fixas            |   false   | Boolean |                 true | Fixa as colunas para não ter scroll                                              |
-| mostra-agrupador         |   false   | Boolean |                false | Mostra o agrupador                                                               |
-| ordenar-varios           |   false   | Boolean |                 true | Define de pode ordenar por varias colunas                                        |
-| pesquisa                 |   false   | String  |                 null | Valor do campo pesquisa                                                          |
-| chave-tabela             |   false   | String  |                  seq | Define uma chave para a tabela                                                   |
-| selecionar-varios        |   false   | Boolean |                false | Define se pode selecionar varios itens                                           |
-| mostra-acoes             |   false   | Boolean |                false | Mostra ou esconde ações de alterar/excluir                                       |
-| altura                   |   false   | String  |                100vh | Define uma nova altura para a tabela                                             |
-| carregar                 |   false   | Boolean |                false | Cria um efeito de loading na tabela                                              |
-| total-itens              |   false   | Number  |                   30 | Seta o total de itens para paginação no servidor                                 |
-| paginacao                |   false   | Object  | vuetify_page_options | Seta o objeto default de paginação no servidor                                   |
-| agrupar                  |   false   | String  |                 null | Seta por qual coluna deve agrupar                                                |
-| propriedades             |   false   |  Array  |                   [] | Seta as colunas visiveis na tabela                                               |
-| mostra-detalhes          |   false   | Boolean |                false | Mostra um icone de olho em cada linha para um evento customizado de detalhamento |
-| mostra-toolbar           |   false   | Boolean |                false | Esconde ou mostra o cabeçalho da tabela                                          |
+| Propriedade              | Required? |  Type   |        Default value | Descrição                                                                             |
+| :----------------------- | :-------: | :-----: | -------------------: | :------------------------------------------------------------------------------------ |
+| nome-tabela              |   false   | String  |                 null | Define um nome no cabeçalho da tabela                                                 |
+| linhas                   |   true    |  Array  |            undefined | Define as linhas no corpo da tabela                                                   |
+| colunas                  |   true    |  Array  |            undefined | Define as colunas da tabela                                                           |
+| mostra-linha-selecionada |   false   | Boolean |                false | Mostra com uma cor diferente a linha selecionada                                      |
+| mostra-propriedades      |   false   | Boolean |                false | Mostra as propriedade de ordenação/ocultação/agrupamento das colunas                  |
+| paginacao-servidor       |   false   | Boolean |                false | Desabilita a paginação no front-end e habilita a paginação no servidor                |
+| mostra-colunas           |   false   | Boolean |                 true | Remove ou mostra as colunas da tabela                                                 |
+| mostra-paginacao         |   false   | Boolean |                 true | Remove ou mostra a paginação no rodapé                                                |
+| mostra-pesquisa          |   false   | Boolean |                false | Remove ou mostra o cmapo de pesquisa na no cabeçalho                                  |
+| colunas-fixas            |   false   | Boolean |                 true | Fixa as colunas para não ter scroll                                                   |
+| mostra-agrupador         |   false   | Boolean |                false | Mostra o agrupador                                                                    |
+| ordenar-varios           |   false   | Boolean |                 true | Define de pode ordenar por varias colunas                                             |
+| pesquisa                 |   false   | String  |                 null | Valor do campo pesquisa                                                               |
+| chave-tabela             |   false   | String  |                  seq | Define uma chave para a tabela                                                        |
+| selecionar-varios        |   false   | Boolean |                false | Define se pode selecionar varios itens                                                |
+| mostra-acoes             |   false   | Boolean |                false | Mostra ou esconde ações de alterar/excluir                                            |
+| altura                   |   false   | String  |                100vh | Define uma nova altura para a tabela                                                  |
+| carregar                 |   false   | Boolean |                false | Cria um efeito de loading na tabela                                                   |
+| total-itens              |   false   | Number  |                   30 | Seta o total de itens para paginação no servidor                                      |
+| paginacao                |   false   | Object  | vuetify_page_options | Seta o objeto default de paginação no servidor                                        |
+| agrupar                  |   false   | String  |                 null | Seta por qual coluna deve agrupar                                                     |
+| propriedades             |   false   |  Array  |                   [] | Seta as colunas visiveis na tabela                                                    |
+| mostra-detalhes          |   false   | Boolean |                false | Mostra um icone de olho em cada linha para um evento customizado de detalhamento      |
+| mostra-toolbar           |   false   | Boolean |                false | Esconde ou mostra o cabeçalho da tabela                                               |
+| zoom-dialog              |   false   | Boolean |                false | Define se a tabela está aberta em um zoom ou tela normal                              |
+| nome-programa            |   false   | String  |                   "" | Mostra um tooltip com o nome equivalente do programa progress                         |
+| ordenar-desc             |   false   | Boolean |                false | Configura a ordenação descendente na tabela sem ordenação no servidor                 |
+| ordenar-por              |   false   | String  |                   "" | Configura a ordenação na tabela sem ordenação no servidor                             |
+| totalizar                |   false   | Boolean |                false | Mostra os totalizadores nas colunas definidas na configuração das headers             |
+| ativar-atalhos           |   false   | Boolean |                false | Ativa os atalhos do teclado para incluir, alterar, exluir registros                   |
+| copiar                   |   false   | Boolean |                 true | Mostra o botão de copiar registro na tabela                                           |
+| alterar                  |   false   | Boolean |                false | Mostra o botão de alterar registro na tabela                                          |
+| deletar                  |   false   | Boolean |                false | Mostra o botão de deletar registro na tabela                                          |
+| informacoes-da-pesquisa  |   false   | String  |                 null | Mostra na pesquisa um tooltip com as informações de quais campos é possível pesquisar |
 
 <br>
 
@@ -121,8 +131,11 @@ Nos seus componentes do projeto use:
 | @salvar-propriedades | Array de propriedades | Retorna as colunas/agrupamento e paginação atual para salvar em tela padrão |
 | @linha-selecionada   |                Object | Retorna um objeto com a linha atual selecionanda                            |
 | @paginando           |   Object de paginação | Retorna um objeto de paginação para usar com server side pagination         |
+| @incluir-item        |                Object | Retorna o evento de atalho para incluir um novo registro                    |
 | @alterar-item        |                Object | Retorna a linha selecionada para alterar                                    |
 | @deletar-item        |                Object | Retorna a linha selecionada para deletar                                    |
+| @copiar-item         |                Object | Retorna a linha selecionada para copiar                                     |
+| @exportar-item       |                Object | Retorna o evento de atalho para exportar um registro                        |
 | @ver-detalhes        |                Object | Retorna a linha selecionada para uma ação customizada                       |
 
 <br>
@@ -351,25 +364,25 @@ alert.show({
 <br>
 
 ```js
-import { toAblDate, formatNumber, toExcel, groupBy } from "cids-cgi/lib/util";
+import { toAblDate, formatNumber, toExcel, groupBy } from 'cids-cgi/lib/util'
 
 // converte data para o formato que o progress espera
-const dataAbl = toAblDate("2021-10-08", "dia"); // retorna = DATE(8, 10, 2021)
+const dataAbl = toAblDate('2021-10-08', 'dia') // retorna = DATE(8, 10, 2021)
 
 // converte data para o formato que o progress espera
-const dataAbl = toAblDate("2021-10-08", "mes"); // retorna = DATE(1, 10, 2021)
+const dataAbl = toAblDate('2021-10-08', 'mes') // retorna = DATE(1, 10, 2021)
 
 // converte data para o formato que o progress espera
-const dataAbl = toAblDate("2021-10-08", "ano"); // retorna = DATE(1, 1, 2021)
+const dataAbl = toAblDate('2021-10-08', 'ano') // retorna = DATE(1, 1, 2021)
 
 // formata numeros para padrão brasileiro
-const stringNumber = formatNumber(1234.12); //retorna = "1.234,12"
+const stringNumber = formatNumber(1234.12) //retorna = "1.234,12"
 
 // exporta e faz download de um arquivo XLSX a partir de um dataset
-toExcel(dataset, "placas"); // retorna = download de arquivo chamado placas.xlsx
+toExcel(dataset, 'placas') // retorna = download de arquivo chamado placas.xlsx
 
 // agrupa dataset por 0 ou n chaves
-const datasetGrouped = groupBy(dataset, (item) => ["nome", "cod_emp"]); // retorna = dataset agrupado por nome e cod_emp respectivamente
+const datasetGrouped = groupBy(dataset, (item) => ['nome', 'cod_emp']) // retorna = dataset agrupado por nome e cod_emp respectivamente
 ```
 
 ### - Sem Props
@@ -398,9 +411,9 @@ const datasetGrouped = groupBy(dataset, (item) => ["nome", "cod_emp"]); // retor
 <script>
   export default {
     data: () => ({
-      mask: "dia-mes-ano", // tipos: dia-mes-ano; dia-mes; mes-ano; hora; cpf; cnpj, cpf-cnpj;
+      mask: 'dia-mes-ano', // tipos: dia-mes-ano; dia-mes; mes-ano; hora; cpf; cnpj, cpf-cnpj;
     }),
-  };
+  }
 </script>
 ```
 

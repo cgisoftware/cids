@@ -22,7 +22,7 @@ const toAblQueryForm = (formConfig, form) => {
     linha[1].forEach((item, index) => {
       if (item.chave) {
         if (item.query) {
-          if (form[item.chave]) {
+          if (typeof form[item.chave] == "boolean" || form[item.chave]) {
             query += `${item.query.campo || item.chave} ${
               item.query.operacao
             } ${_formatacao(item.campo, item.tipo, form[item.chave])}`
@@ -48,6 +48,10 @@ const toAblQueryForm = (formConfig, form) => {
 const _formatacao = (campo, tipo, valor) => {
   if (campo === 'data') {
     return toAblDate(valor, 'dia')
+  }
+
+  if (campo === 'checkbox') {
+    return valor
   }
 
   if (tipo !== 'number') {

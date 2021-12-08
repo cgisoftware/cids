@@ -6,7 +6,7 @@
       @confirmar="confirmar"
       :selecionado1="itens"
       :selecionado="itens"
-      :form="form"
+      retornar-query
     ></cgi-form>
     <pre>
     <code
@@ -20,7 +20,7 @@
 
 <script>
 import moment from "moment";
-import CGIDataTableAcoes from "../table/CGIDataTableAcoes";
+import { alert } from "cids-cgi/lib/util";
 export default {
   data: () => ({
     form: {
@@ -35,98 +35,106 @@ export default {
                 @confirmar="confirmar"
                 :selecionado1="itens"
                 :selecionado="itens"
+                retornar-query
             ></cgi-form>
         <\/template>
 
         <script>
+            import { alert } from "cids-cgi/lib/util";
+            import moment from "moment";
             export default {
                 data: () => ({
                     itens: [
-                        {
-                            descricao: "teste",
-                            id: 1,
-                        },
-                        {
-                            descricao: "teste 2",
-                            id: 2,
-                        },
+                      {
+                        descricao: "teste",
+                        id: 1,
+                      },
+                      {
+                        descricao: "teste 2",
+                        id: 2,
+                      },
                     ],
                     configuracao: {
-                        linha1: [
-                            {
-                                coluna: 6,
-                                campo: "zoom",
-                                nome: "Nome",
-                                compacto: true,
-                                chave: "nome",
-                                chaveZoom: "id",
-                                zoom: CGIDataTableAcoes,
-                                posicao: "inicial",
-                                formataValor: true,
-                                valorInicial: 4,
-                            },
-                            {
-                                campo: "select",
-                                nome: "Selecionar",
-                                compacto: true,
-                                chave: "selecionado",
-                                textoItem: "descricao",
-                                valorItem: "id",
-                            },
-                            {
-                                campo: "autocomplete",
-                                nome: "Autocompletar",
-                                compacto: true,
-                                chave: "selecionado1",
-                                textoItem: "descricao",
-                                valorItem: "id",
-                            },
-                        ],
-                        linha2: [
-                            {
-                                campo: "texto",
-                                nome: "CPF",
-                                compacto: true,
-                                chave: "senha",
-                                mascara: ["###.###.###-##"],
-                            },
-                            {
-                                campo: "data",
-                                nome: "Data de nascimento",
-                                compacto: true,
-                                regras: [(v) => !!v || "Preencha o campo"],
-                                chave: "dtNascimento",
-                                valorInicial: moment().format("DD/MM/YYYY"),
-                            },
-                            {
-                                campo: "hora",
-                                nome: "Hora de nascimento",
-                                compacto: true,
-                                regras: [(v) => !!v || "Preencha o campo"],
-                                chave: "hrNascimento",
-                            },
-                        ],
-                        linha3: [
-                            {
-                                campo: "checkbox",
-                                nome: "Observação 1",
-                                compacto: true,
-                                chave: "observacao1",
-                            },
-                            {
-                                campo: "texto-area",
-                                nome: "Observação 2",
-                                compacto: true,
-                                regras: [(v) => !!v || "Preencha o campo"],
-                                chave: "observacao2",
-                            },
-                        ],
+                      linha1: [
+                        {
+                          campo: "select",
+                          nome: "Selecionar",
+                          compacto: true,
+                          chave: "selecionado",
+                          textoItem: "descricao",
+                          valorItem: "id",
+                          tipo: "number",
+                          query: {
+                            operacao: "=",
+                            comparacao: "and",
+                          },
+                        },
+                        {
+                          campo: "autocomplete",
+                          nome: "Autocompletar",
+                          compacto: true,
+                          chave: "selecionado1",
+                          textoItem: "descricao",
+                          valorItem: "id",
+                          tipo: "number",
+                          query: {
+                            campo: "cod_emp",
+                            operacao: "=",
+                            comparacao: "and",
+                          },
+                        },
+                      ],
+                      linha2: [
+                        {
+                          campo: "texto",
+                          nome: "CPF",
+                          compacto: true,
+                          chave: "senha",
+                          mascara: ["###.###.###-##"],
+                        },
+                        {
+                          campo: "data",
+                          nome: "Data de nascimento",
+                          compacto: true,
+                          regras: [(v) => !!v || "Preencha o campo"],
+                          chave: "dtNascimento",
+                          valorInicial: moment().format("DD/MM/YYYY"),
+                        },
+                        {
+                          campo: "hora",
+                          nome: "Hora de nascimento",
+                          compacto: true,
+                          regras: [(v) => !!v || "Preencha o campo"],
+                          chave: "hrNascimento",
+                        },
+                      ],
+                      linha3: [
+                        {
+                          campo: "checkbox",
+                          nome: "Observação 1",
+                          compacto: true,
+                          chave: "observacao1",
+                          valorInicial: false,
+                          query: {
+                            operacao: "=",
+                            comparacao: "and",
+                          },
+                        },
+                        {
+                          campo: "texto-area",
+                          nome: "Observação 2",
+                          compacto: true,
+                          regras: [(v) => !!v || "Preencha o campo"],
+                          chave: "observacao2",
+                          valorInicial: "teste",
+                        },
+                      ],
                     },
                 }),
                 methods: {
-                    confirmar(form) {
-                        console.log(form);
-                    },
+                  confirmar(query) {
+                    alert.show({ message: query });
+                  },
                 },
             };
         <\/script>
@@ -146,25 +154,17 @@ export default {
     configuracao: {
       linha1: [
         {
-          coluna: 6,
-          campo: "zoom",
-          nome: "Nome",
-          compacto: true,
-          chave: "nome",
-          chaveZoom: "id",
-          zoom: CGIDataTableAcoes,
-          posicao: "inicial",
-          formataValor: true,
-          valorInicial: 4,
-     
-        },
-        {
           campo: "select",
           nome: "Selecionar",
           compacto: true,
           chave: "selecionado",
           textoItem: "descricao",
           valorItem: "id",
+          tipo: "number",
+          query: {
+            operacao: "=",
+            comparacao: "and",
+          },
         },
         {
           campo: "autocomplete",
@@ -173,6 +173,12 @@ export default {
           chave: "selecionado1",
           textoItem: "descricao",
           valorItem: "id",
+          tipo: "number",
+          query: {
+            campo: "cod_emp",
+            operacao: "=",
+            comparacao: "and",
+          },
         },
       ],
       linha2: [
@@ -205,6 +211,11 @@ export default {
           nome: "Observação 1",
           compacto: true,
           chave: "observacao1",
+          valorInicial: false,
+          query: {
+            operacao: "=",
+            comparacao: "and",
+          },
         },
         {
           campo: "texto-area",
@@ -212,14 +223,14 @@ export default {
           compacto: true,
           regras: [(v) => !!v || "Preencha o campo"],
           chave: "observacao2",
-          valorInicial: "teste"
+          valorInicial: "teste",
         },
       ],
     },
   }),
   methods: {
-    confirmar(form) {
-      console.log(form);
+    confirmar(query) {
+      alert.show({ message: query });
     },
   },
 };

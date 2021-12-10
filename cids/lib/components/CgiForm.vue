@@ -13,7 +13,7 @@
     <v-card-text class="mt-10">
       <v-form
         ref="form"
-        :readonly="carregando"
+        :disabled="carregando"
       >
         <v-row
           v-for="linha in qtdLinhas"
@@ -126,7 +126,7 @@
         @click="confirmar"
         :loading="carregando"
       >
-        <v-icon left>mdi-content-save</v-icon> {{ labelConfirmacao }}
+        <v-icon left>{{ iconeConfirmacao }}</v-icon> {{ labelConfirmacao }}
       </v-btn>
     </v-card-actions>
   </v-card>
@@ -246,6 +246,10 @@ export default {
     carregando: {
       type: Boolean,
       default: () => false,
+    },
+    "icone-confirmacao": {
+      type: String,
+      default: () => "mdi-content-save",
     },
   },
 };

@@ -11,7 +11,10 @@
       >{{ titulo }}</v-toolbar>
     </v-card-title>
     <v-card-text class="mt-10">
-      <v-form ref="form">
+      <v-form
+        ref="form"
+        :readonly="carregando"
+      >
         <v-row
           v-for="linha in qtdLinhas"
           :key="linha"
@@ -102,6 +105,7 @@
         outlined
         color="red"
         small
+        :disabled="carregando"
       >
         <v-icon left>mdi-delete</v-icon> Cancelar
       </v-btn>
@@ -111,6 +115,7 @@
         outlined
         color="primary"
         small
+        :disabled="carregando"
       >
         <v-icon left>mdi-broom</v-icon> Limpar
       </v-btn>
@@ -119,6 +124,7 @@
         color="primary"
         small
         @click="confirmar"
+        :loading="carregando"
       >
         <v-icon left>mdi-content-save</v-icon> {{ labelConfirmacao }}
       </v-btn>
@@ -128,7 +134,7 @@
 
 <script>
 // import { mask } from "ke-the-mask";
-import { toAblQueryForm } from '../util'
+import { toAblQueryForm } from "../util";
 export default {
   // directives: { mask },
   data: (vm) => ({
@@ -145,12 +151,15 @@ export default {
             obj[item.chave] = "valorInicial" in item ? item.valorInicial : null;
           }
 
-          this.$watch(`internalForm.${item.chave}`, function (newValue, oldValue) {
-            this.$emit(`change-${item.chave}`, {
-              valorAnterior: oldValue,
-              valorNovo: newValue
-            })
-          });
+          this.$watch(
+            `internalForm.${item.chave}`,
+            function (newValue, oldValue) {
+              this.$emit(`change-${item.chave}`, {
+                valorAnterior: oldValue,
+                valorNovo: newValue,
+              });
+            }
+          );
         }
       }
     }
@@ -181,16 +190,18 @@ export default {
       this.$emit("cancelar");
     },
     confirmar() {
-      if (this.$refs.form.validate()) {
-        if (this.retornarQuery) {
-          const query = toAblQueryForm(this.configuracao, this.internalForm)
-          this.$emit("confirmar", query);
-        } else {
-          this.$emit("confirmar");
-        }
+      if (!this.carregando) {
+        if (this.$refs.form.validate()) {
+          if (this.retornarQuery) {
+            const query = toAblQueryForm(this.configuracao, this.internalForm);
+            this.$emit("confirmar", query);
+          } else {
+            this.$emit("confirmar");
+          }
 
-        // this.limpar();
-        this.$refs.form.resetValidation();
+          // this.limpar();
+          this.$refs.form.resetValidation();
+        }
       }
     },
     limpar() {
@@ -226,12 +237,16 @@ export default {
     },
     largura: {
       type: String,
-      default: () => ""
+      default: () => "",
     },
-    'retornar-query': {
+    "retornar-query": {
       type: Boolean,
       default: () => false,
-    }
+    },
+    carregando: {
+      type: Boolean,
+      default: () => false,
+    },
   },
 };
 </script>

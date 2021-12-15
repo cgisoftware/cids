@@ -1,13 +1,17 @@
 <template>
   <div>
-    <cgi-form
-      titulo="Titulo do form"
-      :configuracao="configuracao"
-      @confirmar="confirmar"
-      :selecionado1="itens"
-      :selecionado="itens"
-      retornar-query
-    ></cgi-form>
+    <div @click="teste">asdasdasds</div>
+    <v-dialog v-model="dialog">
+      <cgi-form
+        titulo="Titulo do form"
+        :configuracao="configuracao"
+        @confirmar="confirmar"
+        :selecionado1="itens"
+        :selecionado="itens"
+        retornar-query
+        v-model="controller.form"
+      ></cgi-form>
+    </v-dialog>
     <pre>
     <code
         class="language-html py-5"
@@ -23,8 +27,11 @@ import moment from "moment";
 import { alert } from "cids-cgi/lib/util";
 export default {
   data: () => ({
-    form: {
-      observacao2: "kkkkkkkkk",
+    dialog: false,
+    controller: {
+      form: {
+        observacao2: "kkkkkkkkk",
+      },
     },
     dataExample: Prism.highlight(
       `
@@ -195,7 +202,6 @@ export default {
           compacto: true,
           regras: [(v) => !!v || "Preencha o campo"],
           chave: "dtNascimento",
-          valorInicial: moment().format("DD/MM/YYYY"),
         },
         {
           campo: "hora",
@@ -223,7 +229,7 @@ export default {
           compacto: true,
           regras: [(v) => !!v || "Preencha o campo"],
           chave: "observacao2",
-          valorInicial: "teste",
+      
         },
       ],
     },
@@ -231,6 +237,10 @@ export default {
   methods: {
     confirmar(query) {
       alert.show({ message: query });
+    },
+    teste() {
+      this.controller.form.dtNascimento = "10/10/2020";
+      this.dialog = true;
     },
   },
 };

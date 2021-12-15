@@ -141,30 +141,7 @@ export default {
     internalForm: vm.value || {},
   }),
   mounted() {
-    const obj = {};
-    for (let linha of Object.entries(this.configuracao)) {
-      for (let item of linha[1]) {
-        if (item.chave) {
-          if (item.chave in this.internalForm) {
-            obj[item.chave] = this.internalForm[item.chave];
-          } else {
-            obj[item.chave] = "valorInicial" in item ? item.valorInicial : null;
-          }
-
-          this.$watch(
-            `internalForm.${item.chave}`,
-            function (newValue, oldValue) {
-              this.$emit(`change-${item.chave}`, {
-                valorAnterior: oldValue,
-                valorNovo: newValue,
-              });
-            }
-          );
-        }
-      }
-    }
-    this.internalForm = obj;
-    this.$refs.form.resetValidation();
+    this.ajustaFormulario();
   },
   computed: {
     qtdLinhas() {
@@ -183,8 +160,38 @@ export default {
       },
       deep: true,
     },
+    value() {
+      this.ajustaFormulario();
+    },
   },
   methods: {
+    ajustaFormulario() {
+      const obj = {};
+      for (let linha of Object.entries(this.configuracao)) {
+        for (let item of linha[1]) {
+          if (item.chave) {
+            if (item.chave in this.internalForm) {
+              obj[item.chave] = this.internalForm[item.chave];
+            } else {
+              obj[item.chave] =
+                "valorInicial" in item ? item.valorInicial : null;
+            }
+
+            this.$watch(
+              `internalForm.${item.chave}`,
+              function (newValue, oldValue) {
+                this.$emit(`change-${item.chave}`, {
+                  valorAnterior: oldValue,
+                  valorNovo: newValue,
+                });
+              }
+            );
+          }
+        }
+      }
+      this.internalForm = obj;
+      this.$refs.form.resetValidation();
+    },
     cancelar() {
       //this.limpar();
       this.$emit("cancelar");

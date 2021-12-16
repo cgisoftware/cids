@@ -138,7 +138,7 @@ import { toAblQueryForm } from "../util";
 export default {
   // directives: { mask },
   data: (vm) => ({
-    internalForm: vm.value || {},
+    internalForm: vm.value,
   }),
   mounted() {
     const obj = {};
@@ -230,7 +230,9 @@ export default {
       type: Boolean,
       default: () => true,
     },
-    value: {},
+    value: {
+      default: () => {}
+    },
     "label-confirmacao": {
       type: String,
       default: () => "Salvar",

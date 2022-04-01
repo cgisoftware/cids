@@ -1,11 +1,13 @@
 <template>
-  <div>
+  <div style="margin-top: -20px">
     <v-row>
-      <v-col :cols="formataValor ? 4 : 12">
+      <v-col class="py-0 my-0" cols="12" >
+        {{nome}}
+      </v-col>
+      <v-col class="mt-0 pt-0" :cols="formataValor ? 4 : 12">
         <v-text-field
           v-if="!custom"
           :dense="compacto"
-          :label="nome"
           :rules="regras"
           v-model="valor"
           :type="tipo"
@@ -19,8 +21,9 @@
         >
         </v-text-field>
       </v-col>
-      <v-col v-if="formataValor">
+      <v-col class="mt-0 pt-0" v-if="formataValor">
         <v-text-field
+          tabindex="-1"
           v-if="!custom"
           :dense="compacto"
           :value="descricao"
@@ -111,7 +114,7 @@ export default {
     },
     async chamaZoom() {
       this.dialog = true;
-      await new Promise((resolver) => setTimeout(resolver, 200));
+      await new Promise((resolver) => setTimeout(resolver, 100));
       this.$refs.component.controller.dialogZoom = true;
       if (this.custom) {
         this.$refs.component.controller.preencheFormulario(
@@ -120,7 +123,7 @@ export default {
         );
       } else {
         this.$refs.component.controller.pesquisa = null;
-        await new Promise((resolver) => setTimeout(resolver, 400));
+        await new Promise((resolver) => setTimeout(resolver, 100));
         this.$refs.component.controller.pesquisa =
           this.valor !== 0 && this.valor ? this.valor.toString() : null;
       }
@@ -211,10 +214,10 @@ export default {
     "ao-digitar": {
       type: Function,
     },
-    "tipo": {
+    tipo: {
       type: String,
-      default: () => "number"
-    }
+      default: () => "number",
+    },
   },
 };
 </script>

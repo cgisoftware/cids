@@ -32,6 +32,7 @@
               v-model="internalForm[configuracao[`linha${linha}`][coluna-1].chave]"
               v-mask="configuracao[`linha${linha}`][coluna-1].mascara"
               :type="configuracao[`linha${linha}`][coluna-1].tipo"
+              :readonly="configuracao[`linha${linha}`][coluna-1].desabilitado"
             ></v-text-field>
             <v-textarea
               :dense="configuracao[`linha${linha}`][coluna-1].compacto"
@@ -39,6 +40,7 @@
               v-if="configuracao[`linha${linha}`][coluna-1].campo == 'texto-area'"
               :rules="configuracao[`linha${linha}`][coluna-1].regras"
               v-model="internalForm[configuracao[`linha${linha}`][coluna-1].chave]"
+              :readonly="configuracao[`linha${linha}`][coluna-1].desabilitado"
             ></v-textarea>
             <cgi-date-picker
               :compacto="configuracao[`linha${linha}`][coluna-1].compacto"
@@ -46,6 +48,7 @@
               v-if="configuracao[`linha${linha}`][coluna-1].campo == 'data'"
               :regras="configuracao[`linha${linha}`][coluna-1].regras"
               v-model="internalForm[configuracao[`linha${linha}`][coluna-1].chave]"
+              :desabilitado="configuracao[`linha${linha}`][coluna-1].desabilitado"
             ></cgi-date-picker>
             <cgi-time-picker
               :compacto="configuracao[`linha${linha}`][coluna-1].compacto"
@@ -53,6 +56,7 @@
               v-if="configuracao[`linha${linha}`][coluna-1].campo == 'hora'"
               :regras="configuracao[`linha${linha}`][coluna-1].regras"
               v-model="internalForm[configuracao[`linha${linha}`][coluna-1].chave]"
+              :desabilitado="configuracao[`linha${linha}`][coluna-1].desabilitado"
             ></cgi-time-picker>
             <cgi-zoom-picker
               :compacto="configuracao[`linha${linha}`][coluna-1].compacto"
@@ -65,6 +69,8 @@
               :posicao="configuracao[`linha${linha}`][coluna-1].posicao"
               :formata-valor="configuracao[`linha${linha}`][coluna-1].formataValor"
               :ao-digitar="configuracao[`linha${linha}`][coluna-1].aoDigitar"
+              :desabilitado="configuracao[`linha${linha}`][coluna-1].desabilitado"
+              :campo-valor-formatado="configuracao[`linha${linha}`][coluna-1].campoValorFormatado || 'nome'"
             ></cgi-zoom-picker>
             <v-select
               :label="configuracao[`linha${linha}`][coluna-1].nome"
@@ -75,6 +81,10 @@
               :items="customProps[configuracao[`linha${linha}`][coluna-1].chave]"
               :item-text="configuracao[`linha${linha}`][coluna-1].textoItem"
               :item-value="configuracao[`linha${linha}`][coluna-1].valorItem"
+              :readonly="configuracao[`linha${linha}`][coluna-1].desabilitado"
+              :multiple="configuracao[`linha${linha}`][coluna-1].multiplo"
+              :chips="configuracao[`linha${linha}`][coluna-1].multiplo"
+              :small-chips="configuracao[`linha${linha}`][coluna-1].multiplo"
             ></v-select>
             <v-autocomplete
               :label="configuracao[`linha${linha}`][coluna-1].nome"
@@ -85,6 +95,10 @@
               :items="customProps[configuracao[`linha${linha}`][coluna-1].chave]"
               :item-text="configuracao[`linha${linha}`][coluna-1].textoItem"
               :item-value="configuracao[`linha${linha}`][coluna-1].valorItem"
+              :readonly="configuracao[`linha${linha}`][coluna-1].desabilitado"
+              :multiple="configuracao[`linha${linha}`][coluna-1].multiplo"
+              :chips="configuracao[`linha${linha}`][coluna-1].multiplo"
+              :small-chips="configuracao[`linha${linha}`][coluna-1].multiplo"
             ></v-autocomplete>
             <v-checkbox
               dense
@@ -92,8 +106,21 @@
               v-model="internalForm[configuracao[`linha${linha}`][coluna-1].chave]"
               :regras="configuracao[`linha${linha}`][coluna-1].regras"
               v-if="configuracao[`linha${linha}`][coluna-1].campo == 'checkbox'"
+              :readonly="configuracao[`linha${linha}`][coluna-1].desabilitado"
             >
             </v-checkbox>
+            <v-btn
+              block
+              v-if="configuracao[`linha${linha}`][coluna-1].campo == 'botao'"
+              @click="$emit('click-'+configuracao[`linha${linha}`][coluna-1].chave)"
+              :color="configuracao[`linha${linha}`][coluna-1].cor"
+            >
+              <v-icon
+                v-if="configuracao[`linha${linha}`][coluna-1].icone"
+                left
+              >{{ configuracao[`linha${linha}`][coluna-1].icone }}</v-icon>
+              {{ configuracao[`linha${linha}`][coluna-1].nome }}
+            </v-btn>
           </v-col>
         </v-row>
       </v-form>
@@ -106,10 +133,11 @@
         color="red"
         small
         :disabled="carregando"
+        v-if="mostraCancelar"
       >
         <v-icon left>mdi-delete</v-icon> Cancelar
       </v-btn>
-      <v-spacer></v-spacer>
+      <v-spacer v-if="mostraCancelar"></v-spacer>
       <v-btn
         @click="limpar"
         outlined
@@ -139,6 +167,23 @@ export default {
   // directives: { mask },
   data: (vm) => ({
     internalForm: vm.value,
+    enumTipos: {
+      integer: (valor) => {
+        return parseInt(valor);
+      },
+      float: (valor) => {
+        return parseFloat(valor);
+      },
+      boolean: (valor) => {
+        return valor === "true";
+      },
+      string: (valor) => {
+        return valor;
+      },
+      list: (valor) => {
+        return valor?.toString().split(",").map((val) => parseInt(val)) ?? []
+      },
+    },
   }),
   mounted() {
     const obj = {};
@@ -151,15 +196,17 @@ export default {
             obj[item.chave] = "valorInicial" in item ? item.valorInicial : null;
           }
 
-          this.$watch(
-            `internalForm.${item.chave}`,
-            function (newValue, oldValue) {
-              this.$emit(`change-${item.chave}`, {
-                valorAnterior: oldValue,
-                valorNovo: newValue,
-              });
-            }
-          );
+          if (item.campo !== "botao") {
+            this.$watch(
+              `internalForm.${item.chave}`,
+              function (newValue, oldValue) {
+                this.$emit(`change-${item.chave}`, {
+                  valorAnterior: oldValue,
+                  valorNovo: newValue,
+                });
+              }
+            );
+          }
         }
       }
     }
@@ -182,6 +229,20 @@ export default {
         this.$emit("change", val);
       },
       deep: true,
+    },
+    value() {
+      const obj = Object.assign(this.internalForm, this.value);
+
+      for (let linha of Object.entries(this.configuracao)) {
+        for (let item of linha[1]) {
+          if (obj[item.chave]) {
+            obj[item.chave] = this.enumTipos[item.conversor](obj[item.chave]);
+          }
+        }
+      }
+
+      this.internalForm = obj;
+      this.$refs.form.resetValidation();
     },
   },
   methods: {
@@ -231,7 +292,7 @@ export default {
       default: () => true,
     },
     value: {
-      default: () => {}
+      default: () => {},
     },
     "label-confirmacao": {
       type: String,
@@ -252,6 +313,10 @@ export default {
     "icone-confirmacao": {
       type: String,
       default: () => "mdi-content-save",
+    },
+    "mostra-cancelar": {
+      type: Boolean,
+      default: () => true,
     },
   },
 };

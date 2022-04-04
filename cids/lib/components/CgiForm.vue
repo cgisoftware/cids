@@ -24,6 +24,28 @@
             v-for="coluna in configuracao[`linha${linha}`].length"
             :key="coluna"
           >
+            <v-row
+              no-gutters
+              v-if="configuracao[`linha${linha}`][coluna-1].campo == 'divisor'"
+              class="mb-3"
+            >
+              <v-col
+              
+          
+              >
+                <v-divider class="mt-4" />
+              </v-col>
+              <v-col
+                
+                class="text-center"
+              > {{ configuracao[`linha${linha}`][coluna-1].nome }} </v-col>
+              <v-col
+              
+               
+              >
+                <v-divider class="mt-3" />
+              </v-col>
+            </v-row>
             <v-text-field
               :dense="configuracao[`linha${linha}`][coluna-1].compacto"
               :label="configuracao[`linha${linha}`][coluna-1].nome"
@@ -181,7 +203,12 @@ export default {
         return valor;
       },
       list: (valor) => {
-        return valor?.toString().split(",").map((val) => parseInt(val)) ?? []
+        return (
+          valor
+            ?.toString()
+            .split(",")
+            .map((val) => parseInt(val)) ?? []
+        );
       },
     },
   }),

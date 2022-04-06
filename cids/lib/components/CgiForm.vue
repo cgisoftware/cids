@@ -262,7 +262,7 @@ export default {
 
       for (let linha of Object.entries(this.configuracao)) {
         for (let item of linha[1]) {
-          if (obj[item.chave]) {
+          if (obj[item.chave] && item.conversor) {
             obj[item.chave] = this.enumTipos[item.conversor](obj[item.chave]);
           }
         }

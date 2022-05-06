@@ -33,6 +33,8 @@ Para rodar um projeto Vue e usar nossa biblioteca você precisa, além do vue co
 
 ```
 $ npm i cids-cgi
+$ npm install @mdi/font -D
+$ npm i moment
 ```
 
 **No arquivo main.js do seu projeto adicione**

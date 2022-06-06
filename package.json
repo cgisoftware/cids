@@ -13,10 +13,14 @@
     "ke-the-mask": "0.0.3",
     "moment": "^2.29.1",
     "prismjs": "^1.23.0",
+    "vanilla-masker": "^1.2.0",
     "vue": "^2.6.11",
-    "vuetify": "^2.5.0"
+    "vuedraggable": "^2.24.3",
+    "vuetify": "^2.5.0",
+    "xlsx": "^0.18.5"
   },
   "devDependencies": {
+    "@mdi/font": "^6.7.96",
     "@vue/cli-plugin-babel": "~4.5.0",
     "@vue/cli-service": "~4.5.0",
     "sass": "^1.32.0",

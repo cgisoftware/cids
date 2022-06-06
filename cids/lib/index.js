@@ -8,6 +8,8 @@ import CgiZoomPad from './components/CgiZoomPad.vue'
 import CgiTreeView from './components/CgiTreeView.vue'
 import CgiImagePicker from './components/CgiImagePicker.vue'
 import CgiForm from './components/CgiForm.vue'
+import CgiBtn from './components/CgiBtn.vue'
+import CgiAcoes from './components/CgiAcoes.vue'
 
 import '@mdi/font/css/materialdesignicons.css'
 import { alert, snackbar, reticencias, formatNumber } from './util'
@@ -43,6 +45,8 @@ export default {
     Vue.component('cgi-tree-view', CgiTreeView)
     Vue.component('cgi-image-picker', CgiImagePicker)
     Vue.component('cgi-form', CgiForm)
+    Vue.component('cgi-btn', CgiBtn)
+    Vue.component('cgi-acoes', CgiAcoes)
 
     Vue.use(CgiMaskDirective)
     Vue.use(CgiMoneyDirective)

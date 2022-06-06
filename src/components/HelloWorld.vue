@@ -8,11 +8,14 @@
     <v-main>
       <v-row justify="center" align="start">
         <v-col cols="12" lg="4">
+          <CGIBtn />
           <v-card>
             <v-card-title>
               Pickers - Hora
             </v-card-title>
             <v-card-text>
+              
+
               <CGITimePickerNormal />
 
               <CGITimePickerCompacto />
@@ -210,6 +213,7 @@ import Money from "./directives/Money";
 import Number from "./directives/Number";
 import CGIImagePicker from './image-picker/CGIImagePicker.vue'
 import CGIForm from './form/CGIForm.vue'
+import CGIBtn from './btn/btn.vue'
 
 export default {
   components: {
@@ -237,6 +241,7 @@ export default {
     Alert,
     CGIImagePicker,
     CGIForm,
+    CGIBtn
   },
   data: () => ({
     hora: "08:02",

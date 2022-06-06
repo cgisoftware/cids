@@ -54,19 +54,36 @@
       >mdi-content-copy</v-icon> copiar
     </v-btn>
 
-    <v-btn
-      small
-      text
-      v-if="filtro"
-      @click="$emit('click')"
-      :disabled="desabilitado"
-      :loading="carregando"
+    <v-menu
+      v-model="menu"
+      :close-on-content-click="false"
+      :close-on-click="false"
+      :nudge-width="200"
+      offset-x
+      offset-y
     >
-      <v-icon
-        left
-        color="primary"
-      >mdi-filter</v-icon> filtro
-    </v-btn>
+      <template v-slot:activator="{ on, attrs }">
+        <v-btn
+          v-bind="attrs"
+          v-on="on"
+          small
+          text
+          v-if="filtro"
+          :disabled="desabilitado"
+          :loading="carregando"
+        >
+          <v-icon
+            left
+            color="primary"
+          >mdi-filter</v-icon> filtro
+        </v-btn>
+      </template>
+
+      <slot
+        name="formulario"
+        v-bind:cancelar="cancelarMenu"
+      />
+    </v-menu>
 
     <v-btn
       small
@@ -146,6 +163,14 @@
 
 <script>
 export default {
+  data: () => ({
+    menu: false,
+  }),
+  methods: {
+    cancelarMenu() {
+      this.menu = false;
+    },
+  },
   computed: {
     incluirDefault() {
       return (

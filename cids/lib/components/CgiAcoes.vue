@@ -104,7 +104,14 @@
       :carregando="carregarFiltro"
       :desabilitado="desabilitarFiltro"
       @click="$emit('filtro')"
-    ></cgi-btn>
+    >
+      <template v-slot:formulario="{ cancelar }">
+        <slot
+          name="formulario"
+          v-bind:cancelar="cancelar"
+        />
+      </template>
+    </cgi-btn>
   </div>
 </template>
 

@@ -7,7 +7,22 @@
       <cgi-btn copiar></cgi-btn>
       <cgi-btn pdf></cgi-btn>
       <cgi-btn relatorio></cgi-btn>
-      <cgi-btn filtro></cgi-btn>
+      <cgi-btn filtro>
+        <template v-slot:formulario="{ cancelar }">
+          <v-card>
+            <v-card-text>
+              asdjaiosdjioj
+            </v-card-text>
+            <v-card-actions>
+              <cgi-btn
+                cancelar
+                @click="cancelar"
+              ></cgi-btn>
+            </v-card-actions>
+          </v-card>
+        </template>
+
+      </cgi-btn>
       <cgi-btn excel></cgi-btn>
       <cgi-btn salvar></cgi-btn>
       <cgi-btn cancelar></cgi-btn>
@@ -24,7 +39,21 @@
       :carregar-alterar="carregando"
       @alterar="teste"
       filtro
-    ></cgi-acoes>
+    >
+      <template v-slot:formulario="{ cancelar }">
+        <v-card>
+          <v-card-text>
+            form
+          </v-card-text>
+          <v-card-actions>
+            <cgi-btn
+              cancelar
+              @click="cancelar"
+            ></cgi-btn>
+          </v-card-actions>
+        </v-card>
+      </template>
+    </cgi-acoes>
   </div>
 </template>
 

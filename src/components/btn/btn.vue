@@ -7,6 +7,7 @@
       <cgi-btn copiar></cgi-btn>
       <cgi-btn pdf></cgi-btn>
       <cgi-btn relatorio></cgi-btn>
+      <cgi-btn atualizar></cgi-btn>
       <cgi-btn filtro>
         <template v-slot:formulario="{ cancelar }">
           <v-card>
@@ -39,6 +40,7 @@
       :carregar-alterar="carregando"
       @alterar="teste"
       filtro
+      atualizar
     >
       <template v-slot:formulario="{ cancelar }">
         <v-card>

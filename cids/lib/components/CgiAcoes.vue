@@ -1,6 +1,20 @@
 <template>
   <div class="d-flex">
     <cgi-btn
+      v-if="atualizar"
+      atualizar
+      :carregando="carregarAtualizar"
+      :desabilitado="desabilitarAtualizar"
+      @click="$emit('atualizar')"
+    ></cgi-btn>
+
+    <v-divider
+      v-if="atualizar"
+      class="mx-1"
+      vertical
+    ></v-divider>
+
+    <cgi-btn
       v-if="incluir"
       incluir
       :carregando="carregarIncluir"
@@ -211,6 +225,18 @@ export default {
       default: () => false,
     },
     carregarPdf: {
+      type: Boolean,
+      default: () => false,
+    },
+    atualizar: {
+      type: Boolean,
+      default: () => false,
+    },
+    desabilitarAtualizar: {
+      type: Boolean,
+      default: () => false,
+    },
+    carregarAtualizar: {
       type: Boolean,
       default: () => false,
     },

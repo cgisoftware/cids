@@ -2,56 +2,18 @@
   <div>
     <v-btn
       small
-      text
-      v-if="incluirDefault"
+      v-if="!filtro"
+      :text="btn.text"
+      :outlined="btn.outlined"
       @click="$emit('click')"
       :disabled="desabilitado"
       :loading="carregando"
+      :color="cancelar || salvar ? btn.cor : null"
     >
       <v-icon
         left
-        color="blue"
-      >mdi-plus</v-icon> incluir
-    </v-btn>
-
-    <v-btn
-      small
-      text
-      v-if="alterar"
-      @click="$emit('click')"
-      :disabled="desabilitado"
-      :loading="carregando"
-    >
-      <v-icon
-        left
-        color="orange"
-      >mdi-pencil</v-icon> alterar
-    </v-btn>
-
-    <v-btn
-      small
-      text
-      v-if="deletar"
-      @click="$emit('click')"
-      :disabled="desabilitado"
-      :loading="carregando"
-    >
-      <v-icon
-        left
-        color="red"
-      >mdi-delete</v-icon> excluir
-    </v-btn>
-
-    <v-btn
-      small
-      text
-      v-if="copiar"
-      @click="$emit('click')"
-    >
-      <v-icon
-        left
-        color="green darken-2"
-      >mdi-content-copy</v-icon> copiar
+        :color="!salvar ? btn.cor : null"
+      >{{ btn.icone }}</v-icon> {{ btn.label }}
     </v-btn>
 
     <v-menu
@@ -84,80 +46,6 @@
         v-bind:cancelar="cancelarMenu"
       />
     </v-menu>
-
-    <v-btn
-      small
-      text
-      v-if="relatorio"
-      @click="$emit('click')"
-      :disabled="desabilitado"
-      :loading="carregando"
-    >
-      <v-icon
-        left
-        color="orange"
-      >mdi-file-chart</v-icon> relatorio
-    </v-btn>
-
-    <v-btn
-      small
-      text
-      v-if="excel"
-      @click="$emit('click')"
-      :disabled="desabilitado"
-      :loading="carregando"
-    >
-      <v-icon
-        left
-        color="green"
-      >mdi-file-excel</v-icon> excel
-    </v-btn>
-
-    <v-btn
-      small
-      text
-      v-if="pdf"
-      @click="$emit('click')"
-      :disabled="desabilitado"
-      :loading="carregando"
-    >
-      <v-icon
-        left
-        color="red"
-      >mdi-file-pdf-box</v-icon> pdf
-    </v-btn>
-
-    <v-btn
-      v-if="salvar"
-      color="primary"
-      @click="$emit('click')"
-      :disabled="desabilitado"
-      :loading="carregando"
-    >
-      <v-icon left>mdi-content-save</v-icon> salvar
-    </v-btn>
-
-    <v-btn
-      v-if="cancelar"
-      outlined
-      color="red"
-      @click="$emit('click')"
-      :disabled="desabilitado"
-      :loading="carregando"
-    >
-      <v-icon left>mdi-delete</v-icon> cancelar
-    </v-btn>
-
-    <v-btn
-      v-if="limpar"
-      outlined
-      color="primary"
-      @click="$emit('click')"
-      :disabled="desabilitado"
-      :loading="carregando"
-    >
-      <v-icon left>mdi-broom</v-icon> limpar
-    </v-btn>
   </div>
 </template>
 
@@ -165,6 +53,83 @@
 export default {
   data: () => ({
     menu: false,
+    botoes: [
+      {
+        label: "Incluir",
+        icone: "mdi-plus",
+        cor: "blue",
+        outlined: false,
+        text: true,
+      },
+      {
+        label: "Alterar",
+        icone: "mdi-pencil",
+        cor: "orange",
+        outlined: false,
+        text: true,
+      },
+      {
+        label: "Excluir",
+        icone: "mdi-delete",
+        cor: "red",
+        outlined: false,
+        text: true,
+      },
+      {
+        label: "Copiar",
+        icone: "mdi-content-copy",
+        cor: "green darken-2",
+        outlined: false,
+        text: true,
+      },
+      {
+        label: "Relatório",
+        icone: "mdi-file-chart",
+        cor: "orange",
+        outlined: false,
+        text: true,
+      },
+      {
+        label: "Excel",
+        icone: "mdi-file-excel",
+        cor: "green",
+        outlined: false,
+        text: true,
+      },
+      {
+        label: "Pdf",
+        icone: "mdi-file-pdf-box",
+        outlined: false,
+        text: true,
+      },
+      {
+        label: "Salvar",
+        icone: "mdi-content-save",
+        cor: "primary",
+        outlined: false,
+        text: false,
+      },
+      {
+        label: "Cancelar",
+        icone: "mdi-delete",
+        cor: "red",
+        outlined: true,
+      },
+      {
+        label: "Limpar",
+        icone: "mdi-broom",
+        cor: "primary",
+        outlined: true,
+        text: false,
+      },
+      {
+        label: "Atualizar",
+        icone: "mdi-reload",
+        cor: "green",
+        outlined: false,
+        text: true,
+      },
+    ],
   }),
   methods: {
     cancelarMenu() {
@@ -172,26 +137,54 @@ export default {
     },
   },
   computed: {
-    incluirDefault() {
-      return (
-        this.incluir &&
-        !this.alterar &&
-        !this.deletar &&
-        !this.copiar &&
-        !this.filtro &&
-        !this.relatorio &&
-        !this.excel &&
-        !this.pdf &&
-        !this.salvar &&
-        !this.cancelar &&
-        !this.limpar
-      );
+    btn() {
+      if (this.alterar) {
+        return this.botoes[1];
+      }
+
+      if (this.deletar) {
+        return this.botoes[2];
+      }
+
+      if (this.copiar) {
+        return this.botoes[3];
+      }
+
+      if (this.relatorio) {
+        return this.botoes[4];
+      }
+
+      if (this.excel) {
+        return this.botoes[5];
+      }
+
+      if (this.pdf) {
+        return this.botoes[6];
+      }
+
+      if (this.salvar) {
+        return this.botoes[7];
+      }
+
+      if (this.cancelar) {
+        return this.botoes[8];
+      }
+
+      if (this.limpar) {
+        return this.botoes[9];
+      }
+
+      if (this.atualizar) {
+        return this.botoes[10];
+      }
+
+      return this.botoes[0];
     },
   },
   props: {
     incluir: {
       type: Boolean,
-      default: () => true,
+      default: () => false,
     },
     alterar: {
       type: Boolean,
@@ -230,6 +223,10 @@ export default {
       default: () => false,
     },
     cancelar: {
+      type: Boolean,
+      default: () => false,
+    },
+    atualizar: {
       type: Boolean,
       default: () => false,
     },

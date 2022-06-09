@@ -32,8 +32,16 @@ export default {
       return {
         "--radius": this.circular ? "100px" : "0",
         "--height": this.height + "px",
-        "--width": this.width + "px"
+        "--width": this.width + "px",
       };
+    },
+  },
+  mounted() {
+    this.createFile(this.url);
+  },
+  watch: {
+    url() {
+      this.createFile(this.url);
     },
   },
   methods: {
@@ -53,6 +61,23 @@ export default {
         this.$emit("input", files[0]);
       }
     },
+    async createFile(url) {
+      const response = await fetch(url, {
+        credentials: 'include'
+      });
+      const data = await response.blob();
+      const filename =  response.headers?.get('Content-Disposition')?.split('filename=')?.[1] ?? "imagem." + data.type;
+      const metadata = {
+        type: data.type,
+      };
+      const file = new File([data], filename , metadata);
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        this.imageData = e.target.result;
+      };
+      reader.readAsDataURL(file);
+      this.$emit("input", file);
+    },
   },
   props: {
     circular: {
@@ -61,12 +86,17 @@ export default {
     },
     height: {
       type: String,
-      default: () => "200"
+      default: () => "200",
     },
     width: {
       type: String,
-      default: () => "200"
-    }
+      default: () => "200",
+    },
+    value: {},
+     url: {
+      type: String,
+      default: () => "",
+    },
   },
 };
 </script>

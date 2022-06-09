@@ -5,6 +5,7 @@
       width="200"
       circular
       v-model="file"
+      :url="url"
     ></cgi-image-picker>
     <pre>
                 <code
@@ -21,6 +22,7 @@ import Prism from "prismjs";
 export default {
   data: () => ({
     file: null,
+    url: "http://192.168.200.20:29710/web/DownloadUploadFiles?arq=14682&usuario=root&senha=root",
     dataExample: Prism.highlight(
       `
         <template>

@@ -1,20 +1,27 @@
 <template>
   <div>
-    <v-btn
-      small
-      v-if="!filtro"
-      :text="btn.text"
-      :outlined="btn.outlined"
-      @click="$emit('click')"
-      :disabled="desabilitado"
-      :loading="carregando"
-      :color="cancelar || salvar ? btn.cor : null"
-    >
-      <v-icon
-        left
-        :color="!salvar ? btn.cor : null"
-      >{{ btn.icone }}</v-icon> {{ btn.label }}
-    </v-btn>
+    <v-tooltip bottom>
+      <template v-slot:activator="{ on, attrs }">
+        <v-btn
+          v-bind="attrs"
+          v-on="on"
+          small
+          v-if="!filtro"
+          :text="btn.text"
+          :outlined="btn.outlined"
+          @click="$emit('click')"
+          :disabled="desabilitado"
+          :loading="carregando"
+          :color="cancelar || salvar ? btn.cor : null"
+        >
+          <v-icon
+            left
+            :color="!salvar ? btn.cor : null"
+          >{{ btn.icone }}</v-icon> {{ btn.label }}
+        </v-btn>
+      </template>
+      <span>{{ btn.label }} registro</span>
+    </v-tooltip>
 
     <v-menu
       v-model="menu"
@@ -24,21 +31,26 @@
       offset-x
       offset-y
     >
-      <template v-slot:activator="{ on, attrs }">
-        <v-btn
-          v-bind="attrs"
-          v-on="on"
-          small
-          text
-          v-if="filtro"
-          :disabled="desabilitado"
-          :loading="carregando"
-        >
-          <v-icon
-            left
-            color="primary"
-          >mdi-filter</v-icon> filtro
-        </v-btn>
+      <template v-slot:activator="{ on: onMenu, attrs: attrMenu }">
+        <v-tooltip bottom>
+          <template v-slot:activator="{ on: onTooltip, attrs: attrTooltip }">
+            <v-btn
+              v-bind="{ ...attrMenu, ...attrTooltip }"
+              v-on="{ ...onMenu, ...onTooltip }"
+              small
+              text
+              v-if="filtro"
+              :disabled="desabilitado"
+              :loading="carregando"
+            >
+              <v-icon
+                left
+                color="primary"
+              >mdi-filter</v-icon> filtro
+            </v-btn>
+          </template>
+          <span>Filtrar registros</span>
+        </v-tooltip>
       </template>
 
       <slot
@@ -99,6 +111,7 @@ export default {
       {
         label: "Pdf",
         icone: "mdi-file-pdf-box",
+        cor: "red",
         outlined: false,
         text: true,
       },

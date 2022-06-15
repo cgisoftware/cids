@@ -138,6 +138,7 @@
               <ZoomBasico />
               <ZoomChange />
               <ZoomCustom />
+              <ZoomPAD />
             </v-card-text>
           </v-card>
         </v-col>
@@ -207,6 +208,7 @@ import CGITreeView from "./treeview/CGITreeView";
 import ZoomBasico from "./zoom/ZoomBasico";
 import ZoomChange from "./zoom/ZoomChange";
 import ZoomCustom from "./zoom/ZoomCustom";
+import ZoomPAD from "./zoom/ZoomPAD";
 import Snackbar from "./snackbar/Snackbar";
 import Alert from "./alert/Alert";
 import Money from "./directives/Money";
@@ -237,6 +239,7 @@ export default {
     ZoomBasico,
     ZoomChange,
     ZoomCustom,
+    ZoomPAD,
     CGITreeView,
     Alert,
     CGIImagePicker,

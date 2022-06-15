@@ -1,27 +1,29 @@
 <template>
-  <div style="margin-top: -20px">
+  <div>
     <v-row>
-      <v-col class="py-0 my-0" cols="12" >
-        {{nome}}
-      </v-col>
-      <v-col class="mt-0 pt-0" :cols="formataValor ? 4 : 12">
+      <v-col
+        :cols="formataValor ? 4 : 12"
+      >
         <v-text-field
           v-if="!custom"
+          :label="nome"
           :dense="compacto"
           :rules="regras"
           v-model="valor"
           :type="tipo"
           :disabled="desabilitado"
-          @click:prepend="chamaZoom"
+          @click:prepend-inner="chamaZoom"
           @click:append="clear"
-          prepend-icon="mdi-database-search-outline"
+          prepend-inner-icon="mdi-database-search-outline"
           append-icon="mdi-close"
           @blur="blur"
           :loading="loading"
         >
         </v-text-field>
       </v-col>
-      <v-col class="mt-0 pt-0" v-if="formataValor">
+      <v-col
+        v-if="formataValor"
+      >
         <v-text-field
           tabindex="-1"
           v-if="!custom"

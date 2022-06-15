@@ -9,9 +9,9 @@
           v-model="valor"
           :type="tipo"
           :disabled="desabilitado"
-          @click:prepend="chamaZoom"
+          @click:prepend-inner="chamaZoom"
           @click:append="clear"
-          prepend-icon="mdi-database-search-outline"
+          prepend-inner-icon="mdi-database-search-outline"
           append-icon="mdi-close"
           :loading="loading"
         >
@@ -48,6 +48,7 @@
           :alterar="false"
           :copiar="false"
           :deletar="false"
+          @cancelar-zoom="dialog = false"
         >
         </cgi-data-table>
       </v-card>
@@ -58,7 +59,7 @@
 
 <script>
 import axios from "axios";
-import { alert } from "../util"
+import { alert, snackbar } from "../util";
 
 export default {
   data: (vm) => ({
@@ -86,6 +87,7 @@ export default {
   watch: {
     valor() {
       this.$emit("input", this.valor);
+      this.buscaDescricao();
     },
     value() {
       this.valor = this.value;
@@ -95,15 +97,41 @@ export default {
     this.valor = this.value;
   },
   methods: {
-    async buscaValores() {
+    async buscaDescricao() {
       try {
         this.loading = true;
         const serviceURI = localStorage.getItem("serviceURI");
-        const url = serviceURI.split('|')[0]
+        const url = serviceURI.split("|")[0];
         const response = await axios.get(`${url}/rest/admin/adm210`, {
           params: {
             filter: {
-              ablFilter: `tipo = '${this.tipo}'`,
+              ablFilter: `tipo = '${this.chave}' and codigo = '${this.valor}'`,
+            },
+          },
+          headers: {
+            "Content-type": "application/json",
+          },
+          withCredentials: true,
+        });
+        this.descricao =
+          response?.data?.dSet?.ttZoomPadSeq?.[0].descricao ?? "";
+      } catch (error) {
+        alert.show({ message: error.toString() });
+      } finally {
+        this.loading = false;
+      }
+    },
+
+    async buscaValores() {
+      try {
+        debugger;
+        this.loading = true;
+        const serviceURI = localStorage.getItem("serviceURI");
+        const url = serviceURI.split("|")[0];
+        const response = await axios.get(`${url}/rest/admin/adm210`, {
+          params: {
+            filter: {
+              ablFilter: `tipo = '${this.chave}'`,
             },
           },
           headers: {
@@ -113,7 +141,7 @@ export default {
         });
         this.linhas = response?.data?.dSet?.ttZoomPadSeq ?? [];
       } catch (error) {
-        alert.show({ message: error.toString() });
+        snackbar.show({ message: error.toString() });
       } finally {
         this.loading = false;
       }
@@ -125,7 +153,7 @@ export default {
 
       this.item = valor;
       this.dialog = false;
-
+      
       this.$emit("change", this.item);
     },
     async chamaZoom() {
@@ -140,10 +168,6 @@ export default {
     },
   },
   props: {
-    chave: {
-      type: String,
-      require: true,
-    },
     compacto: {
       type: Boolean,
       default: false,
@@ -165,15 +189,11 @@ export default {
       type: String,
       default: () => "70%",
     },
-    params: {
-      type: Object,
-      require: true,
-    },
-    "desabilita-campos": {
-      type: Boolean,
-      default: () => false,
-    },
     tipo: {
+      type: String,
+      default: () => "number",
+    },
+    chave: {
       type: String,
       required: true,
     },

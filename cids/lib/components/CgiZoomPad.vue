@@ -124,7 +124,6 @@ export default {
 
     async buscaValores() {
       try {
-        debugger;
         this.loading = true;
         const serviceURI = localStorage.getItem("serviceURI");
         const url = serviceURI.split("|")[0];

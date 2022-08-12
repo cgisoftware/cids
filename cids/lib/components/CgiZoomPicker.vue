@@ -1,10 +1,9 @@
 <template>
   <div>
     <v-row>
-      <v-col
-        :cols="formataValor ? 4 : 12"
-      >
+      <v-col :cols="formataValor ? 4 : 12">
         <v-text-field
+          ref="textfield"
           v-if="!custom"
           :label="nome"
           :dense="compacto"
@@ -21,9 +20,7 @@
         >
         </v-text-field>
       </v-col>
-      <v-col
-        v-if="formataValor"
-      >
+      <v-col v-if="formataValor">
         <v-text-field
           tabindex="-1"
           v-if="!custom"
@@ -98,8 +95,12 @@ export default {
     this.valor = this.value
       ? this.value
       : this.posicao === "inicial"
-      ? 0
-      : 999999999;
+      ? this.tipo === "number"
+        ? 0
+        : ""
+      : this.tipo === "number"
+      ? 999999999
+      : "";
   },
   methods: {
     setaValor: function (valor) {
@@ -111,6 +112,9 @@ export default {
         this.item = valor;
         this.dialog = false;
 
+        setTimeout(() => {
+          this.$refs.textfield.focus();
+        }, 100);
         this.$emit("change", this.item);
       }
     },
@@ -135,17 +139,23 @@ export default {
     },
     close() {
       this.dialog = false;
+      setTimeout(() => {
+        this.$refs.textfield.focus();
+      }, 100);
       this.$emit("cancelar-zoom");
     },
     confirma() {
       this.dialog = false;
+      setTimeout(() => {
+        this.$refs.textfield.focus();
+      }, 100);
       this.$emit("confirmar-zoom");
     },
     clear() {
       if (this.posicao === "inicial") {
-        this.valor = 0;
+        this.valor = this.tipo == "number" ? 0 : "";
       } else {
-        this.valor = 999999999;
+        this.valor = this.tipo == "number" ? 999999999 : "";
       }
       this.descricao = null;
     },

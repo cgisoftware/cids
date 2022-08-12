@@ -21,11 +21,11 @@ export default class CgiSnackbarController {
     message,
     timeout = 10000,
     color = 'red',
-    actions = { accept: false },
+    actions = { accept: false, show: true },
     position = {
-      right: true,
+      right: false,
       center: true,
-      top: false,
+      top: true,
     },
   }) {
     this.message = message

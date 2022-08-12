@@ -20,7 +20,7 @@
           Sim
         </v-btn>
         <v-btn
-          v-show="alert.actions.accept"
+          v-show="alert.actions.accept || alert.actions.show"
           v-bind="attrs"
           @click="alert.decline()"
           icon

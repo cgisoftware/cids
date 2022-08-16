@@ -85,7 +85,11 @@ export default {
         } catch (error) {
            this.imageData = null
         }
+
+        return;
       }
+
+      this.imageData = null
     },
   },
   props: {

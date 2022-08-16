@@ -108,7 +108,7 @@ export default {
     value: {},
     url: {
       type: String,
-      default: () => "",
+      default: () => null,
     },
   },
 };

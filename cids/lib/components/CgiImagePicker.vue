@@ -62,21 +62,30 @@ export default {
       }
     },
     async createFile(url) {
-      const response = await fetch(url, {
-        credentials: 'include'
-      });
-      const data = await response.blob();
-      const filename =  response.headers?.get('Content-Disposition')?.split('filename=')?.[1] ?? "imagem." + data.type;
-      const metadata = {
-        type: data.type,
-      };
-      const file = new File([data], filename , metadata);
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        this.imageData = e.target.result;
-      };
-      reader.readAsDataURL(file);
-      this.$emit("input", file);
+      if (url) {
+        try {
+          const response = await fetch(url, {
+            credentials: "include",
+          });
+          const data = await response.blob();
+          const filename =
+            response.headers
+              ?.get("Content-Disposition")
+              ?.split("filename=")?.[1] ?? "imagem." + data.type;
+          const metadata = {
+            type: data.type,
+          };
+          const file = new File([data], filename, metadata);
+          const reader = new FileReader();
+          reader.onload = (e) => {
+            this.imageData = e.target.result;
+          };
+          reader.readAsDataURL(file);
+          this.$emit("input", file);
+        } catch (error) {
+           this.imageData = null
+        }
+      }
     },
   },
   props: {
@@ -93,7 +102,7 @@ export default {
       default: () => "200",
     },
     value: {},
-     url: {
+    url: {
       type: String,
       default: () => "",
     },

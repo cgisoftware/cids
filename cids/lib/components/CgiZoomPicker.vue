@@ -133,7 +133,7 @@ export default {
         this.$refs.component.controller.pesquisa =
           this.valor !== 0 && this.valor ? this.valor.toString() : null;
 
-        if (this.params) {
+        if (this.params !== undefined) {
           this.$refs.component.controller.queryZoom(
             this.params
           );

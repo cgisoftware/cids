@@ -132,6 +132,13 @@ export default {
         await new Promise((resolver) => setTimeout(resolver, 100));
         this.$refs.component.controller.pesquisa =
           this.valor !== 0 && this.valor ? this.valor.toString() : null;
+
+        if (this.params) {
+          this.$refs.component.controller.queryZoom(
+            this.params
+          );
+        }
+        
       }
     },
     blur() {
@@ -208,8 +215,7 @@ export default {
       default: () => "70%",
     },
     params: {
-      type: Object,
-      require: true,
+      require: false,
     },
     "desabilita-campos": {
       type: Boolean,

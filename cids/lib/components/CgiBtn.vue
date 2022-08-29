@@ -42,6 +42,7 @@
               v-if="filtro"
               :disabled="desabilitado"
               :loading="carregando"
+              @click="$emit('filtro')"
             >
               <v-icon
                 left

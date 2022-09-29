@@ -7,7 +7,7 @@
           {{ alert.message }}
         </v-card-text>
         <v-card-actions  v-if="alert.actions.accept">
-          <v-btn class="white--text" text @click="alert.dialog = false"> Não </v-btn>
+          <v-btn class="white--text" text @click="alert.decline()"> Não </v-btn>
           <v-spacer></v-spacer>
           <v-btn class="white--text" text @click="alert.accept()"> Sim </v-btn>
         </v-card-actions>

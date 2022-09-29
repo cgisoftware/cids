@@ -13,7 +13,7 @@
         </v-card-actions>
         <v-card-actions v-else>
           <v-spacer></v-spacer>
-          <v-btn class="white--text" text @click="alert.dialog = false"> OK </v-btn>
+          <v-btn class="white--text" text @click="alert.decline()"> OK </v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>

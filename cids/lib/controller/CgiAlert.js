@@ -9,6 +9,7 @@ export default class CgiAlertController {
     this.isConfirm = false;
     this.context = null;
     this.dialog = false;
+    this.isDecline = false
   }
 
   show({ message, color = "red", actions = { accept: false } }) {
@@ -40,6 +41,11 @@ export default class CgiAlertController {
           clearTimeout(handlerTimeOut);
           resolve(true);
         }
+        if (this.isDecline) {
+          this.isDecline = false
+          clearTimeout(handlerTimeOut)
+          resolve(false)
+        }
       }, 500);
     });
     clearInterval(handlerInterval);
@@ -49,5 +55,10 @@ export default class CgiAlertController {
   accept() {
     this.isConfirm = true;
     this.dialog = false;
+  }
+
+  decline() {
+    this.isDecline = true
+    this.dialog = false
   }
 }

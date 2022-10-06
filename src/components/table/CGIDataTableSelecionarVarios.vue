@@ -10,8 +10,13 @@
       v-model="selecionados"
       :mostra-paginacao="false"
       mostra-linha-selecionada
+      cor-checkbox="red"
     ></cgi-data-table>
+
+    <v-btn @click="selecionados = []"> remover seleçao </v-btn>
+    <br>
     {{ selecionados }}
+
     <pre>
                 <code
                 class="language-html py-5"
@@ -29,7 +34,7 @@ export default {
   methods: {
     salvarPropriedades(propriedadesDaTabela) {
       // salve na tabela padrão ou em algum local especifico
-    }
+    },
   },
   data: () => ({
     selecionados: [],

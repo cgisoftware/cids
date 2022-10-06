@@ -29,7 +29,7 @@
       <v-checkbox
         hide-details
         class="mt-0"
-        :color="cids.theme.dataTable.checkboxColor"
+        :color="corCheckbox ? corCheckbox : cids.theme.dataTable.checkboxColor"
         :value="isSelected"
         @change="select($event)"
       ></v-checkbox>
@@ -475,6 +475,9 @@ export default {
     pesquisa() {
       this.search = this.pesquisa;
     },
+    value() {
+      this.itensSelecionados = this.value
+    }
   },
   components: {
     VDataTable,
@@ -734,6 +737,10 @@ export default {
       type: Boolean,
       default: () => false,
     },
+    "cor-checkbox": {
+      type: String,
+      default: () => null,
+    }
   },
 };
 </script>

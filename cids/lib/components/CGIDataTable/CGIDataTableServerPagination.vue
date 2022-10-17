@@ -29,19 +29,24 @@
       <v-checkbox
         hide-details
         class="mt-0"
-        :color="cids.theme.dataTable.checkboxColor"
+        :color="corCheckbox ? corCheckbox : cids.theme.dataTable.checkboxColor"
         :value="isSelected"
         @change="select($event)"
       ></v-checkbox>
     </template>
     <template v-slot:top>
-      <v-toolbar flat dense v-if="mostraToolbar">
+      <v-toolbar
+        flat
+        dense
+        v-if="mostraToolbar"
+      >
         <v-toolbar-title>{{ nomeTabela }}</v-toolbar-title>
         <v-tooltip top>
           <template v-slot:activator="{ on }">
-            <v-icon v-on="on" v-if="nomePrograma"
-              >mdi-information-variant</v-icon
-            >
+            <v-icon
+              v-on="on"
+              v-if="nomePrograma"
+            >mdi-information-variant</v-icon>
           </template>
           <span>{{ nomePrograma }}</span>
         </v-tooltip>
@@ -59,7 +64,10 @@
           @input="debounce"
           v-if="mostraPesquisa && !customPesquisa"
         >
-          <template v-slot:prepend-inner v-if="informacoesDaPesquisa">
+          <template
+            v-slot:prepend-inner
+            v-if="informacoesDaPesquisa"
+          >
             <v-tooltip top>
               <template v-slot:activator="{ on, attrs }">
                 <v-icon
@@ -98,10 +106,16 @@
           </template>
 
           <v-card scrollable>
-            <v-toolbar flat dense>
+            <v-toolbar
+              flat
+              dense
+            >
               <v-toolbar-title>Organizar tabela</v-toolbar-title>
             </v-toolbar>
-            <v-card-text class="px-0" style="overflow-y: scroll; height: 300px">
+            <v-card-text
+              class="px-0"
+              style="overflow-y: scroll; height: 300px"
+            >
               <v-autocomplete
                 dense
                 class="mt-4 px-3"
@@ -113,7 +127,10 @@
                 clearable
                 no-data-text="Sem dados"
               ></v-autocomplete>
-              <v-container fluid grid-list-md>
+              <v-container
+                fluid
+                grid-list-md
+              >
                 <v-layout>
                   <v-flex xs6>
                     Colunas na tela
@@ -144,8 +161,7 @@
                                 right: 10px;
                                 cursor: pointer;
                               "
-                              >mdi-close</v-icon
-                            >
+                            >mdi-close</v-icon>
                           </template>
                         </v-chip>
                       </div>
@@ -178,8 +194,7 @@
                               right: 10px;
                               cursor: pointer;
                             "
-                            >mdi-plus</v-icon
-                          >
+                          >mdi-plus</v-icon>
                         </template>
                       </v-chip>
                     </div>
@@ -188,16 +203,29 @@
               </v-container>
             </v-card-text>
             <v-card-actions>
-              <v-btn small color="red" outlined @click="menu = false" block>
-                <v-icon small left>mdi-close</v-icon>Fechar
+              <v-btn
+                small
+                color="red"
+                outlined
+                @click="menu = false"
+                block
+              >
+                <v-icon
+                  small
+                  left
+                >mdi-close</v-icon>Fechar
               </v-btn>
             </v-card-actions>
           </v-card>
         </v-menu>
-        <v-btn icon v-if="mostraPropriedades" @click="salvarPropriedades">
+        <v-btn
+          icon
+          v-if="mostraPropriedades"
+          @click="salvarPropriedades"
+        >
           <v-icon small>mdi-content-save</v-icon>
         </v-btn>
-         <v-btn
+        <v-btn
           icon
           v-if="zoomDialog"
           @click="$emit('cancelar-zoom')"
@@ -209,8 +237,7 @@
 
     <template v-slot:[`group.header`]="{ isOpen, toggle, group, groupBy }">
       <th colspan="90">
-        <v-icon @click="toggle"
-          >{{ isOpen ? "mdi-minus" : "mdi-plus" }}
+        <v-icon @click="toggle">{{ isOpen ? "mdi-minus" : "mdi-plus" }}
         </v-icon>
         {{
           groupBy[0][0].toUpperCase() +
@@ -219,7 +246,10 @@
       </th>
     </template>
 
-    <template v-slot:[`group.summary`]="{ items }" v-if="totalizar">
+    <template
+      v-slot:[`group.summary`]="{ items }"
+      v-if="totalizar"
+    >
       <td
         v-show="column.value !== agruparPor"
         v-for="(column, i) in visibleColumns"
@@ -342,8 +372,14 @@
       </div>
     </template>
 
-    <template v-for="f in customColumns" v-slot:[`item.${f.value}`]="{ item }">
-      <slot :name="f.value" v-bind:item="item"> </slot>
+    <template
+      v-for="f in customColumns"
+      v-slot:[`item.${f.value}`]="{ item }"
+    >
+      <slot
+        :name="f.value"
+        v-bind:item="item"
+      > </slot>
     </template>
 
     <template
@@ -460,6 +496,9 @@ export default {
     },
     search() {
       this.debounceSearch();
+    },
+    value() {
+      this.itensSelecionados = this.value;
     },
   },
   components: {
@@ -742,7 +781,7 @@ export default {
       type: String,
       default: () => "",
     },
-    "totalizar": {
+    totalizar: {
       type: Boolean,
       default: () => false,
     },
@@ -760,7 +799,11 @@ export default {
     },
     "informacoes-da-pesquisa": {
       type: String,
-      default: () => null
+      default: () => null,
+    },
+    "cor-checkbox": {
+      type: String,
+      default: () => null,
     }
   },
 };

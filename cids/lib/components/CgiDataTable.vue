@@ -29,7 +29,9 @@
     :zoom-dialog="zoomDialog"
     :nome-programa="nomePrograma"
     :totalizar="totalizar"
+    :ordenar-por="ordenarPor"
     :informacoes-da-pesquisa="informacoesDaPesquisa"
+    :cor-checkbox="corCheckbox"
     @paginando="paginando"
     @salvar-propriedades="salvarPropriedades"
     @linha-selecionada="linhaSelecionada"
@@ -41,7 +43,7 @@
     @cancelar-zoom="cancelarZoom"
     v-model="itensSelecionados"
   >
-  
+
     <template v-slot:botoes>
       <slot name="botoes"></slot>
     </template>
@@ -50,8 +52,14 @@
       <slot name="pesquisa"></slot>
     </template>
 
-    <template v-for="coluna in colunas" v-slot:[`${coluna.value}`]="{ item }">
-      <slot :name="coluna.value" v-bind:item="item"></slot>
+    <template
+      v-for="coluna in colunas"
+      v-slot:[`${coluna.value}`]="{ item }"
+    >
+      <slot
+        :name="coluna.value"
+        v-bind:item="item"
+      ></slot>
     </template>
   </CGIDataTableServerPagination>
   <CGIDataTableFrontPagination
@@ -83,6 +91,8 @@
     :totalizar="totalizar"
     :agrupar="agrupar"
     :informacoes-da-pesquisa="informacoesDaPesquisa"
+    :cor-checkbox="corCheckbox"
+    :ordenar-por="ordenarPor"
     @paginando="paginando"
     @salvar-propriedades="salvarPropriedades"
     @linha-selecionada="linhaSelecionada"
@@ -102,8 +112,14 @@
       <slot name="pesquisa"></slot>
     </template>
 
-    <template v-for="coluna in colunas" v-slot:[`${coluna.value}`]="{ item }">
-      <slot :name="coluna.value" v-bind:item="item"></slot>
+    <template
+      v-for="coluna in colunas"
+      v-slot:[`${coluna.value}`]="{ item }"
+    >
+      <slot
+        :name="coluna.value"
+        v-bind:item="item"
+      ></slot>
     </template>
   </CGIDataTableFrontPagination>
 </template>
@@ -124,6 +140,9 @@ export default {
   watch: {
     itensSelecionados() {
       this.$emit("input", this.itensSelecionados);
+    },
+    value() {
+      this.itensSelecionados = this.value;
     },
   },
   async mounted() {
@@ -198,8 +217,8 @@ export default {
       this.$emit("deletar-item", item);
     },
     cancelarZoom() {
-      this.$emit("cancelar-zoom")
-    }
+      this.$emit("cancelar-zoom");
+    },
   },
   props: {
     colunas: {
@@ -317,7 +336,7 @@ export default {
       type: String,
       default: () => null,
     },
-    "totalizar": {
+    totalizar: {
       type: Boolean,
       default: () => false,
     },
@@ -339,7 +358,11 @@ export default {
     },
     "informacoes-da-pesquisa": {
       type: String,
-      default: () => null
+      default: () => null,
+    },
+    "cor-checkbox": {
+      type: String,
+      default: () => null,
     }
   },
 };

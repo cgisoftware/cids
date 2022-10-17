@@ -5,6 +5,7 @@
       nome-tabela="Nacionalidade RAIS"
       tipo="cNrais"
       v-model="teste"
+      chave="seq"
       :regras="[(v) => !!v || 'Preencha o campo']"
     ></cgi-zoom-pad>
   </div>

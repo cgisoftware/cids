@@ -92,7 +92,8 @@ export default {
       for (i = 0; i < list.length; i += 1) {
         node = list[i];
         if (node[this.chavePaiTree] !== 0) {
-          list[map[node[this.chavePaiTree]]].children.push(node);
+          console.log(list[map[node[this.chavePaiTree]]]);
+          list[map[node[this.chavePaiTree]]]?.children?.push(node);
         } else {
           roots.push(node);
         }

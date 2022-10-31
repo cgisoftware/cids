@@ -46,6 +46,7 @@
       :width="largura"
     >
       <component
+        v-if="zoom"
         ref="component"
         @click:close="close"
         @cancelar-zoom="close"
@@ -54,6 +55,18 @@
         :registro="valor"
         @exporta-zoom="setaValor"
       ></component>
+      <v-card
+        v-else
+        height="500"
+      >
+        <v-card-title>
+          <v-spacer></v-spacer>
+          <v-icon @click="close">mdi-close</v-icon>
+        </v-card-title>
+        <v-card-text class="d-flex justify-center align-center">
+          <div class="font-weight-bold red--text display-1"> Zoom não disponível</div>
+        </v-card-text>
+      </v-card>
     </v-dialog>
   </div>
 </template>
@@ -134,11 +147,8 @@ export default {
           this.valor !== 0 && this.valor ? this.valor.toString() : null;
 
         if (this.params !== undefined) {
-          this.$refs.component.controller.queryZoom(
-            this.params
-          );
+          this.$refs.component.controller.queryZoom(this.params);
         }
-        
       }
     },
     blur() {
@@ -187,7 +197,6 @@ export default {
     },
     zoom: {
       type: Object,
-      require: true,
     },
     compacto: {
       type: Boolean,

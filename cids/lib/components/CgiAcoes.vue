@@ -9,7 +9,7 @@
     ></cgi-btn>
 
     <v-divider
-      v-if="atualizar"
+      v-if="incluir"
       class="mx-1"
       vertical
     ></v-divider>

@@ -29,20 +29,11 @@
               v-if="configuracao[`linha${linha}`][coluna-1].campo == 'divisor'"
               class="mb-3"
             >
-              <v-col
-              
-          
-              >
+              <v-col>
                 <v-divider class="mt-4" />
               </v-col>
-              <v-col
-                
-                class="text-center"
-              > {{ configuracao[`linha${linha}`][coluna-1].nome }} </v-col>
-              <v-col
-              
-               
-              >
+              <v-col class="text-center"> {{ configuracao[`linha${linha}`][coluna-1].nome }} </v-col>
+              <v-col>
                 <v-divider class="mt-3" />
               </v-col>
             </v-row>
@@ -286,8 +277,6 @@ export default {
           } else {
             this.$emit("confirmar");
           }
-
-          // this.limpar();
           this.$refs.form.resetValidation();
         }
       }

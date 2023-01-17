@@ -1,28 +1,28 @@
 <template>
   <v-snackbar
-    :color="alert.color"
-    v-model="alert.snackbar"
-    :right="alert.position.right"
-    :center="alert.position.center"
-    :top="alert.position.top"
+    :color="snackbar.color"
+    v-model="snackbar.snackbar"
+    :right="snackbar.position.right"
+    :center="snackbar.position.center"
+    :top="snackbar.position.top"
     multi-line
-    :timeout="alert.timeout"
+    :timeout="snackbar.timeout"
   >
-    <div v-html="alert.message"></div>
+    <div v-html="snackbar.message"></div>
     <template v-slot:action="{ attrs }">
       <div style="padding-right: 10px;">
         <v-btn
-          v-show="alert.actions.accept"
+          v-show="snackbar.actions.accept"
           text
           v-bind="attrs"
-          @click="alert.accept()"
+          @click="snackbar.accept()"
         >
           Sim
         </v-btn>
         <v-btn
-          v-show="alert.actions.accept || alert.actions.show"
+          v-show="snackbar.actions.accept || snackbar.actions.show"
           v-bind="attrs"
-          @click="alert.decline()"
+          @click="snackbar.decline()"
           icon
         >
           <v-icon>mdi-close</v-icon>
@@ -34,9 +34,5 @@
 </template>
 
 <script>
-export default {
-  data: () => ({
-    alert: window.cgiSnackbar,
-  }),
-};
+export default {};
 </script>

@@ -1,4 +1,4 @@
-import XLSX from "xlsx";
+import * as XLSX from "xlsx";
 
 /**
  * @param dataset Recebe uma array com os dados para serem exportados

@@ -127,7 +127,7 @@
 <script>
 import CGIDataTableServerPagination from "./CGIDataTable/CGIDataTableServerPagination.vue";
 import CGIDataTableFrontPagination from "./CGIDataTable/CGIDataTableFrontPagination.vue";
-import copiarPrograma from "../controller/handler/copiarPrograma";
+import copiarPrograma from "../controller/handler/CopiarPrograma";
 export default {
   data: (vm) => ({
     itensSelecionados: vm.value,
@@ -158,7 +158,6 @@ export default {
   methods: {
     atalhos(e) {
       const special = e.ctrlKey && e.shiftKey;
-
       if (special && e.key === "F6") {
         e.preventDefault();
         copiarPrograma(this.nomePrograma);

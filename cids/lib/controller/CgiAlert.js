@@ -39,14 +39,16 @@ export default class CgiAlertController {
         if (this.isConfirm) {
           this.isConfirm = false;
           clearTimeout(handlerTimeOut);
+          clearInterval(handlerInterval);
           resolve(true);
         }
         if (this.isDecline) {
           this.isDecline = false
           clearTimeout(handlerTimeOut)
+          clearInterval(handlerInterval);
           resolve(false)
         }
-      }, 500);
+      }, 200);
     });
     clearInterval(handlerInterval);
     return confirm;

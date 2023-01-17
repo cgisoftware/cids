@@ -12,7 +12,7 @@ import CgiBtn from './components/CgiBtn.vue'
 import CgiAcoes from './components/CgiAcoes.vue'
 
 import '@mdi/font/css/materialdesignicons.css'
-import { alert, snackbar, reticencias, formatNumber } from './util'
+import { reticencias } from './util'
 
 import CgiMaskDirective from './controller/CgiMaskDirective'
 import CgiMoneyDirective from './controller/CgiMoneyDirective'
@@ -53,10 +53,5 @@ export default {
     Vue.use(CgiNumberDirective)
 
     Vue.use(VueTheMask)
-
-    Vue.prototype.formataMoeda = formatNumber
   },
 }
-
-window.cgiSnackbar = snackbar
-window.cgiAlert = alert

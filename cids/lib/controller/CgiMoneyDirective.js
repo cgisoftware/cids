@@ -79,7 +79,6 @@ export default {
 }
 
 function formatBRNUmber(v) {
-
   if (v.length === 1) {
     v = "0" + v
   }

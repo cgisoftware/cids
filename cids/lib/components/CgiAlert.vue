@@ -11,7 +11,7 @@
       >
         <v-card-title> Aviso! </v-card-title>
         <v-card-text class="white--text">
-          {{ alert.message }}
+          <div v-html="alert.message"></div>
         </v-card-text>
         <v-card-actions v-if="alert.actions.accept">
           <v-btn

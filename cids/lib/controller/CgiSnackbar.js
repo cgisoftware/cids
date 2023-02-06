@@ -53,7 +53,10 @@ export default class CgiSnackbarController {
     this.color = color
     this.actions = actions
     this.position = position
-    let handlerInterval
+    this.isConfirm = false
+    this.isDecline = false
+    let handlerInterval = {}
+  
     const confirm = await new Promise((resolve) => {
       const handlerTimeOut = setTimeout(() => {
         resolve(false)
@@ -73,7 +76,6 @@ export default class CgiSnackbarController {
         }
       }, 200)
     })
-    clearInterval(handlerInterval)
     return confirm
   }
 

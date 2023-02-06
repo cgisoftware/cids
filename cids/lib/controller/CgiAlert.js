@@ -30,7 +30,9 @@ export default class CgiAlertController {
     this.dialog = true;
     this.color = color;
     this.actions = actions;
-    let handlerInterval;
+    this.isConfirm = false;
+    this.isDecline = false;
+    let handlerInterval = {};
     const confirm = await new Promise((resolve) => {
       const handlerTimeOut = setTimeout(() => {
         resolve(false);
@@ -50,7 +52,6 @@ export default class CgiAlertController {
         }
       }, 200);
     });
-    clearInterval(handlerInterval);
     return confirm;
   }
 

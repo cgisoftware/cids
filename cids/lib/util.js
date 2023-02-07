@@ -6,6 +6,7 @@ import CgiSnackbarController from './controller/CgiSnackbar'
 import reticencias from './controller/handler/Reticencias'
 import CgiAlertController from './controller/CgiAlert'
 import { groupBy } from './controller/handler/GroupBy'
+import { ablFilter } from './controller/handler/AblRead'
 import Vue from 'vue'
 
 const snackbar = new CgiSnackbarController()
@@ -24,5 +25,6 @@ export {
   groupBy,
   toExcelID,
   reticencias,
-  toAblQueryForm
+  toAblQueryForm,
+  ablFilter
 }

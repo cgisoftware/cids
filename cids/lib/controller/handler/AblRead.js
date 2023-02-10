@@ -115,6 +115,7 @@ export const orderBy = (sortBy, sortDesc) => {
 }
 
 const _valorTipado = (vlr, ablType, operator) => {
+  let retorno = ""
   switch (ablType) {
     case 'character':
       if (typeof (vlr) == "string") {

@@ -32,6 +32,7 @@
     :ordenar-por="ordenarPor"
     :informacoes-da-pesquisa="informacoesDaPesquisa"
     :cor-checkbox="corCheckbox"
+    :habilita-agrupamento="habilitaAgrupamento"
     @paginando="paginando"
     @salvar-propriedades="salvarPropriedades"
     @linha-selecionada="linhaSelecionada"
@@ -93,6 +94,7 @@
     :informacoes-da-pesquisa="informacoesDaPesquisa"
     :cor-checkbox="corCheckbox"
     :ordenar-por="ordenarPor"
+    :habilita-agrupamento="habilitaAgrupamento"
     @paginando="paginando"
     @salvar-propriedades="salvarPropriedades"
     @linha-selecionada="linhaSelecionada"
@@ -362,7 +364,11 @@ export default {
     "cor-checkbox": {
       type: String,
       default: () => null,
-    }
+    },
+    "habilita-agrupamento": {
+      type: Boolean,
+      default: () => true,
+    },
   },
 };
 </script>

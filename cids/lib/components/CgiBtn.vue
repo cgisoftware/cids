@@ -125,7 +125,7 @@ export default {
       },
       {
         label: "Cancelar",
-        icone: "mdi-delete",
+        icone: "mdi-close",
         cor: "red",
         outlined: true,
       },

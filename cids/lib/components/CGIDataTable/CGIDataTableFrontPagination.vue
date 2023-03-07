@@ -116,6 +116,7 @@
               style="overflow-y: scroll; height:300px"
             >
               <v-autocomplete
+                v-if="habilitaAgrupamento"
                 dense
                 class="mt-4 px-3"
                 :items="listaAgrupador"
@@ -740,7 +741,11 @@ export default {
     "cor-checkbox": {
       type: String,
       default: () => null,
-    }
+    },
+    "habilita-agrupamento": {
+      type: Boolean,
+      default: () => true,
+    },
   },
 };
 </script>

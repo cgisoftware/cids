@@ -1,6 +1,7 @@
 import CgiDatePicker from './components/CgiDatePicker.vue'
 import CgiTimePicker from './components/CgiTimePicker.vue'
 import CgiDataTable from './components/CgiDataTable.vue'
+import CgiDataTable1 from './components/CGIDataTable1.vue'
 import CgiSnackbar from './components/CgiSnackbar.vue'
 import CgiAlert from './components/CgiAlert.vue'
 import CgiZoomPicker from './components/CgiZoomPicker.vue'
@@ -26,18 +27,25 @@ const opt = {
       lineColor: '',
     },
   },
+  defaults: {
+    dataTable: {
+      acoes: 'right'
+    }
+  }
 }
 
 export default {
   install(Vue, options = opt) {
-    Vue.prototype.cids = {
+    Vue.prototype.cids = Object.assign(opt, {
       theme: options.theme,
       reticencias: reticencias,
-    }
+      defaults: options.defaults
+    })
 
     Vue.component('cgi-date-picker', CgiDatePicker)
     Vue.component('cgi-time-picker', CgiTimePicker)
-    Vue.component('cgi-data-table', CgiDataTable)
+    Vue.component('cgi-data-table', CgiDataTable1)
+    Vue.component('cgi-data-table1', CgiDataTable1)
     Vue.component('cgi-snackbar', CgiSnackbar)
     Vue.component('cgi-alert', CgiAlert)
     Vue.component('cgi-zoom-picker', CgiZoomPicker)

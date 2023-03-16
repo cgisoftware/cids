@@ -561,6 +561,10 @@ export default {
     paginacao() {
       this.propriedadesDaPaginacao = this.paginacao ?? {};
     },
+    zoomDialog() {
+      const acao = this.opcoesDeAcao.filter((opcao) => opcao.nome === "Exportar registro")
+      acao[0].mostrar = this.zoomDialog
+    }
   },
   props: {
     colunas: {

@@ -104,17 +104,17 @@ export default {
   created() {
     this.debounceSearch = this.debounce(this.updateSearch, 500);
   },
-  mounted() {
-    this.valor = this.value
-      ? this.value
-      : this.posicao === "inicial"
-      ? this.tipo === "number"
-        ? 0
-        : ""
-      : this.tipo === "number"
-      ? 999999999
-      : "";
-  },
+  // mounted() {
+  //   this.valor = this.value
+  //     ? this.value
+  //     : this.posicao === "inicial"
+  //     ? this.tipo === "number"
+  //       ? 0
+  //       : ""
+  //     : this.tipo === "number"
+  //     ? 999999999
+  //     : "";
+  // },
   methods: {
     setaValor: function (valor) {
       if (!this.custom) {
@@ -140,15 +140,18 @@ export default {
           this.params,
           this.desabilitaCampos
         );
-      } else {
+        return;
+      }
+
+      if (this.$refs.component.controller.pesquisa !== undefined) {
         this.$refs.component.controller.pesquisa = null;
         await new Promise((resolver) => setTimeout(resolver, 100));
         this.$refs.component.controller.pesquisa =
           this.valor !== 0 && this.valor ? this.valor.toString() : null;
+      }
 
-        if (this.params !== undefined) {
-          this.$refs.component.controller.queryZoom(this.params);
-        }
+      if (this.params !== undefined && this.$refs.component.controller.queryZoom !== undefined) {
+        this.$refs.component.controller.queryZoom(this.params);
       }
     },
     blur() {
@@ -169,11 +172,13 @@ export default {
       this.$emit("confirmar-zoom");
     },
     clear() {
-      if (this.posicao === "inicial") {
-        this.valor = this.tipo == "number" ? 0 : "";
-      } else {
-        this.valor = this.tipo == "number" ? 999999999 : "";
-      }
+      // if (this.posicao === "inicial") {
+      //   this.valor = this.tipo == "number" ? 0 : "";
+      // } else {
+      //   this.valor = this.tipo == "number" ? 999999999 : "";
+      // }
+
+      this.valor = null;
       this.descricao = null;
     },
     async updateSearch() {
@@ -217,7 +222,7 @@ export default {
     },
     posicao: {
       type: String,
-      required: true,
+      required: false,
     },
     largura: {
       type: String,

@@ -18,6 +18,7 @@ import { reticencias } from './util'
 import CgiMaskDirective from './controller/CgiMaskDirective'
 import CgiMoneyDirective from './controller/CgiMoneyDirective'
 import CgiNumberDirective from './controller/CgiNumberDirective'
+import CgiMaxLengthDirective from './controller/CgiMaxLengthDirective'
 import VueTheMask from 'ke-the-mask'
 
 const opt = {
@@ -59,6 +60,7 @@ export default {
     Vue.use(CgiMaskDirective)
     Vue.use(CgiMoneyDirective)
     Vue.use(CgiNumberDirective)
+    Vue.use(CgiMaxLengthDirective)
 
     Vue.use(VueTheMask)
   },

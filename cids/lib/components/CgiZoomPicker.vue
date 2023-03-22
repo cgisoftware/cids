@@ -115,8 +115,13 @@ export default {
   //     ? 999999999
   //     : "";
   // },
+  async mounted() {
+    if (this.valor && this.aoDigitar) {
+      this.descricao = await this.aoDigitar(this.valor);
+    }
+  },
   methods: {
-    setaValor: function (valor) {
+    setaValor(valor) {
       if (!this.custom) {
         this.valor = valor[this.chave];
         if (this.formataValor) {
@@ -150,7 +155,10 @@ export default {
           this.valor !== 0 && this.valor ? this.valor.toString() : null;
       }
 
-      if (this.params !== undefined && this.$refs.component.controller.queryZoom !== undefined) {
+      if (
+        this.params !== undefined &&
+        this.$refs.component.controller.queryZoom !== undefined
+      ) {
         this.$refs.component.controller.queryZoom(this.params);
       }
     },

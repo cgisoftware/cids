@@ -143,6 +143,13 @@ export default {
         outlined: false,
         text: true,
       },
+      {
+        label: "Filtrar",
+        icone: "mdi-filter",
+        cor: "primary",
+        outlined: false,
+        text: false,
+      },
     ],
   }),
   methods: {
@@ -192,6 +199,10 @@ export default {
         return this.botoes[10];
       }
 
+      if (this.filtrar) {
+        return this.botoes[11];
+      }
+
       return this.botoes[0];
     },
   },
@@ -213,6 +224,10 @@ export default {
       default: () => false,
     },
     filtro: {
+      type: Boolean,
+      default: () => false,
+    },
+    filtrar: {
       type: Boolean,
       default: () => false,
     },

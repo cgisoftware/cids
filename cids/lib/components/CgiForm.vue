@@ -140,35 +140,25 @@
     </v-card-text>
     <v-divider></v-divider>
     <v-card-actions>
-      <v-btn
+      <cgi-btn
+        cancelar
         @click="cancelar"
-        outlined
-        color="red"
-        small
-        :disabled="carregando"
         v-if="mostraCancelar"
-      >
-        <v-icon left>mdi-delete</v-icon> Cancelar
-      </v-btn>
+        :desabilitado="carregando"
+      ></cgi-btn>
       <v-spacer v-if="mostraCancelar"></v-spacer>
-      <v-btn
+      <cgi-btn
+        limpar
         @click="limpar"
-        outlined
-        color="primary"
-        small
-        :disabled="carregando"
-      >
-        <v-icon left>mdi-broom</v-icon> Limpar
-      </v-btn>
+        :desabilitado="carregando"
+      ></cgi-btn>
       <v-spacer></v-spacer>
-      <v-btn
-        color="primary"
-        small
+      <cgi-btn
+        :filtrar="filtrar"
+        :salvar="!filtrar"
         @click="confirmar"
-        :loading="carregando"
-      >
-        <v-icon left>{{ iconeConfirmacao }}</v-icon> {{ labelConfirmacao }}
-      </v-btn>
+        :carregando="carregando"
+      ></cgi-btn>
     </v-card-actions>
   </v-card>
 </template>
@@ -333,6 +323,10 @@ export default {
     "mostra-cancelar": {
       type: Boolean,
       default: () => true,
+    },
+    filtrar: {
+      type: Boolean,
+      default: () => false,
     },
   },
 };

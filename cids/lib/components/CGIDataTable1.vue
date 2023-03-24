@@ -46,10 +46,18 @@
     </template>
 
     <template
-      v-for="coluna in colunasCustomizaveis"
+      v-for="(coluna, index) in colunasCustomizaveis"
       v-slot:[`item.${coluna.value}`]="{ item }"
     >
+      <div
+        :key="index"
+        v-if="coluna.formatador"
+      >
+        {{ coluna.formatador(item[coluna.value]) }}
+      </div>
       <slot
+        :key="index"
+        v-else
         :name="coluna.value"
         v-bind:item="item"
       > </slot>
@@ -562,9 +570,11 @@ export default {
       this.propriedadesDaPaginacao = this.paginacao ?? {};
     },
     zoomDialog() {
-      const acao = this.opcoesDeAcao.filter((opcao) => opcao.nome === "Exportar registro")
-      acao[0].mostrar = this.zoomDialog
-    }
+      const acao = this.opcoesDeAcao.filter(
+        (opcao) => opcao.nome === "Exportar registro"
+      );
+      acao[0].mostrar = this.zoomDialog;
+    },
   },
   props: {
     colunas: {

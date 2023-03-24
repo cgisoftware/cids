@@ -49,10 +49,7 @@
       v-for="(coluna, index) in colunasCustomizaveis"
       v-slot:[`item.${coluna.value}`]="{ item }"
     >
-      <div
-        :key="index"
-        v-if="coluna.formatador"
-      >
+      <div :key="index" v-if="coluna.formatador">
         {{ coluna.formatador(item[coluna.value]) }}
       </div>
       <slot
@@ -428,13 +425,22 @@ export default {
   }),
   mounted() {
     this.organizaColunas();
+
+    console.log(this.customProps);
   },
   methods: {
     organizaColunas() {
       this.colunasVisiveis = [];
       this.colunasInvisivel = [];
-      const colunas = structuredClone(this.colunas);
+      const colunas = [...this.colunas];
       const propriedades = structuredClone(this.propriedades);
+
+      propriedades.forEach((propriedade) => {
+        const coluna = colunas.filter(
+          (coluna) => coluna.value === propriedade.value
+        );
+        if (coluna.length > 0) Object.assign(propriedade, coluna[0]);
+      });
 
       this.colunasVisiveis = propriedades.length > 0 ? propriedades : colunas;
 

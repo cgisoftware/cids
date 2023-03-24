@@ -56,7 +56,6 @@
         {{ coluna.formatador(item[coluna.value]) }}
       </div>
       <slot
-        :key="index"
         v-else
         :name="coluna.value"
         v-bind:item="item"

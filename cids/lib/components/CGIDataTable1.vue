@@ -319,7 +319,7 @@
       v-if="totalizar"
     >
       <td
-        v-show="coluna.value !== agruparPor"
+        v-show="coluna.value !== agrupamento"
         v-for="(coluna, i) in colunasVisiveis"
         :key="i"
         :class="{ 'text-left': coluna.contar, 'text-right': coluna.somar }"
@@ -341,7 +341,7 @@
         <th
           v-for="(coluna, i) in colunasVisiveis"
           :key="i"
-          v-show="coluna.value !== agruparPor"
+          v-show="coluna.value !== agrupamento"
           :class="{ 'text-left': coluna.contar, 'text-right': coluna.somar }"
           style="font-size: 12px"
         >

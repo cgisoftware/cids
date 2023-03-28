@@ -20,6 +20,7 @@ import CgiNumberDirective from './controller/CgiNumberDirective'
 import CgiMaxLengthDirective from './controller/CgiMaxLengthDirective'
 import CgiNegativeNumber from './controller/CgiNegativeNumber'
 import VueTheMask from 'ke-the-mask'
+import money from 'v-money'
 
 const opt = {
   theme: {
@@ -62,6 +63,15 @@ export default {
     Vue.use(CgiNumberDirective)
     Vue.use(CgiMaxLengthDirective)
     Vue.use(CgiNegativeNumber)
+
+    Vue.use(money, {
+      decimal: ',',
+      thousands: '.',
+      prefix: 'R$ ',
+      suffix: '',
+      precision: 2,
+      masked: false
+    })
 
     Vue.use(VueTheMask)
   },

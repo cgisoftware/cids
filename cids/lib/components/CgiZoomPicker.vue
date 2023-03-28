@@ -9,7 +9,6 @@
           :dense="compacto"
           :rules="regras"
           v-model="valor"
-          :type="tipo"
           :disabled="desabilitado"
           @click:prepend-inner="chamaZoom"
           @click:append="clear"
@@ -17,6 +16,7 @@
           append-icon="mdi-close"
           @blur="blur"
           :loading="loading"
+          v-cgi-negative-number="tipo === 'number'"
         >
         </v-text-field>
       </v-col>

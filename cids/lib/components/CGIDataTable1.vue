@@ -575,7 +575,16 @@ export default {
       this.organizaColunas();
     },
     paginacao() {
-      this.propriedadesDaPaginacao = this.paginacao ?? {};
+      this.propriedadesDaPaginacao = this.paginacao ?? {
+        page: 1,
+        itemsPerPage: 30,
+        sortBy: [],
+        sortDesc: [],
+        groupBy: [],
+        groupDesc: [],
+        multiSort: false,
+        mustSort: false,
+      };
     },
     zoomDialog() {
       const acao = this.opcoesDeAcao.filter(

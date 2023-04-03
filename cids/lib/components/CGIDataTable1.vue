@@ -17,7 +17,7 @@
     :item-key="chaveTabela"
     :sort-by="propriedadesDaPaginacao.sortBy"
     :sort-desc="propriedadesDaPaginacao.sortDesc"
-    :group-by="propriedadesDaPaginacao.groupBy"
+    :group-by="propriedadesDaPaginacao.groupBy ?? agruparPor"
     :footer-props="{
       itemsPerPageOptions: [30, 60, 100],
       itemsPerPageText: 'Linhas por pagina',
@@ -493,11 +493,8 @@ export default {
     executaPaginacao() {
       if (this.paginacaoServidor) {
         this.propriedadesDaPaginacao["search"] = this.pesquisaInterna;
-
-        if (
-          this.propriedadesDaPaginacao.sortBy.length > 0 &&
-          this.agrupamento != null
-        ) {
+        
+        if (this.agrupamento != null && !this.propriedadesDaPaginacao.sortBy.some((coluna) => coluna === this.agrupamento)) {
           this.propriedadesDaPaginacao.sortBy.unshift(this.agrupamento);
           this.propriedadesDaPaginacao.sortDesc.unshift(false);
         }
@@ -575,6 +572,7 @@ export default {
       this.organizaColunas();
     },
     paginacao() {
+      debugger;
       this.propriedadesDaPaginacao = this.paginacao ?? {
         page: 1,
         itemsPerPage: 30,
@@ -694,6 +692,10 @@ export default {
       default: () => false,
     },
     "nome-programa": {
+      type: String,
+      default: () => "",
+    },
+    "agrupar-por": {
       type: String,
       default: () => "",
     },

@@ -697,7 +697,7 @@ export default {
     },
     "agrupar-por": {
       type: String,
-      default: () => "",
+      default: () => null,
     },
     totalizar: {
       type: Boolean,

@@ -131,7 +131,7 @@ export default {
         this.dialog = false;
 
         setTimeout(() => {
-          this.$refs.textfield.focus();
+          this.$refs.textfield?.focus();
         }, 100);
         this.$emit("change", this.item);
       }
@@ -168,14 +168,14 @@ export default {
     close() {
       this.dialog = false;
       setTimeout(() => {
-        this.$refs.textfield.focus();
+        this.$refs.textfield?.focus();
       }, 100);
       this.$emit("cancelar-zoom");
     },
     confirma() {
       this.dialog = false;
       setTimeout(() => {
-        this.$refs.textfield.focus();
+        this.$refs.textfield?.focus();
       }, 100);
       this.$emit("confirmar-zoom");
     },

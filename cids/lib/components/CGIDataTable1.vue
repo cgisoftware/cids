@@ -18,6 +18,7 @@
     :sort-by="propriedadesDaPaginacao.sortBy"
     :sort-desc="propriedadesDaPaginacao.sortDesc"
     :group-by="propriedadesDaPaginacao.groupBy ?? agruparPor"
+    v-model="itensSelecionados"
     :footer-props="{
       itemsPerPageOptions: [30, 60, 100],
       itemsPerPageText: 'Linhas por pagina',
@@ -373,6 +374,7 @@ export default {
     pesquisaInterna: context.pesquisa,
     menuDePropriedadesDaColuna: false,
     linhaSelecionada: null,
+    itensSelecionados: context.value,
     opcoesDeAcao: [
       {
         nome: "Visualizar",
@@ -589,6 +591,12 @@ export default {
         (opcao) => opcao.nome === "Exportar registro"
       );
       acao[0].mostrar = this.zoomDialog;
+    },
+    itensSelecionados() {
+      this.$emit("input", this.itensSelecionados);
+    },
+    value() {
+      this.itensSelecionados = this.value;
     },
   },
   props: {

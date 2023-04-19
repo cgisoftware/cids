@@ -255,6 +255,8 @@
             v-bind="attrs"
             v-on="on"
             icon
+            :dark="$vuetify.theme.dark"
+            :color="$vuetify.theme.dark ? 'orange' : 'primary'"
           >
             <v-icon small>mdi-dots-vertical</v-icon>
           </v-btn>
@@ -574,7 +576,6 @@ export default {
       this.organizaColunas();
     },
     paginacao() {
-      debugger;
       this.propriedadesDaPaginacao = this.paginacao ?? {
         page: 1,
         itemsPerPage: 30,

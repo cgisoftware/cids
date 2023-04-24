@@ -14,7 +14,7 @@ export default {
         Vue.directive('cgi-negative-number', {
             bind(el, binding) {
                 el = getInput(el)
-                const habilitado = binding.expression === "false" ? false : true;
+                const habilitado = binding.expression === "number";
 
                 if (habilitado) {
                     callback = (e) => {

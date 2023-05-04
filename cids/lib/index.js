@@ -11,6 +11,7 @@ import CgiForm from './components/CgiForm.vue'
 import CgiBtn from './components/CgiBtn.vue'
 import CgiAcoes from './components/CgiAcoes.vue'
 import CgiDivider from './components/CgiDivider.vue'
+import CgiMoney from './components/CgiMoney.vue'
 
 import '@mdi/font/css/materialdesignicons.css'
 import { reticencias } from './util'
@@ -59,6 +60,7 @@ export default {
     Vue.component('cgi-btn', CgiBtn)
     Vue.component('cgi-acoes', CgiAcoes)
     Vue.component('cgi-divider', CgiDivider)
+    Vue.component('cgi-money', CgiMoney)
 
     Vue.use(CgiMaskDirective)
     Vue.use(CgiMoneyDirective)

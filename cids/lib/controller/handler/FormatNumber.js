@@ -7,3 +7,15 @@ export const formatNumber = (value) => {
   let val = (value / 1).toFixed(2).replace(".", ",");
   return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
 };
+
+export const moedaParaFloat = (valor) => {
+  if (valor) {
+    return parseFloat(valor.replace("R\$", "").split(".").join("").replace(",", "."))
+  }
+
+  return 0.0
+}
+
+export const formataMoeda = (valor) => {
+  return valor.toLocaleString('pt-br', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+}

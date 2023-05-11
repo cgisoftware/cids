@@ -3,10 +3,11 @@
     :dense="compacto"
     :label="nome"
     :rules="regras"
-    v-cgi-mask="mask"
     v-model="data"
+    :data-maska="marcara"
+    v-maska
     :disabled="desabilitado"
-    @blur="formataData"
+    @blur="blurTextField"
     persistent-hint
   >
     <template v-slot:append>
@@ -28,8 +29,8 @@
           >mdi-calendar</v-icon>
         </template>
         <v-date-picker
-          :type="tipoDate"
-          v-model="picker"
+          :type="tipoDatePicker"
+          v-model="datePicker"
           no-title
           @input="menu = false"
         ></v-date-picker>
@@ -41,85 +42,97 @@
 <script>
 import moment from "moment";
 export default {
-  data: (vm) => ({
-    data: vm.value,
-    picker: null,
+  data: (context) => ({
     menu: false,
+    data: null,
+    datePicker: null,
+    manipulacaoFormatos: {
+      0: () => {
+        return "";
+      },
+      1: () => {
+        const data = moment(context.data.padStart(2, "0"), context.formatoMascara.dia);
+        debugger
+        return data.isValid() ? data.format(context.formatoMascara.pt) : "";
+      },
+      2: () => {
+        const data = moment(context.data, context.formatoMascara.mes);
+        return data.isValid() ? data.format(context.formatoMascara.pt) : "";
+      },
+      3: () => {
+        const data = moment(context.data, context.formatoMascara.ano);
+        return data.isValid() ? data.format(context.formatoMascara.pt) : "";
+      },
+    },
   }),
-  watch: {
-    value() {      
-      this.data = this.value;
-    },
-    picker() {
-      this.data = moment(this.picker, "YYYY-MM-DD").format(this.format);
-      this.$emit("input", this.data);
-    },
-  },
   computed: {
-    format() {
-      switch (this.tipo) {
-        case "mes":
-          return "MM/YYYY";
-      }
-
-      return "DD/MM/YYYY";
+    formatoMascara() {
+      return this.tipo === "mes"
+        ? { en: "YYYY-MM", pt: "MM/YYYY", dia: "MM", mes: "MM/YYYY", ano: "MM/YYYY" }
+        : { en: "YYYY-MM-DD", pt: "DD/MM/YYYY", dia: "DD", mes: "DD/MM", ano: "DD/MM/YYYY"  };
     },
-    mask() {
-      switch (this.tipo) {
-        case "mes":
-          return "mes-ano";
-      }
-
-      return "dia-mes-ano";
+    marcara() {
+      return this.tipo === "mes" ? "##/####" : "##/##/####";
     },
-    tipoDate() {
-      switch (this.tipo) {
-        case "mes":
-          return "month";
-      }
-
-      return "date";
+    tipoDatePicker() {
+      return this.tipo === "mes" ? "month" : "date";
     },
+    formatoPadrao() {
+      return this.formato || this.formatoMascara.pt
+    }
   },
   methods: {
-    formataData() {
+    formataData(data, de, para) {
+      if (data) {
+        return moment(data, de).format(para);
+      }
+    },
+    blurTextField() {
       if (this.data) {
-        let dia, mes, ano;
-        if (this.mask == "mes-ano") {
-          [mes, ano] = this.data.split("/");
-        } else {
-          [dia, mes, ano] = this.data.split("/");
-        }
+        const tamanho = this.data.split("/");
+        this.data = this.manipulacaoFormatos[tamanho.length]();
+        this.datePicker = this.formataData(
+          this.data,
+          this.formatoMascara.pt,
+          this.formatoMascara.en
+        );
+        this.$emit(
+          "input",
+          moment(this.data, this.formatoMascara.pt).format(this.formatoPadrao)
+        );
 
-        let d = dia;
-        let m = mes;
-        let y = ano;
-
-        if (!dia || dia == "") {
-          d = 1;
-        }
-
-        if (!mes || mes == "") {
-          m = moment().month() + 1;
-        }
-
-        if (!ano || ano == "") {
-          y = moment().year();
-        }
-
-        const data = moment(`${d}/${m}/${y}`, "DD/MM/YYYY").format(this.format);
-        if (moment(data, this.format, true).isValid()) {
-          this.picker = moment(data, this.format).format("YYYY-MM-DD");
-          this.data = moment(this.picker, "YYYY-MM-DD").format(this.format);
-          this.$emit("input", this.data);
-        } else {
-          this.data = null;
-          this.$emit("input", null);
-        }
-      } else {
-        this.$emit("input", null);
+        return;
       }
 
+      this.$emit("input", null);
+    },
+  },
+  mounted() {
+    this.data = this.formataData(
+      this.value,
+      this.formatoPadrao,
+      this.formatoMascara.pt
+    );
+  },
+  watch: {
+    value() {
+      this.data = this.formataData(
+        this.value,
+        this.formatoPadrao,
+        this.formatoMascara.pt
+      );
+    },
+    datePicker() {
+      this.data = this.formataData(
+        this.datePicker,
+        this.formatoMascara.en,
+        this.formatoMascara.pt
+      );
+
+      this.$emit(
+        "input",
+        moment(this.data, this.formatoMascara.pt).format(this.formatoPadrao)
+      );
     },
   },
   props: {
@@ -143,7 +156,10 @@ export default {
     },
     desabilitado: {
       type: Boolean,
-      default: false,
+      default: () => false,
+    },
+    formato: {
+      type: String,
     },
   },
 };

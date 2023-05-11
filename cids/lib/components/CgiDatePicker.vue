@@ -33,6 +33,8 @@
           v-model="datePicker"
           no-title
           @input="menu = false"
+          min="1900-01-01"
+          max="2100-01-01"
         ></v-date-picker>
       </v-menu>
     </template>
@@ -51,25 +53,50 @@ export default {
         return "";
       },
       1: () => {
-        const data = moment(context.data.padStart(2, "0"), context.formatoMascara.dia);
-        debugger
-        return data.isValid() ? data.format(context.formatoMascara.pt) : "";
+        const data = moment(
+          context.data.padStart(2, "0"),
+          context.formatoMascara.dia
+        );
+
+        if (context.dataValida(data)) {
+          return data.isValid() ? data.format(context.formatoMascara.pt) : "";
+        }
+
+        return moment().format(context.formatoMascara.pt);
       },
       2: () => {
         const data = moment(context.data, context.formatoMascara.mes);
-        return data.isValid() ? data.format(context.formatoMascara.pt) : "";
+        if (context.dataValida(data)) {
+          return data.isValid() ? data.format(context.formatoMascara.pt) : "";
+        }
+        return moment().format(context.formatoMascara.pt);
       },
       3: () => {
         const data = moment(context.data, context.formatoMascara.ano);
-        return data.isValid() ? data.format(context.formatoMascara.pt) : "";
+        if (context.dataValida(data)) {
+          return data.isValid() ? data.format(context.formatoMascara.pt) : "";
+        }
+        return moment().format(context.formatoMascara.pt);
       },
     },
   }),
   computed: {
     formatoMascara() {
       return this.tipo === "mes"
-        ? { en: "YYYY-MM", pt: "MM/YYYY", dia: "MM", mes: "MM/YYYY", ano: "MM/YYYY" }
-        : { en: "YYYY-MM-DD", pt: "DD/MM/YYYY", dia: "DD", mes: "DD/MM", ano: "DD/MM/YYYY"  };
+        ? {
+            en: "YYYY-MM",
+            pt: "MM/YYYY",
+            dia: "MM",
+            mes: "MM/YYYY",
+            ano: "MM/YYYY",
+          }
+        : {
+            en: "YYYY-MM-DD",
+            pt: "DD/MM/YYYY",
+            dia: "DD",
+            mes: "DD/MM",
+            ano: "DD/MM/YYYY",
+          };
     },
     marcara() {
       return this.tipo === "mes" ? "##/####" : "##/##/####";
@@ -78,13 +105,22 @@ export default {
       return this.tipo === "mes" ? "month" : "date";
     },
     formatoPadrao() {
-      return this.formato || this.formatoMascara.pt
-    }
+      return this.formato || this.formatoMascara.pt;
+    },
   },
   methods: {
+    dataValida(data) {
+      return data.isBetween("1900-01-01", "2100-01-01");
+    },
     formataData(data, de, para) {
       if (data) {
-        return moment(data, de).format(para);
+        const dataMoment = moment(data, de);
+
+        if (this.dataValida(dataMoment)) {
+          return dataMoment.format(para);
+        }
+
+        return null;
       }
     },
     blurTextField() {

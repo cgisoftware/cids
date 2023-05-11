@@ -4,7 +4,7 @@
     :label="nome"
     :rules="regras"
     v-model="data"
-    :data-maska="marcara"
+    :data-maska="mascara"
     v-maska
     :disabled="desabilitado"
     @blur="blurTextField"
@@ -98,7 +98,7 @@ export default {
             ano: "DD/MM/YYYY",
           };
     },
-    marcara() {
+    mascara() {
       return this.tipo === "mes" ? "##/####" : "##/##/####";
     },
     tipoDatePicker() {

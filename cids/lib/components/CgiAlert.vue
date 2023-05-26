@@ -15,13 +15,13 @@
         </v-card-text>
         <v-card-actions v-if="alert.actions.accept">
           <v-btn
-            class="white--text"
+            color="white"
             text
             @click="alert.decline()"
           > Não </v-btn>
           <v-spacer></v-spacer>
           <v-btn
-            class="white--text"
+            color="white"
             text
             @click="alert.accept()"
           > Sim </v-btn>
@@ -29,7 +29,7 @@
         <v-card-actions v-else>
           <v-spacer></v-spacer>
           <v-btn
-            class="white--text"
+            color="white"
             text
             @click="alert.decline()"
           > OK </v-btn>

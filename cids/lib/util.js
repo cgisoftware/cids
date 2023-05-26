@@ -7,14 +7,10 @@ import reticencias from './controller/handler/Reticencias'
 import CgiAlertController from './controller/CgiAlert'
 import { groupBy } from './controller/handler/GroupBy'
 import { ablFilter } from './controller/handler/AblRead'
-import Vue from 'vue'
+import { reactive } from 'vue'
 
-const snackbar = new CgiSnackbarController()
-const alert = new CgiAlertController()
-
-Vue.prototype.formataMoeda = formatNumber
-Vue.prototype.snackbar = Vue.observable(snackbar)
-Vue.prototype.alert = Vue.observable(alert)
+const snackbar = reactive(new CgiSnackbarController())
+const alert = reactive(new CgiAlertController())
 
 export {
   snackbar,

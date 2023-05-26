@@ -1,6 +1,4 @@
-import VMasker from 'vanilla-masker'
-import { getInput } from './handler/GetInput'
-import { VMoney } from 'v-money'
+import { VMoney } from 'v-money3'
 
 export default {
   install(Vue) {

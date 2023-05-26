@@ -7,11 +7,7 @@ export default class CgiSnackbarController {
     this.actions = {
       accept: false,
     }
-    this.position = {
-      right: true,
-      center: true,
-      top: false,
-    }
+    this.position = 'top center'
     this.isConfirm = false
     this.isDecline = false
     this.context = null
@@ -22,11 +18,7 @@ export default class CgiSnackbarController {
     timeout = 10000,
     color = 'red',
     actions = { accept: false, show: true },
-    position = {
-      right: false,
-      center: true,
-      top: true,
-    },
+    position = 'top center',
   }) {
     this.message = message
     this.timeout = timeout
@@ -41,11 +33,7 @@ export default class CgiSnackbarController {
     timeout = 50000,
     color = 'green',
     actions = { accept: true },
-    position = {
-      right: true,
-      center: false,
-      top: true,
-    },
+    position = 'top end',
   }) {
     this.message = message
     this.timeout = timeout

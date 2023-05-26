@@ -1,26 +1,24 @@
 <template>
   <div>
-    <v-tooltip bottom>
-      <template v-slot:activator="{ on, attrs }">
+    <v-tooltip
+      location="bottom"
+      :text="`${btn.label} registro`"
+    >
+      <template v-slot:activator="{ props }">
         <v-btn
-          v-bind="attrs"
-          v-on="on"
+          v-bind="props"
           small
           v-if="!filtro"
-          :text="btn.text"
-          :outlined="btn.outlined"
+          :variant="btn.variant"
           @click="$emit('click')"
           :disabled="desabilitado"
+          :prepend-icon="btn.icone"
           :loading="carregando"
           :color="cancelar || salvar ? btn.cor : null"
         >
-          <v-icon
-            left
-            :color="!salvar ? btn.cor : null"
-          >{{ btn.icone }}</v-icon> {{ btn.label }}
+          {{ btn.label }}
         </v-btn>
       </template>
-      <span>{{ btn.label }} registro</span>
     </v-tooltip>
 
     <v-menu
@@ -31,14 +29,13 @@
       offset-x
       offset-y
     >
-      <template v-slot:activator="{ on: onMenu, attrs: attrMenu }">
+      <template v-slot:activator="{  attrs: attrMenu }">
         <v-tooltip bottom>
-          <template v-slot:activator="{ on: onTooltip, attrs: attrTooltip }">
+          <template v-slot:activator="{  attrs: attrTooltip }">
             <v-btn
               v-bind="{ ...attrMenu, ...attrTooltip }"
-              v-on="{ ...onMenu, ...onTooltip }"
               small
-              text
+              variant="text"
               v-if="filtro"
               :disabled="desabilitado"
               :loading="carregando"
@@ -71,84 +68,73 @@ export default {
         label: "Incluir",
         icone: "mdi-plus",
         cor: "blue",
-        outlined: false,
-        text: true,
+        variant: "text",
       },
       {
         label: "Alterar",
         icone: "mdi-pencil",
         cor: "orange",
-        outlined: false,
-        text: true,
+        variant: "text",
       },
       {
         label: "Excluir",
         icone: "mdi-delete",
         cor: "red",
-        outlined: false,
-        text: true,
+        variant: "text",
       },
       {
         label: "Copiar",
         icone: "mdi-content-copy",
         cor: "green darken-2",
-        outlined: false,
-        text: true,
+        variant: "text",
       },
       {
         label: "Relatório",
         icone: "mdi-file-chart",
         cor: "orange",
-        outlined: false,
-        text: true,
+        variant: "text",
       },
       {
         label: "Excel",
         icone: "mdi-file-excel",
         cor: "green",
-        outlined: false,
-        text: true,
+        variant: "text",
       },
       {
         label: "Pdf",
         icone: "mdi-file-pdf-box",
         cor: "red",
-        outlined: false,
-        text: true,
+        variant: "text",
       },
       {
         label: "Salvar",
         icone: "mdi-content-save",
         cor: "primary",
-        outlined: false,
-        text: false,
+        variant: "elevated",
       },
       {
         label: "Cancelar",
         icone: "mdi-close",
         cor: "red",
-        outlined: true,
+        variant: "outlined",
       },
       {
         label: "Limpar",
         icone: "mdi-broom",
         cor: "primary",
-        outlined: true,
-        text: false,
+        variant: "outlined",
       },
       {
         label: "Atualizar",
         icone: "mdi-reload",
         cor: "green",
-        outlined: false,
-        text: true,
+        variant: "text",
       },
       {
         label: "Filtrar",
         icone: "mdi-filter",
         cor: "primary",
-        outlined: false,
-        text: false,
+        variant: "text",
       },
     ],
   }),

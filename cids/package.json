@@ -1,6 +1,6 @@
 {
   "name": "cids-cgi",
-  "version": "$version",
+  "version": "3.0.0",
   "description": "CGI Design System for Vue",
   "main": "index.js",
   "private": false,
@@ -12,17 +12,10 @@
   "license": "ISC",
   "devDependencies": {
     "@mdi/font": "^7.1.96",
-    "@vue/cli-service": "~5.0.0",
-    "bili": "^5.0.5",
-    "vue-template-compiler": "^2.6.14",
-    "vuetify-loader": "^1.7.0"
+    "@vue/cli-service": "~5.0.0"
   },
   "dependencies": {
-    "ke-the-mask": "0.0.3",
-    "cleave.js": "^1.6.0",
     "vanilla-masker": "^1.2.0",
-    "vuedraggable": "^2.24.3",
-    "vuetify": "^2.6.14",
     "xlsx": "^0.18.5"
   }
 }

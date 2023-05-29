@@ -41,22 +41,35 @@
       v-if="dialog"
       persistent
       scrollable
+      overlay-opacity="0"
       :value="true"
       class="pa-0"
       :width="largura"
     >
       <component
-        v-if="zoom"
+        v-if="componenteZoom && !iframeUrl"
         ref="component"
         @click:close="close"
         @cancelar-zoom="close"
         @confirmar-zoom="confirma"
-        v-bind:is="zoom"
+        v-bind:is="componenteZoom"
         :registro="valor"
         @exporta-zoom="setaValor"
       ></component>
       <v-card
-        v-else
+        height="70vh"
+        v-show="!componenteZoom && iframeUrl"
+      >
+        <iframe
+          :src="iframeUrl"
+          width="100%"
+          height="100%"
+          style="border: white;"
+          v-on:load="onLoadIframe"
+        ></iframe>
+      </v-card>
+      <v-card
+        v-if="!componenteZoom && !iframeUrl"
         height="500"
       >
         <v-card-title>
@@ -72,6 +85,7 @@
 </template>
 
 <script>
+import { publisher, subscriber } from "../util";
 export default {
   data: (vm) => ({
     valor: vm.value,
@@ -80,6 +94,8 @@ export default {
     item: {},
     debounceSearch: null,
     loading: false,
+    componenteZoom: null,
+    iframeUrl: null,
   }),
   watch: {
     valor() {
@@ -119,16 +135,51 @@ export default {
     if (this.valor && this.aoDigitar) {
       this.descricao = await this.aoDigitar(this.valor);
     }
+    this.componenteZoom = await this.renderComponente();
+
+    subscriber(this.zoom).exportZoom(this.setaValor);
+    subscriber(this.zoom).cancel(this.close);
   },
   methods: {
-    setaValor(valor) {
+    async renderComponente() {
+      try {
+        this.iframeUrl = null;
+
+        if (this.zoom === null) {
+          return null;
+        }
+
+        if (this.zoom.startsWith("/")) {
+          this.iframeUrl = this.zoom;
+          return null;
+        }
+
+        const [modulo, programa] = this.zoom.split("/");
+        const component = (
+          await import(`@/module/${modulo}/${programa}/view/${programa}.vue`)
+        ).default;
+        return component;
+      } catch {
+        const component = (await import(`@/components/${this.zoom}.vue`))
+          .default;
+
+        return component;
+      }
+    },
+    async setaValor(valor) {
       if (!this.custom) {
         this.valor = valor[this.chave];
+
         if (this.formataValor) {
           this.descricao = valor[this.campoValorFormatado];
         }
+
         this.item = valor;
         this.dialog = false;
+
+        if (this.valor && this.aoDigitar) {
+          this.descricao = await this.aoDigitar(this.valor);
+        }
 
         setTimeout(() => {
           this.$refs.textfield?.focus();
@@ -139,6 +190,40 @@ export default {
     async chamaZoom() {
       this.dialog = true;
       await new Promise((resolver) => setTimeout(resolver, 100));
+      if (this.componenteZoom && !this.iframeUrl) {
+        this.chamaZoomComponente();
+        return;
+      }
+
+      // if (!this.componenteZoom && this.iframeUrl) {
+      //   this.chamaZoomURL();
+      //   return;
+      // }
+    },
+    onLoadIframe() {
+      publisher(this.zoom).send("dialogZoom", true);
+
+      if (this.custom) {
+        publisher(this.zoom).send("preencheFormulario", {
+          params: this.params,
+          desabilitaCampos: this.desabilitaCampos,
+        });
+
+        return;
+      }
+
+      if (this.params !== undefined) {
+        publisher(this.zoom).send("queryZoom", this.params);
+      }
+
+      publisher(this.zoom).send(
+        "pesquisa",
+        this.valor && this.valor !== 0 ? this.valor.toString() : null
+      );
+
+      // subscriber(this.zoom).exportZoom((data) => )
+    },
+    async chamaZoomComponente() {
       this.$refs.component.controller.dialogZoom = true;
       if (this.custom) {
         this.$refs.component.controller.preencheFormulario(
@@ -152,7 +237,7 @@ export default {
         this.$refs.component.controller.pesquisa = null;
         await new Promise((resolver) => setTimeout(resolver, 100));
         this.$refs.component.controller.pesquisa =
-          this.valor !== 0 && this.valor ? this.valor.toString() : null;
+          this.valor && this.valor !== 0 ? this.valor.toString() : null;
       }
 
       if (
@@ -209,7 +294,8 @@ export default {
       require: true,
     },
     zoom: {
-      type: Object,
+      type: String,
+      default: () => null,
     },
     compacto: {
       type: Boolean,

@@ -16,6 +16,10 @@ Vue.prototype.formataMoeda = formatNumber
 Vue.prototype.snackbar = Vue.observable(snackbar)
 Vue.prototype.alert = Vue.observable(alert)
 
+
+const publisher = window.parent.publisher ?? window.parent.parent.publisher
+const subscriber = window.parent.subscriber ?? window.parent.parent.subscriber
+
 export {
   snackbar,
   alert,
@@ -26,5 +30,7 @@ export {
   toExcelID,
   reticencias,
   toAblQueryForm,
-  ablFilter
+  ablFilter,
+  publisher,
+  subscriber
 }

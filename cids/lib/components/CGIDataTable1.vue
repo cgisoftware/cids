@@ -1,5 +1,5 @@
 <template>
-  <v-data-table
+  <v-data-table-virtual
     :headers="colunasVisiveis"
     :items="linhas"
     :options.sync="propriedadesDaPaginacao"
@@ -8,6 +8,7 @@
     :height="altura"
     :fixed-header="colunasFixas"
     :dense="compacto"
+    :density="compacto ? 'compact' : 'default'"
     :search="pesquisaInterna"
     :item-class="habilitaLinhaSelecionada"
     :hide-default-footer="!mostraPaginacao"
@@ -17,7 +18,7 @@
     :item-key="chaveTabela"
     :sort-by="propriedadesDaPaginacao.sortBy"
     :sort-desc="propriedadesDaPaginacao.sortDesc"
-    :group-by="propriedadesDaPaginacao.groupBy ?? agruparPor"
+
     v-model="itensSelecionados"
     :footer-props="{
       itemsPerPageOptions: [30, 60, 100],
@@ -68,6 +69,7 @@
         flat
         dense
         v-if="mostraToolbar"
+        color="transparent"
       >
         <v-toolbar-title>
           <div class="d-flex flex-column">
@@ -161,8 +163,8 @@
                 fluid
                 grid-list-md
               >
-                <v-layout>
-                  <v-flex xs6>
+                <v-row>
+                  <v-col cols="6">
                     Colunas na tela
                     <draggable :list="colunasVisiveis">
                       <div
@@ -191,8 +193,8 @@
                         </v-chip>
                       </div>
                     </draggable>
-                  </v-flex>
-                  <v-flex xs6>
+                  </v-col>
+                  <v-col cols="6">
                     Colunas disponíveis
                     <div
                       v-show="coluna.value !== 'acoes' && coluna.value !== 'tb_detalhe'"
@@ -219,8 +221,8 @@
                         </template>
                       </v-chip>
                     </div>
-                  </v-flex>
-                </v-layout>
+                  </v-col>
+                </v-row>
               </v-container>
             </v-card-text>
             <v-card-actions>
@@ -359,7 +361,7 @@
         </th>
       </tr>
     </template>
-  </v-data-table>
+  </v-data-table-virtual>
 </template>
 
 <script>
@@ -493,6 +495,22 @@ export default {
           });
         }
       }
+
+      this.colunasVisiveis = this.colunasVisiveis.map((coluna) => {
+        return {
+          ...coluna,
+          title: coluna.text ?? coluna.title,
+          key: coluna.value ?? coluna.key
+        }
+      })
+
+      this.colunasInvisiveis = this.colunasVisiveis.map((coluna) => {
+        return {
+          ...coluna,
+          title: coluna.text ?? coluna.title,
+          key: coluna.value ?? coluna.key
+        }
+      })
     },
     executaPaginacao() {
       if (this.paginacaoServidor) {
@@ -528,6 +546,7 @@ export default {
       this.menuDePropriedadesDaColuna = false;
     },
     habilitaLinhaSelecionada(item) {
+      debugger
       if (this.mostraLinhaSelecionada && this.linhaSelecionada) {
         if (this.linhaSelecionada[this.chaveTabela] == item[this.chaveTabela]) {
           return this.cids?.theme?.dataTable?.lineColor ?? "blue lighten-5";
@@ -539,7 +558,7 @@ export default {
       }
     },
     selecionaLinha(item) {
-      this.linhaSelecionada = structuredClone(item);
+      this.linhaSelecionada = structuredClone(item.selected);
       this.$emit("linha-selecionada", item);
     },
     somarRegistros(key, itens) {

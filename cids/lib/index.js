@@ -1,6 +1,6 @@
 // import CgiDatePicker from './components/CgiDatePicker.vue'
 // import CgiTimePicker from './components/CgiTimePicker.vue'
-// import CgiDataTable1 from './components/CGIDataTable1.vue'
+import CgiDataTable1 from './components/CGIDataTable1.vue'
 import CgiSnackbar from './components/CgiSnackbar.vue'
 import CgiAlert from './components/CgiAlert.vue'
 import CgiZoomPicker from './components/CgiZoomPicker.vue'
@@ -43,7 +43,7 @@ export default {
   install(app, options = opt) {
     // app.component('cgi-date-picker', CgiDatePicker)
     // app.component('cgi-time-picker', CgiTimePicker)
-    // app.component('cgi-data-table', CgiDataTable1)
+    app.component('cgi-data-table', CgiDataTable1)
     // app.component('cgi-data-table1', CgiDataTable1)
     app.component('cgi-snackbar', CgiSnackbar)
     app.component('cgi-alert', CgiAlert)

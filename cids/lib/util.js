@@ -12,7 +12,12 @@ import { reactive } from 'vue'
 const snackbar = reactive(new CgiSnackbarController())
 const alert = reactive(new CgiAlertController())
 
+const publisher = window.parent.publisher ?? window.parent.parent.publisher
+const subscriber = window.parent.subscriber ?? window.parent.parent.subscriber
+
 export {
+  publisher,
+  subscriber,
   snackbar,
   alert,
   toAblDate,

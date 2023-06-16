@@ -263,10 +263,10 @@
         </template>
 
         <v-card>
-          <v-card-text>
-            <div class="font-weight-bold mb-5">Ações principais do registro</div>
+          <v-card-text class="px-0">
+            <div class="font-weight-bold mb-5 px-4">Ações principais do registro</div>
 
-            <div class="d-flex justify-space-between align-center">
+            <div class="d-flex justify-space-between align-center px-4">
               <div
                 v-for="(opcao, index) in opcoesDeAcao"
                 :key="index"
@@ -287,6 +287,14 @@
                   </template>
                   <span>{{ opcao.descricao }}</span>
                 </v-tooltip>
+              </div>
+            </div>
+
+            <div v-if="temOutrasAcoes">
+              <v-divider class="my-2"></v-divider>
+              <div class="font-weight-bold mb-5 px-4">Demais ações do registro</div>
+              <div class="px-4">
+                <slot v-bind:item="item" name="outras-acoes"></slot>
               </div>
             </div>
           </v-card-text>
@@ -497,8 +505,13 @@ export default {
     executaPaginacao() {
       if (this.paginacaoServidor) {
         this.propriedadesDaPaginacao["search"] = this.pesquisaInterna;
-        
-        if (this.agrupamento != null && !this.propriedadesDaPaginacao.sortBy.some((coluna) => coluna === this.agrupamento)) {
+
+        if (
+          this.agrupamento != null &&
+          !this.propriedadesDaPaginacao.sortBy.some(
+            (coluna) => coluna === this.agrupamento
+          )
+        ) {
           this.propriedadesDaPaginacao.sortBy.unshift(this.agrupamento);
           this.propriedadesDaPaginacao.sortDesc.unshift(false);
         }
@@ -563,6 +576,9 @@ export default {
           this.propriedadesDaPaginacao.groupBy.push(value);
         }
       },
+    },
+    temOutrasAcoes() {
+      return this.$slots["outras-acoes"] || this.$scopedSlots["outras-acoes"];
     },
   },
   watch: {

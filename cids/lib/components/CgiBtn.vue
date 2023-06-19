@@ -10,7 +10,6 @@
           small
           v-if="!filtro"
           :variant="btn.variant"
-          @click="$emit('click')"
           :disabled="desabilitado"
           :prepend-icon="btn.icone"
           :loading="carregando"
@@ -39,7 +38,6 @@
               v-if="filtro"
               :disabled="desabilitado"
               :loading="carregando"
-              @click="$emit('click')"
             >
               <v-icon
                 left

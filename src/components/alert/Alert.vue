@@ -23,12 +23,12 @@ export default {
     snackbarExample: Prism.highlight(
       `
         <template>
-            <cgi-alert/> 
-            <!-- 
+            <cgi-alert/>
+            <!--
                 ^^^^
                 ||||
-                SOMENTE NO ARQUIVO APP.VUE DO PROJETO. 
-                NÃO DEFINIR EM OUTROS LUGARES NO CÓDIGO!! 
+                SOMENTE NO ARQUIVO APP.VUE DO PROJETO.
+                NÃO DEFINIR EM OUTROS LUGARES NO CÓDIGO!!
             -->
 
             <v-btn
@@ -36,7 +36,7 @@ export default {
                 class="mx-1"
                 @click="mostraAlerta"
             >Alerta fixo!</v-btn>
-            
+
             <v-btn
                 class="secondary"
                 @click="mostraConfirmacao"

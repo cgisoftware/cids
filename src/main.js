@@ -5,15 +5,21 @@ import 'prismjs/themes/prism-coy.css'
 
 
 import cids from 'cids-cgi/lib'
+import router from './config/router';
 
 const opt = {
   theme: {
     dataTable: {
-      checkboxColor: 'orange darken-2',
-      lineColor: 'blue'
-    }
-  }
-}
+      checkboxColor: "orange darken-2",
+      lineColor: "light-blue lighten-5 black--text",
+    },
+  },
+  defaults: {
+    dataTable: {
+      acoes: "left dot",
+    },
+  },
+};
 
 Vue.use(cids, opt)
 
@@ -21,5 +27,6 @@ Vue.config.productionTip = false
 
 new Vue({
   vuetify,
+  router,
   render: h => h(App)
 }).$mount('#app')

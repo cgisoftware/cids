@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import Home from "./components/home/documentacao.vue";
+import Home from "./components/documentacao.vue";
 
 export default {
   components: {

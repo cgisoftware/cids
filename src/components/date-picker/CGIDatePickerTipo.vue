@@ -1,11 +1,14 @@
 <template>
-  <section id="data-picker-tipo-mes">
-    <div>
-      <strong
-        ><a href="#data-picker-tipo-mes">Campo data por tipo (mes)</a>
-      </strong>
-      <br />
-      <br />
+  <v-card class="mx-auto mt-5" width="90%" style="margin-top: -64px">
+    <v-toolbar flat>
+      <v-toolbar-title :class="$vuetify.theme.isDark ? 'white--text' : 'black--text'">
+        Campo Data Por Tipo (mês)
+      </v-toolbar-title>
+    </v-toolbar>
+
+    <v-divider></v-divider>
+
+    <v-card-text>
       <cgi-date-picker v-model="data" nome="Data" tipo="mes"></cgi-date-picker>
       Data v-model: {{ data }}
 
@@ -16,15 +19,12 @@
                 style="font-size: 14px; "
               ></code>
               </pre>
-
-      <v-divider class="my-5"></v-divider>
-    </div>
-  </section>
+    </v-card-text>
+  </v-card>
 </template>
 
 <script>
 import Prism from "prismjs";
-// import "prismjs/components/prism-json";
 export default {
   data: () => ({
     data: "10/2021",

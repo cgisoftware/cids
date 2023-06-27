@@ -16,6 +16,7 @@
     "v-money": "^0.8.1",
     "vanilla-masker": "^1.2.0",
     "vue": "^2.6.11",
+    "vue-router": "^3.5.3",
     "vuedraggable": "^2.24.3",
     "vuetify": "^2.4.0",
     "xlsx": "^0.18.5"

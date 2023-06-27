@@ -12,52 +12,48 @@
       :permanent="$vuetify.breakpoint.mdAndUp"
       :temporary="!$vuetify.breakpoint.mdAndUp"
     >
-      <v-list class="text-left" nav dense>
-          <!-- :active-class="raiz ? 'primary' : 'primary--text'" -->
-        <v-list-group
-          v-for="(item, key) in menu"
-          :key="key"
-          color="white"
-          :value="false"
+      <v-list class="text-left ma-2" nav dense>
+        <router-link
+          v-for="item in menu"
+          :key="item.nome"
+          :to="item.path"
+          class="router-link"
         >
-          <template v-slot:activator>
-            <v-list-item-title @click="activateItem(item)">
-              <v-icon left class="pr-4">{{
-                item.icone.includes("mdi") ? item.icone : "mdi-home"
-              }}</v-icon
-              >{{ item.descricao }}
-            </v-list-item-title>
-            <!-- <div v-if="raiz && item.temFilho">
-              <v-icon>mdi-chevron-down</v-icon>
-            </div> -->
-          </template>
-        </v-list-group>
+          <v-list-item-title class="mb-3">
+            <v-icon left class="pr-4">{{
+              item.icone.includes("mdi") ? item.icone : "mdi-home"
+            }}</v-icon
+            >{{ item.nome }}
+          </v-list-item-title>
+        </router-link>
       </v-list>
     </v-navigation-drawer>
   </div>
 </template>
 
 <script>
+import { menu } from "../const/menu";
+
 export default {
   data: () => ({
     leftDrawer: false,
     mini: true,
-    menu: [
-      { icone: "mdi-clock-outline", descricao: "Pickers - Hora" },
-      { icone: "mdi-calendar-month", descricao: "Pickers - Data" },
-      { icone: "mdi-message-alert-outline", descricao: "Snackbar" },
-      { icone: "mdi-alert-outline", descricao: "Alertas" },
-      { icone: "mdi-alert-outline", descricao: "Alertas" },
-      { icone: "mdi-form-textbox", descricao: "Diretivas" },
-      { icone: "mdi-table", descricao: "Tabelas" },
-      { icone: "mdi-magnify", descricao: "Zoons" },
-      { icone: "mdi-file-tree-outline", descricao: "Tree View" },
-      { icone: "mdi-file-jpg-box", descricao: "Image picker" },
-      { icone: "mdi-list-box-outline", descricao: "Form" },
-    ],
+    menu,
   }),
 };
 </script>
 
-<style>
+<style scoped>
+.router-link {
+  text-decoration: none;
+  color: inherit;
+}
+
+.router-link.active {
+  font-weight: bold;
+}
+
+.router-link:hover {
+  background-color: #f0f0f0;
+}
 </style>

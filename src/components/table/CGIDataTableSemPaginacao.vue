@@ -4,7 +4,7 @@
       <v-toolbar-title
         :class="$vuetify.theme.isDark ? 'white--text' : 'black--text'"
       >
-        Tabela Com Opção De Selecionar
+        Tabela Sem Paginação
       </v-toolbar-title>
     </v-toolbar>
 
@@ -14,28 +14,11 @@
       <cgi-data-table
         :linhas="linhas"
         :colunas="colunas"
-        nome-tabela="Selecionar vários"
-        altura="200"
-        selecionar-varios
-        chave-tabela="nome"
-        v-model="selecionados"
         :mostra-paginacao="false"
+        nome-tabela="Sem Paginação"
+        altura="200"
         mostra-linha-selecionada
-        cor-checkbox="red"
       ></cgi-data-table>
-
-      <v-btn color="primary" class="mx-1 mt-5" @click="selecionados = []"
-        >Remover Seleção</v-btn
-      >
-      <br />
-
-      <pre class="mt-5">
-       <code
-      class="language-json">
-        {{ selecionados }}
-      </code>
-      </pre>
-
       <pre>
                 <code
                 class="language-html py-5"
@@ -49,35 +32,35 @@
 <script>
 import Prism from "prismjs";
 export default {
-  methods: {
-    salvarPropriedades(propriedadesDaTabela) {
-      // salve na tabela padrão ou em algum local especifico
-    },
-  },
   data: () => ({
-    selecionados: [],
     linhas: [
       {
+        seq: 1,
         nome: "Vinicius",
         descricao: "Desenvolvedor de Software",
       },
       {
+        seq: 2,
         nome: "Sergio",
         descricao: "Desenvolvedor de Software",
       },
       {
+        seq: 3,
         nome: "Jackson",
         descricao: "Desenvolvedor de Software",
       },
       {
+        seq: 4,
         nome: "João",
         descricao: "Desenvolvedor de Software",
       },
       {
+        seq: 5,
         nome: "Mauricio",
         descricao: "Desenvolvedor de Software",
       },
       {
+        seq: 6,
         nome: "Marcelo",
         descricao: "Desenvolvedor de Software",
       },
@@ -99,27 +82,18 @@ export default {
     dataExample: Prism.highlight(
       `
         <template>
-          <div>
-            <cgi-data-table
-                :linhas="linhas"
-                :colunas="colunas"
-                nome-tabela="Selecionar vários"
-                altura="200"
-                selecionar-varios
-                chave-tabela="nome"
-                v-model="selecionados"
-                :mostra-paginacao="false"
-                mostra-linha-selecionada
-                cor-checkbox="red"
-            ></cgi-data-table>
-            {{ selecionados }}
-          </div>
+          <cgi-data-table
+              :linhas="linhas"
+              :colunas="colunas"
+              :mostra-paginacao="false"
+              nome-tabela="Sem Paginação"
+              altura="200"
+          ></cgi-data-table>
         <\/template>
 
         <script>
             export default {
                 data: () => ({
-                    selecionados: [],
                     linhas: [
                         {
                             nome: "Vinicius",

@@ -1,33 +1,39 @@
 <template>
-  <div>
-    <strong>Custom zoom para telas que não são de listagem</strong>
-    <br>
-    <strong>Só funciona tela de zoom é um formulário, caso contrario apresenta problemas no console</strong>
-    <br>
-    <br>
-    <cgi-zoom-picker
-      chave="id"
-      :zoom="component"
-      v-model="nome"
-      nome="Desenvolvedor"
-      posicao="inicial"
-      largura="30%"
-    >
-      <template v-slot:customcomp="{ chamaZoom }">
-        <v-btn @click="chamaZoom">Abrir alguma coisa</v-btn>
-      </template>
-    </cgi-zoom-picker>
+  <v-card class="mx-auto mt-5" width="90%" style="margin-top: -64px">
+    <v-toolbar flat>
+      <v-toolbar-title :class="$vuetify.theme.isDark ? 'white--text' : 'black--text'">
+        Custom zoom para telas que não são de listagem. Só funciona quando tela
+        de zoom é um formulário, caso contrario apresenta problemas no console
+      </v-toolbar-title>
+    </v-toolbar>
 
-    <pre>
+    <v-divider></v-divider>
+
+    <v-card-text>
+      <cgi-zoom-picker
+        chave="id"
+        :zoom="component"
+        v-model="nome"
+        nome="Desenvolvedor"
+        posicao="inicial"
+        largura="30%"
+      >
+        <template v-slot:customcomp="{ chamaZoom }">
+          <v-btn color="primary" class="mx-1" @click="chamaZoom"
+            >Abrir alguma coisa</v-btn
+          >
+        </template>
+      </cgi-zoom-picker>
+
+      <pre>
                 <code
                 class="language-html py-5"
                 v-html="dataExample"
                 style="font-size: 14px; "
               ></code>
               </pre>
-
-    <v-divider class="my-5"></v-divider>
-  </div>
+    </v-card-text>
+  </v-card>
 </template>
 
 <script>
@@ -117,6 +123,5 @@ export default {
 };
 </script>
 
-    
 
-    
+

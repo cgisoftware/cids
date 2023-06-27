@@ -1,24 +1,31 @@
 <template>
-  <div>
-    <cgi-data-table
-      :linhas="linhas"
-      :colunas="colunas"
-      nome-tabela="Paginação Servidor"
-      altura="200"
-      paginacao-servidor
-      @paginando="paginando"
-      mostra-pesquisa
-    ></cgi-data-table>
-    <pre>
+  <v-card class="mx-auto mt-5" width="90%" style="margin-top: -64px">
+    <v-toolbar flat>
+      <v-toolbar-title :class="$vuetify.theme.isDark ? 'white--text' : 'black--text'">
+        Tabela Com Paginação Servidor
+      </v-toolbar-title>
+    </v-toolbar>
+
+    <v-divider></v-divider>
+
+    <v-card-text>
+      <cgi-data-table
+        :linhas="linhas"
+        :colunas="colunas"
+        nome-tabela="Paginação Servidor"
+        altura="200"
+        paginacao-servidor
+        @paginando="paginando"
+      ></cgi-data-table>
+      <pre>
                 <code
                 class="language-html py-5"
                 v-html="dataExample"
                 style="font-size: 14px; "
               ></code>
               </pre>
-
-    <v-divider class="my-5"></v-divider>
-  </div>
+    </v-card-text>
+  </v-card>
 </template>
 <script>
 import Prism from "prismjs";
@@ -48,11 +55,11 @@ export default {
         descricao: "Desenvolvedor de Software",
       },
       {
-        nome: "Kirlan",
+        nome: "Jackson",
         descricao: "Desenvolvedor de Software",
       },
       {
-        nome: "Angelo",
+        nome: "João",
         descricao: "Desenvolvedor de Software",
       },
       {
@@ -119,11 +126,11 @@ export default {
                             descricao: "Desenvolvedor de Software",
                         },
                         {
-                            nome: "Kirlan",
+                            nome: "Jackson",
                             descricao: "Desenvolvedor de Software",
                         },
                         {
-                            nome: "Angelo",
+                            nome: "João",
                             descricao: "Desenvolvedor de Software",
                         },
                         {

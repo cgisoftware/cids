@@ -1,39 +1,46 @@
 <template>
-  <div>
-    <strong>Basico</strong>
-    <br>
-    <br>
-    <cgi-zoom-picker
-      chave="id"
-      :zoom="component"
-      v-model="nome"
-      nome="Desenvolvedor"
-      posicao="inicial"
-      formata-valor
-      :ao-digitar="buscaDescricao"
-    ></cgi-zoom-picker>
+  <v-card flat>
+    <v-toolbar color="primary" dark extended flat> </v-toolbar>
 
-    {{nome}}
+    <v-card class="mx-auto mb-5" width="90%" style="margin-top: -64px">
+      <v-toolbar flat>
+        <v-toolbar-title :class="$vuetify.theme.isDark ? 'white--text' : 'black--text'"> Básico </v-toolbar-title>
+      </v-toolbar>
 
-    <pre>
+      <v-divider></v-divider>
+
+      <v-card-text>
+        <cgi-zoom-picker
+          chave="id"
+          :zoom="component"
+          v-model="nome"
+          nome="Desenvolvedor"
+          posicao="inicial"
+          formata-valor
+          :ao-digitar="buscaDescricao"
+        ></cgi-zoom-picker>
+
+        {{ nome }}
+
+        <pre>
                 <code
                 class="language-html py-5"
                 v-html="dataExample"
                 style="font-size: 14px; "
               ></code>
               </pre>
-
-    <v-divider class="my-5"></v-divider>
-  </div>
+      </v-card-text>
+    </v-card>
+  </v-card>
 </template>
 
 <script>
-import CGIDataTableAcoes from "../table/CGIDataTableAcoes";
+import CGIDataTableAcoes from "../table/CGIDataTableAcoes.vue";
 export default {
   methods: {
-    perdeFoco(valor){
+    perdeFoco(valor) {
       console.log(valor);
-    }
+    },
   },
   data: () => ({
     component: CGIDataTableAcoes,
@@ -64,17 +71,18 @@ export default {
     ),
   }),
   async mounted() {
-    await new Promise(resolve => setTimeout(() => {
-      resolve()
-    }, 5000))
-    this.nome = 4
+    await new Promise((resolve) =>
+      setTimeout(() => {
+        resolve();
+      }, 5000)
+    );
+    this.nome = 4;
   },
   methods: {
     buscaDescricao() {
-      return "buongiorno"
-    }
-  }
+      return "buongiorno";
+    },
+  },
 };
 </script>
 
-    

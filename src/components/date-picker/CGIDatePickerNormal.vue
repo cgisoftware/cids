@@ -1,28 +1,34 @@
 <template>
-  <section id="data-picker-default">
-    <div>
-      <strong><a href="#data-picker-default">Campo data default</a></strong>
-      <br />
-      <br />
-      <cgi-date-picker v-model="data" nome="Data"></cgi-date-picker>
-      Data v-model: {{ data }}
+  <v-card flat>
+    <v-toolbar color="primary" dark extended flat> </v-toolbar>
 
-      <pre>
+    <v-card class="mx-auto mb-5" width="90%" style="margin-top: -64px">
+      <v-toolbar flat>
+        <v-toolbar-title :class="$vuetify.theme.isDark ? 'white--text' : 'black--text'">
+          Campo Data Default
+        </v-toolbar-title>
+      </v-toolbar>
+
+      <v-divider></v-divider>
+
+      <v-card-text>
+        <cgi-date-picker v-model="data" nome="Data"></cgi-date-picker>
+        Data v-model: {{ data }}
+
+        <pre>
                 <code
                 class="language-html py-5"
                 v-html="dataExample"
                 style="font-size: 14px; "
               ></code>
               </pre>
-
-      <v-divider class="my-5"></v-divider>
-    </div>
-  </section>
+      </v-card-text>
+    </v-card>
+  </v-card>
 </template>
 
 <script>
 import Prism from "prismjs";
-// import "prismjs/components/prism-json";
 export default {
   data: () => ({
     data: "10/10/2021",

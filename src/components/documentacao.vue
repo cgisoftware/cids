@@ -17,16 +17,16 @@
           <img
             width="70"
             class="mt-2 hidden-md-and-down"
-            src="../../assets/cgi-branca-nova.png"
+            src="../assets/cgi-branca-nova.png"
           />
           <img
             width="40"
             class="mt-2 hidden-lg-and-up"
-            src="../../assets/cgi-branca-nova.png"
+            src="../assets/cgi-branca-nova.png"
           />
         </v-toolbar-title>
         <v-spacer></v-spacer>
-        <h3 class="white--text">CIDS CGI</h3>
+        <h3 class="white--text">CGI Design System for Vue - CIDS</h3>
         <v-spacer></v-spacer>
         <v-btn text @click="rightDrawer = !rightDrawer" class="white--text">
           <v-icon color="white">mdi-menu</v-icon>
@@ -61,23 +61,25 @@
     </v-card>
 
     <v-container>
-      <v-card>
-        <v-card-text>
-          <CGITimePickerNormal />
-        </v-card-text>
-      </v-card>
+      <router-view></router-view>
+      <router-view name="componenteA"></router-view>
+      <router-view name="componenteB"></router-view>
+      <router-view name="componenteC"></router-view>
+      <router-view name="componenteD"></router-view>
+      <router-view name="componenteE"></router-view>
+      <router-view name="componenteF"></router-view>
+      <router-view name="componenteG"></router-view>
+      <router-view name="componenteH"></router-view>
     </v-container>
   </div>
 </template>
 
 <script>
-import NavigationLeft from "./navigation/navigation-drawer-left.vue";
-import CGITimePickerNormal from "../time-picker/CGITimePickerNormal";
+import NavigationLeft from "./home/navigation/navigation-drawer-left.vue";
 
 export default {
   components: {
     NavigationLeft,
-    CGITimePickerNormal,
   },
   data: () => ({
     leftDrawer: false,

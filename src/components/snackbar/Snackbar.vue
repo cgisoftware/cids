@@ -1,24 +1,30 @@
 <template>
-  <v-card-text>
-    <v-btn
-      color="primary"
-      class="mx-1"
-      @click="mostraAlerta"
-    >Alerta!</v-btn>
-    <v-btn
-      class="secondary"
-      @click="mostraConfirmacao"
-    >Confirmação</v-btn>
+  <v-card flat>
+    <v-toolbar color="primary" dark extended flat> </v-toolbar>
 
-    <pre>
+    <v-card class="mx-auto" width="90%" style="margin-top: -64px">
+      <v-toolbar flat>
+        <v-toolbar-title :class="$vuetify.theme.isDark ? 'white--text' : 'black--text'"> Snackbar </v-toolbar-title>
+      </v-toolbar>
+
+      <v-divider></v-divider>
+
+      <v-card-text>
+        <v-btn color="primary" class="mx-1" @click="mostraAlerta"
+          >Alerta!</v-btn
+        >
+        <v-btn class="secondary" @click="mostraConfirmacao">Confirmação</v-btn>
+
+        <pre>
                 <code
                 class="language-html py-5"
                 v-html="snackbarExample"
                 style="font-size: 14px; "
               ></code>
               </pre>
-
-  </v-card-text>
+      </v-card-text>
+    </v-card>
+  </v-card>
 </template>
 
 <script>
@@ -29,12 +35,10 @@ export default {
     snackbarExample: Prism.highlight(
       `
         <template>
-            <cgi-snackbar/> 
-            <!-- 
-                ^^^^
-                ||||
-                SOMENTE NO ARQUIVO APP.VUE DO PROJETO. 
-                NÃO DEFINIR EM OUTROS LUGARES NO CÓDIGO!! 
+            <cgi-snackbar/>
+            <!--
+                SOMENTE NO ARQUIVO APP.VUE DO PROJETO.
+                NÃO DEFINIR EM OUTROS LUGARES NO CÓDIGO!!
             -->
 
             <v-btn
@@ -42,7 +46,7 @@ export default {
                 class="mx-1"
                 @click="mostraAlerta"
             >Alerta!</v-btn>
-            
+
             <v-btn
                 class="secondary"
                 @click="mostraConfirmacao"

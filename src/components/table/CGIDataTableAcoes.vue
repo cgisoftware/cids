@@ -1,6 +1,14 @@
 <template>
-  <v-card>
-    <v-card-text :class="{ 'pa-0': controller.dialogZoom }">
+  <v-card class="mx-auto mt-5" width="90%" style="margin-top: -64px">
+    <v-toolbar flat>
+      <v-toolbar-title :class="$vuetify.theme.isDark ? 'white--text' : 'black--text'">
+        Tabela Com Botões De Ações
+      </v-toolbar-title>
+    </v-toolbar>
+
+    <v-divider></v-divider>
+
+    <v-card-text>
       <cgi-data-table
         :linhas="linhas"
         :colunas="colunas"
@@ -9,17 +17,16 @@
         altura="200"
         mostra-acoes
         mostra-detalhes
-        @alterar-item="alterarItem"
-        @deletar-item="deletarItem"
-        @exporta-zoom="exportaZoom"
-        @ver-detalhes="verDetalhes"
+        @alterar-item="alterarItem($event)"
+        @deletar-item="deletarItem($event)"
+        @exporta-zoom="exportaZoom($event)"
+        @ver-detalhes="verDetalhes($event)"
+        @copiar-item="copiarItem($event)"
         :zoom-dialog="controller.dialogZoom"
         :pesquisa="controller.pesquisa"
-        mostra-pesquisa
         ordenar-por="nome"
         ordenar-desc
         chave-tabela="id"
-        informacoes-da-pesquisa="Pesquisar por x y z"
       ></cgi-data-table>
       <pre v-if="!controller.dialogZoom">
                 <code
@@ -28,8 +35,6 @@
                 style="font-size: 14px; "
               ></code>
               </pre>
-
-      <v-divider v-if="!controller.dialogZoom" class="my-5"></v-divider>
     </v-card-text>
   </v-card>
 </template>
@@ -38,45 +43,47 @@ import Prism from "prismjs";
 export default {
   methods: {
     alterarItem(item) {
-      // manipule o item
+      console.log(item)
     },
     deletarItem(item) {
-      // manipule o item
+      console.log(item)
     },
     exportaZoom(item) {
       this.$emit("exporta-zoom", item);
     },
     verDetalhes(item) {
-      // manipule o item
+      console.log(item)
     },
+    copiarItem(item) {
+      console.log(item)
+    }
   },
   data: () => ({
     controller: {
       dialogZoom: false,
-      pesquisa: null,
     },
     linhas: [
       {
         id: 1,
         nome: "Vinicius",
         descricao: "Desenvolvedor de Software",
-        cor: 'yellow'
+        cor: "yellow",
       },
       {
         id: 2,
         nome: "Sergio",
         descricao: "Desenvolvedor de Software",
-        cor: 'red'
+        cor: "red",
       },
       {
         id: 3,
-        nome: "Kirlan",
+        nome: "Jackson",
         descricao: "Desenvolvedor de Software",
-        cor: 'green'
+        cor: "green",
       },
       {
         id: 4,
-        nome: "Angelo",
+        nome: "João",
         descricao: "Desenvolvedor de Software",
       },
       {
@@ -114,22 +121,22 @@ export default {
       `
         <template>
           <cgi-data-table
-            ordenar-por="nome"
-            ordenar-desc
-            chave-tabela="id"
             :linhas="linhas"
             :colunas="colunas"
             nome-tabela="Botões de ação/cores e detalhamento preparado para zoom"
+            nome-programa="teste"
             altura="200"
             mostra-acoes
             mostra-detalhes
-            @alterar-item="alterarItem"
-            @deletar-item="deletarItem"
-            @exporta-zoom="exportaZoom"
-            @ver-detalhes="verDetalhes"
+            @alterar-item="alterarItem($event)"
+            @deletar-item="deletarItem($event)"
+            @exporta-zoom="exportaZoom($event)"
+            @ver-detalhes="verDetalhes($event)"
+            @copiar-item="copiarItem($event)"
             :zoom-dialog="controller.dialogZoom"
-            :pesquisa="controller.pesquisa"
-            mostra-pesquisa
+            ordenar-por="nome"
+            ordenar-desc
+            chave-tabela="id"
           ></cgi-data-table>
         <\/template>
 
@@ -138,21 +145,28 @@ export default {
                 methods: {
                   alterarItem(item) {
                     // manipule o item
+                    console.log(item)
                   },
                   deletarItem(item) {
                     // manipule o item
+                    console.log(item)
                   },
                   exportaZoom(item) {
                     // manipule o item
+                    this.$emit("exporta-zoom", item);
                   },
                   verDetalhes(item) {
                     // manipule o item
+                    console.log(item)
                   },
+                  copiarItem(item) {
+                    // manipule o item
+                    console.log(item)
+                  }
                 },
                 data: () => ({
                     controller: {
                       dialogZoom: false,
-                      pesquisa: null
                     },
                     linhas: [
                         {
@@ -167,12 +181,12 @@ export default {
                         },
                         {
                             id: 3,
-                            nome: "Kirlan",
+                            nome: "Jackson",
                             descricao: "Desenvolvedor de Software",
                         },
                         {
                             id: 4,
-                            nome: "Angelo",
+                            nome: "João",
                             descricao: "Desenvolvedor de Software",
                         },
                         {

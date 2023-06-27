@@ -1,26 +1,34 @@
 <template>
-  <div>
-    <cgi-data-table
-      :linhas="linhas"
-      :colunas="colunas"
-      nome-tabela="Com propriedades para customizar a tabela"
-      altura="200"
-      mostra-propriedades
-      :propriedades=colunasvisiveis
-      agrupar="nome"
-      totalizar-grupo
-      @salvar-propriedades="salvarPropriedades"
-    ></cgi-data-table>
-    <pre>
+  <v-card class="mx-auto mt-5" width="90%" style="margin-top: -64px">
+    <v-toolbar flat>
+      <v-toolbar-title :class="$vuetify.theme.isDark ? 'white--text' : 'black--text'">
+        Tabela Com Propriedades Para Customização
+      </v-toolbar-title>
+    </v-toolbar>
+
+    <v-divider></v-divider>
+
+    <v-card-text>
+      <cgi-data-table
+        :linhas="linhas"
+        :colunas="colunas"
+        nome-tabela="Com propriedades para customizar a tabela"
+        altura="200"
+        mostra-propriedades
+        :propriedades="colunasvisiveis"
+        agrupar="nome"
+        totalizar-grupo
+        @salvar-propriedades="salvarPropriedades"
+      ></cgi-data-table>
+      <pre>
                 <code
                 class="language-html py-5"
                 v-html="dataExample"
                 style="font-size: 14px; "
               ></code>
               </pre>
-
-    <v-divider class="my-5"></v-divider>
-  </div>
+    </v-card-text>
+  </v-card>
 </template>
 <script>
 import Prism from "prismjs";
@@ -28,39 +36,39 @@ export default {
   methods: {
     salvarPropriedades(propriedadesDaTabela) {
       // salve na tabela padrão ou em algum local especifico
-    }
+    },
   },
   data: () => ({
     linhas: [
       {
         nome: "Vinicius",
         descricao: "Desenvolvedor de Software",
-        contador: 1
+        contador: 1,
       },
       {
         nome: "Sergio",
         descricao: "Desenvolvedor de Software",
-        contador: 1
+        contador: 1,
       },
       {
-        nome: "Kirlan",
+        nome: "Jackson",
         descricao: "Desenvolvedor de Software",
-        contador: 1
+        contador: 1,
       },
       {
-        nome: "Angelo",
+        nome: "João",
         descricao: "Desenvolvedor de Software",
-        contador: 1
+        contador: 1,
       },
       {
         nome: "Mauricio",
         descricao: "Desenvolvedor de Software",
-        contador: 1
+        contador: 1,
       },
       {
         nome: "Marcelo",
         descricao: "Desenvolvedor de Software",
-        contador: 1
+        contador: 1,
       },
     ],
     colunas: [
@@ -77,11 +85,11 @@ export default {
         value: "descricao",
       },
       {
-        text: "Contador 123",
+        text: "Contador",
         align: "start",
         sortable: false,
         value: "contador",
-        totalizar: true
+        totalizar: true,
       },
     ],
     colunasvisiveis: [
@@ -98,7 +106,7 @@ export default {
         hidden: true,
         value: "descricao",
       },
-        {
+      {
         text: "Contador",
         align: "start",
         sortable: false,
@@ -114,6 +122,9 @@ export default {
               nome-tabela="Com propriedades para customizar a tabela"
               altura="200"
               mostra-propriedades
+              :propriedades="colunasvisiveis"
+              agrupar="nome"
+              totalizar-grupo
               @salvar-propriedades="salvarPropriedades"
           ></cgi-data-table>
         <\/template>
@@ -130,26 +141,32 @@ export default {
                         {
                             nome: "Vinicius",
                             descricao: "Desenvolvedor de Software",
+                            contador: 1,
                         },
                         {
                             nome: "Sergio",
                             descricao: "Desenvolvedor de Software",
+                            contador: 1,
                         },
                         {
-                            nome: "Kirlan",
+                            nome: "Jackson",
                             descricao: "Desenvolvedor de Software",
+                            contador: 1,
                         },
                         {
-                            nome: "Angelo",
+                            nome: "João",
                             descricao: "Desenvolvedor de Software",
+                            contador: 1,
                         },
                         {
                             nome: "Mauricio",
                             descricao: "Desenvolvedor de Software",
+                            contador: 1,
                         },
                         {
                             nome: "Marcelo",
                             descricao: "Desenvolvedor de Software",
+                            contador: 1,
                         },
                     ],
                     colunas: [
@@ -165,6 +182,33 @@ export default {
                             sortable: false,
                             value: "descricao",
                         },
+                        {
+                          text: "Contador",
+                          align: "start",
+                          sortable: false,
+                          value: "contador",
+                        },
+                    ],
+                    colunasvisiveis: [
+                      {
+                        text: "Nome",
+                        align: "start",
+                        sortable: false,
+                        value: "nome",
+                      },
+                      {
+                        text: "Descrição",
+                        align: "start",
+                        sortable: false,
+                        hidden: true,
+                        value: "descricao",
+                      },
+                      {
+                        text: "Contador",
+                        align: "start",
+                        sortable: false,
+                        value: "contador",
+                      },
                     ],
                 })
             };

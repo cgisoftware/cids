@@ -3,10 +3,10 @@
 
     <v-card-text>
       <cgi-data-table
-        :linhas="linhas"
-        :colunas="colunas"
         nome-tabela="Tabela com slots para pesquisa e botões"
         altura="200"
+        :linhas="linhas"
+        :colunas="colunas"
       >
         <template v-slot:pesquisa>
           <v-text-field
@@ -97,10 +97,10 @@ export default {
       `
         <template>
           <cgi-data-table
-            :linhas="linhas"
-            :colunas="colunas"
             nome-tabela="Tabela com slots para pesquisa e botões"
             altura="200"
+            :linhas="linhas"
+            :colunas="colunas"
           >
             <template v-slot:pesquisa>
               <v-text-field
@@ -119,68 +119,68 @@ export default {
         <\/template>
 
         <script>
-            export default {
-                data: () => ({
-                    linhas: [
-                      {
-                        nome: "Vinicius",
-                        descricao: "Desenvolvedor de Software",
-                        favoritos: false
-                      },
-                      {
-                        nome: "Sergio",
-                        descricao: "Desenvolvedor de Software",
-                        favoritos: false
-                      },
-                      {
-                        nome: "Jackson",
-                        descricao: "Desenvolvedor de Software",
-                        favoritos: false
-                      },
-                      {
-                        nome: "João",
-                        descricao: "Desenvolvedor de Software",
-                        favoritos: false
-                      },
-                      {
-                        nome: "Mauricio",
-                        descricao: "Desenvolvedor de Software",
-                        favoritos: false
-                      },
-                      {
-                        nome: "Marcelo",
-                        descricao: "Desenvolvedor de Software",
-                        favoritos: false
-                      },
-                    ],
-                    colunas: [
-                        {
-                          text: "Nome",
-                          align: "start",
-                          sortable: false,
-                          value: "nome",
-                        },
-                        {
-                          text: "Descrição",
-                          align: "start",
-                          sortable: false,
-                          value: "descricao",
-                        },
-                        {
-                          text: "Favoritos",
-                          align: "end",
-                          sortable: false,
-                          value: "favoritos",
-                          custom: true
-                        },
-                    ],
-                }),
-                methods: {
-                  setaFavorito(item) {
-                    item.favoritos = !item.favoritos
-                  }
-                }
-            };
+          export default {
+            data: () => ({
+              linhas: [
+                {
+                  nome: "Vinicius",
+                  descricao: "Desenvolvedor de Software",
+                  favoritos: false
+                },
+                {
+                  nome: "Sergio",
+                  descricao: "Desenvolvedor de Software",
+                  favoritos: false
+                },
+                {
+                  nome: "Jackson",
+                  descricao: "Desenvolvedor de Software",
+                  favoritos: false
+                },
+                {
+                  nome: "João",
+                  descricao: "Desenvolvedor de Software",
+                  favoritos: false
+                },
+                {
+                  nome: "Mauricio",
+                  descricao: "Desenvolvedor de Software",
+                  favoritos: false
+                },
+                {
+                  nome: "Marcelo",
+                  descricao: "Desenvolvedor de Software",
+                  favoritos: false
+                },
+              ],
+              colunas: [
+                {
+                  text: "Nome",
+                  align: "start",
+                  sortable: false,
+                  value: "nome",
+                },
+                {
+                  text: "Descrição",
+                  align: "start",
+                  sortable: false,
+                  value: "descricao",
+                },
+                {
+                  text: "Favoritos",
+                  align: "end",
+                  sortable: false,
+                  value: "favoritos",
+                  custom: true
+                },
+              ],
+            }),
+            methods: {
+              setaFavorito(item) {
+                item.favoritos = !item.favoritos
+              }
+            }
+          };
         <\/script>
       `,
       Prism.languages.html

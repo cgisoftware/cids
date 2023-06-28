@@ -4,14 +4,14 @@
 
       <v-card-text>
         <cgi-data-table
-          :linhas="linhas"
-          :colunas="colunas"
+          nome-tabela="Events"
+          altura="50vh"
+          mostra-pesquisa
           :mostra-paginacao="false"
           :compacto="false"
+          :linhas="linhas"
+          :colunas="colunas"
           :pesquisa="pesquisa"
-          altura="50vh"
-          nome-tabela="Events"
-          mostra-pesquisa
         ></cgi-data-table>
       </v-card-text>
     </v-card>

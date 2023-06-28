@@ -3,13 +3,13 @@
 
     <v-card-text>
       <cgi-data-table
-        :linhas="linhas"
-        :colunas="colunas"
         nome-tabela="Tabela com pesquisa"
         altura="200"
+        informacoes-da-pesquisa="Pesquisar por x y z"
         mostra-linha-selecionada
         mostra-pesquisa
-        informacoes-da-pesquisa="Pesquisar por x y z"
+        :linhas="linhas"
+        :colunas="colunas"
         :pesquisa="pesquisa"
       ></cgi-data-table>
       <pre>
@@ -26,6 +26,7 @@
 import Prism from "prismjs";
 export default {
   data: () => ({
+    pesquisa: null,
     linhas: [
       {
         seq: 1,
@@ -72,67 +73,67 @@ export default {
         value: "descricao",
       },
     ],
-    pesquisa: null,
     dataExample: Prism.highlight(
       `
         <template>
           <cgi-data-table
-              :linhas="linhas"
-              :colunas="colunas"
-              nome-tabela="Tabela com pesquisa"
-              altura="200"
-              mostra-pesquisa
-              informacoes-da-pesquisa="Pesquisar por x y z"
-              :pesquisa="pesquisa"
+            nome-tabela="Tabela com pesquisa"
+            altura="200"
+            informacoes-da-pesquisa="Pesquisar por x y z"
+            mostra-linha-selecionada
+            mostra-pesquisa
+            :linhas="linhas"
+            :colunas="colunas"
+            :pesquisa="pesquisa"
           ></cgi-data-table>
         <\/template>
 
         <script>
-            export default {
-                data: () => ({
-                    linhas: [
-                        {
-                            nome: "Vinicius",
-                            descricao: "Desenvolvedor de Software",
-                        },
-                        {
-                            nome: "Sergio",
-                            descricao: "Desenvolvedor de Software",
-                        },
-                        {
-                            nome: "Jackson",
-                            descricao: "Desenvolvedor de Software",
-                        },
-                        {
-                            nome: "João",
-                            descricao: "Desenvolvedor de Software",
-                        },
-                        {
-                            nome: "Mauricio",
-                            descricao: "Desenvolvedor de Software",
-                        },
-                        {
-                            nome: "Marcelo",
-                            descricao: "Desenvolvedor de Software",
-                        },
-                    ],
-                    colunas: [
-                        {
-                            text: "Nome",
-                            align: "start",
-                            sortable: false,
-                            value: "nome",
-                        },
-                        {
-                            text: "Descrição",
-                            align: "start",
-                            sortable: false,
-                            value: "descricao",
-                        },
-                    ],
-                    pesquisa: null,
-                })
-            };
+          export default {
+            data: () => ({
+              pesquisa: null,
+              linhas: [
+                {
+                  nome: "Vinicius",
+                  descricao: "Desenvolvedor de Software",
+                },
+                {
+                  nome: "Sergio",
+                  descricao: "Desenvolvedor de Software",
+                },
+                {
+                  nome: "Jackson",
+                  descricao: "Desenvolvedor de Software",
+                },
+                {
+                  nome: "João",
+                  descricao: "Desenvolvedor de Software",
+                },
+                {
+                  nome: "Mauricio",
+                  descricao: "Desenvolvedor de Software",
+                },
+                {
+                  nome: "Marcelo",
+                  descricao: "Desenvolvedor de Software",
+                },
+              ],
+              colunas: [
+                {
+                  text: "Nome",
+                  align: "start",
+                  sortable: false,
+                  value: "nome",
+                },
+                {
+                  text: "Descrição",
+                  align: "start",
+                  sortable: false,
+                  value: "descricao",
+                },
+              ],
+            })
+          };
         <\/script>
       `,
       Prism.languages.html

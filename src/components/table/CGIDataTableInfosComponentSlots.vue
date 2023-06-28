@@ -4,14 +4,14 @@
 
       <v-card-text>
         <cgi-data-table
-          :linhas="linhas"
-          :colunas="colunas"
-          :mostra-paginacao="false"
-          :compacto="false"
-          :pesquisa="pesquisa"
           altura="25vh"
           nome-tabela="Slots"
           mostra-pesquisa
+          :mostra-paginacao="false"
+          :compacto="false"
+          :linhas="linhas"
+          :colunas="colunas"
+          :pesquisa="pesquisa"
         ></cgi-data-table>
       </v-card-text>
     </v-card>

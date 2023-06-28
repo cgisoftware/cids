@@ -3,13 +3,13 @@
 
     <v-card-text>
       <cgi-data-table
-        :linhas="linhas"
-        :colunas="colunas"
         nome-tabela="Tabela com agrupamento"
         nome-programa="teste1"
         altura="200"
         agrupar-por="descricao"
         totalizar
+        :linhas="linhas"
+        :colunas="colunas"
       ></cgi-data-table>
       <pre>
                 <code
@@ -83,74 +83,74 @@ export default {
       `
         <template>
           <cgi-data-table
-              :linhas="linhas"
-              :colunas="colunas"
-              nome-tabela="Tabela com agrupamento"
-              nome-programa="teste1"
-              altura="200"
-              agrupar-por="descricao"
-              totalizar
+            nome-tabela="Tabela com agrupamento"
+            nome-programa="teste1"
+            altura="200"
+            agrupar-por="descricao"
+            totalizar
+            :linhas="linhas"
+            :colunas="colunas"
           ></cgi-data-table>
         <\/template>
 
         <script>
-            export default {
-                data: () => ({
-                    linhas: [
-                        {
-                          nome: "Vinicius",
-                          descricao: "Desenvolvedor de Software",
-                          valor: 10,
-                        },
-                        {
-                          nome: "Sergio",
-                          descricao: "Desenvolvedor de Software",
-                          valor: 10,
-                        },
-                        {
-                          nome: "Jackson",
-                          descricao: "Desenvolvedor de Software",
-                          valor: 10,
-                        },
-                        {
-                          nome: "João",
-                          descricao: "Desenvolvedor de Software",
-                          valor: 10,
-                        },
-                        {
-                          nome: "Mauricio",
-                          descricao: "Desenvolvedor de Software",
-                          valor: 10,
-                        },
-                        {
-                          nome: "Marcelo",
-                          descricao: "Desenvolvedor de Software",
-                          valor: 10,
-                        },
-                    ],
-                    colunas: [
-                        {
-                          text: "Nome",
-                          align: "start",
-                          sortable: false,
-                          value: "nome",
-                        },
-                        {
-                          text: "Descrição",
-                          align: "start",
-                          sortable: false,
-                          value: "descricao",
-                        },
-                        {
-                          text: "Valor",
-                          align: "start",
-                          sortable: false,
-                          value: "valor",
-                          somar: true,
-                        },
-                    ],
-                })
-            };
+          export default {
+            data: () => ({
+              linhas: [
+                {
+                  nome: "Vinicius",
+                  descricao: "Desenvolvedor de Software",
+                  valor: 10,
+                },
+                {
+                  nome: "Sergio",
+                  descricao: "Desenvolvedor de Software",
+                  valor: 10,
+                },
+                {
+                  nome: "Jackson",
+                  descricao: "Desenvolvedor de Software",
+                  valor: 10,
+                },
+                {
+                  nome: "João",
+                  descricao: "Desenvolvedor de Software",
+                  valor: 10,
+                },
+                {
+                  nome: "Mauricio",
+                  descricao: "Desenvolvedor de Software",
+                  valor: 10,
+                },
+                {
+                  nome: "Marcelo",
+                  descricao: "Desenvolvedor de Software",
+                  valor: 10,
+                },
+              ],
+              colunas: [
+                {
+                  text: "Nome",
+                  align: "start",
+                  sortable: false,
+                  value: "nome",
+                },
+                {
+                  text: "Descrição",
+                  align: "start",
+                  sortable: false,
+                  value: "descricao",
+                },
+                {
+                  text: "Valor",
+                  align: "start",
+                  sortable: false,
+                  value: "valor",
+                  somar: true,
+                },
+              ],
+            })
+          };
         <\/script>
       `,
       Prism.languages.html

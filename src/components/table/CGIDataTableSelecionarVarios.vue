@@ -3,16 +3,16 @@
 
     <v-card-text>
       <cgi-data-table
-        :linhas="linhas"
-        :colunas="colunas"
         nome-tabela="Tabela com opção de selecionar vários"
         altura="200"
-        selecionar-varios
         chave-tabela="nome"
-        v-model="selecionados"
-        :mostra-paginacao="false"
-        mostra-linha-selecionada
         cor-checkbox="red"
+        selecionar-varios
+        mostra-linha-selecionada
+        :linhas="linhas"
+        :colunas="colunas"
+        :mostra-paginacao="false"
+        v-model="selecionados"
       ></cgi-data-table>
 
       <v-btn color="primary" class="mx-1 mt-5" @click="selecionados = []"
@@ -92,67 +92,67 @@ export default {
         <template>
           <div>
             <cgi-data-table
-                :linhas="linhas"
-                :colunas="colunas"
-                nome-tabela="Tabela com opção de selecionar vários"
-                altura="200"
-                selecionar-varios
-                chave-tabela="nome"
-                v-model="selecionados"
-                :mostra-paginacao="false"
-                mostra-linha-selecionada
-                cor-checkbox="red"
+              nome-tabela="Tabela com opção de selecionar vários"
+              altura="200"
+              chave-tabela="nome"
+              cor-checkbox="red"
+              selecionar-varios
+              mostra-linha-selecionada
+              :linhas="linhas"
+              :colunas="colunas"
+              :mostra-paginacao="false"
+              v-model="selecionados"
             ></cgi-data-table>
             {{ selecionados }}
           </div>
         <\/template>
 
         <script>
-            export default {
-                data: () => ({
-                    selecionados: [],
-                    linhas: [
-                        {
-                            nome: "Vinicius",
-                            descricao: "Desenvolvedor de Software",
-                        },
-                        {
-                            nome: "Sergio",
-                            descricao: "Desenvolvedor de Software",
-                        },
-                        {
-                            nome: "Jackson",
-                            descricao: "Desenvolvedor de Software",
-                        },
-                        {
-                            nome: "João",
-                            descricao: "Desenvolvedor de Software",
-                        },
-                        {
-                            nome: "Mauricio",
-                            descricao: "Desenvolvedor de Software",
-                        },
-                        {
-                            nome: "Marcelo",
-                            descricao: "Desenvolvedor de Software",
-                        },
-                    ],
-                    colunas: [
-                        {
-                            text: "Nome",
-                            align: "start",
-                            sortable: false,
-                            value: "nome",
-                        },
-                        {
-                            text: "Descrição",
-                            align: "start",
-                            sortable: false,
-                            value: "descricao",
-                        },
-                    ],
-                })
-            };
+          export default {
+            data: () => ({
+              selecionados: [],
+              linhas: [
+                {
+                  nome: "Vinicius",
+                  descricao: "Desenvolvedor de Software",
+                },
+                {
+                  nome: "Sergio",
+                  descricao: "Desenvolvedor de Software",
+                },
+                {
+                  nome: "Jackson",
+                  descricao: "Desenvolvedor de Software",
+                },
+                {
+                  nome: "João",
+                  descricao: "Desenvolvedor de Software",
+                },
+                {
+                  nome: "Mauricio",
+                  descricao: "Desenvolvedor de Software",
+                },
+                {
+                  nome: "Marcelo",
+                  descricao: "Desenvolvedor de Software",
+                },
+              ],
+              colunas: [
+                {
+                  text: "Nome",
+                  align: "start",
+                  sortable: false,
+                  value: "nome",
+                },
+                {
+                  text: "Descrição",
+                  align: "start",
+                  sortable: false,
+                  value: "descricao",
+                },
+              ],
+            })
+          };
         <\/script>
       `,
       Prism.languages.html

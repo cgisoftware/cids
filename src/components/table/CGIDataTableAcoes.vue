@@ -1,18 +1,11 @@
 <template>
   <v-card class="mx-auto mt-5" width="90%" style="margin-top: -64px">
-    <v-toolbar flat>
-      <v-toolbar-title :class="$vuetify.theme.isDark ? 'white--text' : 'black--text'">
-        Tabela Com Botões De Ações
-      </v-toolbar-title>
-    </v-toolbar>
-
-    <v-divider></v-divider>
 
     <v-card-text>
       <cgi-data-table
         :linhas="linhas"
         :colunas="colunas"
-        nome-tabela="Botões de ação/cores e detalhamento preparado para zoom"
+        nome-tabela="Tabela com botões de ação/cores e detalhamento preparado para zoom"
         nome-programa="teste"
         altura="200"
         mostra-acoes
@@ -24,8 +17,6 @@
         @copiar-item="copiarItem($event)"
         :zoom-dialog="controller.dialogZoom"
         :pesquisa="controller.pesquisa"
-        ordenar-por="nome"
-        ordenar-desc
         chave-tabela="id"
       ></cgi-data-table>
       <pre v-if="!controller.dialogZoom">
@@ -123,7 +114,7 @@ export default {
           <cgi-data-table
             :linhas="linhas"
             :colunas="colunas"
-            nome-tabela="Botões de ação/cores e detalhamento preparado para zoom"
+            nome-tabela="Tabela com botões de ação/cores e detalhamento preparado para zoom"
             nome-programa="teste"
             altura="200"
             mostra-acoes
@@ -134,8 +125,6 @@ export default {
             @ver-detalhes="verDetalhes($event)"
             @copiar-item="copiarItem($event)"
             :zoom-dialog="controller.dialogZoom"
-            ordenar-por="nome"
-            ordenar-desc
             chave-tabela="id"
           ></cgi-data-table>
         <\/template>
@@ -170,54 +159,54 @@ export default {
                     },
                     linhas: [
                         {
-                            id: 1,
-                            nome: "Vinicius",
-                            descricao: "Desenvolvedor de Software",
+                          id: 1,
+                          nome: "Vinicius",
+                          descricao: "Desenvolvedor de Software",
                         },
                         {
-                            id: 2,
-                            nome: "Sergio",
-                            descricao: "Desenvolvedor de Software",
+                          id: 2,
+                          nome: "Sergio",
+                          descricao: "Desenvolvedor de Software",
                         },
                         {
-                            id: 3,
-                            nome: "Jackson",
-                            descricao: "Desenvolvedor de Software",
+                          id: 3,
+                          nome: "Jackson",
+                          descricao: "Desenvolvedor de Software",
                         },
                         {
-                            id: 4,
-                            nome: "João",
-                            descricao: "Desenvolvedor de Software",
+                          id: 4,
+                          nome: "João",
+                          descricao: "Desenvolvedor de Software",
                         },
                         {
-                            id: 5,
-                            nome: "Mauricio",
-                            descricao: "Desenvolvedor de Software",
+                          id: 5,
+                          nome: "Mauricio",
+                          descricao: "Desenvolvedor de Software",
                         },
                         {
-                            id: 6,
-                            nome: "Marcelo",
-                            descricao: "Desenvolvedor de Software",
+                          id: 6,
+                          nome: "Marcelo",
+                          descricao: "Desenvolvedor de Software",
                         },
                     ],
                     colunas: [
                         {
-                            text: "ID",
-                            align: "start",
-                            sortable: false,
-                            value: "id",
+                          text: "ID",
+                          align: "start",
+                          sortable: false,
+                          value: "id",
                         },
                         {
-                            text: "Nome",
-                            align: "start",
-                            sortable: false,
-                            value: "nome",
+                          text: "Nome",
+                          align: "start",
+                          sortable: false,
+                          value: "nome",
                         },
                         {
-                            text: "Descrição",
-                            align: "start",
-                            sortable: false,
-                            value: "descricao",
+                          text: "Descrição",
+                          align: "start",
+                          sortable: false,
+                          value: "descricao",
                         },
                     ],
                 })

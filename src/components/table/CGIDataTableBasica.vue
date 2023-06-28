@@ -1,31 +1,27 @@
 <template>
-  <v-card flat>
-    <v-toolbar color="primary" dark extended flat> </v-toolbar>
+  <v-card class="mx-auto mt-5" width="90%" style="margin-top: -64px">
+    <v-card-title primary-title class="font-weight-bold">
+      Exemplos
+    </v-card-title>
 
-    <v-card class="mx-auto mb-5" width="90%" style="margin-top: -64px">
-      <v-toolbar flat>
-        <v-toolbar-title :class="$vuetify.theme.isDark ? 'white--text' : 'black--text'"> Tabela Básica </v-toolbar-title>
-      </v-toolbar>
+    <v-divider></v-divider>
 
-      <v-divider></v-divider>
-
-      <v-card-text>
-        <cgi-data-table
-          :linhas="linhas"
-          :colunas="colunas"
-          nome-tabela="Basica"
-          altura="200"
-          mostra-linha-selecionada
-        ></cgi-data-table>
-        <pre>
+    <v-card-text>
+      <cgi-data-table
+        :linhas="linhas"
+        :colunas="colunas"
+        nome-tabela="Tabela básica"
+        altura="200"
+        mostra-linha-selecionada
+      ></cgi-data-table>
+      <pre>
                 <code
                 class="language-html py-5"
                 v-html="dataExample"
                 style="font-size: 14px; "
               ></code>
               </pre>
-      </v-card-text>
-    </v-card>
+    </v-card-text>
   </v-card>
 </template>
 <script>
@@ -84,7 +80,7 @@ export default {
           <cgi-data-table
               :linhas="linhas"
               :colunas="colunas"
-              nome-tabela="Basica"
+              nome-tabela="Tabela básica"
               altura="200"
           ></cgi-data-table>
         <\/template>

@@ -1,16 +1,11 @@
 <template>
   <v-card class="mx-auto mt-5" width="90%" style="margin-top: -64px">
-    <v-toolbar flat>
-      <v-toolbar-title :class="$vuetify.theme.isDark ? 'white--text' : 'black--text'"> Tabela Com Slot </v-toolbar-title>
-    </v-toolbar>
-
-    <v-divider></v-divider>
 
     <v-card-text>
       <cgi-data-table
         :linhas="linhas"
         :colunas="colunas"
-        nome-tabela="Slots para pesquisa e botões"
+        nome-tabela="Tabela com slots para pesquisa e botões"
         altura="200"
       >
         <template v-slot:pesquisa>
@@ -104,7 +99,7 @@ export default {
           <cgi-data-table
             :linhas="linhas"
             :colunas="colunas"
-            nome-tabela="Slots para pesquisa e botões"
+            nome-tabela="Tabela com slots para pesquisa e botões"
             altura="200"
           >
             <template v-slot:pesquisa>
@@ -160,16 +155,16 @@ export default {
                     ],
                     colunas: [
                         {
-                            text: "Nome",
-                            align: "start",
-                            sortable: false,
-                            value: "nome",
+                          text: "Nome",
+                          align: "start",
+                          sortable: false,
+                          value: "nome",
                         },
                         {
-                            text: "Descrição",
-                            align: "start",
-                            sortable: false,
-                            value: "descricao",
+                          text: "Descrição",
+                          align: "start",
+                          sortable: false,
+                          value: "descricao",
                         },
                         {
                           text: "Favoritos",

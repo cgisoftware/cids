@@ -1,10 +1,11 @@
 <template>
-  <v-card flat>
-    <v-toolbar color="primary" dark extended flat> </v-toolbar>
-
-    <v-card class="mx-auto" width="90%" style="margin-top: -64px">
+    <v-card class="mx-auto mt-5" width="90%" style="margin-top: -64px">
+    <v-card-title primary-title class="font-weight-bold">
+      Exemplos
+    </v-card-title>
+    <v-divider></v-divider>
       <v-toolbar flat>
-        <v-toolbar-title :class="$vuetify.theme.isDark ? 'white--text' : 'black--text'"> Tree View </v-toolbar-title>
+        <v-toolbar-title :class="$vuetify.theme.isDark ? 'white--text' : 'black--text'" class="subtitle-1"> Tree View </v-toolbar-title>
       </v-toolbar>
 
       <v-divider></v-divider>
@@ -28,7 +29,6 @@
               </pre>
       </v-card-text>
     </v-card>
-  </v-card>
 </template>
 
 <script>

@@ -1,20 +1,11 @@
 <template>
   <v-card class="mx-auto mt-5" width="90%" style="margin-top: -64px">
-    <v-toolbar flat>
-      <v-toolbar-title
-        :class="$vuetify.theme.isDark ? 'white--text' : 'black--text'"
-      >
-        Tabela Com Opção De Selecionar
-      </v-toolbar-title>
-    </v-toolbar>
-
-    <v-divider></v-divider>
 
     <v-card-text>
       <cgi-data-table
         :linhas="linhas"
         :colunas="colunas"
-        nome-tabela="Selecionar vários"
+        nome-tabela="Tabela com opção de selecionar vários"
         altura="200"
         selecionar-varios
         chave-tabela="nome"
@@ -103,7 +94,7 @@ export default {
             <cgi-data-table
                 :linhas="linhas"
                 :colunas="colunas"
-                nome-tabela="Selecionar vários"
+                nome-tabela="Tabela com opção de selecionar vários"
                 altura="200"
                 selecionar-varios
                 chave-tabela="nome"

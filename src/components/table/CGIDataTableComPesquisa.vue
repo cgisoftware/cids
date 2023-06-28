@@ -1,20 +1,11 @@
 <template>
   <v-card class="mx-auto mt-5" width="90%" style="margin-top: -64px">
-    <v-toolbar flat>
-      <v-toolbar-title
-        :class="$vuetify.theme.isDark ? 'white--text' : 'black--text'"
-      >
-        Tabela Com Pesquisa
-      </v-toolbar-title>
-    </v-toolbar>
-
-    <v-divider></v-divider>
 
     <v-card-text>
       <cgi-data-table
         :linhas="linhas"
         :colunas="colunas"
-        nome-tabela="Com Pesquisa"
+        nome-tabela="Tabela com pesquisa"
         altura="200"
         mostra-linha-selecionada
         mostra-pesquisa
@@ -88,7 +79,7 @@ export default {
           <cgi-data-table
               :linhas="linhas"
               :colunas="colunas"
-              nome-tabela="Com Pesquisa"
+              nome-tabela="Tabela com pesquisa"
               altura="200"
               mostra-pesquisa
               informacoes-da-pesquisa="Pesquisar por x y z"

@@ -1,22 +1,14 @@
 <template>
   <v-card class="mx-auto mt-5" width="90%" style="margin-top: -64px">
-    <v-toolbar flat>
-      <v-toolbar-title :class="$vuetify.theme.isDark ? 'white--text' : 'black--text'">
-        Tabela Com Propriedades Para Customização
-      </v-toolbar-title>
-    </v-toolbar>
-
-    <v-divider></v-divider>
-
     <v-card-text>
       <cgi-data-table
         :linhas="linhas"
         :colunas="colunas"
-        nome-tabela="Com propriedades para customizar a tabela"
+        nome-tabela="Tabela com propriedades para customizar a tabela"
         altura="200"
         mostra-propriedades
         :propriedades="colunasvisiveis"
-        agrupar="nome"
+        agrupar-por="nome"
         totalizar-grupo
         @salvar-propriedades="salvarPropriedades"
       ></cgi-data-table>
@@ -119,12 +111,11 @@ export default {
           <cgi-data-table
               :linhas="linhas"
               :colunas="colunas"
-              nome-tabela="Com propriedades para customizar a tabela"
+              nome-tabela="Tabela com propriedades para customizar a tabela"
               altura="200"
               mostra-propriedades
               :propriedades="colunasvisiveis"
-              agrupar="nome"
-              totalizar-grupo
+              agrupar-por="nome"
               @salvar-propriedades="salvarPropriedades"
           ></cgi-data-table>
         <\/template>
@@ -139,48 +130,48 @@ export default {
                 data: () => ({
                     linhas: [
                         {
-                            nome: "Vinicius",
-                            descricao: "Desenvolvedor de Software",
-                            contador: 1,
+                          nome: "Vinicius",
+                          descricao: "Desenvolvedor de Software",
+                          contador: 1,
                         },
                         {
-                            nome: "Sergio",
-                            descricao: "Desenvolvedor de Software",
-                            contador: 1,
+                          nome: "Sergio",
+                          descricao: "Desenvolvedor de Software",
+                          contador: 1,
                         },
                         {
-                            nome: "Jackson",
-                            descricao: "Desenvolvedor de Software",
-                            contador: 1,
+                          nome: "Jackson",
+                          descricao: "Desenvolvedor de Software",
+                          contador: 1,
                         },
                         {
-                            nome: "João",
-                            descricao: "Desenvolvedor de Software",
-                            contador: 1,
+                          nome: "João",
+                          descricao: "Desenvolvedor de Software",
+                          contador: 1,
                         },
                         {
-                            nome: "Mauricio",
-                            descricao: "Desenvolvedor de Software",
-                            contador: 1,
+                          nome: "Mauricio",
+                          descricao: "Desenvolvedor de Software",
+                          contador: 1,
                         },
                         {
-                            nome: "Marcelo",
-                            descricao: "Desenvolvedor de Software",
-                            contador: 1,
+                          nome: "Marcelo",
+                          descricao: "Desenvolvedor de Software",
+                          contador: 1,
                         },
                     ],
                     colunas: [
                         {
-                            text: "Nome",
-                            align: "start",
-                            sortable: false,
-                            value: "nome",
+                          text: "Nome",
+                          align: "start",
+                          sortable: false,
+                          value: "nome",
                         },
                         {
-                            text: "Descrição",
-                            align: "start",
-                            sortable: false,
-                            value: "descricao",
+                          text: "Descrição",
+                          align: "start",
+                          sortable: false,
+                          value: "descricao",
                         },
                         {
                           text: "Contador",

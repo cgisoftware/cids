@@ -1,7 +1,7 @@
 <template>
   <v-card class="mx-auto mt-5" width="90%" style="margin-top: -64px">
     <v-toolbar flat>
-      <v-toolbar-title :class="$vuetify.theme.isDark ? 'white--text' : 'black--text'">
+      <v-toolbar-title :class="$vuetify.theme.isDark ? 'white--text' : 'black--text'" class="subtitle-1">
         Campo Hora Desabilitado
       </v-toolbar-title>
     </v-toolbar>

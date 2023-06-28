@@ -26,4 +26,10 @@ export default {
   color: #2c3e50;
   margin-top: 60px;
 }
+pre::after {
+  content: none !important;
+}
+pre::before {
+  content: none !important;
+}
 </style>

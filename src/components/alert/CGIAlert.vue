@@ -1,41 +1,47 @@
 <template>
-  <v-card flat>
-    <v-toolbar color="primary" dark extended flat> </v-toolbar>
+  <v-card class="mx-auto mt-5" width="90%" style="margin-top: -64px">
+    <v-card-title primary-title class="font-weight-bold">
+      Exemplos
+    </v-card-title>
+    <v-divider></v-divider>
+    <v-toolbar flat>
+      <v-toolbar-title
+        :class="$vuetify.theme.isDark ? 'white--text' : 'black--text'" class="subtitle-1"
+      >
+        Alerts
+      </v-toolbar-title>
+    </v-toolbar>
 
-    <v-card class="mx-auto" width="90%" style="margin-top: -64px">
-      <v-toolbar flat>
-        <v-toolbar-title :class="$vuetify.theme.isDark ? 'white--text' : 'black--text'"> Snackbar </v-toolbar-title>
-      </v-toolbar>
+    <v-divider></v-divider>
 
-      <v-divider></v-divider>
+    <v-card-text>
+      <v-btn color="primary" class="mx-1" @click="mostraAlerta"
+        >Alerta fixo!</v-btn
+      >
+      <v-btn class="secondary" @click="mostraConfirmacao"
+        >Confirmação fixa</v-btn
+      >
 
-      <v-card-text>
-        <v-btn color="primary" class="mx-1" @click="mostraAlerta"
-          >Alerta!</v-btn
-        >
-        <v-btn class="secondary" @click="mostraConfirmacao">Confirmação</v-btn>
-
-        <pre>
+      <pre>
                 <code
                 class="language-html py-5"
                 v-html="snackbarExample"
                 style="font-size: 14px; "
               ></code>
               </pre>
-      </v-card-text>
-    </v-card>
+    </v-card-text>
   </v-card>
 </template>
 
 <script>
 import Prism from "prismjs";
-import { snackbar } from "cids-cgi/lib/util";
+import { alert } from "cids-cgi/lib/util";
 export default {
   data: () => ({
     snackbarExample: Prism.highlight(
       `
         <template>
-            <cgi-snackbar/>
+            <cgi-alert/>
             <!--
                 SOMENTE NO ARQUIVO APP.VUE DO PROJETO.
                 NÃO DEFINIR EM OUTROS LUGARES NO CÓDIGO!!
@@ -45,12 +51,12 @@ export default {
                 color="primary"
                 class="mx-1"
                 @click="mostraAlerta"
-            >Alerta!</v-btn>
+            >Alerta fixo!</v-btn>
 
             <v-btn
                 class="secondary"
                 @click="mostraConfirmacao"
-            >Confirmação</v-btn>
+            >Confirmação fixa</v-btn>
         <\/template>
 
         <script>
@@ -58,12 +64,12 @@ export default {
             export default {
                 methods: {
                     mostraAlerta() {
-                        snackbar.show({ message: "Alerta geral!" });
+                        alert.show({ message: "Alerta geral!" });
                     },
                     async mostraConfirmacao() {
-                        const confirmou = await snackbar.confirm({ message: "Confirmar algo" });
+                        const confirmou = await alert.confirm({ message: "Confirmar algo?" });
                         if (confirmou) {
-
+                          //faz algo
                         }
                     },
                 },
@@ -75,11 +81,10 @@ export default {
   }),
   methods: {
     mostraAlerta() {
-      snackbar.show({ message: "Alerta geral!" });
+      alert.show({ message: "Alerta geral!" });
     },
-    async mostraConfirmacao() {
-      const confirmou = await snackbar.confirm({ message: "Confirmar algo" });
-      console.log(confirmou);
+    mostraConfirmacao() {
+      alert.confirm({ message: "Confirmar algo" });
     },
   },
 };

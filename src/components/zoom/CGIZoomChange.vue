@@ -11,7 +11,7 @@
     <v-card-text>
       <cgi-zoom-picker
         chave="id"
-        :zoom="component"
+        :zoom="ROTA_DO_COMPONENTE"
         v-model="nome"
         nome="Desenvolvedor"
         posicao="inicial"
@@ -30,33 +30,28 @@
 </template>
 
 <script>
-import { snackbar } from "cids-cgi/lib/util";
-import CGIDataTableAcoes from "../table/CGIDataTableAcoes";
 export default {
   methods: {
     fazAlgo(item) {
       //faz algo com o item selecionado no zoom
-      snackbar.confirm({ message: `olha o item ai ${JSON.stringify(item)}` });
     },
   },
   data: () => ({
-    component: CGIDataTableAcoes,
     nome: null,
     dataExample: Prism.highlight(
       `
         <template>
             <cgi-zoom-picker
-                chave="id"
-                :zoom="component"
-                v-model="idDesenvolvedor"
-                nome="Desenvolvedor"
-                posicao="inicial"
-                @change="fazAlgo"
+              chave="id"
+              :zoom="ROTA_DO_COMPONENTE"
+              v-model="nome"
+              nome="Desenvolvedor"
+              posicao="inicial"
+              @change="fazAlgo"
             ></cgi-zoom-picker>
         <\/template>
 
         <script>
-            import CGIDataTableAcoes from "../table/CGIDataTableAcoes";
             export default {
                 methods: {
                   fazAlgo(item) {
@@ -64,9 +59,8 @@ export default {
                   }
                 },
                 data: () => ({
-                    component: CGIDataTableAcoes,
-                    idDesenvolvedor: null,
-                }
+                  nome: null,
+                })
             };
         <\/script>
       `,

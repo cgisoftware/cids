@@ -2,27 +2,36 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 
 // Time Picker
+import CGITimePickerInfosComponentProps from '../components/time-picker/CGITimePickerInfosComponentProps.vue';
 import CGITimePickerNormal from '../components/time-picker/CGITimePickerNormal.vue';
 import CGITimePickerCompacto from '../components/time-picker/CGITimePickerCompacto.vue'
 import CGITimePickerDisabled from '../components/time-picker/CGITimePickerDisabled.vue'
 
 // Date Picker
+import CGIDatePickerInfosComponentProps from '../components/date-picker/CGIDatePickerInfosComponentProps.vue';
 import CGIDatePickerNormal from '../components/date-picker/CGIDatePickerNormal.vue';
 import CGIDatePickerCompacto from '../components/date-picker/CGIDatePickerCompacto.vue';
 import CGIDatePickerDisabled from '../components/date-picker/CGIDatePickerDisabled.vue';
 import CGIDatePickerTipo from '../components/date-picker/CGIDatePickerTipo.vue';
 
+// Snackbar
+import CGISnackbarInfosComponentProps from '../components/snackbar/CGISnackbarInfosComponentProps.vue';
+import CGISnackbar from '../components/snackbar/CGISnackbar.vue';
 
-import CGISnackbar from '../components/snackbar/Snackbar.vue';
-import CGIAlert from '../components/alert/Alert.vue';
+// Alerts
+import CGIAlertInfosComponentProps from '../components/alert/CGIAlertInfosComponentProps.vue';
+import CGIAlert from '../components/alert/CGIAlert.vue';
 
 // Directives
-import CGIDirectivesMoney from '../components/directives/Money.vue';
-import CGIDirectivesNumber from '../components/directives/Number.vue';
-import CGIDirectivesMaxLength from '../components/directives/MaxLength.vue';
-import CGIDirectivesNegativeNumber from '../components/directives/NegativeNumber.vue';
+import CGIDirectivesMoney from '../components/directives/CGIMoney.vue';
+import CGIDirectivesNumber from '../components/directives/CGINumber.vue';
+import CGIDirectivesMaxLength from '../components/directives/CGIMaxLength.vue';
+import CGIDirectivesNegativeNumber from '../components/directives/CGINegativeNumber.vue';
 
 // Table
+import CGIDataTableInfosComponentProps from '../components/table/CGIDataTableInfosComponentProps.vue';
+import CGIDataTableInfosComponentEvents from '../components/table/CGIDataTableInfosComponentEvents.vue';
+import CGIDataTableInfosComponentSlots from '../components/table/CGIDataTableInfosComponentSlots.vue';
 import CGIDataTableBasica from '../components/table/CGIDataTableBasica.vue';
 import CGIDataTablePaginacao from '../components/table/CGIDataTablePaginacao.vue';
 import CGIDataTablePropriedades from '../components/table/CGIDataTablePropriedades.vue';
@@ -34,13 +43,16 @@ import CGIDataTableSemPaginacao from '../components/table/CGIDataTableSemPaginac
 import CGIDataTableComPesquisa from '../components/table/CGIDataTableComPesquisa.vue';
 
 // Zoom
-import CGIZoomBasico from '../components/zoom/ZoomBasico.vue';
-import CGIZoomChange from '../components/zoom/ZoomChange.vue';
-import CGIZoomCustom from '../components/zoom/ZoomCustom.vue';
+import CGIZoomBasico from '../components/zoom/CGIZoomBasico.vue';
+import CGIZoomChange from '../components/zoom/CGIZoomChange.vue';
+import CGIZoomCustom from '../components/zoom/CGIZoomCustom.vue';
 
+// Tree View
+import CGITreeViewInfosComponentProps from '../components/treeview/CGITreeViewInfosComponentProps.vue';
+import CGITreeViewInfosComponentEvents from '../components/treeview/CGITreeViewInfosComponentEvents.vue';
 import CGITreeView from '../components/treeview/CGITreeView.vue';
+
 import CGIImagePicker from '../components/image-picker/CGIImagePicker.vue';
-import CGIForm from '../components/form/CGIForm.vue';
 
 // Botoes
 import CGIBotoesSoltos from '../components/btn/CGIBotoesSoltos.vue'
@@ -52,21 +64,33 @@ Vue.use(VueRouter);
 const routes = [
   {
     path: '/time-picker', components: {
-      default: CGITimePickerNormal,
-      componenteA: CGITimePickerCompacto,
-      componenteB: CGITimePickerDisabled,
+      default: CGITimePickerInfosComponentProps,
+      componenteA: CGITimePickerNormal,
+      componenteB: CGITimePickerCompacto,
+      componenteC: CGITimePickerDisabled,
     }
   },
   {
     path: '/date-picker', components: {
-      default: CGIDatePickerNormal,
-      componenteA: CGIDatePickerCompacto,
-      componenteB: CGIDatePickerDisabled,
-      componenteC: CGIDatePickerTipo,
+      default: CGIDatePickerInfosComponentProps,
+      componenteA: CGIDatePickerNormal,
+      componenteB: CGIDatePickerCompacto,
+      componenteC: CGIDatePickerDisabled,
+      componenteD: CGIDatePickerTipo,
     }
   },
-  { path: '/snackbar', component: CGISnackbar },
-  { path: '/alert', component: CGIAlert },
+  {
+    path: '/snackbar', components: {
+      default: CGISnackbarInfosComponentProps,
+      componenteA: CGISnackbar
+    }
+  },
+  {
+    path: '/alert', components: {
+      default: CGIAlertInfosComponentProps,
+      componenteA: CGIAlert
+    }
+  },
   {
     path: '/directives', components: {
       default: CGIDirectivesMoney,
@@ -77,15 +101,18 @@ const routes = [
   },
   {
     path: '/table', components: {
-      default: CGIDataTableBasica,
-      componenteA: CGIDataTablePaginacao,
-      componenteB: CGIDataTablePropriedades,
-      componenteC: CGIDataTableAgrupamento,
-      componenteD: CGIDataTableAcoes,
-      componenteE: CGIDataTableSelecionarVarios,
-      componenteF: CGIDataTableSlotsToolbar,
-      componenteG: CGIDataTableSemPaginacao,
-      componenteH: CGIDataTableComPesquisa,
+      default: CGIDataTableInfosComponentProps,
+      componenteA: CGIDataTableInfosComponentEvents,
+      componenteB: CGIDataTableInfosComponentSlots,
+      componenteC: CGIDataTableBasica,
+      componenteD: CGIDataTablePaginacao,
+      componenteE: CGIDataTablePropriedades,
+      componenteF: CGIDataTableAgrupamento,
+      componenteG: CGIDataTableAcoes,
+      componenteH: CGIDataTableSelecionarVarios,
+      componenteI: CGIDataTableSlotsToolbar,
+      componenteJ: CGIDataTableSemPaginacao,
+      componenteK: CGIDataTableComPesquisa,
     }
   },
   {
@@ -95,9 +122,14 @@ const routes = [
       componenteB: CGIZoomCustom,
     }
   },
-  { path: '/tree-view', component: CGITreeView },
+  {
+    path: '/tree-view', components: {
+      default: CGITreeViewInfosComponentProps,
+      componenteA: CGITreeViewInfosComponentEvents,
+      componenteB: CGITreeView
+    }
+  },
   { path: '/image-picker', component: CGIImagePicker },
-  { path: '/form', component: CGIForm },
   {
     path: '/botoes', components: {
       default: CGIBotoesSoltos,

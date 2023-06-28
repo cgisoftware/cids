@@ -1,21 +1,12 @@
 <template>
   <v-card class="mx-auto mt-5" width="90%" style="margin-top: -64px">
-    <v-toolbar flat>
-      <v-toolbar-title
-        :class="$vuetify.theme.isDark ? 'white--text' : 'black--text'"
-      >
-        Tabela Sem Paginação
-      </v-toolbar-title>
-    </v-toolbar>
-
-    <v-divider></v-divider>
 
     <v-card-text>
       <cgi-data-table
         :linhas="linhas"
         :colunas="colunas"
         :mostra-paginacao="false"
-        nome-tabela="Sem Paginação"
+        nome-tabela="Tabela sem paginação"
         altura="200"
         mostra-linha-selecionada
       ></cgi-data-table>
@@ -86,7 +77,7 @@ export default {
               :linhas="linhas"
               :colunas="colunas"
               :mostra-paginacao="false"
-              nome-tabela="Sem Paginação"
+              nome-tabela="Tabela sem paginação"
               altura="200"
           ></cgi-data-table>
         <\/template>

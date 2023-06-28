@@ -70,6 +70,9 @@
       <router-view name="componenteF"></router-view>
       <router-view name="componenteG"></router-view>
       <router-view name="componenteH"></router-view>
+      <router-view name="componenteI"></router-view>
+      <router-view name="componenteJ"></router-view>
+      <router-view name="componenteK"></router-view>
     </v-container>
   </div>
 </template>

@@ -45,11 +45,6 @@ export const menu = [
     path: "/image-picker",
   },
   {
-    nome: "Form",
-    icone: "mdi-list-box-outline",
-    path: "/form",
-  },
-  {
     nome: "Botões",
     icone: "mdi-light-switch-off",
     path: "/botoes",

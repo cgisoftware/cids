@@ -12,7 +12,7 @@
     <v-card-text>
       <cgi-zoom-picker
         chave="id"
-        :zoom="component"
+        :zoom="ROTA_DO_COMPONENTE"
         v-model="nome"
         nome="Desenvolvedor"
         posicao="inicial"
@@ -37,36 +37,34 @@
 </template>
 
 <script>
-import form from "./form";
 export default {
   data: () => ({
-    component: form,
     nome: null,
     dataExample: Prism.highlight(
       `
         <!-- tela para zoom -->
         <template>
             <cgi-zoom-picker
-                chave="id"
-                :zoom="component"
-                v-model="nome"
-                nome="Desenvolvedor"
-                posicao="inicial"
-                largura="30%"
+              chave="id"
+              :zoom="ROTA_DO_COMPONENTE"
+              v-model="nome"
+              nome="Desenvolvedor"
+              posicao="inicial"
+              largura="30%"
             >
               <template v-slot:customcomp="{ chamaZoom }">
-                <v-btn @click="chamaZoom">Abrir alguma coisa</v-btn>
+                <v-btn color="primary" class="mx-1" @click="chamaZoom"
+                  >Abrir alguma coisa</v-btn
+                >
               </template>
             </cgi-zoom-picker>
         <\/template>
 
         <script>
-            import form from "./form";
             export default {
                 data: () => ({
-                    component: form,
-                    idDesenvolvedor: null,
-                }
+                    nome: null,
+                })
             };
         <\/script>
 
@@ -82,7 +80,7 @@ export default {
                 <v-col>
                   <cgi-zoom-picker
                     chave="id"
-                    :zoom="component"
+                    :zoom="ROTA_DO_COMPONENTE"
                     v-model="nome"
                     nome="Desenvolvedor"
                     posicao="inicial"
@@ -107,10 +105,8 @@ export default {
         </template>
 
         <script>
-        import CGIDataTableAcoes from "../table/CGIDataTableAcoes";
         export default {
           data: () => ({
-              component: CGIDataTableAcoes,
               nome: null,
           }),
         };

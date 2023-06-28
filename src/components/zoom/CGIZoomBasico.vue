@@ -12,7 +12,7 @@
       <v-card-text>
         <cgi-zoom-picker
           chave="id"
-          :zoom="component"
+          :zoom="ROTA_DO_COMPONENTE"
           v-model="nome"
           nome="Desenvolvedor"
           posicao="inicial"
@@ -35,54 +35,44 @@
 </template>
 
 <script>
-import CGIDataTableAcoes from "../table/CGIDataTableAcoes.vue";
 export default {
   methods: {
-    perdeFoco(valor) {
-      console.log(valor);
+    buscaDescricao() {
+     //faz algo
     },
   },
   data: () => ({
-    component: CGIDataTableAcoes,
     nome: null,
     dataExample: Prism.highlight(
       `
         <template>
             <cgi-zoom-picker
-                chave="id"
-                :zoom="component"
-                v-model="idDesenvolvedor"
-                nome="Desenvolvedor"
-                posicao="inicial"
+              chave="id"
+              :zoom="ROTA_DO_COMPONENTE"
+              v-model="nome"
+              nome="Desenvolvedor"
+              posicao="inicial"
+              formata-valor
+              :ao-digitar="buscaDescricao"
             ></cgi-zoom-picker>
         <\/template>
 
         <script>
-            import CGIDataTableAcoes from "../table/CGIDataTableAcoes";
             export default {
-                data: () => ({
-                    component: CGIDataTableAcoes,
-                    idDesenvolvedor: null,
-                }
+              data: () => ({
+                  nome: null,
+              }),
+              methods: {
+                buscaDescricao() {
+                  //faz algo
+                },
+              },
             };
         <\/script>
       `,
       Prism.languages.html
     ),
   }),
-  async mounted() {
-    await new Promise((resolve) =>
-      setTimeout(() => {
-        resolve();
-      }, 5000)
-    );
-    this.nome = 4;
-  },
-  methods: {
-    buscaDescricao() {
-      return "buongiorno";
-    },
-  },
 };
 </script>
 

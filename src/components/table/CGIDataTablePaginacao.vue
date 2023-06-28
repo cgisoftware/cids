@@ -1,18 +1,10 @@
 <template>
   <v-card class="mx-auto mt-5" width="90%" style="margin-top: -64px">
-    <v-toolbar flat>
-      <v-toolbar-title :class="$vuetify.theme.isDark ? 'white--text' : 'black--text'">
-        Tabela Com Paginação Servidor
-      </v-toolbar-title>
-    </v-toolbar>
-
-    <v-divider></v-divider>
-
     <v-card-text>
       <cgi-data-table
         :linhas="linhas"
         :colunas="colunas"
-        nome-tabela="Paginação Servidor"
+        nome-tabela="Tabela com paginação servidor"
         altura="200"
         paginacao-servidor
         @paginando="paginando"
@@ -91,7 +83,7 @@ export default {
           <cgi-data-table
             :linhas="linhas"
             :colunas="colunas"
-            nome-tabela="Paginação Servidor"
+            nome-tabela="Tabela com paginação servidor"
             altura="200"
             paginacao-servidor
             @paginando="paginando"

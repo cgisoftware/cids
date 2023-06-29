@@ -17,7 +17,7 @@
           v-for="item in menu"
           :key="item.nome"
           :to="item.path"
-          class="router-link"
+          :class="['router-link', { active: isActiveRoute(item.path) }]"
         >
           <v-list-item-title class="mb-3">
             <v-icon left class="pr-4">{{
@@ -40,6 +40,11 @@ export default {
     mini: true,
     menu,
   }),
+  methods: {
+    isActiveRoute(path) {
+      return this.$route.path === path;
+    },
+  },
 };
 </script>
 
@@ -51,6 +56,7 @@ export default {
 
 .router-link.active {
   font-weight: bold;
+  background-color: #f0f0f0;
 }
 
 .router-link:hover {

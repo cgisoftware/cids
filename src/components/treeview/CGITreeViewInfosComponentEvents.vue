@@ -21,6 +21,7 @@
 <script>
 export default {
   data: () => ({
+    pesquisa: null,
     colunas: [
       {
         text: "Evento",

@@ -1,5 +1,10 @@
 export const menu = [
   {
+    nome: "Home",
+    icone: "mdi-home-outline",
+    path: "/cids",
+  },
+  {
     nome: "Pickers - Hora",
     icone: "mdi-clock-outline",
     path: "/time-picker",
@@ -48,5 +53,10 @@ export const menu = [
     nome: "Botões",
     icone: "mdi-light-switch-off",
     path: "/botoes",
+  },
+  {
+    nome: "Handler",
+    icone: "mdi-code-json",
+    path: "/handler",
   },
 ]

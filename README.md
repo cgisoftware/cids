@@ -446,7 +446,9 @@ const datasetGrouped = groupBy(dataset, (item) => ['nome', 'cod_emp']) // retorn
   <v-text-field label="Valor" v-cgi-number></v-text-field>
 </template>
 ```
-
+<br>
+<br>
+<br>
 ## v-cgi-max-length
 
 ```html
@@ -458,7 +460,9 @@ const datasetGrouped = groupBy(dataset, (item) => ['nome', 'cod_emp']) // retorn
     ></v-text-field>
   </template>
 ```
-
+<br>
+<br>
+<br>
 ## v-cgi-negative-number
 
 ```html

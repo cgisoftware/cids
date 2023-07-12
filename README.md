@@ -95,7 +95,6 @@ Nos seus componentes do projeto use:
 | mostra-linha-selecionada |   false   | Boolean |                false | Mostra com uma cor diferente a linha selecionada                                      |
 | mostra-propriedades      |   false   | Boolean |                false | Mostra as propriedade de ordenação/ocultação/agrupamento das colunas                  |
 | paginacao-servidor       |   false   | Boolean |                false | Desabilita a paginação no front-end e habilita a paginação no servidor                |
-| mostra-colunas           |   false   | Boolean |                 true | Remove ou mostra as colunas da tabela                                                 |
 | mostra-paginacao         |   false   | Boolean |                 true | Remove ou mostra a paginação no rodapé                                                |
 | mostra-pesquisa          |   false   | Boolean |                false | Remove ou mostra o cmapo de pesquisa na no cabeçalho                                  |
 | colunas-fixas            |   false   | Boolean |                 true | Fixa as colunas para não ter scroll                                                   |
@@ -115,14 +114,14 @@ Nos seus componentes do projeto use:
 | mostra-toolbar           |   false   | Boolean |                false | Esconde ou mostra o cabeçalho da tabela                                               |
 | zoom-dialog              |   false   | Boolean |                false | Define se a tabela está aberta em um zoom ou tela normal                              |
 | nome-programa            |   false   | String  |                   "" | Mostra um tooltip com o nome equivalente do programa progress                         |
-| ordenar-desc             |   false   | Boolean |                false | Configura a ordenação descendente na tabela sem ordenação no servidor                 |
-| ordenar-por              |   false   | String  |                   "" | Configura a ordenação na tabela sem ordenação no servidor                             |
 | totalizar                |   false   | Boolean |                false | Mostra os totalizadores nas colunas definidas na configuração das headers             |
-| ativar-atalhos           |   false   | Boolean |                false | Ativa os atalhos do teclado para incluir, alterar, exluir registros                   |
 | copiar                   |   false   | Boolean |                 true | Mostra o botão de copiar registro na tabela                                           |
 | alterar                  |   false   | Boolean |                false | Mostra o botão de alterar registro na tabela                                          |
 | deletar                  |   false   | Boolean |                false | Mostra o botão de deletar registro na tabela                                          |
 | informacoes-da-pesquisa  |   false   | String  |                 null | Mostra na pesquisa um tooltip com as informações de quais campos é possível pesquisar |
+| compacto                 |   false   | Boolean |                 true | Linhas da tabela ficam com a propriedade 'dense', deixando mais compacto              |
+| cor-checkbox             |   false   | String  |                 null | Define a cor do checkbox no componente de seleção da tabela                           |
+| habilita-agrupamento     |   false   | Boolean |                 true | Habilita o agrupamento da tabela                                                      |
 
 <br>
 
@@ -144,11 +143,12 @@ Nos seus componentes do projeto use:
 
 ### - Slots
 
-| Slot            | Descrição                                                                                 |
-| :-------------- | :---------------------------------------------------------------------------------------- |
-| v-slot:\<name>  | Slot para customizar uma coluna especifica                                                |
-| v-slot:botoes   | Slot para incluir botões no header da tabela, como botões de filtro e alterar por exemplo |
-| v-slot:pesquisa | Slot para customizar o text-field default de pesquisa da tabela                           |
+| Slot                | Descrição                                                                                 |
+| :------------------ | :---------------------------------------------------------------------------------------- |
+| v-slot:\<name>      | Slot para customizar uma coluna especifica                                                |
+| v-slot:botoes       | Slot para incluir botões no header da tabela, como botões de filtro e alterar por exemplo |
+| v-slot:pesquisa     | Slot para customizar o text-field default de pesquisa da tabela                           |
+| v-slot:outras-acoes | Slot para incluir outros botões referentes ao registro                                    |
 
 <br>
 <br>
@@ -220,6 +220,7 @@ Sem slots
 | nome         |   true    | String  |     undefined |
 | tipo         |   false   | String  |        "date" |
 | desabilitado |   false   | Boolean |         false |
+| regras       |   false   | Array   |            [] | 
 
 <br>
 
@@ -250,6 +251,7 @@ Sem slots
 | compacto     |   false   | Boolean |         false |
 | nome         |   true    | String  |     undefined |
 | desabilitado |   false   | Boolean |         false |
+| regras       |   false   | Array   |            [] | 
 
 <br>
 
@@ -443,4 +445,34 @@ const datasetGrouped = groupBy(dataset, (item) => ['nome', 'cod_emp']) // retorn
   <!-- Converte os dados digitados no padrão brasileiro de numeros -->
   <v-text-field label="Valor" v-cgi-number></v-text-field>
 </template>
+```
+<br>
+<br>
+<br>
+
+## v-cgi-max-length
+
+```html
+  <template>
+    <v-text-field
+        label="Texto"
+        v-model="valor"
+        v-cgi-max-length="10"
+    ></v-text-field>
+  </template>
+```
+<br>
+<br>
+<br>
+
+## v-cgi-negative-number
+
+```html
+  <template>
+    <v-text-field
+      label="Número"
+      v-model="valor"
+      v-cgi-negative-number="true"
+    ></v-text-field>
+  </template>
 ```

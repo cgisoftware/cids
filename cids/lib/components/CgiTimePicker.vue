@@ -25,6 +25,7 @@
             tabindex="-1"
             v-bind="attrs"
             v-on="menu"
+            :disabled="desabilitado"
           >mdi-alarm</v-icon>
         </template>
         <v-time-picker

@@ -389,7 +389,7 @@ const datasetGrouped = groupBy(dataset, (item) => ['nome', 'cod_emp']) // retorn
 toExcel(dataset, 'placas') // retorna = download de arquivo chamado placas.xlsx
 
 // Adiciona reticências para limitar a quantidade de caracteres exibidos em tela onde tem campos onde pode ter texto grande na tabela
-cids.reticencias(item.campo, 45)
+cids.reticencias(item.campo, 45) // passa como parâmetro o campo e a quantidade de caracteres
 ```
 
 ### - Sem Props

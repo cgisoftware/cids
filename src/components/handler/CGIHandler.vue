@@ -50,6 +50,9 @@ export default {
 
         // agrupa dataset por 0 ou n chaves
         const datasetGrouped = groupBy(dataset, (item) => ['nome', 'cod_emp']) // retorna = dataset agrupado por nome e cod_emp respectivamente
+
+        // Adiciona reticências para limitar a quantidade de caracteres exibidos em tela onde tem campos onde pode ter texto grande na tabela
+        cids.reticencias(item.campo, 45) // passa como parâmetro o campo e a quantidade de caracteres
       `,
       Prism.languages.javascript
     ),

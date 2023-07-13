@@ -1,25 +1,11 @@
-import Vue from 'vue'
+import { createApp } from 'vue'
 import App from './App.vue'
-import vuetify from './plugins/vuetify';
-import 'prismjs/themes/prism-coy.css'
 
+import { vuetify } from './plugins/vuetify'
+import { loadFonts } from './plugins/webfontloader'
 
-import cids from 'cids-cgi/lib'
+loadFonts()
 
-const opt = {
-  theme: {
-    dataTable: {
-      checkboxColor: 'orange darken-2',
-      lineColor: 'blue'
-    }
-  }
-}
-
-Vue.use(cids, opt)
-
-Vue.config.productionTip = false
-
-new Vue({
-  vuetify,
-  render: h => h(App)
-}).$mount('#app')
+createApp(App)
+  .use(vuetify)
+  .mount('#app')

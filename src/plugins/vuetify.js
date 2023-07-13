@@ -1,25 +1,13 @@
-import Vue from 'vue';
-import Vuetify from 'vuetify/lib';
-import pt from 'vuetify/lib/locale/pt';
+// Styles
+import '@mdi/font/css/materialdesignicons.css'
+import 'vuetify/styles'
+import * as components from 'vuetify/components'
+import * as directives from 'vuetify/directives'
 
-Vue.use(Vuetify);
+// Vuetify
+import { createVuetify } from 'vuetify'
 
-export default new Vuetify({
-  theme: {
-    themes: {
-      light: {
-        primary: 'blue',
-        secondary: '#424242',
-        accent: '#82B1FF',
-        error: '#FF5252',
-        info: '#2196F3',
-        success: '#4CAF50',
-        warning: '#FFC107'
-      },
-    },
-  },
-    lang: {
-      locales: { pt },
-      current: 'pt',
-    },
-});
+export const vuetify = createVuetify({
+  components,
+  directives
+})

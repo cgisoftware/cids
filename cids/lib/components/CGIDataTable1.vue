@@ -515,7 +515,7 @@ export default {
     executaPaginacao() {
       if (this.paginacaoServidor) {
         this.propriedadesDaPaginacao["search"] = this.pesquisaInterna;
-        
+
         if (this.agrupamento != null && !this.propriedadesDaPaginacao.sortBy.some((coluna) => coluna === this.agrupamento)) {
           this.propriedadesDaPaginacao.sortBy.unshift(this.agrupamento);
           this.propriedadesDaPaginacao.sortDesc.unshift(false);
@@ -546,7 +546,6 @@ export default {
       this.menuDePropriedadesDaColuna = false;
     },
     habilitaLinhaSelecionada(item) {
-      debugger
       if (this.mostraLinhaSelecionada && this.linhaSelecionada) {
         if (this.linhaSelecionada[this.chaveTabela] == item[this.chaveTabela]) {
           return this.cids?.theme?.dataTable?.lineColor ?? "blue lighten-5";

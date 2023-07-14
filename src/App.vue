@@ -1,23 +1,20 @@
 <template>
   <v-app>
-    <v-main>
-      <Home/>
+    <v-main class="nav space-remove">
+      <documentacao :controller="controller" />
     </v-main>
   </v-app>
 </template>
 
 <script>
-import Home from './components/documentacao.vue'
+import Documentacao from "@/components/home/view/documentacao.vue";
 
 export default {
-  name: 'App',
-
   components: {
-    Home,
+    Documentacao,
   },
-
-  data: () => ({
-    //
-  }),
-}
+};
 </script>
+
+<style scoped>
+</style>

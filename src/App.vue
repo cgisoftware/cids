@@ -17,4 +17,10 @@ export default {
 </script>
 
 <style scoped>
+#app pre::after {
+  content: none !important;
+}
+#app pre::before {
+  content: none !important;
+}
 </style>

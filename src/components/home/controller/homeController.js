@@ -2,7 +2,7 @@ import { useTheme } from "vuetify";
 import { publisher } from "@/plugins/eventBus";
 
 class HomeController {
-  leftDrawer = false
+  leftDrawer = true
   rightDrawer = false
   dark = false
   mini = true

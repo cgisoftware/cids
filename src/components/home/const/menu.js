@@ -4,4 +4,9 @@ export const menu = [
     icone: "mdi-home-outline",
     path: "/cids",
   },
+  {
+    nome: "Snackbar",
+    icone: "mdi-message-alert-outline",
+    path: "/snackbar",
+  },
 ]

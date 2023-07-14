@@ -30,7 +30,7 @@
       @click="controller.rightDrawer = !controller.rightDrawer"
       class="white--text"
     >
-      <v-icon color="white">mdi-menu</v-icon>
+      <v-icon size="x-large" color="white">mdi-menu</v-icon>
     </v-btn>
   </v-app-bar>
 
@@ -64,6 +64,7 @@
   <v-container>
     <v-main class="pa-0">
       <router-view></router-view>
+      <router-view name="componenteA"></router-view>
     </v-main>
   </v-container>
 </template>

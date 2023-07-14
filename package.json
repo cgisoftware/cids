@@ -8,13 +8,16 @@
   },
   "dependencies": {
     "@mdi/font": "5.9.55",
+    "axios": "^1.4.0",
     "cids-cgi": "./cids",
     "core-js": "^3.8.3",
     "mitt": "^3.0.1",
     "prismjs": "^1.29.0",
     "roboto-fontface": "*",
+    "v-money3": "^3.24.0",
     "vue": "^3.2.13",
     "vue-router": "^4.0.3",
+    "vuedraggable": "^2.24.3",
     "vuetify": "^3.0.0-beta.0",
     "webfontloader": "^1.0.0"
   },

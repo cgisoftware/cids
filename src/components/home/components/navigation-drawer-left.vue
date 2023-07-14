@@ -11,7 +11,6 @@
       app
       clipped
       :rail="$vuetify.display.mdAndUp ? controller.mini : false"
-      width="340"
       left
       style="min-width: 60px; overflow-y: auto"
       id="keep"
@@ -26,10 +25,10 @@
           :class="['router-link', { active: isActiveRoute(item.path) }]"
         >
           <v-list-item-title class="mb-3">
-            <v-icon left class="pr-4">{{
+            <v-icon>{{
               item.icone.includes("mdi") ? item.icone : "mdi-home"
             }}</v-icon
-            >{{ item.nome }}
+            ><span class="ml-2">{{ item.nome }}</span>
           </v-list-item-title>
         </router-link>
       </v-list>

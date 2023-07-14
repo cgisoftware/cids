@@ -20,17 +20,9 @@
           Essa lib conta com funcionalidades que visam facilitar o seu dia-a-dia, como:
           <ul>
             <li>Criação de tabelas de dados com <b>n</b> opções de propriedades;</li>
-            <li>Diretivas para facilitar a formatação de campos de texto do tipo: moeda, deixando na formatação pt-BR, para definir tamanho máximo de caracteres no campo,
-            para bloquear o uso de caracteres como <span class="bg-grey-lighten-3 pl-1 pr-1">. + - ,</span> e diretiva para aplicação de máscara em campos;</li>
-            <li>Componente Time Picker para criar campos onde é necessário informar um horário;</li>
-            <li>Componente Date Picker para criar campos onde é necessário informar a data;</li>
             <li>Componente Snackbar para mostrar mensagens em tela;</li>
             <li>Componente Alert para mostrar mensagens de alerta em tela;</li>
-            <li>Componente Zoom para abrir outros programas dentro de um programa por meio de um campo ou botão;</li>
-            <li>Componente Tree View para criar árvores de items;</li>
-            <li>Componente Image Picker para fazer o upload de alguma imagem de perfil, por exemplo;</li>
             <li>Componente cgi-btn e cgi-acoes para criar botões já padronizados, apenas passando o nome e a função;</li>
-            <li>Handler para converter datas, formatar números para o padrão pt-BR, fazer download de arquivos XLSX e agrupamento de informações;</li>
           </ul>
         </p>
         <p>Procuramos deixar tudo documentado aqui, para que você possa consultar com facilidade como usar, quais props precisam ser passadas, se tem slot e como utilizá-lo e

@@ -151,28 +151,34 @@
                         "
                         class="text-center my-1"
                       >
-                        <v-chip
-                          v-if="!coluna.actions"
-                          style="width: 100%"
-                          small
-                          label
-                        >
-                          <template v-slot:default>
-                            {{ coluna.text }}
-
-                            <v-icon
+                        <tooltip top>
+                          <template #activator="{ on }">
+                            <v-chip
+                              v-on="on"
+                              v-if="!coluna.actions"
+                              style="width: 100%"
                               small
-                              @click="removeColunaDaTela(coluna)"
-                              style="
-                                position: absolute;
-                                right: 10px;
-                                cursor: pointer;
-                              "
+                              label
                             >
-                              mdi-close
-                            </v-icon>
+                              <template v-slot:default>
+                                {{ cids.reticencias(coluna.text, 20) }}
+
+                                <v-icon
+                                  small
+                                  @click="removeColunaDaTela(coluna)"
+                                  style="
+                                    position: absolute;
+                                    right: 10px;
+                                    cursor: pointer;
+                                  "
+                                >
+                                  mdi-close
+                                </v-icon>
+                              </template>
+                            </v-chip>
                           </template>
-                        </v-chip>
+                          <span>{{ coluna.text }}</span>
+                        </tooltip>
                       </div>
                     </draggable>
                   </v-col>
@@ -197,7 +203,7 @@
                             label
                           >
                             <template v-slot:default>
-                              {{ cids.reticencias(coluna.text, 15) }}
+                              {{ cids.reticencias(coluna.text, 20) }}
 
                               <v-icon
                                 small

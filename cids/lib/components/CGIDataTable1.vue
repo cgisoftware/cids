@@ -161,7 +161,7 @@
                               label
                             >
                               <template v-slot:default>
-                                {{ cids.reticencias(coluna.text, 15) }}
+                                {{ cids.reticencias(coluna.text, 20) }}
 
                                 <v-icon
                                   small
@@ -193,28 +193,34 @@
                       :key="id"
                       class="text-center my-1"
                     >
-                      <v-chip
-                        v-if="!coluna.actions"
-                        style="width: 100%"
-                        small
-                        label
-                      >
-                        <template v-slot:default>
-                          {{ coluna.text }}
-
-                          <v-icon
+                      <v-tooltip top>
+                        <template #activator="{ on }">
+                          <v-chip
+                            v-on="on"
+                            v-if="!coluna.actions"
+                            style="width: 100%"
                             small
-                            @click="adicionaColunaNaTela(coluna)"
-                            style="
-                              position: absolute;
-                              right: 10px;
-                              cursor: pointer;
-                            "
+                            label
                           >
-                            mdi-plus
-                          </v-icon>
+                            <template v-slot:default>
+                              {{ cids.reticencias(coluna.text, 20) }}
+
+                              <v-icon
+                                small
+                                @click="adicionaColunaNaTela(coluna)"
+                                style="
+                                  position: absolute;
+                                  right: 10px;
+                                  cursor: pointer;
+                                "
+                              >
+                                mdi-plus
+                              </v-icon>
+                            </template>
+                          </v-chip>
                         </template>
-                      </v-chip>
+                        <span>{{ coluna.text }}</span>
+                      </v-tooltip>
                     </div>
                   </v-flex>
                 </v-layout>

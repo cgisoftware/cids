@@ -65,6 +65,16 @@
     <v-main class="pa-0">
       <router-view></router-view>
       <router-view name="componenteA"></router-view>
+      <router-view name="componenteB"></router-view>
+      <router-view name="componenteC"></router-view>
+      <router-view name="componenteD"></router-view>
+      <router-view name="componenteE"></router-view>
+      <router-view name="componenteF"></router-view>
+      <router-view name="componenteG"></router-view>
+      <router-view name="componenteH"></router-view>
+      <router-view name="componenteI"></router-view>
+      <router-view name="componenteJ"></router-view>
+      <router-view name="componenteK"></router-view>
     </v-main>
   </v-container>
 </template>

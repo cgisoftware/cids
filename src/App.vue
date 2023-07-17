@@ -2,6 +2,8 @@
   <v-app>
     <v-main class="nav space-remove">
       <documentacao :controller="controller" />
+      <cgi-snackbar />
+      <cgi-alert />
     </v-main>
   </v-app>
 </template>

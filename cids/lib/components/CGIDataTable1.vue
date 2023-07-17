@@ -18,7 +18,6 @@
     :item-key="chaveTabela"
     :sort-by="propriedadesDaPaginacao.sortBy"
     :sort-desc="propriedadesDaPaginacao.sortDesc"
-
     v-model="itensSelecionados"
     :footer-props="{
       itemsPerPageOptions: [30, 60, 100],
@@ -38,7 +37,8 @@
 
     <template v-slot:[`group.header`]="{ isOpen, toggle, group, groupBy }">
       <th colspan="90">
-        <v-icon @click="toggle">{{ isOpen ? "mdi-minus" : "mdi-plus" }}
+        <v-icon @click="toggle"
+          >{{ isOpen ? "mdi-minus" : "mdi-plus" }}
         </v-icon>
         {{
           groupBy[0][0].toUpperCase() +
@@ -51,26 +51,14 @@
       v-for="(coluna, index) in colunasCustomizaveis"
       v-slot:[`item.${coluna.value}`]="{ item }"
     >
-      <div
-        :key="index"
-        v-if="coluna.formatador"
-      >
+      <div :key="index" v-if="coluna.formatador">
         {{ coluna.formatador(item[coluna.value]) }}
       </div>
-      <slot
-        v-else
-        :name="coluna.value"
-        v-bind:item="item"
-      > </slot>
+      <slot v-else :name="coluna.value" v-bind:item="item"> </slot>
     </template>
 
     <template v-slot:top>
-      <v-toolbar
-        flat
-        dense
-        v-if="mostraToolbar"
-        color="transparent"
-      >
+      <v-toolbar flat dense v-if="mostraToolbar" color="transparent">
         <v-toolbar-title>
           <div class="d-flex flex-column">
             <div>
@@ -95,18 +83,14 @@
           v-model="pesquisaInterna"
           v-if="mostraPesquisa"
         >
-          <template
-            v-slot:prepend-inner
-            v-if="informacoesDaPesquisa"
-          >
+          <template v-slot:prepend-inner v-if="informacoesDaPesquisa">
             <v-tooltip top>
               <template v-slot:activator="{ on, attrs }">
-                <v-icon
-                  v-bind="attrs"
-                  v-on="on"
-                >mdi-information-variant</v-icon>
+                <v-icon v-bind="attrs" v-on="on"
+                  >mdi-information-variant</v-icon
+                >
               </template>
-              <span>{{informacoesDaPesquisa}}</span>
+              <span>{{ informacoesDaPesquisa }}</span>
             </v-tooltip>
           </template>
         </v-text-field>
@@ -137,16 +121,10 @@
           </template>
 
           <v-card scrollable>
-            <v-toolbar
-              flat
-              dense
-            >
+            <v-toolbar flat dense>
               <v-toolbar-title>Organizar tabela</v-toolbar-title>
             </v-toolbar>
-            <v-card-text
-              class="px-0"
-              style="overflow-y: scroll; height: 300px"
-            >
+            <v-card-text class="px-0" style="overflow-y: scroll; height: 300px">
               <v-autocomplete
                 v-if="habilitaAgrupamento"
                 dense
@@ -159,10 +137,7 @@
                 v-model="agrupamento"
                 no-data-text="Sem dados"
               ></v-autocomplete>
-              <v-container
-                fluid
-                grid-list-md
-              >
+              <v-container fluid grid-list-md>
                 <v-row>
                   <v-col cols="6">
                     Colunas na tela
@@ -170,7 +145,10 @@
                       <div
                         v-for="coluna in colunasVisiveis"
                         :key="coluna.text"
-                        v-show="coluna.value !== 'acoes' && coluna.value !== 'tb_detalhe'"
+                        v-show="
+                          coluna.value !== 'acoes' &&
+                          coluna.value !== 'tb_detalhe'
+                        "
                         class="text-center my-1"
                       >
                         <v-chip
@@ -185,7 +163,11 @@
                             <v-icon
                               small
                               @click="removeColunaDaTela(coluna)"
-                              style="position: absolute; right: 10px; cursor: pointer;"
+                              style="
+                                position: absolute;
+                                right: 10px;
+                                cursor: pointer;
+                              "
                             >
                               mdi-close
                             </v-icon>
@@ -197,29 +179,42 @@
                   <v-col cols="6">
                     Colunas disponíveis
                     <div
-                      v-show="coluna.value !== 'acoes' && coluna.value !== 'tb_detalhe'"
+                      v-show="
+                        coluna.value !== 'acoes' &&
+                        coluna.value !== 'tb_detalhe'
+                      "
                       v-for="(coluna, id) in colunasInvisiveis"
                       :key="id"
                       class="text-center my-1"
                     >
-                      <v-chip
-                        v-if="!coluna.actions"
-                        style="width: 100%"
-                        small
-                        label
-                      >
-                        <template v-slot:default>
-                          {{ coluna.text }}
-
-                          <v-icon
+                      <tooltip top>
+                        <template #activator="{ on }">
+                          <v-chip
+                            v-on="on"
+                            v-if="!coluna.actions"
+                            style="width: 100%"
                             small
-                            @click="adicionaColunaNaTela(coluna)"
-                            style="position: absolute; right: 10px; cursor: pointer;"
+                            label
                           >
-                            mdi-plus
-                          </v-icon>
+                            <template v-slot:default>
+                              {{ cids.reticencias(coluna.text, 15) }}
+
+                              <v-icon
+                                small
+                                @click="adicionaColunaNaTela(coluna)"
+                                style="
+                                  position: absolute;
+                                  right: 10px;
+                                  cursor: pointer;
+                                "
+                              >
+                                mdi-plus
+                              </v-icon>
+                            </template>
+                          </v-chip>
                         </template>
-                      </v-chip>
+                        <span>{{ coluna.text }}</span>
+                      </tooltip>
                     </div>
                   </v-col>
                 </v-row>
@@ -233,18 +228,10 @@
             </v-card-actions>
           </v-card>
         </v-menu>
-        <v-btn
-          icon
-          v-if="mostraPropriedades"
-          @click="salvarPropriedades"
-        >
+        <v-btn icon v-if="mostraPropriedades" @click="salvarPropriedades">
           <v-icon small>mdi-content-save</v-icon>
         </v-btn>
-        <v-btn
-          icon
-          v-if="zoomDialog"
-          @click="$emit('cancelar-zoom')"
-        >
+        <v-btn icon v-if="zoomDialog" @click="$emit('cancelar-zoom')">
           <v-icon small>mdi-close</v-icon>
         </v-btn>
       </v-toolbar>
@@ -266,7 +253,9 @@
 
         <v-card>
           <v-card-text>
-            <div class="font-weight-bold mb-5">Ações principais do registro</div>
+            <div class="font-weight-bold mb-5">
+              Ações principais do registro
+            </div>
 
             <div class="d-flex justify-space-between align-center">
               <div
@@ -297,13 +286,12 @@
 
       <div
         style="min-width: 150px"
-        v-if="cids?.defaults?.dataTable?.acoes === 'right' || cids?.defaults?.dataTable?.acoes === 'left'"
+        v-if="
+          cids?.defaults?.dataTable?.acoes === 'right' ||
+          cids?.defaults?.dataTable?.acoes === 'left'
+        "
       >
-        <v-tooltip
-          top
-          v-for="(opcao, index) in opcoesDeAcao"
-          :key="index"
-        >
+        <v-tooltip top v-for="(opcao, index) in opcoesDeAcao" :key="index">
           <template v-slot:activator="{ on }">
             <v-btn
               v-show="opcao.mostrar"
@@ -322,10 +310,7 @@
       </div>
     </template>
 
-    <template
-      v-slot:[`group.summary`]="{ items }"
-      v-if="totalizar"
-    >
+    <template v-slot:[`group.summary`]="{ items }" v-if="totalizar">
       <td
         v-show="coluna.value !== agrupamento"
         v-for="(coluna, i) in colunasVisiveis"
@@ -341,10 +326,7 @@
       </td>
     </template>
 
-    <template
-      v-slot:[`body.append`]="{ items }"
-      v-if="totalizar"
-    >
+    <template v-slot:[`body.append`]="{ items }" v-if="totalizar">
       <tr>
         <th
           v-for="(coluna, i) in colunasVisiveis"
@@ -500,23 +482,28 @@ export default {
         return {
           ...coluna,
           title: coluna.text ?? coluna.title,
-          key: coluna.value ?? coluna.key
-        }
-      })
+          key: coluna.value ?? coluna.key,
+        };
+      });
 
       this.colunasInvisiveis = this.colunasVisiveis.map((coluna) => {
         return {
           ...coluna,
           title: coluna.text ?? coluna.title,
-          key: coluna.value ?? coluna.key
-        }
-      })
+          key: coluna.value ?? coluna.key,
+        };
+      });
     },
     executaPaginacao() {
       if (this.paginacaoServidor) {
         this.propriedadesDaPaginacao["search"] = this.pesquisaInterna;
 
-        if (this.agrupamento != null && !this.propriedadesDaPaginacao.sortBy.some((coluna) => coluna === this.agrupamento)) {
+        if (
+          this.agrupamento != null &&
+          !this.propriedadesDaPaginacao.sortBy.some(
+            (coluna) => coluna === this.agrupamento
+          )
+        ) {
           this.propriedadesDaPaginacao.sortBy.unshift(this.agrupamento);
           this.propriedadesDaPaginacao.sortDesc.unshift(false);
         }

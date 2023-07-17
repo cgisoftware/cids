@@ -15,7 +15,7 @@
         :compacto="false"
         :pesquisa="pesquisa"
         nome-tabela="Parâmetros"
-        altura="28vh"
+        altura="17vh"
         mostra-pesquisa
       ></cgi-data-table>
     </v-card-text>
@@ -51,12 +51,6 @@ export default {
         align: "start",
         sortable: false,
       },
-      {
-        text: "Opções",
-        value: "opcoes",
-        align: "start",
-        sortable: false,
-      },
     ],
     linhas: [
       {
@@ -64,28 +58,12 @@ export default {
         obrigatorio: "false",
         tipo: "String",
         default: '" "',
-        opcoes: "",
-      },
-      {
-        parametros: "timeout",
-        obrigatorio: "false",
-        tipo: "Number",
-        default: "10000",
-        opcoes: "",
       },
       {
         parametros: "color",
         obrigatorio: "false",
         tipo: "String",
         default: '"red"',
-        opcoes: "",
-      },
-      {
-        parametros: "position",
-        obrigatorio: "false",
-        tipo: "Object",
-        default: "-",
-        opcoes: "right: true; center: true; top: false",
       },
     ],
   }),

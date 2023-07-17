@@ -9,15 +9,19 @@
         :class="theme.global.current.dark ? 'white--text' : 'black--text'"
         class="subtitle-1"
       >
-        Snackbar
+        Alerts
       </v-toolbar-title>
     </v-toolbar>
 
     <v-divider></v-divider>
 
     <v-card-text>
-      <v-btn color="primary" class="mx-1" @click="mostraAlerta">Alerta!</v-btn>
-      <v-btn class="secondary" @click="mostraConfirmacao">Confirmação</v-btn>
+      <v-btn color="primary" class="mx-1" @click="mostraAlerta"
+        >Alerta fixo!</v-btn
+      >
+      <v-btn class="secondary" @click="mostraConfirmacao"
+        >Confirmação fixa</v-btn
+      >
 
       <pre>
                 <code
@@ -31,7 +35,7 @@
 </template>
 
 <script>
-import { snackbar } from "cids-cgi/lib/util";
+import { alert } from "cids-cgi/lib/util";
 import { useTheme } from "vuetify";
 
 export default {
@@ -41,7 +45,7 @@ export default {
     snackbarExample: Prism.highlight(
       `
         <template>
-            <cgi-snackbar/>
+            <cgi-alert/>
             <!--
                 SOMENTE NO ARQUIVO APP.VUE DO PROJETO.
                 NÃO DEFINIR EM OUTROS LUGARES NO CÓDIGO!!
@@ -51,23 +55,23 @@ export default {
                 color="primary"
                 class="mx-1"
                 @click="mostraAlerta"
-            >Alerta!</v-btn>
+            >Alerta fixo!</v-btn>
 
             <v-btn
                 class="secondary"
                 @click="mostraConfirmacao"
-            >Confirmação</v-btn>
+            >Confirmação fixa</v-btn>
         <\/template>
 
         <script>
-            import { snackbar } from "cids-cgi/lib/util";
+            import { alert } from "cids-cgi/lib/util";
             export default {
                 methods: {
                     mostraAlerta() {
-                        snackbar.show({ message: "Alerta geral!" });
+                        alert.show({ message: "Alerta geral!" });
                     },
                     async mostraConfirmacao() {
-                        const confirmou = await snackbar.confirm({ message: "Confirmar algo" });
+                        const confirmou = await alert.confirm({ message: "Confirmar algo?" });
                         if (confirmou) {
                           //faz algo
                         }
@@ -81,11 +85,10 @@ export default {
   }),
   methods: {
     mostraAlerta() {
-      snackbar.show({ message: "Alerta geral!" });
+      alert.show({ message: "Alerta geral!" });
     },
-    async mostraConfirmacao() {
-      const confirmou = await snackbar.confirm({ message: "Confirmar algo" });
-      console.log(confirmou);
+    mostraConfirmacao() {
+      alert.confirm({ message: "Confirmar algo" });
     },
   },
 };

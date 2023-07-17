@@ -9,7 +9,8 @@ import { loadFonts } from './plugins/webfontloader'
 
 loadFonts()
 
-// Prisma
+// Prism
+import Prism from "prismjs";
 import 'prismjs/themes/prism-coy.css'
 
 // Cids
@@ -30,6 +31,7 @@ const opt = {
 };
 
 createApp(App)
+  .use(Prism)
   .use(router)
   .use(cids, opt)
   .use(vuetify)

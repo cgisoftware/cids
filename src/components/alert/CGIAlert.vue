@@ -60,7 +60,7 @@ export default {
         <\/template>
 
         <script>
-            import { snackbar } from "cids-cgi/lib/util";
+            import { alert } from "cids-cgi/lib/util";
             export default {
                 methods: {
                     mostraAlerta() {

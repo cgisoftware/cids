@@ -1,5 +1,5 @@
 <template>
-  <v-card flat>
+  <div>
     <v-toolbar color="primary" dark extended flat> </v-toolbar>
 
     <v-card class="mx-auto mb-5" width="90%" style="margin-top: -64px">
@@ -22,7 +22,7 @@
         ></cgi-data-table>
       </v-card-text>
     </v-card>
-  </v-card>
+  </div>
 </template>
 
 <script>

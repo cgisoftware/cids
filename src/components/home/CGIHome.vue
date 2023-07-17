@@ -1,5 +1,5 @@
 <template>
-  <v-card flat>
+  <div>
     <v-toolbar color="primary" dark extended flat> </v-toolbar>
 
     <v-card class="mx-auto mb-5" width="90%" style="margin-top: -64px">
@@ -42,7 +42,7 @@
         <v-img v-if="$vuetify.theme.isDark" src="@/assets/cgi-branca-nova.png" alt="CGI Software" width="30" class="ml-3"></v-img><v-img v-else src="@/assets/cgi-nova.png" alt="CGI Software" width="30" class="ml-3"></v-img></p>
       </v-card-actions>
     </v-card>
-  </v-card>
+  </div>
 </template>
 
 <script>

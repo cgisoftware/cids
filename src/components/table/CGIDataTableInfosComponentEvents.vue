@@ -15,7 +15,6 @@
         ></cgi-data-table>
       </v-card-text>
     </v-card>
-  </v-card>
 </template>
 
 <script>

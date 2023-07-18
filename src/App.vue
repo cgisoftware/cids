@@ -19,10 +19,10 @@ export default {
 </script>
 
 <style scoped>
-#app pre::after {
+:deep(pre[class*="language-"]:before) {
   content: none !important;
 }
-#app pre::before {
+:deep(pre[class*="language-"]:after) {
   content: none !important;
 }
 </style>

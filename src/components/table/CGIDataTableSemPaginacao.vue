@@ -10,7 +10,7 @@
         :linhas="linhas"
         :colunas="colunas"
       ></cgi-data-table>
-      <pre>
+      <pre class="language-html py-5">
                 <code
                 class="language-html py-5"
                 v-html="dataExample"

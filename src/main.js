@@ -11,7 +11,7 @@ loadFonts()
 
 // Prism
 import Prism from "prismjs";
-import 'prismjs/themes/prism-coy.css'
+import "prismjs/themes/prism-coy.css";
 
 // Cids
 import cids from 'cids-cgi/lib'
@@ -31,7 +31,6 @@ const opt = {
 };
 
 createApp(App)
-  .use(Prism)
   .use(router)
   .use(cids, opt)
   .use(vuetify)

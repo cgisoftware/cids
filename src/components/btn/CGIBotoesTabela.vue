@@ -61,7 +61,7 @@
         </cgi-acoes>
       </v-row>
 
-      <pre>
+      <pre class="language-html py-5">
                 <code
                 class="language-html py-5"
                 v-html="dataExample"

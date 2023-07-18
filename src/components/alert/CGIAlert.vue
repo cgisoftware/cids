@@ -23,7 +23,7 @@
         >Confirmação fixa</v-btn
       >
 
-      <pre>
+      <pre class="language-html py-5">
                 <code
                 class="language-html py-5"
                 v-html="snackbarExample"

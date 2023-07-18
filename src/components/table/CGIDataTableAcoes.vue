@@ -17,7 +17,7 @@
         @ver-detalhes="verDetalhes($event)"
         @copiar-item="copiarItem($event)"
       ></cgi-data-table>
-      <pre v-if="!controller.dialogZoom">
+      <pre class="language-html py-5" v-if="!controller.dialogZoom">
                 <code
                 class="language-html py-5"
                 v-html="dataExample"
@@ -159,16 +159,19 @@ export default {
                   id: 1,
                   nome: "Vinicius",
                   descricao: "Desenvolvedor de Software",
+                  cor: "yellow",
                 },
                 {
                   id: 2,
                   nome: "Sergio",
                   descricao: "Desenvolvedor de Software",
+                  cor: "red",
                 },
                 {
                   id: 3,
                   nome: "Jackson",
                   descricao: "Desenvolvedor de Software",
+                  cor: "green",
                 },
                 {
                   id: 4,

@@ -19,7 +19,7 @@
       <v-btn color="primary" class="mx-1" @click="mostraAlerta">Alerta!</v-btn>
       <v-btn class="secondary" @click="mostraConfirmacao">Confirmação</v-btn>
 
-      <pre>
+      <pre class="language-html py-5">
                 <code
                 class="language-html py-5"
                 v-html="snackbarExample"

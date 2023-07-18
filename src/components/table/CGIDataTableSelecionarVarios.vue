@@ -19,14 +19,14 @@
       >
       <br />
 
-      <pre class="mt-5">
-       <code
+      <pre class="language-json mt-5">
+      <code
       class="language-json">
         {{ selecionados }}
       </code>
       </pre>
 
-      <pre>
+      <pre class="language-html py-5">
                 <code
                 class="language-html py-5"
                 v-html="dataExample"

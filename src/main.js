@@ -2,7 +2,7 @@ import Vue from 'vue'
 import App from './App.vue'
 import vuetify from './plugins/vuetify';
 import 'prismjs/themes/prism-coy.css'
-
+import { vMaska } from "maska"
 
 import cids from 'cids-cgi/lib'
 import router from './config/router';
@@ -22,6 +22,7 @@ const opt = {
 };
 
 Vue.use(cids, opt)
+Vue.directive("maska", vMaska);
 
 Vue.config.productionTip = false
 

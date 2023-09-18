@@ -3,10 +3,12 @@
     :dense="compacto"
     :label="nome"
     :rules="regras"
-    v-cgi-mask="mask"
+    :data-maska="mascara"
+    v-maska
     v-model="hora"
     :disabled="desabilitado"
     @blur="formataData"
+    @input="$emit('input', hora)"
   >
     <template v-slot:append>
       <v-menu
@@ -46,7 +48,7 @@ export default {
     hora: vm.value,
     picker: null,
     menu: false,
-    mask: "hora",
+    mascara: "##:##",
   }),
   watch: {
     value() {

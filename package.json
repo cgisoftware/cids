@@ -1,5 +1,5 @@
 {
-  "name": "example",
+  "name": "cidsd",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -7,28 +7,28 @@
     "build": "vue-cli-service build"
   },
   "dependencies": {
-    "axios": "^1.4.0",
+    "@mdi/font": "^7.2.96",
+    "axios": "^1.5.0",
     "cids-cgi": "./cids",
-    "core-js": "^3.31.0",
-    "ke-the-mask": "0.0.3",
+    "core-js": "^3.8.3",
+    "maska": "^2.1.10",
     "moment": "^2.29.4",
     "prismjs": "^1.29.0",
+    "register-service-worker": "^1.7.2",
     "v-money": "^0.8.1",
-    "vanilla-masker": "^1.2.0",
-    "vue": "^2.6.11",
-    "vue-router": "^3.5.3",
-    "vuedraggable": "^2.24.3",
-    "vuetify": "^2.4.0",
-    "xlsx": "^0.18.5"
+    "vue": "^2.6.14",
+    "vue-router": "^3.5.1",
+    "vuetify": "^2.7.1"
   },
   "devDependencies": {
-    "@mdi/font": "^6.7.96",
-    "@vue/cli-plugin-babel": "~4.5.0",
-    "@vue/cli-service": "~4.5.0",
-    "sass": "^1.32.0",
+    "@vue/cli-plugin-babel": "~5.0.0",
+    "@vue/cli-plugin-pwa": "~5.0.0",
+    "@vue/cli-plugin-router": "~5.0.0",
+    "@vue/cli-service": "~5.0.0",
+    "sass": "~1.32.0",
     "sass-loader": "^10.0.0",
-    "vue-cli-plugin-vuetify": "~2.3.1",
-    "vue-template-compiler": "^2.6.11",
+    "vue-cli-plugin-vuetify": "~2.5.8",
+    "vue-template-compiler": "^2.6.14",
     "vuetify-loader": "^1.7.0"
   }
 }

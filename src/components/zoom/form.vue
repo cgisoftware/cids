@@ -8,7 +8,7 @@
         <v-col>
           <cgi-zoom-picker
             chave="id"
-            :zoom="component"
+            :zoom="table/CGIDataTableAcoes"
             v-model="nome"
             nome="Desenvolvedor"
             posicao="inicial"

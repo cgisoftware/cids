@@ -1,25 +1,27 @@
 <template>
   <v-card class="mx-auto mt-5" width="90%" style="margin-top: -64px">
     <v-toolbar flat>
-      <v-toolbar-title :class="$vuetify.theme.isDark ? 'white--text' : 'black--text'"  class="subtitle-1">
-        Campo Data Desabilitado
+      <v-toolbar-title
+        :class="$vuetify.theme.isDark ? 'white--text' : 'black--text'"
+      >
+        Diretiva: v-cgi-max-length
       </v-toolbar-title>
     </v-toolbar>
 
     <v-divider></v-divider>
 
     <v-card-text>
-      <cgi-date-picker
-        v-model="data"
-        nome="Data"
-        desabilitado
-      ></cgi-date-picker>
-      Data v-model: {{ data }}
+      <v-text-field
+        label="Texto"
+        v-model="valor"
+        v-cgi-max-length="10"
+      ></v-text-field>
+      Valor v-model: {{ valor }}
 
       <pre>
                 <code
                 class="language-html py-5"
-                v-html="dataExample"
+                v-html="moneyExample"
                 style="font-size: 14px; "
               ></code>
               </pre>
@@ -28,24 +30,23 @@
 </template>
 
 <script>
-import Prism from "prismjs";
 export default {
   data: () => ({
-    data: "10/10/2021",
-    dataExample: Prism.highlight(
+    valor: "Teste",
+    moneyExample: Prism.highlight(
       `
         <template>
-            <cgi-date-picker
-                v-model="data"
-                nome="Data"
-                desabilitado
-            ></cgi-date-picker>
+            <v-text-field
+                label="Texto"
+                v-model="valor"
+                v-cgi-max-length="10"
+            ></v-text-field>
         <\/template>
 
         <script>
             export default {
                 data: () => ({
-                    data: "10/10/2021"
+                    valor: "Teste",
                 })
             };
         <\/script>

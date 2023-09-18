@@ -1,29 +1,36 @@
 <template>
-  <div>
-     <strong>Campo hora default</strong>
-    <br>
-    <br>
-    <cgi-time-picker
-      v-model="hora"
-      nome="Hora"
-    ></cgi-time-picker>
-    Hora v-model: {{hora}}
+  <v-card class="mx-auto mt-5" width="90%" style="margin-top: -64px">
+    <v-card-title primary-title class="font-weight-bold">
+      Exemplos
+    </v-card-title>
+    <v-divider></v-divider>
+    <v-toolbar flat>
+      <v-toolbar-title
+        :class="$vuetify.theme.isDark ? 'white--text' : 'black--text'" class="subtitle-1"
+      >
+        Campo Hora Default
+      </v-toolbar-title>
+    </v-toolbar>
 
-    <pre>
-                <code
-                class="language-html py-5"
-                v-html="horaExample"
-                style="font-size: 14px; "
-              ></code>
-              </pre>
+    <v-divider></v-divider>
 
-    <v-divider class="my-5"></v-divider>
-  </div>
+    <v-card-text>
+      <cgi-time-picker v-model="hora" nome="Hora"></cgi-time-picker>
+      Hora v-model: {{ hora }}
+
+      <pre>
+      <code
+        class="language-html py-5"
+        v-html="horaExample"
+        style="font-size: 14px; ">
+        </code>
+    </pre>
+    </v-card-text>
+  </v-card>
 </template>
 
 <script>
 import Prism from "prismjs";
-// import "prismjs/components/prism-json";
 export default {
   data: () => ({
     hora: "08:02",

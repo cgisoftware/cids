@@ -1,20 +1,21 @@
 <template>
-  <div id="app">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
-    <cgi-snackbar/>
-    <cgi-alert/>
-  </div>
+  <v-app>
+    <v-main class="nav space-remove pt-6">
+      <Home />
+      <cgi-snackbar />
+      <cgi-alert />
+    </v-main>
+  </v-app>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import Home from "./components/documentacao.vue";
 
 export default {
-  name: 'App',
   components: {
-    HelloWorld
-  }
-}
+    Home,
+  },
+};
 </script>
 
 <style>
@@ -24,5 +25,11 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
   margin-top: 60px;
+}
+pre::after {
+  content: none !important;
+}
+pre::before {
+  content: none !important;
 }
 </style>

@@ -1,25 +1,21 @@
 <template>
-  <v-card>
-    <v-card-text :class="{ 'pa-0': controller.dialogZoom }">
+  <v-card class="mx-auto mt-5" width="90%" style="margin-top: -64px">
+    <v-card-text>
       <cgi-data-table
-        :linhas="linhas"
-        :colunas="colunas"
-        nome-tabela="Botões de ação/cores e detalhamento preparado para zoom"
+        nome-tabela="Tabela com botões de ação/cores e detalhamento preparado para zoom"
         nome-programa="teste"
         altura="200"
+        chave-tabela="id"
         mostra-acoes
         mostra-detalhes
-        @alterar-item="alterarItem"
-        @deletar-item="deletarItem"
-        @exporta-zoom="exportaZoom"
-        @ver-detalhes="verDetalhes"
+        :linhas="linhas"
+        :colunas="colunas"
         :zoom-dialog="controller.dialogZoom"
-        :pesquisa="controller.pesquisa"
-        mostra-pesquisa
-        ordenar-por="nome"
-        ordenar-desc
-        chave-tabela="id"
-        informacoes-da-pesquisa="Pesquisar por x y z"
+        @alterar-item="alterarItem($event)"
+        @deletar-item="deletarItem($event)"
+        @exporta-zoom="exportaZoom($event)"
+        @ver-detalhes="verDetalhes($event)"
+        @copiar-item="copiarItem($event)"
       ></cgi-data-table>
       <pre v-if="!controller.dialogZoom">
                 <code
@@ -28,8 +24,6 @@
                 style="font-size: 14px; "
               ></code>
               </pre>
-
-      <v-divider v-if="!controller.dialogZoom" class="my-5"></v-divider>
     </v-card-text>
   </v-card>
 </template>
@@ -38,45 +32,47 @@ import Prism from "prismjs";
 export default {
   methods: {
     alterarItem(item) {
-      // manipule o item
+      console.log(item);
     },
     deletarItem(item) {
-      // manipule o item
+      console.log(item);
     },
     exportaZoom(item) {
       this.$emit("exporta-zoom", item);
     },
     verDetalhes(item) {
-      // manipule o item
+      console.log(item);
+    },
+    copiarItem(item) {
+      console.log(item);
     },
   },
   data: () => ({
     controller: {
       dialogZoom: false,
-      pesquisa: null,
     },
     linhas: [
       {
         id: 1,
         nome: "Vinicius",
         descricao: "Desenvolvedor de Software",
-        cor: 'yellow'
+        cor: "yellow",
       },
       {
         id: 2,
         nome: "Sergio",
         descricao: "Desenvolvedor de Software",
-        cor: 'red'
+        cor: "red",
       },
       {
         id: 3,
-        nome: "Kirlan",
+        nome: "Jackson",
         descricao: "Desenvolvedor de Software",
-        cor: 'green'
+        cor: "green",
       },
       {
         id: 4,
-        nome: "Angelo",
+        nome: "João",
         descricao: "Desenvolvedor de Software",
       },
       {
@@ -114,100 +110,105 @@ export default {
       `
         <template>
           <cgi-data-table
-            ordenar-por="nome"
-            ordenar-desc
-            chave-tabela="id"
-            :linhas="linhas"
-            :colunas="colunas"
-            nome-tabela="Botões de ação/cores e detalhamento preparado para zoom"
+            nome-tabela="Tabela com botões de ação/cores e detalhamento preparado para zoom"
+            nome-programa="teste"
             altura="200"
+            chave-tabela="id"
             mostra-acoes
             mostra-detalhes
-            @alterar-item="alterarItem"
-            @deletar-item="deletarItem"
-            @exporta-zoom="exportaZoom"
-            @ver-detalhes="verDetalhes"
+            :linhas="linhas"
+            :colunas="colunas"
             :zoom-dialog="controller.dialogZoom"
-            :pesquisa="controller.pesquisa"
-            mostra-pesquisa
+            @alterar-item="alterarItem($event)"
+            @deletar-item="deletarItem($event)"
+            @exporta-zoom="exportaZoom($event)"
+            @ver-detalhes="verDetalhes($event)"
+            @copiar-item="copiarItem($event)"
           ></cgi-data-table>
         <\/template>
 
         <script>
-            export default {
-                methods: {
-                  alterarItem(item) {
-                    // manipule o item
-                  },
-                  deletarItem(item) {
-                    // manipule o item
-                  },
-                  exportaZoom(item) {
-                    // manipule o item
-                  },
-                  verDetalhes(item) {
-                    // manipule o item
-                  },
+          export default {
+            methods: {
+              alterarItem(item) {
+                // manipule o item
+                console.log(item)
+              },
+              deletarItem(item) {
+                // manipule o item
+                console.log(item)
+              },
+              exportaZoom(item) {
+                // manipule o item
+                this.$emit("exporta-zoom", item);
+              },
+              verDetalhes(item) {
+                // manipule o item
+                console.log(item)
+              },
+              copiarItem(item) {
+                // manipule o item
+                console.log(item)
+              }
+            },
+            data: () => ({
+              controller: {
+                dialogZoom: false,
+              },
+              linhas: [
+                {
+                  id: 1,
+                  nome: "Vinicius",
+                  descricao: "Desenvolvedor de Software",
                 },
-                data: () => ({
-                    controller: {
-                      dialogZoom: false,
-                      pesquisa: null
-                    },
-                    linhas: [
-                        {
-                            id: 1,
-                            nome: "Vinicius",
-                            descricao: "Desenvolvedor de Software",
-                        },
-                        {
-                            id: 2,
-                            nome: "Sergio",
-                            descricao: "Desenvolvedor de Software",
-                        },
-                        {
-                            id: 3,
-                            nome: "Kirlan",
-                            descricao: "Desenvolvedor de Software",
-                        },
-                        {
-                            id: 4,
-                            nome: "Angelo",
-                            descricao: "Desenvolvedor de Software",
-                        },
-                        {
-                            id: 5,
-                            nome: "Mauricio",
-                            descricao: "Desenvolvedor de Software",
-                        },
-                        {
-                            id: 6,
-                            nome: "Marcelo",
-                            descricao: "Desenvolvedor de Software",
-                        },
-                    ],
-                    colunas: [
-                        {
-                            text: "ID",
-                            align: "start",
-                            sortable: false,
-                            value: "id",
-                        },
-                        {
-                            text: "Nome",
-                            align: "start",
-                            sortable: false,
-                            value: "nome",
-                        },
-                        {
-                            text: "Descrição",
-                            align: "start",
-                            sortable: false,
-                            value: "descricao",
-                        },
-                    ],
-                })
-            };
+                {
+                  id: 2,
+                  nome: "Sergio",
+                  descricao: "Desenvolvedor de Software",
+                },
+                {
+                  id: 3,
+                  nome: "Jackson",
+                  descricao: "Desenvolvedor de Software",
+                },
+                {
+                  id: 4,
+                  nome: "João",
+                  descricao: "Desenvolvedor de Software",
+                },
+                {
+                  id: 5,
+                  nome: "Mauricio",
+                  descricao: "Desenvolvedor de Software",
+                },
+                {
+                  id: 6,
+                  nome: "Marcelo",
+                  descricao: "Desenvolvedor de Software",
+                },
+              ],
+              colunas: [
+                {
+                  text: "ID",
+                  align: "start",
+                  sortable: false,
+                  value: "id",
+                },
+                {
+                  text: "Nome",
+                  align: "start",
+                  sortable: false,
+                  value: "nome",
+                },
+                {
+                  text: "Descrição",
+                  align: "start",
+                  sortable: false,
+                  value: "descricao",
+                },
+              ],
+            })
+          };
         <\/script>
       `,
       Prism.languages.html

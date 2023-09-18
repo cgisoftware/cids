@@ -3,13 +3,14 @@
 
     <v-card-text>
       <cgi-data-table
-        nome-tabela="Tabela com agrupamento"
-        nome-programa="teste1"
+        nome-tabela="Tabela com pesquisa"
         altura="200"
-        agrupar-por="descricao"
-        totalizar
+        informacoes-da-pesquisa="Pesquisar por x y z"
+        mostra-linha-selecionada
+        mostra-pesquisa
         :linhas="linhas"
         :colunas="colunas"
+        :pesquisa="pesquisa"
       ></cgi-data-table>
       <pre>
                 <code
@@ -25,36 +26,37 @@
 import Prism from "prismjs";
 export default {
   data: () => ({
+    pesquisa: null,
     linhas: [
       {
+        seq: 1,
         nome: "Vinicius",
         descricao: "Desenvolvedor de Software",
-        valor: 10,
       },
       {
+        seq: 2,
         nome: "Sergio",
         descricao: "Desenvolvedor de Software",
-        valor: 10,
       },
       {
+        seq: 3,
         nome: "Jackson",
         descricao: "Desenvolvedor de Software",
-        valor: 10,
       },
       {
+        seq: 4,
         nome: "João",
         descricao: "Desenvolvedor de Software",
-        valor: 10,
       },
       {
+        seq: 5,
         nome: "Mauricio",
         descricao: "Desenvolvedor de Software",
-        valor: 10,
       },
       {
+        seq: 6,
         nome: "Marcelo",
         descricao: "Desenvolvedor de Software",
-        valor: 10,
       },
     ],
     colunas: [
@@ -63,7 +65,6 @@ export default {
         align: "start",
         sortable: false,
         value: "nome",
-        totalizar: true,
       },
       {
         text: "Descrição",
@@ -71,61 +72,50 @@ export default {
         sortable: false,
         value: "descricao",
       },
-      {
-        text: "Valor",
-        align: "start",
-        sortable: false,
-        value: "valor",
-        somar: true,
-      },
     ],
     dataExample: Prism.highlight(
       `
         <template>
           <cgi-data-table
-            nome-tabela="Tabela com agrupamento"
-            nome-programa="teste1"
+            nome-tabela="Tabela com pesquisa"
             altura="200"
-            agrupar-por="descricao"
-            totalizar
+            informacoes-da-pesquisa="Pesquisar por x y z"
+            mostra-linha-selecionada
+            mostra-pesquisa
             :linhas="linhas"
             :colunas="colunas"
+            :pesquisa="pesquisa"
           ></cgi-data-table>
         <\/template>
 
         <script>
           export default {
             data: () => ({
+              pesquisa: null,
               linhas: [
                 {
                   nome: "Vinicius",
                   descricao: "Desenvolvedor de Software",
-                  valor: 10,
                 },
                 {
                   nome: "Sergio",
                   descricao: "Desenvolvedor de Software",
-                  valor: 10,
                 },
                 {
                   nome: "Jackson",
                   descricao: "Desenvolvedor de Software",
-                  valor: 10,
                 },
                 {
                   nome: "João",
                   descricao: "Desenvolvedor de Software",
-                  valor: 10,
                 },
                 {
                   nome: "Mauricio",
                   descricao: "Desenvolvedor de Software",
-                  valor: 10,
                 },
                 {
                   nome: "Marcelo",
                   descricao: "Desenvolvedor de Software",
-                  valor: 10,
                 },
               ],
               colunas: [
@@ -140,13 +130,6 @@ export default {
                   align: "start",
                   sortable: false,
                   value: "descricao",
-                },
-                {
-                  text: "Valor",
-                  align: "start",
-                  sortable: false,
-                  value: "valor",
-                  somar: true,
                 },
               ],
             })

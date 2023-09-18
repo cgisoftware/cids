@@ -7,16 +7,18 @@
     "build": "vue-cli-service build"
   },
   "dependencies": {
-    "axios": "^0.21.4",
+    "axios": "^1.4.0",
     "cids-cgi": "./cids",
-    "core-js": "^3.6.5",
+    "core-js": "^3.31.0",
     "ke-the-mask": "0.0.3",
-    "moment": "^2.29.1",
-    "prismjs": "^1.23.0",
+    "moment": "^2.29.4",
+    "prismjs": "^1.29.0",
+    "v-money": "^0.8.1",
     "vanilla-masker": "^1.2.0",
     "vue": "^2.6.11",
+    "vue-router": "^3.5.3",
     "vuedraggable": "^2.24.3",
-    "vuetify": "^2.5.0",
+    "vuetify": "^2.4.0",
     "xlsx": "^0.18.5"
   },
   "devDependencies": {

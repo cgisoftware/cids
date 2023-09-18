@@ -382,11 +382,14 @@ const dataAbl = toAblDate('2021-10-08', 'ano') // retorna = DATE(1, 1, 2021)
 // formata numeros para padrão brasileiro
 const stringNumber = formatNumber(1234.12) //retorna = "1.234,12"
 
+// agrupa dataset por 0 ou n chaves
+const datasetGrouped = groupBy(dataset, (item) => ['nome', 'cod_emp']) // retorna = dataset agrupado por nome e cod_emp respectivamente
+
 // exporta e faz download de um arquivo XLSX a partir de um dataset
 toExcel(dataset, 'placas') // retorna = download de arquivo chamado placas.xlsx
 
-// agrupa dataset por 0 ou n chaves
-const datasetGrouped = groupBy(dataset, (item) => ['nome', 'cod_emp']) // retorna = dataset agrupado por nome e cod_emp respectivamente
+// Adiciona reticências para limitar a quantidade de caracteres exibidos em tela onde tem campos onde pode ter texto grande na tabela
+cids.reticencias(item.campo, 45) // passa como parâmetro o campo e a quantidade de caracteres
 ```
 
 ### - Sem Props

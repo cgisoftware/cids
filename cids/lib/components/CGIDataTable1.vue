@@ -511,6 +511,13 @@ export default {
         this.$emit("paginando", this.propriedadesDaPaginacao);
       }
     },
+    executaPaginacaoDebounce() {
+      clearTimeout(this.debounceTimeout)
+
+      this.debounceTimeout = setTimeout(() => {
+        this.executaPaginacao()
+      }, 700)
+    },
     adicionaColunaNaTela(coluna) {
       this.colunasInvisiveis = this.colunasInvisiveis.filter(
         (colunaInvisivel) => colunaInvisivel.value != coluna.value
@@ -578,7 +585,7 @@ export default {
       this.executaPaginacao();
     },
     pesquisaInterna() {
-      this.executaPaginacao();
+      this.executaPaginacaoDebounce();
     },
     propriedades() {
       this.organizaColunas();

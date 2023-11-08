@@ -149,10 +149,9 @@ export default {
         typeof this.zoom === "object" &&
         typeof this.zoom.then === "function"
       ) {
-        const zoom = (await this.zoom)();
-        const regexPattern = /\/module\/(.*?)\/view\//;
-        const programa = zoom.__file.match(regexPattern);
-        return { zoom, programa };
+        const { component, screen } = (await this.zoom)();
+        const programa = screen.split("/")[1]
+        return { zoom: component, programa };
       }
 
       this.iframeUrl = null;

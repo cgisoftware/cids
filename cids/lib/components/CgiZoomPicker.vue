@@ -96,6 +96,7 @@ export default {
     loading: false,
     componenteZoom: null,
     iframeUrl: null,
+    programa: null,
   }),
   watch: {
     valor() {
@@ -135,36 +136,32 @@ export default {
     if (this.valor && this.aoDigitar) {
       this.descricao = await this.aoDigitar(this.valor);
     }
-    this.componenteZoom = await this.renderComponente();
+    const { zoom, programa } = await this.renderComponente();
+    this.componenteZoom = zoom;
+    this.programa = programa;
 
-    subscriber(this.zoom).exportZoom(this.setaValor);
-    subscriber(this.zoom).cancel(this.close);
+    subscriber(this.programa).exportZoom(this.setaValor);
+    subscriber(this.programa).cancel(this.close);
   },
   methods: {
     async renderComponente() {
-      try {
-        this.iframeUrl = null;
-
-        if (this.zoom === null) {
-          return null;
-        }
-
-        if (this.zoom.startsWith("/")) {
-          this.iframeUrl = this.zoom;
-          return null;
-        }
-
-        const [modulo, programa] = this.zoom.split("/");
-        const component = (
-          await import(`@/module/${modulo}/${programa}/view/${programa}.vue`)
-        ).default;
-        return component;
-      } catch {
-        const component = (await import(`@/components/${this.zoom}.vue`))
-          .default;
-
-        return component;
+      if (
+        typeof this.zoom === "object" &&
+        typeof this.zoom.then === "function"
+      ) {
+        const { component, screen } = (await this.zoom)();
+        const programa = screen.split("/")[1]
+        return { zoom: component, programa };
       }
+
+      this.iframeUrl = null;
+
+      if (this.zoom.startsWith("/")) {
+        this.iframeUrl = this.zoom;
+        return null;
+      }
+
+      return null;
     },
     async setaValor(valor) {
       if (!this.custom) {
@@ -201,10 +198,10 @@ export default {
       // }
     },
     onLoadIframe() {
-      publisher(this.zoom).send("dialogZoom", true);
+      publisher(this.programa).send("dialogZoom", true);
 
       if (this.custom) {
-        publisher(this.zoom).send("preencheFormulario", {
+        publisher(this.programa).send("preencheFormulario", {
           params: this.params,
           desabilitaCampos: this.desabilitaCampos,
         });
@@ -213,10 +210,10 @@ export default {
       }
 
       if (this.params !== undefined) {
-        publisher(this.zoom).send("queryZoom", this.params);
+        publisher(this.programa).send("queryZoom", this.params);
       }
 
-      publisher(this.zoom).send(
+      publisher(this.programa).send(
         "pesquisa",
         this.valor && this.valor !== 0 ? this.valor.toString() : null
       );
@@ -294,7 +291,7 @@ export default {
       require: true,
     },
     zoom: {
-      type: String,
+      required: true,
       default: () => null,
     },
     compacto: {

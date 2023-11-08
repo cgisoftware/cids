@@ -24,6 +24,9 @@ import CgiNegativeNumber from './controller/CgiNegativeNumber'
 import VueTheMask from 'ke-the-mask'
 import money from 'v-money'
 
+import Vuetify from 'vuetify'
+import 'vuetify/dist/vuetify.min.css'
+
 const opt = {
   theme: {
     dataTable: {
@@ -45,6 +48,8 @@ export default {
       reticencias: reticencias,
       defaults: options.defaults
     })
+
+    Vue.use(Vuetify)
 
     Vue.component('cgi-date-picker', CgiDatePicker)
     Vue.component('cgi-time-picker', CgiTimePicker)

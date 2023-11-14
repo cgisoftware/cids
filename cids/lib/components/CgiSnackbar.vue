@@ -1,28 +1,28 @@
 <template>
   <v-snackbar
-    :color="snackbar.color"
-    v-model="snackbar.snackbar"
-    :right="snackbar.position.right"
-    :center="snackbar.position.center"
-    :top="snackbar.position.top"
+    :color="controller.color"
+    v-model="controller.snackbar"
+    :right="controller.position.right"
+    :center="controller.position.center"
+    :top="controller.position.top"
     multi-line
-    :timeout="snackbar.timeout"
+    :timeout="controller.timeout"
   >
-    <div v-html="snackbar.message"></div>
+    <div v-html="controller.message"></div>
     <template v-slot:action="{ attrs }">
       <div style="padding-right: 10px;">
         <v-btn
-          v-show="snackbar.actions.accept"
+          v-show="controller.actions.accept"
           text
           v-bind="attrs"
-          @click="snackbar.accept()"
+          @click="controller.accept()"
         >
           Sim
         </v-btn>
         <v-btn
-          v-show="snackbar.actions.accept || snackbar.actions.show"
+          v-show="controller.actions.accept || controller.actions.show"
           v-bind="attrs"
-          @click="snackbar.decline()"
+          @click="controller.decline()"
           icon
         >
           <v-icon>mdi-close</v-icon>
@@ -34,5 +34,10 @@
 </template>
 
 <script>
-export default {};
+import Vue from 'vue';
+export default {
+  data: () => ({
+    controller: Vue.prototype.snackbar
+  })
+};
 </script>

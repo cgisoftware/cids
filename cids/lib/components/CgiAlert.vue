@@ -1,29 +1,29 @@
 <template>
   <div>
     <v-dialog
-      v-model="alert.dialog"
+      v-model="controller.dialog"
       persistent
       max-width="500"
     >
       <v-card
-        :color="alert.color"
+        :color="controller.color"
         class="white--text"
       >
         <v-card-title> Aviso! </v-card-title>
         <v-card-text class="white--text">
-          <div v-html="alert.message"></div>
+          <div v-html="controller.message"></div>
         </v-card-text>
-        <v-card-actions v-if="alert.actions.accept">
+        <v-card-actions v-if="controller.actions.accept">
           <v-btn
             class="white--text"
             text
-            @click="alert.decline()"
+            @click="controller.decline()"
           > Não </v-btn>
           <v-spacer></v-spacer>
           <v-btn
             class="white--text"
             text
-            @click="alert.accept()"
+            @click="controller.accept()"
           > Sim </v-btn>
         </v-card-actions>
         <v-card-actions v-else>
@@ -31,7 +31,7 @@
           <v-btn
             class="white--text"
             text
-            @click="alert.decline()"
+            @click="controller.decline()"
           > OK </v-btn>
         </v-card-actions>
       </v-card>
@@ -40,5 +40,10 @@
 </template>
 
 <script>
-export default {};
+import Vue from 'vue';
+export default {
+  data: () => ({
+    controller: Vue.prototype.alert
+  })
+};
 </script>

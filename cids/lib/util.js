@@ -9,12 +9,15 @@ import { groupBy } from './controller/handler/GroupBy'
 import { ablFilter } from './controller/handler/AblRead'
 import Vue from 'vue'
 
-const snackbar = new CgiSnackbarController()
-const alert = new CgiAlertController()
+const snackbarController = new CgiSnackbarController()
+const alertController = new CgiAlertController()
 
 Vue.prototype.formataMoeda = formatNumber
-Vue.prototype.snackbar = Vue.observable(snackbar)
-Vue.prototype.alert = Vue.observable(alert)
+Vue.prototype.snackbar = Vue.observable(snackbarController)
+Vue.prototype.alert = Vue.observable(alertController)
+
+const alert = Vue.prototype.alert
+const snackbar = Vue.prototype.snackbar
 
 
 const publisher = window.parent.publisher ?? window.parent.parent.publisher

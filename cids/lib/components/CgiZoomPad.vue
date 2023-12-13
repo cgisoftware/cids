@@ -59,7 +59,7 @@
 
 <script>
 import axios from "axios";
-import { alert, snackbar } from "../util";
+import { useAlert, useSnackbar } from "../util";
 
 export default {
   data: (vm) => ({
@@ -116,7 +116,7 @@ export default {
         this.descricao =
           response?.data?.dSet?.ttZoomPadSeq?.[0].descricao ?? "";
       } catch (error) {
-        alert.show({ message: error.toString() });
+        useAlert().show({ message: error.toString() });
       } finally {
         this.loading = false;
       }
@@ -140,7 +140,7 @@ export default {
         });
         this.linhas = response?.data?.dSet?.ttZoomPadSeq ?? [];
       } catch (error) {
-        snackbar.show({ message: error.toString() });
+        useSnackbar().show({ message: error.toString() });
       } finally {
         this.loading = false;
       }

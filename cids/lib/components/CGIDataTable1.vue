@@ -1,5 +1,6 @@
 <template>
   <v-data-table-virtual
+    hover
     :headers="colunasVisiveis"
     :items="linhas"
     :options.sync="propriedadesDaPaginacao"
@@ -18,7 +19,6 @@
     :item-key="chaveTabela"
     :sort-by="propriedadesDaPaginacao.sortBy"
     :sort-desc="propriedadesDaPaginacao.sortDesc"
-
     v-model="itensSelecionados"
     :footer-props="{
       itemsPerPageOptions: [30, 60, 100],

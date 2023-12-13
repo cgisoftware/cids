@@ -8,7 +8,7 @@
           :label="nome"
           :dense="compacto"
           :rules="regras"
-          v-model="valor"
+          v-model:model-value="valor"
           :disabled="desabilitado"
           @click:prepend-inner="chamaZoom"
           @click:append-inner="clear"
@@ -44,7 +44,7 @@
       overlay-opacity="0"
       :model-value="true"
       class="pa-0"
-      height="80vh"
+      height="608px"
       :width="largura"
     >
       <component
@@ -65,8 +65,7 @@
           width="100%"
           height="100%"
           style="border: white;"
-          v-on:load="onLoadIframe"
-        ></iframe>
+          ></iframe>
       </v-card>
       <v-card
         v-if="!componenteZoom && !iframeUrl"
@@ -86,6 +85,7 @@
 
 <script>
 import { publisher, subscriber } from "../util";
+
 export default {
   data: (vm) => ({
     valor: vm.value,
@@ -102,7 +102,7 @@ export default {
       if (this.formataValor) {
         this.debounceSearch();
       } else {
-        this.$emit("input", this.valor);
+        this.$emit("update:modelValue", this.valor);
       }
     },
     value() {
@@ -120,23 +120,13 @@ export default {
   created() {
     this.debounceSearch = this.debounce(this.updateSearch, 500);
   },
-  // mounted() {
-  //   this.valor = this.value
-  //     ? this.value
-  //     : this.posicao === "inicial"
-  //     ? this.tipo === "number"
-  //       ? 0
-  //       : ""
-  //     : this.tipo === "number"
-  //     ? 999999999
-  //     : "";
-  // },
   async mounted() {
     if (this.valor && this.aoDigitar) {
       this.descricao = await this.aoDigitar(this.valor);
     }
     this.componenteZoom = await this.renderComponente();
 
+    subscriber(this.zoom).listen('getParams', this.loadParams)
     subscriber(this.zoom).exportZoom(this.setaValor);
     subscriber(this.zoom).cancel(this.close);
   },
@@ -187,14 +177,8 @@ export default {
         this.chamaZoomComponente();
         return;
       }
-
-      // if (!this.componenteZoom && this.iframeUrl) {
-      //   this.chamaZoomURL();
-      //   return;
-      // }
     },
-    onLoadIframe() {
-      console.log("aaa");
+    loadParams() {
       publisher(this.zoom).send("dialogZoom", true);
 
       if (this.custom) {
@@ -214,8 +198,6 @@ export default {
         "pesquisa",
         this.valor && this.valor !== 0 ? this.valor.toString() : null
       );
-
-      // subscriber(this.zoom).exportZoom((data) => )
     },
     async chamaZoomComponente() {
       this.$refs.component.controller.dialogZoom = true;
@@ -259,12 +241,6 @@ export default {
       this.$emit("confirmar-zoom");
     },
     clear() {
-      // if (this.posicao === "inicial") {
-      //   this.valor = this.tipo == "number" ? 0 : "";
-      // } else {
-      //   this.valor = this.tipo == "number" ? 999999999 : "";
-      // }
-
       this.valor = null;
       this.descricao = null;
     },
@@ -272,7 +248,7 @@ export default {
       if (this.valor && this.aoDigitar) {
         this.descricao = await this.aoDigitar(this.valor);
       }
-      this.$emit("input", this.valor);
+      this.$emit("update:modelValue", this.valor);
     },
     debounce(func, wait) {
       let timer = null;

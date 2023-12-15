@@ -140,6 +140,9 @@ export default {
     this.componenteZoom = zoom;
     this.programa = programa;
 
+    if (!subscriber) {
+      return;
+    }
     subscriber(this.programa).exportZoom(this.setaValor);
     subscriber(this.programa).cancel(this.close);
   },
@@ -150,7 +153,7 @@ export default {
         typeof this.zoom.then === "function"
       ) {
         const { component, screen } = (await this.zoom)();
-        const programa = screen.split("/")[1]
+        const programa = screen.split("/")[1];
         return { zoom: component, programa };
       }
 
@@ -198,6 +201,9 @@ export default {
       // }
     },
     onLoadIframe() {
+      if (!publisher) {
+        return;
+      }
       publisher(this.programa).send("dialogZoom", true);
 
       if (this.custom) {
@@ -217,8 +223,6 @@ export default {
         "pesquisa",
         this.valor && this.valor !== 0 ? this.valor.toString() : null
       );
-
-      // subscriber(this.zoom).exportZoom((data) => )
     },
     async chamaZoomComponente() {
       this.$refs.component.controller.dialogZoom = true;

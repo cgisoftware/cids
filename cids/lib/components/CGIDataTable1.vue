@@ -246,7 +246,6 @@
 
       <div v-if="$vuetify.breakpoint.smAndDown" class="px-5">
         <v-text-field
-          style="max-width: 300px"
           class="mt-8"
           filled
           single-line

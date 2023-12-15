@@ -546,7 +546,6 @@ export default {
       this.menuDePropriedadesDaColuna = false;
     },
     habilitaLinhaSelecionada(item) {
-      debugger
       if (this.mostraLinhaSelecionada && this.linhaSelecionada) {
         if (this.linhaSelecionada[this.chaveTabela] == item[this.chaveTabela]) {
           return this.cids?.theme?.dataTable?.lineColor ?? "blue lighten-5";

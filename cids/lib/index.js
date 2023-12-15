@@ -1,6 +1,6 @@
 // import CgiDatePicker from './components/CgiDatePicker.vue'
 // import CgiTimePicker from './components/CgiTimePicker.vue'
-import CgiDataTable1 from './components/CGIDataTable1.vue'
+import CgiDataTable from './components/CGIDataTable.vue'
 import CgiSnackbar from './components/CgiSnackbar.vue'
 import CgiAlert from './components/CgiAlert.vue'
 import CgiZoomPicker from './components/CgiZoomPicker.vue'
@@ -33,7 +33,7 @@ export default {
     app.component('cgi-divider', CgiDivider)
     // app.component('cgi-date-picker', CgiDatePicker)
     // app.component('cgi-time-picker', CgiTimePicker)
-    app.component('cgi-data-table', CgiDataTable1)
+    app.component('cgi-data-table', CgiDataTable)
     // app.component('cgi-data-table1', CgiDataTable1)
     app.component('cgi-zoom-picker', CgiZoomPicker)
     app.component('cgi-zoom-pad', CgiZoomPad)

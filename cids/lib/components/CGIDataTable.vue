@@ -1,5 +1,6 @@
 <template>
   <v-data-table-virtual
+    hover
     :headers="colunasVisiveis"
     :items="linhas"
     :options.sync="propriedadesDaPaginacao"
@@ -18,7 +19,6 @@
     :item-key="chaveTabela"
     :sort-by="propriedadesDaPaginacao.sortBy"
     :sort-desc="propriedadesDaPaginacao.sortDesc"
-
     v-model="itensSelecionados"
     :footer-props="{
       itemsPerPageOptions: [30, 60, 100],
@@ -546,7 +546,6 @@ export default {
       this.menuDePropriedadesDaColuna = false;
     },
     habilitaLinhaSelecionada(item) {
-      debugger
       if (this.mostraLinhaSelecionada && this.linhaSelecionada) {
         if (this.linhaSelecionada[this.chaveTabela] == item[this.chaveTabela]) {
           return this.cids?.theme?.dataTable?.lineColor ?? "blue lighten-5";

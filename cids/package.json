@@ -4,16 +4,8 @@
   "description": "CGI Design System for Vue",
   "main": "index.js",
   "private": false,
-  "scripts": {
-    "build": "vue-cli-service build --target lib --name cids lib/index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
   "author": "Vinicius Boscardin",
   "license": "ISC",
-  "devDependencies": {
-    "@mdi/font": "^7.1.96",
-    "@vue/cli-service": "~5.0.0"
-  },
   "dependencies": {
     "vanilla-masker": "^1.2.0",
     "xlsx": "^0.18.5"

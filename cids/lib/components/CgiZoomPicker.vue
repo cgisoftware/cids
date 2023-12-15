@@ -57,15 +57,13 @@
         :registro="valor"
         @exporta-zoom="setaValor"
       ></component>
-      <v-card
-        v-show="!componenteZoom && iframeUrl"
-      >
+      <v-card v-show="!componenteZoom && iframeUrl">
         <iframe
           :src="iframeUrl"
           width="100%"
           height="100%"
           style="border: white;"
-          ></iframe>
+        ></iframe>
       </v-card>
       <v-card
         v-if="!componenteZoom && !iframeUrl"
@@ -83,238 +81,259 @@
   </div>
 </template>
 
-<script>
+<script setup>
+import { computed, nextTick, onMounted, ref, useSlots, watch } from "vue";
 import { publisher, subscriber } from "../util";
 
-export default {
-  data: (vm) => ({
-    valor: vm.value,
-    dialog: false,
-    descricao: null,
-    item: {},
-    debounceSearch: null,
-    loading: false,
-    componenteZoom: null,
-    iframeUrl: null,
-  }),
-  watch: {
-    valor() {
-      if (this.formataValor) {
-        this.debounceSearch();
-      } else {
-        this.$emit("update:modelValue", this.valor);
-      }
-    },
-    value() {
-      if (this.value === 0 || this.value === null || this.value === "") {
-        this.descricao = null;
-      }
-      this.valor = this.value;
-    },
+const emits = defineEmits([
+  "update:modelValue",
+  "change",
+  "perde-foco",
+  "cancelar-zoom",
+  "confirmar-zoom",
+]);
+
+const props = defineProps({
+  chave: {
+    type: String,
+    require: true,
   },
-  computed: {
-    custom() {
-      return !!this.$slots["customcomp"];
-    },
+  zoom: {
+    type: String,
+    default: () => null,
   },
-  created() {
-    this.debounceSearch = this.debounce(this.updateSearch, 500);
+  compacto: {
+    type: Boolean,
+    default: false,
   },
-  async mounted() {
-    if (this.valor && this.aoDigitar) {
-      this.descricao = await this.aoDigitar(this.valor);
+  nome: {
+    type: String,
+    required: true,
+  },
+  regras: {
+    type: Array,
+    default: () => [],
+  },
+  modelValue: {},
+  desabilitado: {
+    type: Boolean,
+    default: false,
+  },
+  posicao: {
+    type: String,
+    required: false,
+  },
+  largura: {
+    type: String,
+    default: () => "70%",
+  },
+  params: {
+    require: false,
+  },
+  "desabilita-campos": {
+    type: Boolean,
+    default: () => false,
+  },
+  "formata-valor": {
+    type: Boolean,
+    default: () => false,
+  },
+  "campo-valor-formatado": {
+    type: String,
+    default: () => "nome",
+  },
+  "ao-digitar": {
+    type: Function,
+  },
+  tipo: {
+    type: String,
+    default: () => "number",
+  },
+});
+
+const slots = useSlots();
+const custom = computed(() => {
+  return !!slots["customcomp"];
+});
+
+const component = ref(null);
+const textfield = ref(null);
+const valor = ref(props.modelValue);
+const dialog = ref(false);
+const descricao = ref(null);
+const loading = ref(false);
+const componenteZoom = ref(null);
+const iframeUrl = ref(null);
+
+watch(valor, () => {
+  if (props.formataValor) {
+    debounceSearch();
+  } else {
+    emits("update:modelValue", valor.value);
+  }
+});
+
+watch(
+  () => props.modelValue,
+  () => {
+    if (
+      props.modelValue === 0 ||
+      props.modelValue === null ||
+      props.modelValue === ""
+    ) {
+      descricao.value = null;
     }
-    this.componenteZoom = await this.renderComponente();
+    valor.value = props.modelValue;
+  }
+);
 
-    subscriber(this.zoom).listen('getParams', this.loadParams)
-    subscriber(this.zoom).exportZoom(this.setaValor);
-    subscriber(this.zoom).cancel(this.close);
-  },
-  methods: {
-    async renderComponente() {
-      this.iframeUrl = null;
+const debounce = (func, wait) => {
+  let timer = null;
+  return function () {
+    clearTimeout(timer);
+    timer = setTimeout(func, wait);
+  };
+};
 
-      if (this.zoom === null) {
-        return null;
-      }
+const updateSearch = async () => {
+  if (valor.value && props.aoDigitar) {
+    descricao.value = await props.aoDigitar(valor.value);
+  }
+  emits("update:modelValue", valor.value);
+};
 
-      if (this.zoom.startsWith("/")) {
-        this.iframeUrl = this.zoom;
-        return null;
-      }
+const debounceSearch = debounce(updateSearch, 500);
 
-      const [modulo, programa] = this.zoom.split("/");
-      const component = (
-        await import(`@/module/${modulo}/${programa}/view/${programa}.vue`)
-      ).default;
-      return component;
-    },
-    async setaValor(valor) {
-      if (!this.custom) {
-        this.valor = valor[this.chave];
+onMounted(async () => {
+  if (valor.value && props.aoDigitar) {
+    descricao.value = await props.aoDigitar(valor);
+  }
+  componenteZoom.value = await renderComponente();
 
-        if (this.formataValor) {
-          this.descricao = valor[this.campoValorFormatado];
-        }
+  debugger
+  if (!subscriber) {
+    return;
+  }
 
-        this.item = valor;
-        this.dialog = false;
+  subscriber(props.zoom).listen("getParams", loadParams);
+  subscriber(props.zoom).exportZoom(setaValor);
+  subscriber(props.zoom).cancel(close);
+});
 
-        if (this.valor && this.aoDigitar) {
-          this.descricao = await this.aoDigitar(this.valor);
-        }
+const renderComponente = async () => {
+  iframeUrl.value = null;
 
-        setTimeout(() => {
-          this.$refs.textfield?.focus();
-        }, 100);
-        this.$emit("change", this.item);
-      }
-    },
-    async chamaZoom() {
-      this.dialog = true;
-      await new Promise((resolver) => setTimeout(resolver, 100));
-      if (this.componenteZoom && !this.iframeUrl) {
-        this.chamaZoomComponente();
-        return;
-      }
-    },
-    loadParams() {
-      publisher(this.zoom).send("dialogZoom", true);
+  if (props.zoom === null) {
+    return null;
+  }
 
-      if (this.custom) {
-        publisher(this.zoom).send("preencheFormulario", {
-          params: this.params,
-          desabilitaCampos: this.desabilitaCampos,
-        });
+  if (props.zoom.startsWith("/")) {
+    iframeUrl.value = props.zoom;
+    return null;
+  }
 
-        return;
-      }
+  const [modulo, programa] = props.zoom.split("/");
+  const component = (
+    await import(`@/module/${modulo}/${programa}/view/${programa}.vue`)
+  ).default;
+  return component;
+};
+const setaValor = async (item) => {
+  if (!custom.value) {
+    valor.value = item[props.chave];
 
-      if (this.params !== undefined) {
-        publisher(this.zoom).send("queryZoom", this.params);
-      }
+    if (props.formataValor) {
+      descricao.value = item[props.campoValorFormatado];
+    }
+    dialog.value = false;
 
-      publisher(this.zoom).send(
-        "pesquisa",
-        this.valor && this.valor !== 0 ? this.valor.toString() : null
-      );
-    },
-    async chamaZoomComponente() {
-      this.$refs.component.controller.dialogZoom = true;
-      if (this.custom) {
-        this.$refs.component.controller.preencheFormulario(
-          this.params,
-          this.desabilitaCampos
-        );
-        return;
-      }
+    if (valor.value && props.aoDigitar) {
+      descricao.value = await props.aoDigitar(valor.value);
+    }
 
-      if (this.$refs.component.controller.pesquisa !== undefined) {
-        this.$refs.component.controller.pesquisa = null;
-        await new Promise((resolver) => setTimeout(resolver, 100));
-        this.$refs.component.controller.pesquisa =
-          this.valor && this.valor !== 0 ? this.valor.toString() : null;
-      }
+    setFocus();
+    emits("change", item);
+  }
+};
+const chamaZoom = async () => {
+  dialog.value = true;
+  await new Promise((resolver) => setTimeout(resolver, 100));
+  if (componenteZoom.value && !iframeUrl.value) {
+    chamaZoomComponente();
+    return;
+  }
+};
+const loadParams = () => {
+  if (!publisher) {
+    return;
+  }
 
-      if (
-        this.params !== undefined &&
-        this.$refs.component.controller.queryZoom !== undefined
-      ) {
-        this.$refs.component.controller.queryZoom(this.params);
-      }
-    },
-    blur() {
-      this.$emit("perde-foco", this.valor);
-    },
-    close() {
-      this.dialog = false;
-      setTimeout(() => {
-        this.$refs.textfield?.focus();
-      }, 100);
-      this.$emit("cancelar-zoom");
-    },
-    confirma() {
-      this.dialog = false;
-      setTimeout(() => {
-        this.$refs.textfield?.focus();
-      }, 100);
-      this.$emit("confirmar-zoom");
-    },
-    clear() {
-      this.valor = null;
-      this.descricao = null;
-    },
-    async updateSearch() {
-      if (this.valor && this.aoDigitar) {
-        this.descricao = await this.aoDigitar(this.valor);
-      }
-      this.$emit("update:modelValue", this.valor);
-    },
-    debounce(func, wait) {
-      let timer = null;
-      return function () {
-        clearTimeout(timer);
-        timer = setTimeout(func, wait);
-      };
-    },
-  },
-  props: {
-    chave: {
-      type: String,
-      require: true,
-    },
-    zoom: {
-      type: String,
-      default: () => null,
-    },
-    compacto: {
-      type: Boolean,
-      default: false,
-    },
-    nome: {
-      type: String,
-      required: true,
-    },
-    regras: {
-      type: Array,
-      default: () => [],
-    },
-    value: {},
-    desabilitado: {
-      type: Boolean,
-      default: false,
-    },
-    posicao: {
-      type: String,
-      required: false,
-    },
-    largura: {
-      type: String,
-      default: () => "70%",
-    },
-    params: {
-      require: false,
-    },
-    "desabilita-campos": {
-      type: Boolean,
-      default: () => false,
-    },
-    "formata-valor": {
-      type: Boolean,
-      default: () => false,
-    },
-    "campo-valor-formatado": {
-      type: String,
-      default: () => "nome",
-    },
-    "ao-digitar": {
-      type: Function,
-    },
-    tipo: {
-      type: String,
-      default: () => "number",
-    },
-  },
+  publisher(props.zoom).send("dialogZoom", true);
+
+  if (custom.value) {
+    publisher(props.zoom).send("preencheFormulario", {
+      params: props.params,
+      desabilitaCampos: props.desabilitaCampos,
+    });
+
+    return;
+  }
+
+  if (props.params !== undefined) {
+    publisher(props.zoom).send("queryZoom", props.params);
+  }
+
+  publisher(props.zoom).send(
+    "pesquisa",
+    valor.value && valor.value !== 0 ? valor.value.toString() : null
+  );
+};
+const chamaZoomComponente = async () => {
+  component.value.controller.dialogZoom = true;
+  if (custom.value) {
+    component.value.controller.preencheFormulario(
+      props.params,
+      props.desabilitaCampos
+    );
+    return;
+  }
+
+  if (component.value.controller.pesquisa !== undefined) {
+    component.value.controller.pesquisa = null;
+    await new Promise((resolver) => setTimeout(resolver, 100));
+    component.value.controller.pesquisa =
+      valor.value && valor.value !== 0 ? valor.value.toString() : null;
+  }
+
+  if (
+    props.params !== undefined &&
+    component.value.controller.queryZoom !== undefined
+  ) {
+    component.value.controller.queryZoom(props.params);
+  }
+};
+const blur = () => {
+  emits("perde-foco", valor.value);
+};
+const close = () => {
+  dialog.value = false;
+  setFocus();
+  emits("cancelar-zoom");
+};
+const confirma = () => {
+  dialog.value = false;
+  setFocus();
+  emits("confirmar-zoom");
+};
+const clear = () => {
+  valor.value = null;
+  descricao.value = null;
+};
+
+const setFocus = () => {
+  nextTick(() => {
+    textfield.value.focus();
+  });
 };
 </script>
 

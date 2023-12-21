@@ -1,0 +1,423 @@
+<template>
+  <v-data-table-server
+    :headers="colunasVisiveis"
+    :items-length="totalItens"
+    :items="props.linhas"
+    :loading="carregar"
+    :height="altura"
+    :fixed-header="colunasFixas"
+    :search="pesquisa"
+    :group-by="paginacao.groupBy"
+    :sort-by="paginacao.sortBy"
+    :items-per-page-options="[
+    { value: 30, title: '30' },
+      { value: 60, title: '60' },
+      { value: 100, title: '100' },
+    ]"
+    :show-select="showSelect"
+    density="compact"
+    multi-sort
+    hover
+    @update:options="updateOptions"
+    @click:row="rowClick"
+    v-model:items-per-page="itensPorPagina"
+    v-model="selected"
+  >
+
+    <template v-slot:top>
+      <CGIDataTableHeader
+        :mostra-pesquisa="mostraPesquisa"
+        :mostra-toolbar="mostraToolbar"
+        :nome-programa="nomePrograma"
+        :nome-tabela="nomeTabela"
+        :habilita-agrupamento="habilitaAgrupamento"
+        v-model:colunas-visiveis="colunasVisiveis"
+        v-model:colunas-invisiveis="colunasInvisiveis"
+        v-model:pesquisa="pesquisa"
+        @salvar-propriedades="salvarPropriedades"
+        @update:agrupamento="atualizaAgrupamento"
+        :mostra-propriedades="mostraPropriedades"
+      >
+        <template v-slot:pesquisa>
+          <slot name="pesquisa"></slot>
+        </template>
+
+        <template v-slot:botoes>
+          <slot name="botoes"></slot>
+        </template>
+      </CGIDataTableHeader>
+    </template>
+
+    <template v-slot:[`item.acoes`]="{ item }">
+      <v-menu v-if="cidsState?.defaults?.dataTable?.acoes === 'left dot'">
+        <template v-slot:activator="{ props }">
+          <v-btn
+            v-bind="props"
+            icon="mdi-dots-vertical"
+            variant="text"
+            :color="$vuetify.theme.dark ? 'orange' : 'primary'"
+          >
+
+          </v-btn>
+        </template>
+
+        <v-card>
+          <v-card-text>
+            <div class="font-weight-bold mb-5">Ações principais do registro</div>
+
+            <div class="d-flex justify-space-between align-center">
+              <div
+                v-for="(opcao, index) in opcoesDeAcao"
+                :key="index"
+                v-show="opcao.mostrar"
+              >
+                <v-tooltip location="bottom">
+                  <template v-slot:activator="{ props }">
+                    <v-btn
+                      x-small
+                      :icon="opcao.icone"
+                      :color="opcao.cor"
+                      v-bind="props"
+                      variant="text"
+                      @click="opcao.acao(item)"
+                    >
+                    </v-btn>
+                  </template>
+                  <span>{{ opcao.descricao }}</span>
+                </v-tooltip>
+              </div>
+            </div>
+          </v-card-text>
+        </v-card>
+      </v-menu>
+
+      <div
+        style="min-width: 150px"
+        v-if="cidsState?.defaults?.dataTable?.acoes === 'right' || cidsState?.defaults?.dataTable?.acoes === 'left'"
+      >
+        <v-tooltip
+          location="top"
+          v-for="(opcao, index) in opcoesDeAcao"
+          :key="index"
+        >
+          <template v-slot:activator="{ props }">
+            <v-btn
+              v-show="opcao.mostrar"
+              :icon="opcao.icone"
+              :color="opcao.cor"
+              v-bind="props"
+              variant="text"
+              @click="opcao.acao(item)"
+            >
+            </v-btn>
+          </template>
+          <span>{{ opcao.descricao }}</span>
+        </v-tooltip>
+      </div>
+    </template>
+
+    <template
+      v-for="(header, index) in customHeaders"
+      v-slot:[`item.${header.key}`]="{ item }"
+    >
+      <div
+        :key="index"
+        v-if="header.formater"
+      >
+        {{ header.formater(item[header.key]) }}
+      </div>
+      <slot
+        v-else
+        :name="header.key"
+        v-bind:item="item"
+      > </slot>
+    </template>
+
+    <template v-slot:expanded-row="{ columns, item }">
+      <slot
+        name="expanded-row"
+        v-bind:item="item"
+        v-bind:columns="columns"
+      > </slot>
+    </template>
+
+    <template v-slot:group-header="{ isGroupOpen, toggleGroup, item, columns }">
+      <th colspan="90">
+        <v-icon @click="toggleGroup">{{ isGroupOpen ? "mdi-minus" : "mdi-plus" }}
+        </v-icon>
+        {{
+          columns[0][0].toUpperCase() +
+          columns[0].split("_").join(" ").slice(1)
+        }}: {{ item.value }}
+      </th>
+    </template>
+  </v-data-table-server>
+</template>
+
+<script setup>
+import CGIDataTableHeader from "./CGIDataTableHeader.vue";
+import { computed, onMounted } from "vue";
+import { ref, watch } from "vue";
+import { useCids } from "../composable/CGICids";
+const props = defineProps({
+  copiar: { type: Boolean, default: () => false },
+  alterar: { type: Boolean, default: () => false },
+  deletar: { type: Boolean, default: () => false },
+  zoomDialog: { type: Boolean, default: () => false },
+  mostraAcoes: { type: Boolean, default: () => false },
+  mostraDetalhes: { type: Boolean, default: () => false },
+  mostraToolbar: { type: Boolean, default: () => true },
+  mostraPesquisa: { type: Boolean, default: () => false },
+  nomeTabela: { type: String, default: () => null },
+  nomePrograma: { type: String, default: () => null },
+  informacoesDaPesquisa: { type: String, default: () => null },
+  altura: { type: String, default: () => "100vh" },
+  colunasFixas: { type: Boolean, default: () => true },
+  itensPorPagina: { type: Number, default: () => 30 },
+  totalItens: { type: Number, default: () => 100 },
+  carregar: { type: Boolean, default: () => false },
+  multipleSort: { type: Boolean, default: () => false },
+  showActions: { type: Boolean, default: () => false },
+  colunas: { type: Array, default: () => [] },
+  linhas: { type: Array, default: () => [] },
+  showSelect: { type: Boolean, default: () => false },
+  showQr: { type: Boolean, default: () => false },
+  showDetails: { type: Boolean, default: () => false },
+  showDelete: { type: Boolean, default: () => true },
+  showUpdate: { type: Boolean, default: () => true },
+  showClipboard: { type: Boolean, default: () => false },
+  showPrinter: { type: Boolean, default: () => false },
+  propriedades: { type: Array, default: () => [] },
+  habilitaAgrupamento: { type: Boolean, default: () => false },
+  mostraPropriedades: { type: Boolean, default: () => false },
+});
+
+const emit = defineEmits([
+  "paginando",
+  "salvar-propriedades",
+  "ver-detalhes",
+  "copiar-item",
+  "alterar-item",
+  "deletar-item",
+  "exporta-zoom",
+]);
+
+const { cidsState } = useCids();
+
+const pesquisa = ref(null);
+const colunasVisiveis = ref([]);
+const colunasInvisiveis = ref([]);
+const paginacao = ref({});
+const opcoesDeAcao = ref([
+  {
+    nome: "Visualizar",
+    icone: "mdi-eye",
+    cor: "green",
+    descricao: "Visualizar registro",
+    acao: (item) => {
+      emit("ver-detalhes", item);
+    },
+    mostrar: props.mostraDetalhes,
+  },
+  {
+    nome: "Copiar",
+    icone: "mdi-content-copy",
+    cor: "green",
+    descricao: "Copiar registro",
+    acao: (item) => {
+      emit("copiar-item", item);
+    },
+    mostrar: props.copiar,
+  },
+  {
+    nome: "Alterar",
+    icone: "mdi-pencil",
+    cor: "blue",
+    descricao: "Alterar registro",
+    acao: (item) => {
+      emit("alterar-item", item);
+    },
+    mostrar: props.alterar,
+  },
+  {
+    nome: "Excluir",
+    icone: "mdi-delete",
+    cor: "red",
+    descricao: "Excluir registro",
+    acao: (item) => {
+      emit("deletar-item", item);
+    },
+    mostrar: props.deletar,
+  },
+  {
+    nome: "Exportar registro",
+    icone: "mdi-arrow-down",
+    cor: "orange",
+    descricao: "Exportar registro",
+    acao: (item) => {
+      emit("exporta-zoom", item);
+    },
+    mostrar: props.zoomDialog,
+  },
+]);
+
+const updateOptions = (options) => {
+  const pagination = { ...options };
+  pagination.sortBy = options.sortBy.map((value) => value.key);
+  pagination["sortDesc"] = options.sortBy.map(
+    (value) => value.order === "desc"
+  );
+  paginacao.value = pagination;
+  emit("paginando", pagination);
+};
+
+const atualizaAgrupamento = (agrupamento) => {
+  paginacao.value.groupBy = [];
+  if (agrupamento) {
+    paginacao.value.groupBy.push({ key: agrupamento });
+  }
+};
+
+const editItem = (item) => {
+  emit("on:edit", item);
+};
+
+const showQrCode = (item) => {
+  emit("on:qr", item);
+};
+
+const getDetails = (item) => {
+  emit("on:details", item);
+};
+
+const getClipboard = (item) => {
+  emit("on:clipboard", item);
+};
+
+const deleteItem = (item) => {
+  emit("on:delete", item);
+};
+
+const printer = (item) => {
+  emit("on:printer", item);
+};
+
+const rowClick = (item, row) => {
+  // console.log(row);
+};
+
+const salvarPropriedades = (value) => {
+  value["paginacao"] = paginacao.value;
+  emit("salvar-propriedades", value);
+};
+
+const organizaColunas = () => {
+  colunasVisiveis.value = [];
+  colunasInvisiveis.value = [];
+  const colunasAux = [...colunas.value];
+  const propriedadesAux = structuredClone(props.propriedades);
+
+  propriedadesAux.forEach((propriedade) => {
+    const coluna = colunasAux.filter(
+      (coluna) => coluna.key === propriedade.key
+    );
+    if (coluna.length > 0) Object.assign(propriedade, coluna[0]);
+  });
+
+  colunasVisiveis.value =
+    propriedadesAux.length > 0 ? propriedadesAux : colunasAux;
+
+  if (propriedadesAux.length) {
+    colunasInvisiveis.value = colunasAux.filter(
+      (coluna) =>
+        !propriedadesAux.some((propriedade) => propriedade.key === coluna.key)
+    );
+  }
+
+  if (props.mostraAcoes) {
+    if (cidsState?.defaults?.dataTable?.acoes === "right") {
+      colunasVisiveis.value.push({
+        title: "Ações",
+        align: "end",
+        sortable: false,
+        hidden: false,
+        key: "acoes",
+        width: "150",
+      });
+      return;
+    }
+
+    if (cidsState?.defaults?.dataTable?.acoes === "left dot") {
+      colunasVisiveis.value.unshift({
+        title: "Ações",
+        align: "center",
+        sortable: false,
+        hidden: false,
+        key: "acoes",
+        width: "15",
+      });
+    }
+
+    if (cidsState?.defaults?.dataTable?.acoes === "left") {
+      colunasVisiveis.unshift({
+        title: "Ações",
+        align: "start",
+        sortable: false,
+        hidden: false,
+        key: "acoes",
+        width: "150",
+      });
+    }
+  }
+
+  colunasVisiveis.value = colunasVisiveis.value.map((coluna) => {
+    return {
+      ...coluna,
+      title: coluna.text ?? coluna.title,
+      key: coluna.value ?? coluna.key,
+    };
+  });
+
+  colunasInvisiveis.value = colunasInvisiveis.value.map((coluna) => {
+    return {
+      ...coluna,
+      title: coluna.text ?? coluna.title,
+      key: coluna.value ?? coluna.key,
+    };
+  });
+};
+
+const customHeaders = computed(() => {
+  return colunas.value.filter((header) => header.custom);
+});
+
+const selected = ref([]);
+const totalItens = ref(props.totalItens);
+const itensPorPagina = ref(props.itensPorPagina);
+const colunas = ref(props.colunas);
+
+if (
+  props.showActions &&
+  !colunas.value.some((value) => value.key === "actions")
+) {
+  colunas.value.push({
+    title: "Ações",
+    key: "actions",
+    align: "end",
+    sortable: false,
+  });
+}
+
+watch(
+  () => props.totalItens,
+  (newValue) => {
+    totalItens.value = newValue;
+  }
+);
+
+onMounted(() => {
+  organizaColunas();
+});
+</script>
+
+<style></style>

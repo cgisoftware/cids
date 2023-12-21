@@ -7,6 +7,7 @@ import { useAlert } from './composable/CgiAlert'
 import reticencias from './controller/handler/Reticencias'
 import { groupBy } from './controller/handler/GroupBy'
 import { ablFilter } from './controller/handler/AblRead'
+import { debounce } from './controller/handler/Debounce'
 
 const publisher = window.parent.publisher ?? window.parent.parent.publisher
 const subscriber = window.parent.subscriber ?? window.parent.parent.subscriber
@@ -23,5 +24,6 @@ export {
   toAblQueryForm,
   ablFilter,
   useSnackbar,
-  useAlert
+  useAlert,
+  debounce
 }

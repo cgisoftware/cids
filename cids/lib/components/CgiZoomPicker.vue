@@ -83,7 +83,7 @@
 
 <script setup>
 import { computed, nextTick, onMounted, ref, useSlots, watch } from "vue";
-import { publisher, subscriber } from "../util";
+import { debounce, publisher, subscriber } from "../util";
 
 const emits = defineEmits([
   "update:modelValue",
@@ -187,13 +187,6 @@ watch(
   }
 );
 
-const debounce = (func, wait) => {
-  let timer = null;
-  return function () {
-    clearTimeout(timer);
-    timer = setTimeout(func, wait);
-  };
-};
 
 const updateSearch = async () => {
   if (valor.value && props.aoDigitar) {
@@ -210,7 +203,6 @@ onMounted(async () => {
   }
   componenteZoom.value = await renderComponente();
 
-  debugger
   if (!subscriber) {
     return;
   }

@@ -31,7 +31,7 @@ const props = defineProps({
   modelValue: {},
   desabilitado: {
     type: Boolean,
-    default: false,
+    default: () => false,
   },
   precisao: {
     type: Number,
@@ -58,9 +58,9 @@ const { inputRef } = useCurrencyInput({
   useGrouping: true,
   accountingSign: false,
   locale: "pt-BR",
-  "valueRange": {
-    "min": props.min,
-    "max": props.max
+  valueRange: {
+    min: props.min,
+    max: props.max,
   },
 });
 

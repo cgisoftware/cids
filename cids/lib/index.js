@@ -1,4 +1,4 @@
-// import CgiDatePicker from './components/CgiDatePicker.vue'
+import CgiDatePicker from './components/CgiDatePicker.vue'
 // import CgiTimePicker from './components/CgiTimePicker.vue'
 import CGIDataTableVirtual from './components/CGIDataTableVirtual.vue'
 import CGIDataTableServer from './components/CGIDataTableServer.vue'
@@ -29,7 +29,7 @@ export default {
     app.component('cgi-btn', CgiBtn)
     app.component('cgi-acoes', CgiAcoes)
     app.component('cgi-divider', CgiDivider)
-    // app.component('cgi-date-picker', CgiDatePicker)
+    app.component('cgi-date-picker', CgiDatePicker)
     // app.component('cgi-time-picker', CgiTimePicker)
     app.component('cgi-data-table-virtual', CGIDataTableVirtual)
     app.component('cgi-data-table-server', CGIDataTableServer)

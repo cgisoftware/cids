@@ -1,202 +1,190 @@
 <template>
   <v-text-field
-    :dense="compacto"
-    :label="nome"
-    :rules="regras"
+    density="compact"
     v-model="data"
-    :data-maska="mascara"
-    v-maska
-    :disabled="desabilitado"
-    @blur="blurTextField"
+    :label="nome"
     persistent-hint
+    v-maska:[mask]
+    @blur="blurTextField"
   >
-    <template v-slot:append>
+    <template v-slot:append-inner>
       <v-menu
-        ref="menu"
-        v-model="menu"
+        v-model:model-value="menu"
         :close-on-click="true"
         :close-on-content-click="false"
         transition="scale-transition"
-        left
-        max-width="290px"
-        min-width="290px"
+        location="bottom left"
       >
-        <template v-slot:activator="{ on: menu, attrs }">
+        <template v-slot:activator="{ props: props }">
           <v-icon
             tabindex="-1"
-            v-bind="attrs"
-            v-on="menu"
+            v-bind="props"
           >mdi-calendar</v-icon>
         </template>
+
         <v-date-picker
-          :type="tipoDatePicker"
-          v-model="datePicker"
-          no-title
-          @input="menu = false"
-          min="1900-01-01"
-          max="2100-01-01"
+          density="compact"
+          v-model:model-value="datePicker"
+          v-show="menu"
+          title="Selecione a data"
+          show-adjacent-months
+          @update:model-value="changePicker"
         ></v-date-picker>
       </v-menu>
     </template>
   </v-text-field>
 </template>
 
-<script>
-import moment from "moment";
-export default {
-  data: (context) => ({
-    menu: false,
-    data: null,
-    datePicker: null,
-    manipulacaoFormatos: {
-      0: () => {
-        return "";
-      },
-      1: () => {
-        const data = moment(
-          context.data.padStart(2, "0"),
-          context.formatoMascara.dia
-        );
+<script setup>
+import dayjs from "dayjs";
+import isBetween from "dayjs/plugin/isBetween";
+import customParseFormat from "dayjs/plugin/customParseFormat";
+import { computed, ref } from "vue";
 
-        if (context.dataValida(data)) {
-          return data.isValid() ? data.format(context.formatoMascara.pt) : "";
-        }
+dayjs.extend(customParseFormat);
+dayjs.extend(isBetween);
 
-        return moment().format(context.formatoMascara.pt);
-      },
-      2: () => {
-        const data = moment(context.data, context.formatoMascara.mes);
-        if (context.dataValida(data)) {
-          return data.isValid() ? data.format(context.formatoMascara.pt) : "";
-        }
-        return moment().format(context.formatoMascara.pt);
-      },
-      3: () => {
-        const data = moment(context.data, context.formatoMascara.ano);
-        if (context.dataValida(data)) {
-          return data.isValid() ? data.format(context.formatoMascara.pt) : "";
-        }
-        return moment().format(context.formatoMascara.pt);
-      },
+const props = defineProps({
+  compacto: {
+    type: Boolean,
+    default: false,
+  },
+  nome: {
+    type: String,
+    required: true,
+  },
+  regras: {
+    type: Array,
+    default: () => [],
+  },
+  modelValue: {
+    type: String,
+  },
+  tipo: {
+    type: String,
+    default: () => "dia",
+  },
+  desabilitado: {
+    type: Boolean,
+    default: () => false,
+  },
+  formato: {
+    type: String,
+    default: () => "DD/MM/YYYY",
+  },
+});
+
+const emit = defineEmits(["update:model-value"]);
+
+const formatos = {
+  mes: {
+    "YYYY-MM": {
+      formatoInterno: "MM/YYYY",
+      formato: "YYYY-MM",
+      dia: "MM",
     },
-  }),
-  computed: {
-    formatoMascara() {
-      return this.tipo === "mes"
-        ? {
-            en: "YYYY-MM",
-            pt: "MM/YYYY",
-            dia: "MM",
-            mes: "MM/YYYY",
-            ano: "MM/YYYY",
-          }
-        : {
-            en: "YYYY-MM-DD",
-            pt: "DD/MM/YYYY",
-            dia: "DD",
-            mes: "DD/MM",
-            ano: "DD/MM/YYYY",
-          };
-    },
-    mascara() {
-      return this.tipo === "mes" ? "##/####" : "##/##/####";
-    },
-    tipoDatePicker() {
-      return this.tipo === "mes" ? "month" : "date";
-    },
-    formatoPadrao() {
-      return this.formato || this.formatoMascara.pt;
+    "MM/YYYY": {
+      formatoInterno: "MM/YYYY",
+      formato: "MM/YYYY",
+      dia: "MM",
     },
   },
-  methods: {
-    dataValida(data) {
-      return data.isBetween("1900-01-01", "2100-01-01");
+  dia: {
+    "YYYY-MM-DD": {
+      formatoInterno: "DD/MM/YYYY",
+      formato: "YYYY-MM-DD",
+      dia: "DD",
     },
-    formataData(data, de, para) {
-      if (data) {
-        const dataMoment = moment(data, de);
-
-        if (this.dataValida(dataMoment)) {
-          return dataMoment.format(para);
-        }
-
-        return null;
-      }
-    },
-    blurTextField() {
-      if (this.data) {
-        const tamanho = this.data.split("/");
-        this.data = this.manipulacaoFormatos[tamanho.length]();
-        this.datePicker = this.formataData(
-          this.data,
-          this.formatoMascara.pt,
-          this.formatoMascara.en
-        );
-        this.$emit(
-          "input",
-          moment(this.data, this.formatoMascara.pt).format(this.formatoPadrao)
-        );
-
-        return;
-      }
-
-      this.$emit("input", null);
+    "DD/MM/YYYY": {
+      formatoInterno: "DD/MM/YYYY",
+      formato: "DD/MM/YYYY",
+      dia: "DD",
     },
   },
-  mounted() {
-    this.data = this.formataData(
-      this.value,
-      this.formatoPadrao,
-      this.formatoMascara.pt
+};
+
+const formatoMascara = computed(() => {
+  return formatos[props.tipo][props.formato];
+});
+
+const menu = ref(false);
+const data = ref(
+  dayjs(props.modelValue, props.formato).format(
+    formatoMascara.value.formatoInterno
+  )
+);
+const datePicker = ref(dayjs(props.modelValue, props.formato).toDate());
+const mask = ref({ mask: props.tipo == "dia" ? "##/##/####" : "##/####" });
+
+const dataValida = (data) => {
+  return data.isBetween("1900-01-01", "2100-01-01", "day");
+};
+
+const changePicker = (value) => {
+  data.value = dayjs(value).format(formatoMascara.value.formatoInterno);
+  menu.value = false;
+  emit(
+    "update:model-value",
+    dayjs(data.value, formatoMascara.value.formatoInterno).format(
+      formatoMascara.value.formato
+    )
+  );
+};
+
+const manipulacaoFormatos = {
+  0: () => {
+    return "";
+  },
+  1: () => {
+    const dataInterna = dayjs(
+      data.value.padStart(2, "0"),
+      formatoMascara.value.dia
     );
-  },
-  watch: {
-    value() {
-      this.data = this.formataData(
-        this.value,
-        this.formatoPadrao,
-        this.formatoMascara.pt
-      );
-    },
-    datePicker() {
-      this.data = this.formataData(
-        this.datePicker,
-        this.formatoMascara.en,
-        this.formatoMascara.pt
-      );
 
-      this.$emit(
-        "input",
-        moment(this.data, this.formatoMascara.pt).format(this.formatoPadrao)
-      );
-    },
+    if (dataValida(dataInterna)) {
+      return dataInterna.isValid()
+        ? dataInterna.format(formatoMascara.value.formatoInterno)
+        : "";
+    }
+
+    return dayjs().format(formatoMascara.value.formatoInterno);
   },
-  props: {
-    compacto: {
-      type: Boolean,
-      default: false,
-    },
-    nome: {
-      type: String,
-      required: true,
-    },
-    regras: {
-      type: Array,
-      default: () => [],
-    },
-    value: {
-      type: String,
-    },
-    tipo: {
-      type: String,
-    },
-    desabilitado: {
-      type: Boolean,
-      default: () => false,
-    },
-    formato: {
-      type: String,
-    },
+  2: () => {
+    const [dia, mes] = data.value.split("/");
+    const diaMes = `${dia}/${mes.padStart(2, "0")}`;
+    const dataInterna = dayjs(diaMes, formatoMascara.value.formatoInterno);
+    if (dataValida(dataInterna)) {
+      return dataInterna.isValid()
+        ? dataInterna.format(formatoMascara.value.formatoInterno)
+        : "";
+    }
+    return dayjs().format(formatoMascara.value.formatoInterno);
   },
+  3: () => {
+    const [dia, mes, ano] = data.value.split("/");
+    const diaMesMano = `${dia}/${mes}/${ano.padStart(4, "0")}`;
+    const dataInterna = dayjs(diaMesMano, formatoMascara.value.formatoInterno);
+    if (dataValida(dataInterna)) {
+      return dataInterna.isValid()
+        ? dataInterna.format(formatoMascara.value.formatoInterno)
+        : "";
+    }
+    return dayjs().format(formatoMascara.value.formatoInterno);
+  },
+};
+
+const blurTextField = () => {
+  if (data.value) {
+    const tamanho = data.value.split("/");
+    data.value = manipulacaoFormatos[tamanho.length]();
+    datePicker.value = dayjs(data.value, "DD/MM/YYYY").toDate();
+    emit(
+      "update:model-value",
+      dayjs(data.value, formatoMascara.value.formatoInterno).format(
+        formatoMascara.value.formato
+      )
+    );
+    return;
+  }
 };
 </script>

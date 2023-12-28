@@ -1,131 +1,218 @@
 <template>
-  <div class="d-flex">
-    <cgi-btn
-      v-if="atualizar"
-      atualizar
-      :carregando="carregarAtualizar"
-      :desabilitado="desabilitarAtualizar"
-      @click="$emit('atualizar')"
-    ></cgi-btn>
-
-    <v-divider
-      v-if="incluir"
-      class="mx-1"
-      vertical
-    ></v-divider>
-
-    <cgi-btn
-      v-if="incluir"
-      incluir
-      :carregando="carregarIncluir"
-      :desabilitado="desabilitarIncluir"
-      @click="$emit('incluir')"
-    ></cgi-btn>
-
-    <v-divider
-      v-if="alterar"
-      class="mx-1"
-      vertical
-    ></v-divider>
-
-    <cgi-btn
-      v-if="alterar"
-      alterar
-      :carregando="carregarAlterar"
-      :desabilitado="desabilitarAlterar"
-      @click="$emit('alterar')"
-    ></cgi-btn>
-
-    <v-divider
-      v-if="copiar"
-      class="mx-1"
-      vertical
-    ></v-divider>
-
-    <cgi-btn
-      v-if="copiar"
-      copiar
-      :carregando="carregarCopiar"
-      :desabilitado="desabilitarCopiar"
-      @click="$emit('copiar')"
-    ></cgi-btn>
-
-    <v-divider
-      v-if="deletar"
-      class="mx-1"
-      vertical
-    ></v-divider>
-
-    <cgi-btn
-      v-if="deletar"
-      deletar
-      :carregando="carregarDeletar"
-      :desabilitado="desabilitarDeletar"
-      @click="$emit('deletar')"
-    ></cgi-btn>
-
-    <v-divider
-      class="px-1"
-      vertical
-      v-if="relatorio"
-    ></v-divider>
-
-    <cgi-btn
-      v-if="relatorio"
-      relatorio
-      :carregando="carregarRelatorio"
-      :desabilitado="desabilitarRelatorio"
-      @click="$emit('relatorio')"
-    ></cgi-btn>
-
-    <v-divider
-      class="mx-1"
-      vertical
-      v-if="excel"
-    ></v-divider>
-
-    <cgi-btn
-      v-if="excel"
-      excel
-      :carregando="carregarExcel"
-      :desabilitado="desabilitarExcel"
-      @click="$emit('excel')"
-    ></cgi-btn>
-
-    <v-divider
-      class="mx-1"
-      vertical
-      v-if="pdf"
-    ></v-divider>
-
-    <cgi-btn
-      v-if="pdf"
-      pdf
-      :carregando="carregarPdf"
-      :desabilitado="desabilitarPdf"
-      @click="$emit('pdf')"
-    ></cgi-btn>
-
-    <v-divider
-      v-if="filtro"
-      class="mx-1"
-      vertical
-    ></v-divider>
-
-    <cgi-btn
-      v-if="filtro"
-      filtro
-      :carregando="carregarFiltro"
-      :desabilitado="desabilitarFiltro"
-      @click="$emit('filtro')"
-    >
-      <template v-slot:formulario="{ cancelar }">
-        <slot
-          name="formulario"
-          v-bind:cancelar="cancelar"
-        />
+  <div>
+    <v-menu v-if="$vuetify.breakpoint.smAndDown">
+      <template v-slot:activator="{ on, attrs }">
+        <v-icon text v-bind="attrs" v-on="on"> mdi-menu </v-icon>
       </template>
-    </cgi-btn>
+
+      <v-list>
+        <div class="d-flex flex-column">
+          <cgi-btn
+            v-if="atualizar"
+            atualizar
+            :carregando="carregarAtualizar"
+            :desabilitado="desabilitarAtualizar"
+            class="mb-3"
+            @click="$emit('atualizar')"
+          ></cgi-btn>
+
+          <v-divider v-if="incluir" class="mx-1" vertical></v-divider>
+
+          <cgi-btn
+            v-if="incluir"
+            incluir
+            :carregando="carregarIncluir"
+            :desabilitado="desabilitarIncluir"
+            class="mb-3"
+            @click="$emit('incluir')"
+          ></cgi-btn>
+
+          <v-divider v-if="alterar" class="mx-1" vertical></v-divider>
+
+          <cgi-btn
+            v-if="alterar"
+            alterar
+            :carregando="carregarAlterar"
+            :desabilitado="desabilitarAlterar"
+            class="mb-3"
+            @click="$emit('alterar')"
+          ></cgi-btn>
+
+          <v-divider v-if="copiar" class="mx-1" vertical></v-divider>
+
+          <cgi-btn
+            v-if="copiar"
+            copiar
+            :carregando="carregarCopiar"
+            :desabilitado="desabilitarCopiar"
+            class="mb-3"
+            @click="$emit('copiar')"
+          ></cgi-btn>
+
+          <v-divider v-if="deletar" class="mx-1" vertical></v-divider>
+
+          <cgi-btn
+            v-if="deletar"
+            deletar
+            :carregando="carregarDeletar"
+            :desabilitado="desabilitarDeletar"
+            class="mb-3"
+            @click="$emit('deletar')"
+          ></cgi-btn>
+
+          <v-divider class="px-1" vertical v-if="relatorio"></v-divider>
+
+          <cgi-btn
+            v-if="relatorio"
+            relatorio
+            :carregando="carregarRelatorio"
+            :desabilitado="desabilitarRelatorio"
+            class="mb-3"
+            @click="$emit('relatorio')"
+          ></cgi-btn>
+
+          <v-divider class="mx-1" vertical v-if="excel"></v-divider>
+
+          <cgi-btn
+            v-if="excel"
+            excel
+            :carregando="carregarExcel"
+            :desabilitado="desabilitarExcel"
+            class="mb-3"
+            @click="$emit('excel')"
+          ></cgi-btn>
+
+          <v-divider class="mx-1" vertical v-if="pdf"></v-divider>
+
+          <cgi-btn
+            v-if="pdf"
+            pdf
+            :carregando="carregarPdf"
+            :desabilitado="desabilitarPdf"
+            class="mb-3"
+            @click="$emit('pdf')"
+          ></cgi-btn>
+
+          <v-divider v-if="filtro" class="mx-1" vertical></v-divider>
+
+          <cgi-btn
+            v-if="filtro"
+            filtro
+            :carregando="carregarFiltro"
+            :desabilitado="desabilitarFiltro"
+            class="mb-3"
+            @click="$emit('filtro')"
+          >
+            <template v-slot:formulario="{ cancelar }">
+              <slot name="formulario" v-bind:cancelar="cancelar" />
+            </template>
+          </cgi-btn>
+        </div>
+      </v-list>
+    </v-menu>
+
+    <div v-else class="d-flex">
+      <cgi-btn
+        v-if="atualizar"
+        atualizar
+        :carregando="carregarAtualizar"
+        :desabilitado="desabilitarAtualizar"
+        :class="espacamento"
+        @click="$emit('atualizar')"
+      ></cgi-btn>
+
+      <v-divider v-if="incluir" class="mx-1" vertical></v-divider>
+
+      <cgi-btn
+        v-if="incluir"
+        incluir
+        :carregando="carregarIncluir"
+        :desabilitado="desabilitarIncluir"
+        :class="espacamento"
+        @click="$emit('incluir')"
+      ></cgi-btn>
+
+      <v-divider v-if="alterar" class="mx-1" vertical></v-divider>
+
+      <cgi-btn
+        v-if="alterar"
+        alterar
+        :carregando="carregarAlterar"
+        :desabilitado="desabilitarAlterar"
+        :class="espacamento"
+        @click="$emit('alterar')"
+      ></cgi-btn>
+
+      <v-divider v-if="copiar" class="mx-1" vertical></v-divider>
+
+      <cgi-btn
+        v-if="copiar"
+        copiar
+        :carregando="carregarCopiar"
+        :desabilitado="desabilitarCopiar"
+        :class="espacamento"
+        @click="$emit('copiar')"
+      ></cgi-btn>
+
+      <v-divider v-if="deletar" class="mx-1" vertical></v-divider>
+
+      <cgi-btn
+        v-if="deletar"
+        deletar
+        :carregando="carregarDeletar"
+        :desabilitado="desabilitarDeletar"
+        :class="espacamento"
+        @click="$emit('deletar')"
+      ></cgi-btn>
+
+      <v-divider class="px-1" vertical v-if="relatorio"></v-divider>
+
+      <cgi-btn
+        v-if="relatorio"
+        relatorio
+        :carregando="carregarRelatorio"
+        :desabilitado="desabilitarRelatorio"
+        :class="espacamento"
+        @click="$emit('relatorio')"
+      ></cgi-btn>
+
+      <v-divider class="mx-1" vertical v-if="excel"></v-divider>
+
+      <cgi-btn
+        v-if="excel"
+        excel
+        :carregando="carregarExcel"
+        :desabilitado="desabilitarExcel"
+        :class="espacamento"
+        @click="$emit('excel')"
+      ></cgi-btn>
+
+      <v-divider class="mx-1" vertical v-if="pdf"></v-divider>
+
+      <cgi-btn
+        v-if="pdf"
+        pdf
+        :carregando="carregarPdf"
+        :desabilitado="desabilitarPdf"
+        :class="espacamento"
+        @click="$emit('pdf')"
+      ></cgi-btn>
+
+      <v-divider v-if="filtro" class="mx-1" vertical></v-divider>
+
+      <cgi-btn
+        v-if="filtro"
+        filtro
+        :carregando="carregarFiltro"
+        :desabilitado="desabilitarFiltro"
+        :class="espacamento"
+        @click="$emit('filtro')"
+      >
+        <template v-slot:formulario="{ cancelar }">
+          <slot name="formulario" v-bind:cancelar="cancelar" />
+        </template>
+      </cgi-btn>
+    </div>
   </div>
 </template>
 

@@ -72,30 +72,32 @@
 
         <v-spacer></v-spacer>
 
-        <v-text-field
-          style="max-width: 300px"
-          class="mt-8"
-          filled
-          single-line
-          dense
-          label="Pesquisar..."
-          color="primary"
-          v-model="pesquisaInterna"
-          v-if="mostraPesquisa"
-        >
-          <template v-slot:prepend-inner v-if="informacoesDaPesquisa">
-            <v-tooltip top>
-              <template v-slot:activator="{ on, attrs }">
-                <v-icon v-bind="attrs" v-on="on"
-                  >mdi-information-variant</v-icon
-                >
-              </template>
-              <span>{{ informacoesDaPesquisa }}</span>
-            </v-tooltip>
-          </template>
-        </v-text-field>
+        <template v-if="!$vuetify.breakpoint.smAndDown">
+          <v-text-field
+            style="max-width: 300px"
+            class="mt-8"
+            filled
+            single-line
+            dense
+            label="Pesquisar..."
+            color="primary"
+            v-model="pesquisaInterna"
+            v-if="mostraPesquisa"
+          >
+            <template v-slot:prepend-inner v-if="informacoesDaPesquisa">
+              <v-tooltip top>
+                <template v-slot:activator="{ on, attrs }">
+                  <v-icon v-bind="attrs" v-on="on"
+                    >mdi-information-variant</v-icon
+                  >
+                </template>
+                <span>{{ informacoesDaPesquisa }}</span>
+              </v-tooltip>
+            </template>
+          </v-text-field>
 
-        <slot name="pesquisa"> </slot>
+          <slot name="pesquisa"> </slot>
+        </template>
 
         <div class="ml-3">
           <slot name="botoes"> </slot>
@@ -241,6 +243,32 @@
           <v-icon small>mdi-close</v-icon>
         </v-btn>
       </v-toolbar>
+
+      <div v-if="$vuetify.breakpoint.smAndDown" class="px-5">
+        <v-text-field
+          class="mt-8"
+          filled
+          single-line
+          dense
+          label="Pesquisar..."
+          color="primary"
+          v-model="pesquisaInterna"
+          v-if="mostraPesquisa"
+        >
+          <template v-slot:prepend-inner v-if="informacoesDaPesquisa">
+            <v-tooltip top>
+              <template v-slot:activator="{ on, attrs }">
+                <v-icon v-bind="attrs" v-on="on"
+                  >mdi-information-variant</v-icon
+                >
+              </template>
+              <span>{{ informacoesDaPesquisa }}</span>
+            </v-tooltip>
+          </template>
+        </v-text-field>
+
+        <slot name="pesquisa"> </slot>
+      </div>
     </template>
 
     <template v-slot:[`item.acoes`]="{ item }">
@@ -512,11 +540,11 @@ export default {
       }
     },
     executaPaginacaoDebounce() {
-      clearTimeout(this.debounceTimeout)
+      clearTimeout(this.debounceTimeout);
 
       this.debounceTimeout = setTimeout(() => {
-        this.executaPaginacao()
-      }, 700)
+        this.executaPaginacao();
+      }, 700);
     },
     adicionaColunaNaTela(coluna) {
       this.colunasInvisiveis = this.colunasInvisiveis.filter(

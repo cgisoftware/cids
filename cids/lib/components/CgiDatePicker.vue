@@ -38,7 +38,7 @@
 <script setup>
 import dayjs from "dayjs";
 import isBetween from "dayjs/plugin/isBetween";
-import customParseFormat from "dayjs/plugin/customParseFormat";
+import * as customParseFormat  from "dayjs/plugin/customParseFormat";
 import { computed, ref } from "vue";
 
 dayjs.extend(customParseFormat);

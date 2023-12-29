@@ -16,6 +16,6 @@ export const moedaParaFloat = (valor) => {
   return 0.0
 }
 
-export const formataMoeda = (valor) => {
-  return valor.toLocaleString('pt-br', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+export const formataMoeda = (valor, precisao = 2) => {
+  return valor?.toLocaleString('pt-br', { minimumFractionDigits: precisao, maximumFractionDigits: precisao })
 }

@@ -1,11 +1,16 @@
 <template>
   <v-card
     class="my-6"
-    outlined
+    variant="outlined"
   >
-    <v-sheet class="v-sheet--offset mx-auto">
-      <div class="mx-2">{{ titulo }}</div>
-    </v-sheet>
+    <div class="d-flex justify-center">
+      <v-sheet
+        position="fixed"
+        style="margin-top: -12px;"
+      >
+        <div class="mx-2">{{ titulo }}</div>
+      </v-sheet>
+    </div>
 
     <v-card-text>
       <slot></slot>
@@ -13,16 +18,11 @@
   </v-card>
 </template>
 
-<script>
-export default {
-  props: {
-    titulo: {
-      type: String,
-      required: true,
-    },
+<script setup>
+defineProps({
+  titulo: {
+    type: String,
+    required: true,
   },
-};
+});
 </script>
-
-<style>
-</style>

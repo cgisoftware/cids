@@ -322,6 +322,7 @@
       </div>
     </template>
 
+    <!-- TODO: encontrar equivalencia -->
     <template
       v-slot:[`group.summary`]="{ items }"
       v-if="totalizar"

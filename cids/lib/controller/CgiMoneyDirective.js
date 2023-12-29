@@ -1,8 +1,8 @@
-import { VMoney } from 'v-money3'
+import { Money3Directive } from 'v-money3'
 
 export default {
-  install(Vue) {
-    Vue.directive('cgi-money', VMoney)
+  install(app) {
+    app.directive('cgi-money', Money3Directive)
   }
 }
 

@@ -116,6 +116,10 @@ const props = defineProps({
     type: Boolean,
     default: () => false,
   },
+  configuracoes: {
+    type: Boolean,
+    default: () => false,
+  },
   carregando: {
     type: Boolean,
     default: () => false,
@@ -196,6 +200,12 @@ const botoes = ref([
     cor: "primary",
     variant: "text",
   },
+  {
+    label: "Configurações",
+    icone: "mdi-cogs",
+    cor: "primary",
+    variant: "text",
+  },
 ]);
 
 const cancelarMenu = () => {
@@ -245,6 +255,10 @@ const btn = computed(() => {
 
   if (props.filtrar) {
     return botoes.value[11];
+  }
+
+  if (props.configuracoes) {
+    return botoes.value[12];
   }
 
   return botoes.value[0];

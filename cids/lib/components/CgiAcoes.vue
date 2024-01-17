@@ -93,6 +93,17 @@
             @click="$emit('pdf')"
           ></cgi-btn>
 
+          <v-divider class="mx-1" vertical v-if="configuracoes"></v-divider>
+
+          <cgi-btn
+            v-if="configuracoes"
+            configuracoes
+            :carregando="carregarConfiguracoes"
+            :desabilitado="desabilitarConfiguracoes"
+            class="mb-3"
+            @click="$emit('configuracoes')"
+          ></cgi-btn>
+
           <v-divider v-if="filtro" class="mx-1" vertical></v-divider>
 
           <cgi-btn
@@ -196,6 +207,17 @@
         :desabilitado="desabilitarPdf"
         :class="espacamento"
         @click="$emit('pdf')"
+      ></cgi-btn>
+
+      <v-divider class="mx-1" vertical v-if="configuracoes"></v-divider>
+
+      <cgi-btn
+        v-if="configuracoes"
+        configuracoes
+        :carregando="carregarConfiguracoes"
+        :desabilitado="desabilitarConfiguracoes"
+        class="mb-3"
+        @click="$emit('configuracoes')"
       ></cgi-btn>
 
       <v-divider v-if="filtro" class="mx-1" vertical></v-divider>
@@ -312,6 +334,18 @@ export default {
       default: () => false,
     },
     carregarPdf: {
+      type: Boolean,
+      default: () => false,
+    },
+    configuracoes: {
+      type: Boolean,
+      default: () => false,
+    },
+    desabilitarConfiguracoes: {
+      type: Boolean,
+      default: () => false,
+    },
+    carregarConfiguracoes: {
       type: Boolean,
       default: () => false,
     },

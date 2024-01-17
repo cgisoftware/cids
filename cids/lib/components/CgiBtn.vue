@@ -150,6 +150,13 @@ export default {
         outlined: false,
         text: false,
       },
+      {
+        label: "Configurações",
+        icone: "mdi-cogs",
+        cor: "primary",
+        outlined: false,
+        text: true,
+      },
     ],
   }),
   methods: {
@@ -203,6 +210,10 @@ export default {
         return this.botoes[11];
       }
 
+      if (this.configuracoes) {
+        return this.botoes[12];
+      }
+
       return this.botoes[0];
     },
   },
@@ -248,6 +259,10 @@ export default {
       default: () => false,
     },
     salvar: {
+      type: Boolean,
+      default: () => false,
+    },
+    configuracoes: {
       type: Boolean,
       default: () => false,
     },

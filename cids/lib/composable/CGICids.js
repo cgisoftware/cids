@@ -1,33 +1,51 @@
-import { reactive } from "vue"
+import { provide, inject, reactive } from "vue";
 
-const cidsState = reactive({
-  theme: {
-    dataTable: {
-      checkboxColor: '',
-      lineColor: '',
+const CidsSymbol = Symbol();
+
+const useCidsProvider = () => {
+  const cidsState = reactive({
+    theme: {
+      dataTable: {
+        checkboxColor: "",
+        lineColor: "",
+      },
     },
-  },
-  defaults: {
-    dataTable: {
-      acoes: 'right'
-    }
-  }
-})
+    defaults: {
+      dataTable: {
+        acoes: "right",
+      },
+    },
+  });
 
-const useCids = () => {
   const setTheme = (theme) => {
-    cidsState.theme = theme
-  }
+    cidsState.theme = theme;
+  };
 
   const setDefaults = (defaults) => {
-    cidsState.defaults = defaults
-  }
+    cidsState.defaults = defaults;
+  };
+
+  provide(CidsSymbol, {
+    setTheme,
+    setDefaults,
+    cidsState,
+  });
 
   return {
     setTheme,
     setDefaults,
-    cidsState
-  }
-}
+    cidsState,
+  };
+};
 
-export { useCids }
+const useCids = () => {
+  const cids = inject(CidsSymbol);
+
+  if (!cids) {
+    throw new Error("useCidsInject must be used within a CidsProvider");
+  }
+
+  return cids;
+};
+
+export { useCidsProvider, useCids };

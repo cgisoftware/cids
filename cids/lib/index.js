@@ -23,11 +23,11 @@ import CgiNegativeNumber from "./controller/CgiNegativeNumber";
 
 import { useCidsProvider } from "./composable/CGICids";
 import { useSnackbarProvider } from "./composable/CgiSnackbar";
-// import { useAlertProvider } from "./composable/CgiAlert";
+import { useAlertProvider } from "./composable/CgiAlert";
 
-const { setTheme, setDefaults, cidsState } = useCidsProvider();
-const { snackbarState, show, confirm, accept, decline } = useSnackbarProvider();
-// const alert = useAlertProvider();
+const cids = useCidsProvider();
+const snackbar = useSnackbarProvider();
+const alert = useAlertProvider();
 
 export default {
   install(app, options = opt) {
@@ -49,24 +49,24 @@ export default {
     app.component("cgi-number", CgiNumber);
 
     app.provide("useCids", {
-      setTheme,
-      setDefaults,
-      cidsState,
+      setTheme: cids.setTheme,
+      setDefaults: cids.setDefaults,
+      cidsState: cids.cidsState,
     });
     app.provide("useSnackbar", {
-      snackbarState,
-      show,
-      confirm,
-      accept,
-      decline,
+      snackbarState: snackbar.snackbarState,
+      show: snackbar.show,
+      confirm: snackbar.confirm,
+      accept: snackbar.accept,
+      decline: snackbar.decline,
     });
-    // app.provide("useAlert", {
-    //   show: alert.show,
-    //   accept: alert.accept,
-    //   decline: alert.decline,
-    //   confirm: alert.confirm,
-    //   alertState: alert.alertState,
-    // });
+    app.provide("useAlert", {
+      show: alert.show,
+      accept: alert.accept,
+      decline: alert.decline,
+      confirm: alert.confirm,
+      alertState: alert.alertState,
+    });
 
     app
       .use(CgiMaskDirective)
@@ -74,7 +74,7 @@ export default {
       .use(CgiMaxLengthDirective)
       .use(CgiNegativeNumber);
 
-    setTheme(options.theme);
-    setDefaults(options.defaults);
+    cids.setTheme(options.theme);
+    cids.setDefaults(options.defaults);
   },
 };

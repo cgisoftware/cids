@@ -21,7 +21,7 @@ import CgiNumberDirective from "./controller/CgiNumberDirective";
 import CgiMaxLengthDirective from "./controller/CgiMaxLengthDirective";
 import CgiNegativeNumber from "./controller/CgiNegativeNumber";
 
-import { useCids, useCidsProvider } from "./composable/CGICids";
+import { useCidsProvider } from "./composable/CGICids";
 
 const { setTheme, setDefaults, cidsState } = useCidsProvider();
 
@@ -52,9 +52,9 @@ export default {
       .use(CgiMaxLengthDirective)
       .use(CgiNegativeNumber);
 
-    const cids = useCids();
+    // const cids = useCids();
 
-    cids.setTheme(options.theme);
-    cids.setDefaults(options.defaults);
+    setTheme(options.theme);
+    setDefaults(options.defaults);
   },
 };

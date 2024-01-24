@@ -74,7 +74,7 @@ export default {
       .use(CgiMaxLengthDirective)
       .use(CgiNegativeNumber);
 
-    setTheme(options.theme);
-    setDefaults(options.defaults);
+    cids.setTheme(options.theme);
+    cids.setDefaults(options.defaults);
   },
 };

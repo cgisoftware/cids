@@ -1,6 +1,4 @@
 <template>
-  {{ cids.cidsState?.defaults?.dataTable?.acoes }}
-
   <v-data-table-server
     :headers="colunasVisiveis"
     :items-length="totalItens"
@@ -161,6 +159,7 @@ import CGIDataTableHeader from "./CGIDataTableHeader.vue";
 import { computed, onMounted } from "vue";
 import { ref, watch } from "vue";
 import { useCids } from "../composable/CGICids";
+
 const props = defineProps({
   copiar: { type: Boolean, default: () => false },
   alterar: { type: Boolean, default: () => false },
@@ -205,8 +204,6 @@ const emit = defineEmits([
 ]);
 
 const cids = useCids();
-
-console.log('cids', cids.cidsState.defaults.dataTable.acoes);
 
 const pesquisa = ref(null);
 const colunasVisiveis = ref([]);

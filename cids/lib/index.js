@@ -22,8 +22,12 @@ import CgiMaxLengthDirective from "./controller/CgiMaxLengthDirective";
 import CgiNegativeNumber from "./controller/CgiNegativeNumber";
 
 import { useCidsProvider } from "./composable/CGICids";
+import { useSnackbarProvider } from "./composable/CgiSnackbar";
+import { useAlertProvider } from "./composable/CgiAlert";
 
-const { setTheme, setDefaults, cidsState } = useCidsProvider();
+const cids = useCidsProvider();
+const snackbar = useSnackbarProvider();
+const alert = useAlertProvider();
 
 export default {
   install(app, options = opt) {
@@ -44,15 +48,31 @@ export default {
     app.component("cgi-form", CgiForm);
     app.component("cgi-number", CgiNumber);
 
-    app.provide("useCids", { setTheme, setDefaults, cidsState });
+    app.provide("useCids", {
+      setTheme: cids.setTheme,
+      setDefaults: cids.setDefaults,
+      cidsState: cids.cidsState,
+    });
+    app.provide("useSnackbar", {
+      snackbarState: snackbar.snackbarState,
+      show: snackbar.show,
+      confirm: snackbar.confirm,
+      accept: snackbar.accept,
+      decline: snackbar.decline,
+    });
+    app.provide("useAlert", {
+      show: alert.show,
+      accept: alert.accept,
+      decline: alert.decline,
+      confirm: alert.confirm,
+      alertState: alert.alertState,
+    });
 
     app
       .use(CgiMaskDirective)
       .use(CgiNumberDirective)
       .use(CgiMaxLengthDirective)
       .use(CgiNegativeNumber);
-
-    // const cids = useCids();
 
     setTheme(options.theme);
     setDefaults(options.defaults);

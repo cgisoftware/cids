@@ -1,26 +1,25 @@
-import { reactive } from "vue";
+import { reactive, provide, inject } from "vue";
 
-const alertState = reactive({
-  message: null,
-  timeout: 10000,
-  color: "red",
-  actions: {
-    accept: false,
-  },
-  isConfirm: false,
-  context: null,
-  dialog: false,
-  isDecline: false
-})
-
-const useAlert = () => {
+const useAlertProvider = () => {
+  const alertState = reactive({
+    message: null,
+    timeout: 10000,
+    color: "red",
+    actions: {
+      accept: false,
+    },
+    isConfirm: false,
+    context: null,
+    dialog: false,
+    isDecline: false,
+  });
 
   const show = ({ message, color = "red", actions = { accept: false } }) => {
     alertState.message = message;
     alertState.dialog = true;
     alertState.color = color;
     alertState.actions = actions;
-  }
+  };
 
   const confirm = async ({
     message,
@@ -36,6 +35,7 @@ const useAlert = () => {
     alertState.isConfirm = false;
     alertState.isDecline = false;
     let handlerInterval = {};
+
     const confirm = await new Promise((resolve) => {
       const handlerTimeOut = setTimeout(() => {
         resolve(false);
@@ -48,25 +48,33 @@ const useAlert = () => {
           resolve(true);
         }
         if (alertState.isDecline) {
-          alertState.isDecline = false
-          clearTimeout(handlerTimeOut)
+          alertState.isDecline = false;
+          clearTimeout(handlerTimeOut);
           clearInterval(handlerInterval);
-          resolve(false)
+          resolve(false);
         }
       }, 200);
     });
     return confirm;
-  }
+  };
 
   const accept = () => {
     alertState.isConfirm = true;
     alertState.dialog = false;
-  }
+  };
 
   const decline = () => {
-    alertState.isDecline = true
-    alertState.dialog = false
-  }
+    alertState.isDecline = true;
+    alertState.dialog = false;
+  };
+
+  provide("useAlert", {
+    show,
+    accept,
+    decline,
+    confirm,
+    alertState,
+  });
 
   return {
     show,
@@ -74,7 +82,17 @@ const useAlert = () => {
     decline,
     confirm,
     alertState,
-  }
-}
+  };
+};
 
-export { useAlert }
+const useAlert = () => {
+  const alert = inject("useAlert");
+
+  if (!alert) {
+    console.error("useAlert must be used within an AlertProvider");
+  }
+
+  return alert;
+};
+
+export { useAlertProvider, useAlert };

@@ -21,7 +21,7 @@ import CgiNumberDirective from "./controller/CgiNumberDirective";
 import CgiMaxLengthDirective from "./controller/CgiMaxLengthDirective";
 import CgiNegativeNumber from "./controller/CgiNegativeNumber";
 
-import { useCids, useCidsProvider, CidsSymbol } from "./composable/CGICids";
+import { useCids, useCidsProvider } from "./composable/CGICids";
 
 const { setTheme, setDefaults, cidsState } = useCidsProvider();
 
@@ -44,7 +44,7 @@ export default {
     app.component("cgi-form", CgiForm);
     app.component("cgi-number", CgiNumber);
 
-    app.provide(CidsSymbol, { setTheme, setDefaults, cidsState });
+    app.provide("useCids", { setTheme, setDefaults, cidsState });
 
     app
       .use(CgiMaskDirective)

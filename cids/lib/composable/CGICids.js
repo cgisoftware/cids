@@ -1,7 +1,5 @@
 import { provide, inject, reactive } from "vue";
 
-const CidsSymbol = Symbol();
-
 const useCidsProvider = () => {
   const cidsState = reactive({
     theme: {
@@ -25,7 +23,7 @@ const useCidsProvider = () => {
     cidsState.defaults = defaults;
   };
 
-  provide(CidsSymbol, {
+  provide("useCids", {
     setTheme,
     setDefaults,
     cidsState,
@@ -39,7 +37,7 @@ const useCidsProvider = () => {
 };
 
 const useCids = () => {
-  const cids = inject(CidsSymbol);
+  const cids = inject("useCids");
 
   if (!cids) {
     throw new Error("useCids must be used within a CidsProvider");
@@ -48,4 +46,4 @@ const useCids = () => {
   return cids;
 };
 
-export { useCidsProvider, useCids, CidsSymbol };
+export { useCidsProvider, useCids };

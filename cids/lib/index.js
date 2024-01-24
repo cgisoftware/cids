@@ -48,7 +48,6 @@ export default {
       .use(CgiMaxLengthDirective)
       .use(CgiNegativeNumber)
 
-    console.log('opt', opt);
     console.log('options', options.defaults);
 
     cids.setTheme(options.theme)

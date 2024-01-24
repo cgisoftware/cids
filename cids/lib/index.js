@@ -52,5 +52,7 @@ export default {
 
     cids.setTheme(options.theme)
     cids.setDefaults(options.defaults)
+
+    console.log('cids', cids.cidsState.defaults.dataTable.acoes);
   },
 }

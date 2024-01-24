@@ -1,5 +1,5 @@
 <template>
-  {{ cidsState?.defaults?.dataTable?.acoes }}
+  {{ cids.cidsState?.defaults?.dataTable?.acoes }}
 
   <v-data-table-server
     :headers="colunasVisiveis"
@@ -51,7 +51,7 @@
     </template>
 
     <template v-slot:[`item.acoes`]="{ item }">
-      <v-menu v-if="cidsState?.defaults?.dataTable?.acoes === 'left dot'">
+      <v-menu v-if="cids.cidsState?.defaults?.dataTable?.acoes === 'left dot'">
         <template v-slot:activator="{ props }">
           <v-btn
             v-bind="props"
@@ -95,7 +95,7 @@
 
       <div
         style="min-width: 150px"
-        v-if="cidsState?.defaults?.dataTable?.acoes === 'right' || cidsState?.defaults?.dataTable?.acoes === 'left'"
+        v-if="cids.cidsState?.defaults?.dataTable?.acoes === 'right' || cids.cidsState?.defaults?.dataTable?.acoes === 'left'"
       >
         <v-tooltip
           location="top"
@@ -204,7 +204,9 @@ const emit = defineEmits([
   "exporta-zoom",
 ]);
 
-const { cidsState } = useCids();
+const cids = useCids();
+
+console.log('cids', cids.cidsState.defaults.dataTable.acoes);
 
 const pesquisa = ref(null);
 const colunasVisiveis = ref([]);
@@ -337,7 +339,7 @@ const organizaColunas = () => {
   }
 
   if (props.mostraAcoes) {
-    if (cidsState?.defaults?.dataTable?.acoes === "right") {
+    if (cids.cidsState?.defaults?.dataTable?.acoes === "right") {
       colunasVisiveis.value.push({
         title: "Ações",
         align: "end",
@@ -349,7 +351,7 @@ const organizaColunas = () => {
       return;
     }
 
-    if (cidsState?.defaults?.dataTable?.acoes === "left dot") {
+    if (cids.cidsState?.defaults?.dataTable?.acoes === "left dot") {
       colunasVisiveis.value.unshift({
         title: "Ações",
         align: "center",
@@ -360,7 +362,7 @@ const organizaColunas = () => {
       });
     }
 
-    if (cidsState?.defaults?.dataTable?.acoes === "left") {
+    if (cids.cidsState?.defaults?.dataTable?.acoes === "left") {
       colunasVisiveis.unshift({
         title: "Ações",
         align: "start",

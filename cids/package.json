@@ -7,7 +7,12 @@
   "author": "Vinicius Boscardin",
   "license": "ISC",
   "dependencies": {
+    "dayjs": "^1.11.10",
     "vanilla-masker": "^1.2.0",
-    "xlsx": "^0.18.5"
+    "vue-currency-input": "^3.0.5",
+    "vuedraggable": "^4.1.0",
+    "xlsx": "^0.18.5",
+    "mitt": "^3.0.1",
+    "v-money3": "^3.24.0"
   }
 }

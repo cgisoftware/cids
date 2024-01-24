@@ -15,6 +15,7 @@ jobs:
           cd cids
           sed -i -e 's/$version/'${GITHUB_REF##*/}'/g' package.json
           cat package.json
+          npm i
           npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

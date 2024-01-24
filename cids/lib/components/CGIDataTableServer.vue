@@ -1,4 +1,6 @@
 <template>
+  {{ cidsState?.defaults?.dataTable?.acoes }}
+
   <v-data-table-server
     :headers="colunasVisiveis"
     :items-length="totalItens"

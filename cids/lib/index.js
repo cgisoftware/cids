@@ -14,7 +14,7 @@ import CgiAcoes from './components/CgiAcoes.vue'
 import CgiDivider from './components/CgiDivider.vue'
 import CgiNumber from './components/CgiNumber.vue'
 
-import '@mdi/font/css/materialdesignicons.css'
+// import '@mdi/font/css/materialdesignicons.css'
 
 import CgiMaskDirective from './controller/CgiMaskDirective'
 import CgiNumberDirective from './controller/CgiNumberDirective'

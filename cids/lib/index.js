@@ -22,6 +22,8 @@ import CgiMaxLengthDirective from './controller/CgiMaxLengthDirective'
 import CgiNegativeNumber from './controller/CgiNegativeNumber'
 import { useCids } from './composable/CGICids'
 
+const cids = useCids()
+
 export default {
   install(app, options = opt) {
     app.component('cgi-snackbar', CgiSnackbar)
@@ -46,7 +48,8 @@ export default {
       .use(CgiMaxLengthDirective)
       .use(CgiNegativeNumber)
 
-    const cids = useCids()
+    console.log('opt', opt);
+    console.log('options', options.defaults);
 
     cids.setTheme(options.theme)
     cids.setDefaults(options.defaults)

@@ -42,10 +42,10 @@ const useCids = () => {
   const cids = inject(CidsSymbol);
 
   if (!cids) {
-    throw new Error("useCidsInject must be used within a CidsProvider");
+    throw new Error("useCids must be used within a CidsProvider");
   }
 
   return cids;
 };
 
-export { useCidsProvider, useCids };
+export { useCidsProvider, useCids, CidsSymbol };

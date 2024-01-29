@@ -13,7 +13,7 @@
           :disabled="desabilitado"
           :prepend-icon="btn.icone"
           :loading="carregando"
-          :color="cancelar || salvar ? btn.cor : null"
+          :color="btn.cor"
         >
           {{ btn.label }}
         </v-btn>

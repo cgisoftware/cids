@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-menu v-if="$vuetify.breakpoint.smAndDown">
+    <v-menu v-if="smAndDown">
       <template v-slot:activator="{ on, attrs }">
         <v-icon
           text
@@ -324,6 +324,7 @@
 </template>
 
 <script setup>
+import { useDisplay } from 'vuetify'
 const props = defineProps({
   incluir: {
     type: Boolean,
@@ -446,4 +447,6 @@ const props = defineProps({
     default: () => false,
   },
 });
+
+const { smAndDown } = useDisplay()
 </script>

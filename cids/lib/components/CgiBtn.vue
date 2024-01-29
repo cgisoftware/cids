@@ -28,11 +28,11 @@
       offset-x
       offset-y
     >
-      <template v-slot:activator="{  attrs: attrMenu }">
+      <template v-slot:activator="{ props: menu }">
         <v-tooltip bottom>
-          <template v-slot:activator="{  attrs: attrTooltip }">
+          <template v-slot:activator="{ props: tooltip }">
             <v-btn
-              v-bind="{ ...attrMenu, ...attrTooltip }"
+              v-bind="mergeProps(menu, tooltip)"
               variant="text"
               v-if="filtro"
               :disabled="desabilitado"
@@ -58,6 +58,7 @@
 
 <script setup>
 import { computed, ref } from "vue";
+import { mergeProps } from 'vue'
 
 const props = defineProps({
   incluir: {

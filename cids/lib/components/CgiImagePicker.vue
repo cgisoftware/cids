@@ -5,19 +5,14 @@
       :style="{ 'background-image': `url(${imageData})` }"
       @click="chooseImage"
     >
-      <span
-        v-if="!imageData"
-        class="placeholder"
-      >
-        Selecione uma imagem
-      </span>
+      <span v-if="!imageData" class="placeholder"> Selecione uma imagem </span>
       <input
         class="file-input"
         ref="fileInput"
         type="file"
         @input="onSelectFile"
         accept="image/*"
-      >
+      />
     </div>
   </div>
 </template>
@@ -43,9 +38,15 @@ export default {
     url() {
       this.createFile(this.url);
     },
+    value(vlr) {
+      if (!vlr) {
+        this.imageData = null;
+      }
+    },
   },
   methods: {
     chooseImage() {
+      this.$refs.fileInput.value = null;
       this.$refs.fileInput.click();
     },
 
@@ -83,13 +84,13 @@ export default {
           reader.readAsDataURL(file);
           this.$emit("input", file);
         } catch (error) {
-           this.imageData = null
+          this.imageData = null;
         }
 
         return;
       }
 
-      this.imageData = null
+      this.imageData = null;
     },
   },
   props: {

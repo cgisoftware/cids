@@ -21,7 +21,7 @@
 
     <v-text-field
       style="max-width: 300px"
-      class="mt-8"
+      class="mt-6"
       variant="filled"
       label="Pesquisar..."
       color="primary"
@@ -46,7 +46,7 @@
 
     <slot name="pesquisa"> </slot>
 
-    <div class="ml-3">
+    <div class="ml-3 mr-3">
       <slot name="botoes"> </slot>
     </div>
 

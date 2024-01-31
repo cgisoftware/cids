@@ -1,11 +1,10 @@
 <template>
   <div>
     <v-menu v-if="smAndDown">
-      <template v-slot:activator="{ on, attrs }">
+      <template v-slot:activator="{ props }">
         <v-icon
           text
-          v-bind="attrs"
-          v-on="on"
+          v-bind="props"
         > mdi-menu </v-icon>
       </template>
 
@@ -174,7 +173,6 @@
         atualizar
         :carregando="carregarAtualizar"
         :desabilitado="desabilitarAtualizar"
-        :class="espacamento"
         @click="$emit('atualizar')"
       ></cgi-btn>
 
@@ -189,7 +187,6 @@
         incluir
         :carregando="carregarIncluir"
         :desabilitado="desabilitarIncluir"
-        :class="espacamento"
         @click="$emit('incluir')"
       ></cgi-btn>
 
@@ -204,7 +201,6 @@
         alterar
         :carregando="carregarAlterar"
         :desabilitado="desabilitarAlterar"
-        :class="espacamento"
         @click="$emit('alterar')"
       ></cgi-btn>
 
@@ -219,7 +215,6 @@
         copiar
         :carregando="carregarCopiar"
         :desabilitado="desabilitarCopiar"
-        :class="espacamento"
         @click="$emit('copiar')"
       ></cgi-btn>
 
@@ -234,7 +229,6 @@
         deletar
         :carregando="carregarDeletar"
         :desabilitado="desabilitarDeletar"
-        :class="espacamento"
         @click="$emit('deletar')"
       ></cgi-btn>
 
@@ -249,7 +243,6 @@
         relatorio
         :carregando="carregarRelatorio"
         :desabilitado="desabilitarRelatorio"
-        :class="espacamento"
         @click="$emit('relatorio')"
       ></cgi-btn>
 
@@ -264,7 +257,6 @@
         excel
         :carregando="carregarExcel"
         :desabilitado="desabilitarExcel"
-        :class="espacamento"
         @click="$emit('excel')"
       ></cgi-btn>
 
@@ -279,7 +271,6 @@
         pdf
         :carregando="carregarPdf"
         :desabilitado="desabilitarPdf"
-        :class="espacamento"
         @click="$emit('pdf')"
       ></cgi-btn>
 
@@ -309,7 +300,6 @@
         filtro
         :carregando="carregarFiltro"
         :desabilitado="desabilitarFiltro"
-        :class="espacamento"
         @click="$emit('filtro')"
       >
         <template v-slot:formulario="{ cancelar }">
@@ -324,7 +314,7 @@
 </template>
 
 <script setup>
-import { useDisplay } from 'vuetify'
+import { useDisplay } from "vuetify";
 const props = defineProps({
   incluir: {
     type: Boolean,
@@ -448,5 +438,5 @@ const props = defineProps({
   },
 });
 
-const { smAndDown } = useDisplay()
+const { smAndDown } = useDisplay();
 </script>

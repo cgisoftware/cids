@@ -11,11 +11,13 @@
           v-if="!filtro"
           :variant="btn.variant"
           :disabled="desabilitado"
-          :prepend-icon="btn.icone"
           :loading="carregando"
-          :color="btn.cor"
+          :color="salvar || cancelar ? btn.cor : null"
         >
-          {{ btn.label }}
+          <v-icon
+            :color="btn.cor"
+            start
+          >{{ btn.icone }}</v-icon> {{ btn.label }}
         </v-btn>
       </template>
     </v-tooltip>
@@ -39,7 +41,7 @@
               :loading="carregando"
             >
               <v-icon
-                left
+                start
                 color="primary"
               >mdi-filter</v-icon> filtro
             </v-btn>
@@ -58,7 +60,7 @@
 
 <script setup>
 import { computed, ref } from "vue";
-import { mergeProps } from 'vue'
+import { mergeProps } from "vue";
 
 const props = defineProps({
   incluir: {

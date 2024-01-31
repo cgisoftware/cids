@@ -15,7 +15,7 @@
           :color="salvar || cancelar ? btn.cor : null"
         >
           <v-icon
-            :color="btn.cor"
+            :color="salvar || btn.cor"
             start
           >{{ btn.icone }}</v-icon> {{ btn.label }}
         </v-btn>
@@ -31,7 +31,7 @@
       offset-y
     >
       <template v-slot:activator="{ props: menu }">
-        <v-tooltip bottom>
+        <v-tooltip location="bottom">
           <template v-slot:activator="{ props: tooltip }">
             <v-btn
               v-bind="mergeProps(menu, tooltip)"
@@ -39,6 +39,7 @@
               v-if="filtro"
               :disabled="desabilitado"
               :loading="carregando"
+              :color="null"
             >
               <v-icon
                 start

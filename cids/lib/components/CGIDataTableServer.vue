@@ -55,7 +55,7 @@
             v-bind="props"
             icon="mdi-dots-vertical"
             variant="text"
-            :color="$vuetify.theme.dark ? 'orange' : 'primary'"
+            :color="isDarkTheme ? 'orange' : 'primary'"
           >
 
           </v-btn>
@@ -159,6 +159,7 @@ import CGIDataTableHeader from "./CGIDataTableHeader.vue";
 import { computed, onMounted } from "vue";
 import { ref, watch } from "vue";
 import { useCids } from "../composable/CGICids";
+import { useTheme } from 'vuetify'
 
 const props = defineProps({
   copiar: { type: Boolean, default: () => false },
@@ -202,6 +203,12 @@ const emit = defineEmits([
   "deletar-item",
   "exporta-zoom",
 ]);
+
+const theme = useTheme()
+
+const isDarkTheme = computed(() => {
+  return theme.global.current.value.dark
+})
 
 const cids = useCids();
 

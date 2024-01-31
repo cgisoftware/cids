@@ -7,8 +7,8 @@
     :height="altura"
     :fixed-header="colunasFixas"
     :search="pesquisa"
-    :group-by="paginacao.groupBy"
-    :sort-by="paginacao.sortBy"
+    :group-by="groupBy"
+    :sort-by="sortBy"
     :items-per-page-options="[
     { value: 30, title: '30' },
       { value: 60, title: '60' },
@@ -263,8 +263,10 @@ const opcoesDeAcao = ref([
 ]);
 
 const updateOptions = (options) => {
-  const pagination = { ...options };
-  pagination.sortBy = options.sortBy.map((value) => value.key);
+  const pagination = JSON.parse(JSON.stringify(options));
+  pagination.sortBy = options.sortBy
+    .filter((value) => value.key)
+    .map((value) => value.key);
   pagination["sortDesc"] = options.sortBy.map(
     (value) => value.order === "desc"
   );
@@ -390,6 +392,17 @@ const organizaColunas = () => {
 
 const customHeaders = computed(() => {
   return colunas.value.filter((header) => header.custom);
+});
+
+const sortBy = computed(() => {
+  return paginacao.value?.sortBy?.map((value, index) => ({
+    key: value,
+    order: paginacao.value.sortDesc[index] ? "desc" : "asc",
+  }));
+});
+
+const groupBy = computed(() => {
+  return paginacao.value.groupBy;
 });
 
 const selected = ref([]);

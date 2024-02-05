@@ -32,10 +32,7 @@
       </v-col>
     </v-row>
 
-    <slot
-      name="customcomp"
-      v-bind:chamaZoom="chamaZoom"
-    > </slot>
+    <slot name="customcomp" v-bind:chamaZoom="chamaZoom"> </slot>
 
     <v-dialog
       v-if="dialog"
@@ -62,19 +59,18 @@
           :src="iframeUrl"
           width="100%"
           height="100%"
-          style="border: white;"
+          style="border: white"
         ></iframe>
       </v-card>
-      <v-card
-        v-if="!componenteZoom && !iframeUrl"
-        height="500"
-      >
+      <v-card v-if="!componenteZoom && !iframeUrl" height="500">
         <v-card-title>
           <v-spacer></v-spacer>
           <v-icon @click="close">mdi-close</v-icon>
         </v-card-title>
         <v-card-text class="d-flex justify-center align-center">
-          <div class="font-weight-bold red--text display-1"> Zoom não disponível</div>
+          <div class="font-weight-bold red--text display-1">
+            Zoom não disponível
+          </div>
         </v-card-text>
       </v-card>
     </v-dialog>
@@ -187,7 +183,6 @@ watch(
   }
 );
 
-
 const updateSearch = async () => {
   if (valor.value && props.aoDigitar) {
     descricao.value = await props.aoDigitar(valor.value);
@@ -213,6 +208,12 @@ onMounted(async () => {
 });
 
 const renderComponente = async () => {
+  if (typeof props.zoom === "object" && typeof props.zoom.then === "function") {
+    const { component } = (await props.zoom)();
+
+    return component;
+  }
+
   iframeUrl.value = null;
 
   if (props.zoom === null) {
@@ -223,12 +224,6 @@ const renderComponente = async () => {
     iframeUrl.value = props.zoom;
     return null;
   }
-
-  const [modulo, programa] = props.zoom.split("/");
-  const component = (
-    await import(`@/module/${modulo}/${programa}/view/${programa}.vue`)
-  ).default;
-  return component;
 };
 const setaValor = async (item) => {
   if (!custom.value) {
@@ -281,7 +276,8 @@ const loadParams = () => {
   );
 };
 const chamaZoomComponente = async () => {
-  component.value.controller.dialogZoom = true;
+  component.value.controller.dialogZoom.value = true;
+
   if (custom.value) {
     component.value.controller.preencheFormulario(
       props.params,

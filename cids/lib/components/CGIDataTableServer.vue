@@ -10,7 +10,7 @@
     :group-by="groupBy"
     :sort-by="sortBy"
     :items-per-page-options="[
-    { value: 30, title: '30' },
+      { value: 30, title: '30' },
       { value: 60, title: '60' },
       { value: 100, title: '100' },
     ]"
@@ -23,7 +23,6 @@
     v-model:items-per-page="itensPorPagina"
     v-model="selected"
   >
-
     <template v-slot:top>
       <CGIDataTableHeader
         :mostra-pesquisa="mostraPesquisa"
@@ -36,7 +35,9 @@
         v-model:pesquisa="pesquisa"
         @salvar-propriedades="salvarPropriedades"
         @update:agrupamento="atualizaAgrupamento"
+        @cancelar-zoom="cancelarZoom"
         :mostra-propriedades="mostraPropriedades"
+        :zoom-dialog="zoomDialog"
       >
         <template v-slot:pesquisa>
           <slot name="pesquisa"></slot>
@@ -57,13 +58,14 @@
             variant="text"
             :color="isDarkTheme ? 'orange' : 'primary'"
           >
-
           </v-btn>
         </template>
 
         <v-card>
           <v-card-text>
-            <div class="font-weight-bold mb-5">Ações principais do registro</div>
+            <div class="font-weight-bold mb-5">
+              Ações principais do registro
+            </div>
 
             <div class="d-flex justify-space-between align-center">
               <div
@@ -93,7 +95,10 @@
 
       <div
         style="min-width: 150px"
-        v-if="cids.cidsState?.defaults?.dataTable?.acoes === 'right' || cids.cidsState?.defaults?.dataTable?.acoes === 'left'"
+        v-if="
+          cids.cidsState?.defaults?.dataTable?.acoes === 'right' ||
+          cids.cidsState?.defaults?.dataTable?.acoes === 'left'
+        "
       >
         <v-tooltip
           location="top"
@@ -120,30 +125,21 @@
       v-for="(header, index) in customHeaders"
       v-slot:[`item.${header.key}`]="{ item }"
     >
-      <div
-        :key="index"
-        v-if="header.formater"
-      >
+      <div :key="index" v-if="header.formater">
         {{ header.formater(item[header.key]) }}
       </div>
-      <slot
-        v-else
-        :name="header.key"
-        v-bind:item="item"
-      > </slot>
+      <slot v-else :name="header.key" v-bind:item="item"> </slot>
     </template>
 
     <template v-slot:expanded-row="{ columns, item }">
-      <slot
-        name="expanded-row"
-        v-bind:item="item"
-        v-bind:columns="columns"
-      > </slot>
+      <slot name="expanded-row" v-bind:item="item" v-bind:columns="columns">
+      </slot>
     </template>
 
     <template v-slot:group-header="{ isGroupOpen, toggleGroup, item, columns }">
       <th colspan="90">
-        <v-icon @click="toggleGroup">{{ isGroupOpen ? "mdi-minus" : "mdi-plus" }}
+        <v-icon @click="toggleGroup"
+          >{{ isGroupOpen ? "mdi-minus" : "mdi-plus" }}
         </v-icon>
         {{
           columns[0][0].toUpperCase() +
@@ -159,7 +155,7 @@ import CGIDataTableHeader from "./CGIDataTableHeader.vue";
 import { computed, onMounted } from "vue";
 import { ref, watch } from "vue";
 import { useCids } from "../composable/CGICids";
-import { useTheme } from 'vuetify'
+import { useTheme } from "vuetify";
 
 const props = defineProps({
   copiar: { type: Boolean, default: () => false },
@@ -202,13 +198,14 @@ const emit = defineEmits([
   "alterar-item",
   "deletar-item",
   "exporta-zoom",
+  "cancelar-zoom",
 ]);
 
-const theme = useTheme()
+const theme = useTheme();
 
 const isDarkTheme = computed(() => {
-  return theme.global.current.value.dark
-})
+  return theme.global.current.value.dark;
+});
 
 const cids = useCids();
 
@@ -286,6 +283,10 @@ const atualizaAgrupamento = (agrupamento) => {
   if (agrupamento) {
     paginacao.value.groupBy.push({ key: agrupamento });
   }
+};
+
+const cancelarZoom = () => {
+  emit("cancelar-zoom");
 };
 
 const editItem = (item) => {
@@ -433,6 +434,17 @@ watch(
   () => props.totalItens,
   (newValue) => {
     totalItens.value = newValue;
+  }
+);
+
+watch(
+  () => props.zoomDialog,
+  (newValue) => {
+    const acao = opcoesDeAcao.value.filter(
+      (opcao) => opcao.nome === "Exportar registro"
+    );
+
+    acao[0].mostrar = newValue;
   }
 );
 

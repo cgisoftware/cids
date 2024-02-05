@@ -1,11 +1,5 @@
 <template>
-  <v-toolbar
-    flat
-    dense
-    v-if="mostraToolbar"
-    color="transparent"
-    class="pt-4"
-  >
+  <v-toolbar flat dense v-if="mostraToolbar" color="transparent" class="pt-4">
     <v-toolbar-title>
       <div class="d-flex flex-column">
         <div>
@@ -28,18 +22,12 @@
       v-model="pesquisaInterna"
       v-if="mostraPesquisa"
     >
-      <template
-        v-slot:prepend-inner
-        v-if="informacoesDaPesquisa"
-      >
+      <template v-slot:prepend-inner v-if="informacoesDaPesquisa">
         <v-tooltip top>
           <template v-slot:activator="{ on, attrs }">
-            <v-icon
-              v-bind="attrs"
-              v-on="on"
-            >mdi-information-variant</v-icon>
+            <v-icon v-bind="attrs" v-on="on">mdi-information-variant</v-icon>
           </template>
-          <span>{{informacoesDaPesquisa}}</span>
+          <span>{{ informacoesDaPesquisa }}</span>
         </v-tooltip>
       </template>
     </v-text-field>
@@ -71,10 +59,7 @@
         <v-toolbar color="transparent">
           <v-toolbar-title>Organizar tabela</v-toolbar-title>
         </v-toolbar>
-        <v-card-text
-          class="px-0"
-          style="overflow-y: scroll; height: 300px"
-        >
+        <v-card-text class="px-0" style="overflow-y: scroll; height: 300px">
           <v-autocomplete
             v-if="habilitaAgrupamento"
             dense
@@ -88,10 +73,7 @@
             clearable
             v-model="agrupamento"
           ></v-autocomplete>
-          <v-container
-            fluid
-            grid-list-md
-          >
+          <v-container fluid grid-list-md>
             <v-row>
               <v-col cols="6">
                 Colunas na tela
@@ -100,10 +82,12 @@
                   :list="colunasVisiveisInterna"
                   item-key="key"
                 >
-                  <template v-slot:item="{element:coluna}">
+                  <template v-slot:item="{ element: coluna }">
                     <div
                       :key="coluna.text"
-                      v-show="coluna.key !== 'acoes' && coluna.key !== 'tb_detalhe'"
+                      v-show="
+                        coluna.key !== 'acoes' && coluna.key !== 'tb_detalhe'
+                      "
                       class="text-center my-1"
                     >
                       <v-chip
@@ -118,7 +102,11 @@
                           <v-icon
                             small
                             @click="removeColunaDaTela(coluna)"
-                            style="position: absolute; right: 10px; cursor: pointer;"
+                            style="
+                              position: absolute;
+                              right: 10px;
+                              cursor: pointer;
+                            "
                           >
                             mdi-close
                           </v-icon>
@@ -148,7 +136,7 @@
                       <v-icon
                         small
                         @click="adicionaColunaNaTela(coluna)"
-                        style="position: absolute; right: 10px; cursor: pointer;"
+                        style="position: absolute; right: 10px; cursor: pointer"
                       >
                         mdi-plus
                       </v-icon>
@@ -167,18 +155,10 @@
         </v-card-actions>
       </v-card>
     </v-menu>
-    <v-btn
-      icon
-      v-if="mostraPropriedades"
-      @click="salvarPropriedades"
-    >
+    <v-btn icon v-if="mostraPropriedades" @click="salvarPropriedades">
       <v-icon small>mdi-content-save</v-icon>
     </v-btn>
-    <v-btn
-      icon
-      v-if="zoomDialog"
-      @click="$emit('cancelar-zoom')"
-    >
+    <v-btn icon v-if="zoomDialog" @click="emit('cancelar-zoom')">
       <v-icon small>mdi-close</v-icon>
     </v-btn>
   </v-toolbar>
@@ -208,8 +188,9 @@ const emit = defineEmits([
   "update:colunasVisiveis",
   "update:colunasInvisiveis",
   "salvar-propriedades",
-  "update:agrupamento"
-]); //
+  "update:agrupamento",
+  "cancelar-zoom",
+]);
 
 const pesquisaInterna = ref(props.pesquisa);
 const colunasVisiveisInterna = toRef(props.colunasVisiveis);

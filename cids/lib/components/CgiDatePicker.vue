@@ -3,6 +3,7 @@
     density="compact"
     v-model="data"
     :label="nome"
+    :rules="regras"
     persistent-hint
     v-maska:[mask]
     @blur="blurTextField"
@@ -16,10 +17,7 @@
         location="bottom left"
       >
         <template v-slot:activator="{ props: props }">
-          <v-icon
-            tabindex="-1"
-            v-bind="props"
-          >mdi-calendar</v-icon>
+          <v-icon tabindex="-1" v-bind="props">mdi-calendar</v-icon>
         </template>
 
         <v-date-picker
@@ -37,8 +35,8 @@
 
 <script setup>
 import dayjs from "dayjs";
-import * as isBetween from "dayjs/plugin/isBetween";
-import * as customParseFormat  from "dayjs/plugin/customParseFormat";
+import isBetween from "dayjs/plugin/isBetween";
+import customParseFormat from "dayjs/plugin/customParseFormat";
 import { computed, ref } from "vue";
 
 dayjs.extend(customParseFormat);
@@ -107,12 +105,16 @@ const formatoMascara = computed(() => {
   return formatos[props.tipo][props.formato];
 });
 
-const menu = ref(false);
-const data = ref(
-  dayjs(props.modelValue, props.formato).format(
+const formataValorInicial = () => {
+  if (!props.modelValue) return "";
+
+  return dayjs(props.modelValue, props.formato).format(
     formatoMascara.value.formatoInterno
-  )
-);
+  );
+};
+
+const menu = ref(false);
+const data = ref(formataValorInicial());
 const datePicker = ref(dayjs(props.modelValue, props.formato).toDate());
 const mask = ref({ mask: props.tipo == "dia" ? "##/##/####" : "##/####" });
 

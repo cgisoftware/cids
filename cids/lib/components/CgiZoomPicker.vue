@@ -143,8 +143,8 @@ export default {
     if (!subscriber) {
       return;
     }
-    subscriber(this.programa).exportZoom(this.setaValor);
-    subscriber(this.programa).cancel(this.close);
+    subscriber(this.zoom).exportZoom(this.setaValor);
+    subscriber(this.zoom).cancel(this.close);
   },
   methods: {
     async renderComponente() {
@@ -204,10 +204,10 @@ export default {
       if (!publisher) {
         return;
       }
-      publisher(this.programa).send("dialogZoom", true);
+      publisher(this.zoom).send("dialogZoom", true);
 
       if (this.custom) {
-        publisher(this.programa).send("preencheFormulario", {
+        publisher(this.zoom).send("preencheFormulario", {
           params: this.params,
           desabilitaCampos: this.desabilitaCampos,
         });
@@ -216,10 +216,10 @@ export default {
       }
 
       if (this.params !== undefined) {
-        publisher(this.programa).send("queryZoom", this.params);
+        publisher(this.zoom).send("queryZoom", this.params);
       }
 
-      publisher(this.programa).send(
+      publisher(this.zoom).send(
         "pesquisa",
         this.valor && this.valor !== 0 ? this.valor.toString() : null
       );

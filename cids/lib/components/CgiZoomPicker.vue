@@ -135,9 +135,7 @@ export default {
     if (this.valor && this.aoDigitar) {
       this.descricao = await this.aoDigitar(this.valor);
     }
-    const { zoom, programa } = await this.renderComponente();
-    this.componenteZoom = zoom;
-    this.programa = programa;
+    this.componenteZoom = await this.renderComponente();
 
     if (!subscriber) {
       return;
@@ -153,9 +151,9 @@ export default {
         typeof this.zoom === "object" &&
         typeof this.zoom.then === "function"
       ) {
-        const { component, screen } = (await this.zoom)();
-        const programa = screen.split("/")[1];
-        return { zoom: component, programa };
+        const { component } = (await this.zoom)();
+
+        return component
       }
 
       this.iframeUrl = null;

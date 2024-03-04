@@ -65,7 +65,6 @@
           width="100%"
           height="100%"
           style="border: white;"
-          v-on:load="onLoadIframe"
         ></iframe>
       </v-card>
       <v-card
@@ -143,6 +142,8 @@ export default {
     if (!subscriber) {
       return;
     }
+
+    subscriber(this.zoom).listen("getParams", this.loadParams);
     subscriber(this.zoom).exportZoom(this.setaValor);
     subscriber(this.zoom).cancel(this.close);
   },
@@ -200,7 +201,7 @@ export default {
       //   return;
       // }
     },
-    onLoadIframe() {
+    loadParams() {
       if (!publisher) {
         return;
       }

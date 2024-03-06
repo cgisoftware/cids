@@ -7,6 +7,7 @@
     :data-maska="mascara"
     v-maska
     :disabled="desabilitado"
+    :readonly="somenteLeitura"
     @blur="blurTextField"
     persistent-hint
   >
@@ -20,6 +21,7 @@
         left
         max-width="290px"
         min-width="290px"
+        :disabled="desabilitado || somenteLeitura"
       >
         <template v-slot:activator="{ on: menu, attrs }">
           <v-icon
@@ -27,6 +29,7 @@
             v-bind="attrs"
             v-on="menu"
             :disabled="desabilitado"
+            :readonly="somenteLeitura"
           >mdi-calendar</v-icon>
         </template>
         <v-date-picker
@@ -192,6 +195,10 @@ export default {
       type: String,
     },
     desabilitado: {
+      type: Boolean,
+      default: () => false,
+    },
+    somenteLeitura: {
       type: Boolean,
       default: () => false,
     },

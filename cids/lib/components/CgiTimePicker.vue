@@ -7,6 +7,7 @@
     v-maska
     v-model="hora"
     :disabled="desabilitado"
+    :readonly="somenteLeitura"
     @blur="formataData"
     @input="$emit('input', hora)"
   >
@@ -21,6 +22,7 @@
         left
         max-width="290px"
         min-width="290px"
+        :disabled="desabilitado || somenteLeitura"
       >
         <template v-slot:activator="{ on: menu, attrs }">
           <v-icon
@@ -28,6 +30,7 @@
             v-bind="attrs"
             v-on="menu"
             :disabled="desabilitado"
+            :readonly="somenteLeitra"
           >mdi-alarm</v-icon>
         </template>
         <v-time-picker
@@ -103,6 +106,10 @@ export default {
       type: String,
     },
     desabilitado: {
+      type: Boolean,
+      default: false,
+    },
+    somenteLeitura: {
       type: Boolean,
       default: false,
     },

@@ -10,6 +10,7 @@
           :rules="regras"
           v-model="valor"
           :disabled="desabilitado"
+          :readonly="somenteLeitura"
           @click:prepend-inner="chamaZoom"
           @click:append="clear"
           prepend-inner-icon="mdi-database-search-outline"
@@ -187,6 +188,10 @@ export default {
       }
     },
     async chamaZoom() {
+      if (this.desabilitado || this.somenteLeitura) {
+        return
+      }
+
       this.dialog = true;
       await new Promise((resolver) => setTimeout(resolver, 100));
       if (this.componenteZoom && !this.iframeUrl) {
@@ -311,6 +316,10 @@ export default {
     },
     value: {},
     desabilitado: {
+      type: Boolean,
+      default: false,
+    },
+    somenteLeitura: {
       type: Boolean,
       default: false,
     },

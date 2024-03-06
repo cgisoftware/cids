@@ -10,6 +10,7 @@
           :rules="regras"
           v-model:model-value="valor"
           :disabled="desabilitado"
+          :readonly="somenteLeitura"
           @click:prepend-inner="chamaZoom"
           @click:append-inner="clear"
           prepend-inner-icon="mdi-database-search-outline"
@@ -112,6 +113,10 @@ const props = defineProps({
   },
   modelValue: {},
   desabilitado: {
+    type: Boolean,
+    default: false,
+  },
+  somenteLeitura: {
     type: Boolean,
     default: false,
   },
@@ -243,6 +248,10 @@ const setaValor = async (item) => {
   }
 };
 const chamaZoom = async () => {
+  if (props.desabilitado || props.somenteLeitura) {
+    return
+  }
+    
   dialog.value = true;
   await new Promise((resolver) => setTimeout(resolver, 100));
   if (componenteZoom.value && !iframeUrl.value) {

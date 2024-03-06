@@ -7,6 +7,8 @@
     persistent-hint
     v-maska:[mask]
     @blur="blurTextField"
+    :disabled="desabilitado"
+    :readonly="somenteLeitura"
   >
     <template v-slot:append-inner>
       <v-menu
@@ -15,9 +17,15 @@
         :close-on-content-click="false"
         transition="scale-transition"
         location="bottom left"
+        :disabled="desabilitado || somenteLeitura"
       >
         <template v-slot:activator="{ props: props }">
-          <v-icon tabindex="-1" v-bind="props">mdi-calendar</v-icon>
+          <v-icon
+            tabindex="-1"
+            v-bind="props"
+            :disabled="desabilitado"
+            :readonly="somenteLeitura"
+          >mdi-calendar</v-icon>
         </template>
 
         <v-date-picker
@@ -63,6 +71,10 @@ const props = defineProps({
     default: () => "dia",
   },
   desabilitado: {
+    type: Boolean,
+    default: () => false,
+  },
+  somenteLeitura: {
     type: Boolean,
     default: () => false,
   },

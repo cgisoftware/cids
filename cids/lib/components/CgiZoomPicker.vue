@@ -154,7 +154,7 @@ export default {
       ) {
         const { component } = (await this.zoom)();
 
-        return component
+        return component;
       }
 
       this.iframeUrl = null;
@@ -189,7 +189,7 @@ export default {
     },
     async chamaZoom() {
       if (this.desabilitado || this.somenteLeitura) {
-        return
+        return;
       }
 
       this.dialog = true;
@@ -270,6 +270,9 @@ export default {
       this.$emit("confirmar-zoom");
     },
     clear() {
+      if (this.desabilitado || this.somenteLeitura) {
+        return;
+      }
       // if (this.posicao === "inicial") {
       //   this.valor = this.tipo == "number" ? 0 : "";
       // } else {

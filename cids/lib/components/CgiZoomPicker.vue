@@ -33,7 +33,10 @@
       </v-col>
     </v-row>
 
-    <slot name="customcomp" v-bind:chamaZoom="chamaZoom"> </slot>
+    <slot
+      name="customcomp"
+      v-bind:chamaZoom="chamaZoom"
+    > </slot>
 
     <v-dialog
       v-if="dialog"
@@ -63,7 +66,10 @@
           style="border: white"
         ></iframe>
       </v-card>
-      <v-card v-if="!componenteZoom && !iframeUrl" height="500">
+      <v-card
+        v-if="!componenteZoom && !iframeUrl"
+        height="500"
+      >
         <v-card-title>
           <v-spacer></v-spacer>
           <v-icon @click="close">mdi-close</v-icon>
@@ -249,9 +255,9 @@ const setaValor = async (item) => {
 };
 const chamaZoom = async () => {
   if (props.desabilitado || props.somenteLeitura) {
-    return
+    return;
   }
-    
+
   dialog.value = true;
   await new Promise((resolver) => setTimeout(resolver, 100));
   if (componenteZoom.value && !iframeUrl.value) {
@@ -323,6 +329,9 @@ const confirma = () => {
   emits("confirmar-zoom");
 };
 const clear = () => {
+  if (props.desabilitado || props.somenteLeitura) {
+    return;
+  }
   valor.value = null;
   descricao.value = null;
 };

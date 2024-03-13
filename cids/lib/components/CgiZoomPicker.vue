@@ -33,10 +33,7 @@
       </v-col>
     </v-row>
 
-    <slot
-      name="customcomp"
-      v-bind:chamaZoom="chamaZoom"
-    > </slot>
+    <slot name="customcomp" v-bind:chamaZoom="chamaZoom"> </slot>
 
     <v-dialog
       v-if="dialog"
@@ -66,10 +63,7 @@
           style="border: white"
         ></iframe>
       </v-card>
-      <v-card
-        v-if="!componenteZoom && !iframeUrl"
-        height="500"
-      >
+      <v-card v-if="!componenteZoom && !iframeUrl" height="500">
         <v-card-title>
           <v-spacer></v-spacer>
           <v-icon @click="close">mdi-close</v-icon>
@@ -294,10 +288,10 @@ const chamaZoomComponente = async () => {
   component.value.controller.dialogZoom.value = true;
 
   if (custom.value) {
-    component.value.controller.preencheFormulario(
-      props.params,
-      props.desabilitaCampos
-    );
+    component.value.controller.preencheFormulario({
+      params: props.params,
+      desabilitaCampos: props.desabilitaCampos,
+    });
     return;
   }
 

@@ -15,6 +15,7 @@
       { value: 100, title: '100' },
     ]"
     :show-select="showSelect"
+    :row-props="habilitaLinhaSelecionada"
     density="compact"
     multi-sort
     hover
@@ -30,6 +31,7 @@
         :nome-programa="nomePrograma"
         :nome-tabela="nomeTabela"
         :habilita-agrupamento="habilitaAgrupamento"
+        :informacoes-da-pesquisa="informacoesDaPesquisa"
         v-model:colunas-visiveis="colunasVisiveis"
         v-model:colunas-invisiveis="colunasInvisiveis"
         v-model:pesquisa="pesquisa"
@@ -62,12 +64,12 @@
         </template>
 
         <v-card>
-          <v-card-text>
-            <div class="font-weight-bold mb-5">
+          <v-card-text class="px-0">
+            <div class="font-weight-bold mb-5 px-4">
               Ações principais do registro
             </div>
 
-            <div class="d-flex justify-space-between align-center">
+            <div class="d-flex justify-space-between align-center px-4">
               <div
                 v-for="(opcao, index) in opcoesDeAcao"
                 :key="index"
@@ -87,6 +89,18 @@
                   </template>
                   <span>{{ opcao.descricao }}</span>
                 </v-tooltip>
+              </div>
+            </div>
+
+            <div v-if="temOutrasAcoes">
+              <v-divider class="my-2" />
+
+              <div class="font-weight-bold mb-5 px-4">
+                Demais ações do registro
+              </div>
+
+              <div class="px-4">
+                <slot v-bind:item="item" name="outras-acoes" />
               </div>
             </div>
           </v-card-text>
@@ -152,8 +166,7 @@
 
 <script setup>
 import CGIDataTableHeader from "./CGIDataTableHeader.vue";
-import { computed, onMounted } from "vue";
-import { ref, watch } from "vue";
+import { computed, onMounted, useSlots, ref, watch, toRaw } from "vue";
 import { useCids } from "../composable/CGICids";
 import { useTheme } from "vuetify";
 
@@ -188,6 +201,8 @@ const props = defineProps({
   propriedades: { type: Array, default: () => [] },
   habilitaAgrupamento: { type: Boolean, default: () => false },
   mostraPropriedades: { type: Boolean, default: () => false },
+  mostraLinhaSelecionada: { type: Boolean, default: () => false },
+  chaveTabela: { type: String, default: () => "seq" },
 });
 
 const emit = defineEmits([
@@ -199,6 +214,7 @@ const emit = defineEmits([
   "deletar-item",
   "exporta-zoom",
   "cancelar-zoom",
+  "linha-selecionada",
 ]);
 
 const theme = useTheme();
@@ -208,11 +224,13 @@ const isDarkTheme = computed(() => {
 });
 
 const cids = useCids();
+const slots = useSlots();
 
 const pesquisa = ref(null);
 const colunasVisiveis = ref([]);
 const colunasInvisiveis = ref([]);
 const paginacao = ref({});
+const linhaSelecionada = ref(null);
 const opcoesDeAcao = ref([
   {
     nome: "Visualizar",
@@ -313,25 +331,47 @@ const printer = (item) => {
   emit("on:printer", item);
 };
 
-const rowClick = (item, row) => {
-  // console.log(row);
+const rowClick = (_, row) => {
+  linhaSelecionada.value = structuredClone(toRaw(row.item));
+  emit("linha-selecionada", row.item);
 };
 
-const salvarPropriedades = (value) => {
-  value["paginacao"] = paginacao.value;
-  emit("salvar-propriedades", value);
+const habilitaLinhaSelecionada = ({ item }) => {
+  if (props.mostraLinhaSelecionada && linhaSelecionada.value) {
+    if (linhaSelecionada.value[props.chaveTabela] === item[props.chaveTabela]) {
+      return {
+        class: cids?.theme?.dataTable?.lineColor ?? "linha-selecionada",
+      };
+    }
+  }
+
+  if (item.rowProps) {
+    return { ...item.rowProps };
+  }
+};
+
+const salvarPropriedades = (params) => {
+  const pagination = toRaw(paginacao.value);
+  const propriedades = {
+    colunas: params.colunas.map((coluna) => ({ ...toRaw(coluna) })),
+    paginacao: pagination,
+  };
+
+  emit("salvar-propriedades", propriedades);
 };
 
 const organizaColunas = () => {
   colunasVisiveis.value = [];
   colunasInvisiveis.value = [];
-  const colunasAux = [...colunas.value];
-  const propriedadesAux = structuredClone(props.propriedades);
+  const colunasAux = [...props.colunas];
+  const propriedadesAux = structuredClone(toRaw(props.propriedades));
 
   propriedadesAux.forEach((propriedade) => {
     const coluna = colunasAux.filter(
-      (coluna) => coluna.key === propriedade.key
+      (coluna) =>
+        coluna.key === propriedade.key || coluna.value === propriedade.value
     );
+
     if (coluna.length > 0) Object.assign(propriedade, coluna[0]);
   });
 
@@ -341,7 +381,10 @@ const organizaColunas = () => {
   if (propriedadesAux.length) {
     colunasInvisiveis.value = colunasAux.filter(
       (coluna) =>
-        !propriedadesAux.some((propriedade) => propriedade.key === coluna.key)
+        !propriedadesAux.some(
+          (propriedade) =>
+            propriedade.key === coluna.key || propriedade.value === coluna.value
+        )
     );
   }
 
@@ -413,6 +456,10 @@ const groupBy = computed(() => {
   return paginacao.value.groupBy;
 });
 
+const temOutrasAcoes = computed(() => {
+  return !!slots["outras-acoes"];
+});
+
 const selected = ref([]);
 const totalItens = ref(props.totalItens);
 const itensPorPagina = ref(props.itensPorPagina);
@@ -438,6 +485,11 @@ watch(
 );
 
 watch(
+  () => props.propriedades,
+  () => organizaColunas()
+);
+
+watch(
   () => props.zoomDialog,
   (newValue) => {
     const acao = opcoesDeAcao.value.filter(
@@ -453,4 +505,9 @@ onMounted(() => {
 });
 </script>
 
-<style></style>
+<style>
+.linha-selecionada {
+  background-color: #e3f2fd !important;
+  color: #000 !important;
+}
+</style>

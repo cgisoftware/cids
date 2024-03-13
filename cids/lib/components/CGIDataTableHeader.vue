@@ -23,11 +23,10 @@
       v-if="mostraPesquisa"
     >
       <template v-slot:prepend-inner v-if="informacoesDaPesquisa">
-        <v-tooltip top>
-          <template v-slot:activator="{ on, attrs }">
-            <v-icon v-bind="attrs" v-on="on">mdi-information-variant</v-icon>
+        <v-tooltip location="top" :text="informacoesDaPesquisa" top>
+          <template v-slot:activator="{ props }">
+            <v-icon v-bind="props">mdi-information-variant</v-icon>
           </template>
-          <span>{{ informacoesDaPesquisa }}</span>
         </v-tooltip>
       </template>
     </v-text-field>
@@ -49,7 +48,6 @@
         <v-btn
           icon="mdi-dots-vertical"
           v-if="mostraPropriedades"
-          @click="salvarPropriedades"
           v-bind="props"
         >
         </v-btn>
@@ -165,7 +163,7 @@
 </template>
 
 <script setup>
-import { ref, toRef, toRefs, watch } from "vue";
+import { ref, toRef, watch } from "vue";
 import { debounce } from "../util";
 import draggable from "vuedraggable";
 

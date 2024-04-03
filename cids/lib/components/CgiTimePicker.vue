@@ -30,15 +30,18 @@
             v-bind="attrs"
             v-on="menu"
             :disabled="desabilitado"
-            :readonly="somenteLeitra"
-          >mdi-alarm</v-icon>
+            :readonly="somenteLeitura"
+          >
+            mdi-alarm
+          </v-icon>
         </template>
+
         <v-time-picker
           v-model="picker"
           full-width
           @click:minute="$refs.menu.save(picker)"
           format="24hr"
-        ></v-time-picker>
+        />
       </v-menu>
     </template>
   </v-text-field>
@@ -116,4 +119,3 @@ export default {
   },
 };
 </script>
-

@@ -361,6 +361,10 @@ export default {
       type: Boolean,
       default: () => false,
     },
+    espacamento: {
+      type: String,
+      default: () => "",
+    },
   },
 };
 </script>

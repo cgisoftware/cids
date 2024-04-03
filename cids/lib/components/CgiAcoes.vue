@@ -128,7 +128,6 @@
         atualizar
         :carregando="carregarAtualizar"
         :desabilitado="desabilitarAtualizar"
-        :class="espacamento"
         @click="$emit('atualizar')"
       ></cgi-btn>
 
@@ -139,7 +138,6 @@
         incluir
         :carregando="carregarIncluir"
         :desabilitado="desabilitarIncluir"
-        :class="espacamento"
         @click="$emit('incluir')"
       ></cgi-btn>
 
@@ -150,7 +148,6 @@
         alterar
         :carregando="carregarAlterar"
         :desabilitado="desabilitarAlterar"
-        :class="espacamento"
         @click="$emit('alterar')"
       ></cgi-btn>
 
@@ -161,7 +158,6 @@
         copiar
         :carregando="carregarCopiar"
         :desabilitado="desabilitarCopiar"
-        :class="espacamento"
         @click="$emit('copiar')"
       ></cgi-btn>
 
@@ -172,7 +168,6 @@
         deletar
         :carregando="carregarDeletar"
         :desabilitado="desabilitarDeletar"
-        :class="espacamento"
         @click="$emit('deletar')"
       ></cgi-btn>
 
@@ -183,7 +178,6 @@
         relatorio
         :carregando="carregarRelatorio"
         :desabilitado="desabilitarRelatorio"
-        :class="espacamento"
         @click="$emit('relatorio')"
       ></cgi-btn>
 
@@ -194,7 +188,6 @@
         excel
         :carregando="carregarExcel"
         :desabilitado="desabilitarExcel"
-        :class="espacamento"
         @click="$emit('excel')"
       ></cgi-btn>
 
@@ -205,7 +198,6 @@
         pdf
         :carregando="carregarPdf"
         :desabilitado="desabilitarPdf"
-        :class="espacamento"
         @click="$emit('pdf')"
       ></cgi-btn>
 
@@ -227,7 +219,6 @@
         filtro
         :carregando="carregarFiltro"
         :desabilitado="desabilitarFiltro"
-        :class="espacamento"
         @click="$emit('filtro')"
       >
         <template v-slot:formulario="{ cancelar }">
@@ -360,10 +351,6 @@ export default {
     carregarAtualizar: {
       type: Boolean,
       default: () => false,
-    },
-    espacamento: {
-      type: String,
-      default: () => "",
     },
   },
 };

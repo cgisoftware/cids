@@ -5,19 +5,14 @@
       :style="{ 'background-image': `url(${imageData})` }"
       @click="chooseImage"
     >
-      <span
-        v-if="!imageData"
-        class="placeholder"
-      >
-        Selecione uma imagem
-      </span>
+      <span v-if="!imageData" class="placeholder"> Selecione uma imagem </span>
       <input
         class="file-input"
         ref="fileInput"
         type="file"
         @input="onSelectFile"
         accept="image/*"
-      >
+      />
     </div>
   </div>
 </template>
@@ -43,9 +38,15 @@ export default {
     url() {
       this.createFile(this.url);
     },
+    modelValue(vlr) {
+      if (!vlr) {
+        this.imageData = null;
+      }
+    },
   },
   methods: {
     chooseImage() {
+      this.$refs.fileInput.value = null;
       this.$refs.fileInput.click();
     },
 
@@ -58,7 +59,7 @@ export default {
           this.imageData = e.target.result;
         };
         reader.readAsDataURL(files[0]);
-        this.$emit("input", files[0]);
+        this.$emit("update:modelValue", files[0]);
       }
     },
     async createFile(url) {
@@ -81,15 +82,15 @@ export default {
             this.imageData = e.target.result;
           };
           reader.readAsDataURL(file);
-          this.$emit("input", file);
+          this.$emit("update:modelValue", file);
         } catch (error) {
-           this.imageData = null
+          this.imageData = null;
         }
 
         return;
       }
 
-      this.imageData = null
+      this.imageData = null;
     },
   },
   props: {
@@ -105,7 +106,7 @@ export default {
       type: String,
       default: () => "200",
     },
-    value: {},
+    modelValue: {},
     url: {
       type: String,
       default: () => null,

@@ -32,6 +32,7 @@
         :nome-tabela="nomeTabela"
         :habilita-agrupamento="habilitaAgrupamento"
         :informacoes-da-pesquisa="informacoesDaPesquisa"
+        :carregar="carregar"
         v-model:colunas-visiveis="colunasVisiveis"
         v-model:colunas-invisiveis="colunasInvisiveis"
         v-model:pesquisa="pesquisa"
@@ -52,7 +53,10 @@
     </template>
 
     <template v-slot:[`item.acoes`]="{ item }">
-      <v-menu v-if="cids.cidsState?.defaults?.dataTable?.acoes === 'left dot'">
+      <v-menu
+        v-if="cids.cidsState?.defaults?.dataTable?.acoes === 'left dot'"
+        eager
+      >
         <template v-slot:activator="{ props }">
           <v-btn
             v-bind="props"
@@ -367,10 +371,12 @@ const organizaColunas = () => {
   const propriedadesAux = structuredClone(toRaw(props.propriedades));
 
   propriedadesAux.forEach((propriedade) => {
-    const coluna = colunasAux.filter(
-      (coluna) =>
-        coluna.key === propriedade.key || coluna.value === propriedade.value
-    );
+    const coluna = colunasAux.filter((coluna) => {
+      const col = coluna.key ?? coluna.value;
+      const prop = propriedade.key ?? propriedade.value;
+
+      return col === prop;
+    });
 
     if (coluna.length > 0) Object.assign(propriedade, coluna[0]);
   });
@@ -381,10 +387,12 @@ const organizaColunas = () => {
   if (propriedadesAux.length) {
     colunasInvisiveis.value = colunasAux.filter(
       (coluna) =>
-        !propriedadesAux.some(
-          (propriedade) =>
-            propriedade.key === coluna.key || propriedade.value === coluna.value
-        )
+        !propriedadesAux.some((propriedade) => {
+          const prop = propriedade.key ?? propriedade.value;
+          const col = coluna.key ?? coluna.value;
+
+          return prop === col;
+        })
     );
   }
 

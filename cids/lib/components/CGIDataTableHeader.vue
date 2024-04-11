@@ -1,11 +1,11 @@
 <template>
-  <v-toolbar flat dense v-if="mostraToolbar" color="transparent" class="pt-4">
+  <v-toolbar v-if="mostraToolbar" density="compact" color="transparent" flat>
     <v-toolbar-title>
       <div class="d-flex flex-column">
         <div>
           {{ nomeTabela }}
         </div>
-        <div style="font-size: 8px">
+        <div style="font-size: 8px; line-height: 10px">
           {{ nomePrograma }}
         </div>
       </div>
@@ -17,7 +17,7 @@
       style="max-width: 300px"
       class="mt-6"
       variant="filled"
-      label="Pesquisar..."
+      placeholder="Pesquisar..."
       color="primary"
       v-model="pesquisaInterna"
       v-if="mostraPesquisa"
@@ -49,6 +49,7 @@
           icon="mdi-dots-vertical"
           v-if="mostraPropriedades"
           v-bind="props"
+          :disabled="carregar"
         >
         </v-btn>
       </template>
@@ -57,6 +58,7 @@
         <v-toolbar color="transparent">
           <v-toolbar-title>Organizar tabela</v-toolbar-title>
         </v-toolbar>
+
         <v-card-text class="px-0" style="overflow-y: scroll; height: 300px">
           <v-autocomplete
             v-if="habilitaAgrupamento"
@@ -153,12 +155,21 @@
         </v-card-actions>
       </v-card>
     </v-menu>
-    <v-btn icon v-if="mostraPropriedades" @click="salvarPropriedades">
-      <v-icon small>mdi-content-save</v-icon>
-    </v-btn>
-    <v-btn icon v-if="zoomDialog" @click="emit('cancelar-zoom')">
-      <v-icon small>mdi-close</v-icon>
-    </v-btn>
+
+    <div class="d-flex align-center mr-2">
+      <v-btn
+        v-if="mostraPropriedades"
+        :disabled="carregar"
+        @click="salvarPropriedades"
+        icon
+      >
+        <v-icon>mdi-content-save</v-icon>
+      </v-btn>
+
+      <v-btn icon v-if="zoomDialog" @click="emit('cancelar-zoom')">
+        <v-icon>mdi-close</v-icon>
+      </v-btn>
+    </div>
   </v-toolbar>
 </template>
 
@@ -179,6 +190,7 @@ const props = defineProps({
   colunasInvisiveis: { type: Array, default: () => [] },
   zoomDialog: { type: Boolean, default: () => false },
   pesquisa: { type: String, default: () => null },
+  carregar: { type: Boolean, default: () => false },
 });
 
 const emit = defineEmits([

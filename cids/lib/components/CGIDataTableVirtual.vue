@@ -129,6 +129,16 @@
         </v-tooltip>
       </div>
     </template>
+
+    <template
+      v-for="(header, index) in customHeaders"
+      v-slot:[`item.${header.key}`]="{ item }"
+    >
+      <div :key="index" v-if="header.formater">
+        {{ header.formater(item[header.key]) }}
+      </div>
+      <slot v-else :name="header.key" v-bind:item="item"> </slot>
+    </template>
   </v-data-table-virtual>
 </template>
 
@@ -260,6 +270,10 @@ const sortBy = computed(() => {
 
 const groupBy = computed(() => {
   return paginacao.value.groupBy;
+});
+
+const customHeaders = computed(() => {
+  return colunas.value.filter((header) => header.custom);
 });
 
 const organizaColunas = () => {

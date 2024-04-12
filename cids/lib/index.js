@@ -1,5 +1,6 @@
 import CgiDatePicker from "./components/CgiDatePicker.vue";
 // import CgiTimePicker from './components/CgiTimePicker.vue'
+import CGIDataTable from "./components/CGIDataTable.vue";
 import CGIDataTableVirtual from "./components/CGIDataTableVirtual.vue";
 import CGIDataTableServer from "./components/CGIDataTableServer.vue";
 import CgiSnackbar from "./components/CgiSnackbar.vue";
@@ -38,6 +39,7 @@ export default {
     app.component("cgi-divider", CgiDivider);
     app.component("cgi-date-picker", CgiDatePicker);
     // app.component('cgi-time-picker', CgiTimePicker)
+    app.component("cgi-data-table", CGIDataTable);
     app.component("cgi-data-table-virtual", CGIDataTableVirtual);
     app.component("cgi-data-table-server", CGIDataTableServer);
     // app.component('cgi-data-table1', CgiDataTable1)

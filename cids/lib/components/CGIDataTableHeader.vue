@@ -11,8 +11,6 @@
       </div>
     </v-toolbar-title>
 
-    <v-spacer></v-spacer>
-
     <v-text-field
       style="max-width: 300px"
       class="mt-6"

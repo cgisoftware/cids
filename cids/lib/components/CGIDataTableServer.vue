@@ -1,9 +1,11 @@
 <template>
   <v-data-table-server
+    v-model:items-per-page="itensPorPagina"
+    v-model="selected"
     :headers="colunasVisiveis"
     :items-length="totalItens"
     :items="props.linhas"
-    :loading="carregar"
+    :loading="carregar ? 'primary' : null"
     :height="altura"
     :fixed-header="colunasFixas"
     :search="pesquisa"
@@ -16,13 +18,11 @@
     ]"
     :show-select="showSelect"
     :row-props="habilitaLinhaSelecionada"
+    @update:options="updateOptions"
+    @click:row="rowClick"
     density="compact"
     multi-sort
     hover
-    @update:options="updateOptions"
-    @click:row="rowClick"
-    v-model:items-per-page="itensPorPagina"
-    v-model="selected"
   >
     <template v-slot:top>
       <CGIDataTableHeader
@@ -203,6 +203,7 @@ const props = defineProps({
   showClipboard: { type: Boolean, default: () => false },
   showPrinter: { type: Boolean, default: () => false },
   propriedades: { type: Array, default: () => [] },
+  paginacao: { type: Object, default: () => {} },
   habilitaAgrupamento: { type: Boolean, default: () => false },
   mostraPropriedades: { type: Boolean, default: () => false },
   mostraLinhaSelecionada: { type: Boolean, default: () => false },
@@ -505,6 +506,22 @@ watch(
     );
 
     acao[0].mostrar = newValue;
+  }
+);
+
+watch(
+  () => props.paginacao,
+  () => {
+    paginacao.value = props.paginacao ?? {
+      page: 1,
+      itemsPerPage: 30,
+      sortBy: [],
+      sortDesc: [],
+      groupBy: [],
+      groupDesc: [],
+      multiSort: false,
+      mustSort: false,
+    };
   }
 );
 

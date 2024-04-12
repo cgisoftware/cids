@@ -2,9 +2,11 @@
   <v-data-table-virtual
     :headers="colunasVisiveis"
     :items="props.linhas"
-    :loading="carregar"
+    :loading="carregar ? 'primary' : null"
     :height="altura"
     :search="pesquisa"
+    :group-by="groupBy"
+    :sort-by="sortBy"
     :show-select="showSelect"
     :row-props="habilitaLinhaSelecionada"
     @click:row="rowClick"
@@ -158,6 +160,7 @@ const props = defineProps({
   linhas: { type: Array, default: () => [] },
   showSelect: { type: Boolean, default: () => false },
   propriedades: { type: Array, default: () => [] },
+  paginacao: { type: Object, default: () => {} },
   habilitaAgrupamento: { type: Boolean, default: () => false },
   mostraPropriedades: { type: Boolean, default: () => false },
   mostraLinhaSelecionada: { type: Boolean, default: () => false },
@@ -246,6 +249,17 @@ const opcoesDeAcao = ref([
 
 const temOutrasAcoes = computed(() => {
   return !!slots["outras-acoes"];
+});
+
+const sortBy = computed(() => {
+  return paginacao.value?.sortBy?.map((value, index) => ({
+    key: value,
+    order: paginacao.value.sortDesc[index] ? "desc" : "asc",
+  }));
+});
+
+const groupBy = computed(() => {
+  return paginacao.value.groupBy;
 });
 
 const organizaColunas = () => {
@@ -387,6 +401,22 @@ watch(
     );
 
     acao[0].mostrar = newValue;
+  }
+);
+
+watch(
+  () => props.paginacao,
+  () => {
+    paginacao.value = props.paginacao ?? {
+      page: 1,
+      itemsPerPage: 30,
+      sortBy: [],
+      sortDesc: [],
+      groupBy: [],
+      groupDesc: [],
+      multiSort: false,
+      mustSort: false,
+    };
   }
 );
 

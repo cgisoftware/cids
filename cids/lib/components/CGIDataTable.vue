@@ -405,6 +405,18 @@ const salvarPropriedades = (params) => {
   emit("salvar-propriedades", propriedades);
 };
 
+const cancelarZoom = () => {
+  emit("cancelar-zoom");
+};
+
+const atualizaAgrupamento = (agrupamento) => {
+  paginacao.value.groupBy = [];
+
+  if (agrupamento) {
+    paginacao.value.groupBy.push({ key: agrupamento });
+  }
+};
+
 if (
   props.showActions &&
   !colunas.value.some((value) => value.key === "actions")

@@ -96,7 +96,7 @@ const props = defineProps({
     require: true,
   },
   zoom: {
-    type: String,
+    type: [String, Promise],
     default: () => null,
   },
   compacto: {

@@ -43,7 +43,7 @@
       </CGIDataTableHeader>
     </template>
 
-    <template v-slot:[`item.acoes`]="{ item }">
+    <template v-slot:[`item.acoes`]="{ item, index }">
       <v-menu
         v-if="cids.cidsState?.defaults?.dataTable?.acoes === 'left dot'"
         eager
@@ -66,8 +66,8 @@
 
             <div class="d-flex justify-space-between align-center px-4">
               <div
-                v-for="(opcao, index) in opcoesDeAcao"
-                :key="index"
+                v-for="opcao in opcoesDeAcao"
+                :key="opcao.icone"
                 v-show="opcao.mostrar"
               >
                 <v-tooltip location="bottom">
@@ -78,7 +78,7 @@
                       :color="opcao.cor"
                       v-bind="props"
                       variant="text"
-                      @click="opcao.acao(item)"
+                      @click="opcao.acao(item, index)"
                     >
                     </v-btn>
                   </template>
@@ -210,8 +210,8 @@ const opcoesDeAcao = ref([
     icone: "mdi-eye",
     cor: "green",
     descricao: "Visualizar registro",
-    acao: (item) => {
-      emit("ver-detalhes", item);
+    acao: (item, index) => {
+      emit("ver-detalhes", { ...item, index });
     },
     mostrar: props.mostraDetalhes,
   },
@@ -220,8 +220,8 @@ const opcoesDeAcao = ref([
     icone: "mdi-content-copy",
     cor: "green",
     descricao: "Copiar registro",
-    acao: (item) => {
-      emit("copiar-item", item);
+    acao: (item, index) => {
+      emit("copiar-item", { ...item, index });
     },
     mostrar: props.copiar,
   },
@@ -230,8 +230,8 @@ const opcoesDeAcao = ref([
     icone: "mdi-pencil",
     cor: "blue",
     descricao: "Alterar registro",
-    acao: (item) => {
-      emit("alterar-item", item);
+    acao: (item, index) => {
+      emit("alterar-item", { ...item, index });
     },
     mostrar: props.alterar,
   },
@@ -240,8 +240,8 @@ const opcoesDeAcao = ref([
     icone: "mdi-delete",
     cor: "red",
     descricao: "Excluir registro",
-    acao: (item) => {
-      emit("deletar-item", item);
+    acao: (item, index) => {
+      emit("deletar-item", { ...item, index });
     },
     mostrar: props.deletar,
   },
@@ -250,8 +250,8 @@ const opcoesDeAcao = ref([
     icone: "mdi-arrow-down",
     cor: "orange",
     descricao: "Exportar registro",
-    acao: (item) => {
-      emit("exporta-zoom", item);
+    acao: (item, index) => {
+      emit("exporta-zoom", { ...item, index });
     },
     mostrar: props.zoomDialog,
   },

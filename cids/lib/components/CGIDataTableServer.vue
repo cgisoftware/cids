@@ -120,8 +120,8 @@
       >
         <v-tooltip
           location="top"
-          v-for="(opcao, index) in opcoesDeAcao"
-          :key="index"
+          v-for="opcao in opcoesDeAcao"
+          :key="opcao.icone"
         >
           <template v-slot:activator="{ props }">
             <v-btn
@@ -130,7 +130,7 @@
               :color="opcao.cor"
               v-bind="props"
               variant="text"
-              @click="opcao.acao(item)"
+              @click="opcao.acao(item, index)"
             >
             </v-btn>
           </template>
@@ -422,7 +422,7 @@ const organizaColunas = () => {
     }
 
     if (cids.cidsState?.defaults?.dataTable?.acoes === "left") {
-      colunasVisiveis.unshift({
+      colunasVisiveis.value.unshift({
         title: "Ações",
         align: "start",
         sortable: false,

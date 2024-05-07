@@ -377,6 +377,8 @@ const organizaColunas = () => {
 };
 
 const rowClick = (_, row) => {
+  if (props.carregar) return;
+
   linhaSelecionada.value = structuredClone(toRaw(row.item));
   emit("linha-selecionada", row.item);
 };

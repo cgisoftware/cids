@@ -1,9 +1,6 @@
 <template>
   <div>
-    <v-tooltip
-      location="bottom"
-      :text="`${btn.label} registro`"
-    >
+    <v-tooltip location="bottom" :text="`${btn.label} registro`">
       <template v-slot:activator="{ props }">
         <v-btn
           v-bind="props"
@@ -14,10 +11,8 @@
           :loading="carregando"
           :color="salvar || cancelar ? btn.cor : null"
         >
-          <v-icon
-            :color="salvar || btn.cor"
-            start
-          >{{ btn.icone }}</v-icon> {{ btn.label }}
+          <v-icon :color="salvar ? null : btn.cor" start>{{ btn.icone }}</v-icon>
+          {{ btn.label }}
         </v-btn>
       </template>
     </v-tooltip>
@@ -41,20 +36,14 @@
               :loading="carregando"
               :color="null"
             >
-              <v-icon
-                start
-                color="primary"
-              >mdi-filter</v-icon> filtro
+              <v-icon start color="primary">mdi-filter</v-icon> filtro
             </v-btn>
           </template>
           <span>Filtrar registros</span>
         </v-tooltip>
       </template>
 
-      <slot
-        name="formulario"
-        v-bind:cancelar="cancelarMenu"
-      />
+      <slot name="formulario" v-bind:cancelar="cancelarMenu" />
     </v-menu>
   </div>
 </template>

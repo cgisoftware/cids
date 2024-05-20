@@ -100,7 +100,7 @@
         </template>
 
         <div class="ml-3">
-          <slot name="botoes"> </slot>
+          <slot name="botoes" v-bind:limpaPesquisa="limpaPesquisa"> </slot>
         </div>
 
         <v-menu
@@ -588,6 +588,9 @@ export default {
         return formatNumber(valor);
       }
     },
+    limpaPesquisa() {
+      this.pesquisaInterna = null;
+    },
   },
   computed: {
     colunasCustomizaveis() {
@@ -783,5 +786,3 @@ export default {
 };
 </script>
 
-<style>
-</style>

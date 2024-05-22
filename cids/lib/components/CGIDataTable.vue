@@ -437,17 +437,6 @@ watch(
 );
 
 watch(
-  () => props.zoomDialog,
-  (newValue) => {
-    const acao = opcoesDeAcao.value.filter(
-      (opcao) => opcao.nome === "Exportar registro"
-    );
-
-    acao[0].mostrar = newValue;
-  }
-);
-
-watch(
   () => props.paginacao,
   () => {
     paginacao.value = props.paginacao ?? {
@@ -460,6 +449,55 @@ watch(
       multiSort: false,
       mustSort: false,
     };
+  }
+);
+
+watch(
+  () => props.mostraDetalhes,
+  (value) => {
+    const acao = opcoesDeAcao.value.filter(
+      (opcao) => opcao.nome === "Visualizar"
+    );
+
+    acao[0].mostrar = value;
+  }
+);
+
+watch(
+  () => props.copiar,
+  (value) => {
+    const acao = opcoesDeAcao.value.filter((opcao) => opcao.nome === "Copiar");
+
+    acao[0].mostrar = value;
+  }
+);
+
+watch(
+  () => props.alterar,
+  (value) => {
+    const acao = opcoesDeAcao.value.filter((opcao) => opcao.nome === "Alterar");
+
+    acao[0].mostrar = value;
+  }
+);
+
+watch(
+  () => props.deletar,
+  (value) => {
+    const acao = opcoesDeAcao.value.filter((opcao) => opcao.nome === "Excluir");
+
+    acao[0].mostrar = value;
+  }
+);
+
+watch(
+  () => props.zoomDialog,
+  (newValue) => {
+    const acao = opcoesDeAcao.value.filter(
+      (opcao) => opcao.nome === "Exportar registro"
+    );
+
+    acao[0].mostrar = newValue;
   }
 );
 

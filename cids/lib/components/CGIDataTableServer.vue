@@ -290,6 +290,8 @@ const opcoesDeAcao = ref([
 ]);
 
 const updateOptions = (options) => {
+  if (props.totalItens === 1) return;
+
   const pagination = JSON.parse(JSON.stringify(options));
   pagination.sortBy = options.sortBy
     .filter((value) => value.key)
@@ -298,6 +300,7 @@ const updateOptions = (options) => {
     (value) => value.order === "desc"
   );
   paginacao.value = pagination;
+
   emit("paginando", pagination);
 };
 

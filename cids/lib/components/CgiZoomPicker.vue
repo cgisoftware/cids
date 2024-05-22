@@ -355,6 +355,13 @@ const setFocus = async () => {
 
   textfield.value.focus();
 };
+
+defineExpose({
+  renderComponente,
+  loadParams,
+  close,
+  setaValor
+})
 </script>
 
 <style scoped>

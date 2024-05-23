@@ -15,6 +15,7 @@
     ]"
     :show-select="showSelect"
     :row-props="habilitaLinhaSelecionada"
+    :mobile="isMobile"
     @click:row="rowClick"
     v-model="selected"
     density="compact"
@@ -150,7 +151,7 @@
 
 <script setup>
 import { computed, onMounted, useSlots, ref, watch, toRaw } from "vue";
-import { useTheme } from "vuetify";
+import { useTheme, useDisplay } from "vuetify";
 import { useCids } from "../composable/CGICids";
 
 import CGIDataTableHeader from "./CGIDataTableHeader.vue";
@@ -203,9 +204,13 @@ const emit = defineEmits([
 ]);
 
 const theme = useTheme();
+const display = useDisplay();
 
 const isDarkTheme = computed(() => {
   return theme.global.current.value.dark;
+});
+const isMobile = computed(() => {
+  return display.smAndDown.value;
 });
 
 const cids = useCids();
@@ -492,12 +497,12 @@ watch(
 
 watch(
   () => props.zoomDialog,
-  (newValue) => {
+  (value) => {
     const acao = opcoesDeAcao.value.filter(
       (opcao) => opcao.nome === "Exportar registro"
     );
 
-    acao[0].mostrar = newValue;
+    acao[0].mostrar = value;
   }
 );
 

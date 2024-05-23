@@ -18,6 +18,7 @@
     ]"
     :show-select="showSelect"
     :row-props="habilitaLinhaSelecionada"
+    :mobile="isMobile"
     @update:options="updateOptions"
     @click:row="rowClick"
     density="compact"
@@ -172,7 +173,7 @@
 import CGIDataTableHeader from "./CGIDataTableHeader.vue";
 import { computed, onMounted, useSlots, ref, watch, toRaw } from "vue";
 import { useCids } from "../composable/CGICids";
-import { useTheme } from "vuetify";
+import { useTheme, useDisplay } from "vuetify";
 
 const props = defineProps({
   copiar: { type: Boolean, default: () => false },
@@ -223,9 +224,13 @@ const emit = defineEmits([
 ]);
 
 const theme = useTheme();
+const display = useDisplay();
 
 const isDarkTheme = computed(() => {
   return theme.global.current.value.dark;
+});
+const isMobile = computed(() => {
+  return display.smAndDown.value;
 });
 
 const cids = useCids();

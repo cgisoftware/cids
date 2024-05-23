@@ -236,6 +236,11 @@ const isMobile = computed(() => {
 const cids = useCids();
 const slots = useSlots();
 
+const selected = ref([]);
+const totalItens = ref(props.totalItens);
+const previousTotalItens = ref(0);
+const itensPorPagina = ref(props.itensPorPagina);
+const colunas = ref(props.colunas);
 const pesquisa = ref(null);
 const colunasVisiveis = ref([]);
 const colunasInvisiveis = ref([]);
@@ -295,7 +300,7 @@ const opcoesDeAcao = ref([
 ]);
 
 const updateOptions = (options) => {
-  if (props.totalItens === 1) return;
+  if (shouldNotPaginate.value) return;
 
   const pagination = JSON.parse(JSON.stringify(options));
   pagination.sortBy = options.sortBy
@@ -305,7 +310,6 @@ const updateOptions = (options) => {
     (value) => value.order === "desc"
   );
   paginacao.value = pagination;
-
   emit("paginando", pagination);
 };
 
@@ -459,6 +463,13 @@ const organizaColunas = () => {
     };
   });
 };
+const shouldNotPaginate = computed(() => {
+  return (
+    !paginacao.value.search &&
+    totalItens.value === 1 &&
+    previousTotalItens.value > totalItens.value
+  );
+});
 
 const customHeaders = computed(() => {
   return colunas.value.filter((header) => header.custom);
@@ -569,7 +580,12 @@ watch(
       (opcao) => opcao.nome === "Exportar registro"
     );
 
-    acao[0].mostrar = newValue;
+watch(
+  () => props.totalItens,
+  (_, oldValue) => {
+    previousTotalItens.value = oldValue;
+  }
+);
   }
 );
 

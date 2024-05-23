@@ -239,6 +239,13 @@ watch(
   }
 );
 
+watch(
+  () => props.pesquisa,
+  () => {
+    pesquisaInterna.value = props.pesquisa;
+  }
+);
+
 const salvarPropriedades = () => {
   emit("salvar-propriedades", {
     colunas: colunasVisiveisInterna.value.filter(

@@ -324,30 +324,6 @@ const cancelarZoom = () => {
   emit("cancelar-zoom");
 };
 
-const editItem = (item) => {
-  emit("on:edit", item);
-};
-
-const showQrCode = (item) => {
-  emit("on:qr", item);
-};
-
-const getDetails = (item) => {
-  emit("on:details", item);
-};
-
-const getClipboard = (item) => {
-  emit("on:clipboard", item);
-};
-
-const deleteItem = (item) => {
-  emit("on:delete", item);
-};
-
-const printer = (item) => {
-  emit("on:printer", item);
-};
-
 const rowClick = (_, row) => {
   if (props.carregar) return;
 
@@ -463,6 +439,7 @@ const organizaColunas = () => {
     };
   });
 };
+
 const shouldNotPaginate = computed(() => {
   return (
     !paginacao.value.search &&
@@ -489,11 +466,6 @@ const groupBy = computed(() => {
 const temOutrasAcoes = computed(() => {
   return !!slots["outras-acoes"];
 });
-
-const selected = ref([]);
-const totalItens = ref(props.totalItens);
-const itensPorPagina = ref(props.itensPorPagina);
-const colunas = ref(props.colunas);
 
 if (
   props.showActions &&
@@ -575,10 +547,14 @@ watch(
 
 watch(
   () => props.zoomDialog,
-  (newValue) => {
+  (value) => {
     const acao = opcoesDeAcao.value.filter(
       (opcao) => opcao.nome === "Exportar registro"
     );
+
+    acao[0].mostrar = value;
+  }
+);
 
 watch(
   () => props.totalItens,
@@ -586,6 +562,13 @@ watch(
     previousTotalItens.value = oldValue;
   }
 );
+
+watch(
+  () => paginacao.value.search,
+  (currValue, oldValue) => {
+    if (currValue !== oldValue && !currValue) {
+      pesquisa.value = null;
+    }
   }
 );
 

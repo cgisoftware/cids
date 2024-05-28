@@ -10,6 +10,7 @@
     :show-select="showSelect"
     :row-props="habilitaLinhaSelecionada"
     :mobile="isMobile"
+    :fixed-header="colunasFixas"
     @click:row="rowClick"
     v-model="selected"
     density="compact"

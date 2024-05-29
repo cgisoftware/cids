@@ -245,6 +245,7 @@ const pesquisa = ref(null);
 const colunasVisiveis = ref([]);
 const colunasInvisiveis = ref([]);
 const paginacao = ref({});
+const previousPaginacao = ref({});
 const linhaSelecionada = ref(null);
 const opcoesDeAcao = ref([
   {
@@ -300,6 +301,8 @@ const opcoesDeAcao = ref([
 ]);
 
 const updateOptions = (options) => {
+  paginacao.value.search = options.search;
+
   if (shouldNotPaginate.value) return;
 
   const pagination = JSON.parse(JSON.stringify(options));
@@ -442,7 +445,7 @@ const organizaColunas = () => {
 
 const shouldNotPaginate = computed(() => {
   return (
-    !paginacao.value.search &&
+    paginacao.value.search === previousPaginacao.value.search &&
     totalItens.value === 1 &&
     previousTotalItens.value > totalItens.value
   );
@@ -560,6 +563,13 @@ watch(
   () => props.totalItens,
   (_, oldValue) => {
     previousTotalItens.value = oldValue;
+  }
+);
+
+watch(
+  () => ({ ...paginacao.value }),
+  (_, oldValue) => {
+    previousPaginacao.value = oldValue;
   }
 );
 

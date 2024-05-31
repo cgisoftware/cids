@@ -15,6 +15,7 @@
     ]"
     :show-select="showSelect"
     :row-props="habilitaLinhaSelecionada"
+    :hide-default-footer="!mostraPaginacao"
     :mobile="isMobile"
     :fixed-header="colunasFixas"
     @click:row="rowClick"
@@ -171,6 +172,7 @@ const props = defineProps({
   informacoesDaPesquisa: { type: String, default: () => null },
   altura: { type: String, default: () => "100vh" },
   colunasFixas: { type: Boolean, default: () => true },
+  mostraPaginacao: { type: Boolean, default: () => true },
   itensPorPagina: { type: Number, default: () => 30 },
   totalItens: { type: Number, default: () => 100 },
   carregar: { type: Boolean, default: () => false },

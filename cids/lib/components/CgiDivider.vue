@@ -18,11 +18,7 @@ export default {
   props: {
     titulo: {
       type: String,
-      required: true,
     },
   },
 };
 </script>
-
-<style>
-</style>

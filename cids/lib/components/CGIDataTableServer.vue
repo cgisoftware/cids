@@ -43,6 +43,7 @@
         @cancelar-zoom="cancelarZoom"
         :mostra-propriedades="mostraPropriedades"
         :zoom-dialog="zoomDialog"
+        :agrupamento="groupBy"
       >
         <template v-slot:pesquisa>
           <slot name="pesquisa"></slot>

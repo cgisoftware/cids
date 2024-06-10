@@ -25,18 +25,10 @@ defineProps({
 
 <style scoped>
 .v-theme--cgi .custom-divider-light {
-  color: #ababab;
-}
-
-.v-theme--cgi .custom-divider-light ::v-deep * {
-  color: initial;
+  border-color: #ababab !important;
 }
 
 .v-theme--dark .custom-divider-dark {
-  color: #757575;
-}
-
-.v-theme--dark .custom-divider-dark ::v-deep * {
-  color: initial;
+  border-color: #757575 !important;
 }
 </style>

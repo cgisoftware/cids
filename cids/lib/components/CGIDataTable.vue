@@ -19,6 +19,7 @@
     :mobile="isMobile"
     :fixed-header="colunasFixas"
     @click:row="rowClick"
+    @update:options="updateOptions"
     v-model="selected"
     density="compact"
     multi-sort
@@ -299,6 +300,15 @@ const groupBy = computed(() => {
 const customHeaders = computed(() => {
   return colunas.value.filter((header) => header.custom)
 })
+
+const updateOptions = (options) => {
+  const pagination = JSON.parse(JSON.stringify(options))
+  pagination.sortBy = options.sortBy
+    .filter((value) => value.key)
+    .map((value) => value.key)
+  pagination['sortDesc'] = options.sortBy.map((value) => value.order === 'desc')
+  paginacao.value = pagination
+}
 
 const organizaColunas = () => {
   colunasVisiveis.value = []

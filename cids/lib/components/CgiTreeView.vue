@@ -12,11 +12,11 @@
     :selectable="selecionavel"
     v-model="selecionados"
   >
-  <template v-slot:label="{ item }">
-    <div :style="{color: item.cor}">
-      {{ item.nomeComposto }}
-    </div>
-  </template>
+    <template v-slot:label="{ item }">
+      <div :style="{ color: item.cor }">
+        {{ item.nomeComposto }}
+      </div>
+    </template>
     <template v-slot:append="{ item }">
       <div v-show="dialogZoom">
         <v-tooltip top>
@@ -53,52 +53,50 @@ export default {
       this.selecionados = this.value
     },
     selecionados() {
-      this.$emit("input", this.selecionados);
+      this.$emit('input', this.selecionados)
     },
   },
   computed: {
     itensManipulados() {
-      return this.listToTree(this.itens);
+      return this.listToTree(this.itens)
     },
     ativoData: {
       get: function () {
         if (this.ativoTree) {
-          return [parseInt(this.ativoTree)];
+          return [parseInt(this.ativoTree)]
         }
 
-        return [];
+        return []
       },
       set: function () {},
     },
   },
   methods: {
     exportaZoom(item) {
-      this.$emit("exporta-zoom", item);
+      this.$emit('exporta-zoom', item)
     },
     listToTree(list) {
       var map = {},
         node,
         roots = [],
-        i;
+        i
 
       for (i = 0; i < list.length; i += 1) {
-        map[list[i][this.chaveTree]] = i;
-        list[i].children = [];
-        list[i].nomeComposto = `${list[i][this.chaveTree]} - ${
-          list[i][this.textoItem]
-        }`;
+        map[list[i][this.chaveTree]] = i
+        list[i].children = []
       }
 
       for (i = 0; i < list.length; i += 1) {
-        node = list[i];
-        if (node[this.chavePaiTree] !== 0) {
-          list[map[node[this.chavePaiTree]]]?.children?.push(node);
+        node = list[i]
+
+        if (node[this.chavePaiTree]) {
+          list[map[node[this.chavePaiTree]]]?.children?.push(node)
         } else {
-          roots.push(node);
+          roots.push(node)
         }
       }
 
-      return roots;
+      return roots
     },
   },
 
@@ -107,19 +105,19 @@ export default {
       type: Array,
       required: true,
     },
-    "chave-tree": {
+    'chave-tree': {
       type: String,
       required: true,
     },
-    "chave-pai-tree": {
+    'chave-pai-tree': {
       type: String,
       required: true,
     },
-    "dialog-zoom": {
+    'dialog-zoom': {
       type: Boolean,
       default: () => false,
     },
-    "texto-item": {
+    'texto-item': {
       type: String,
       required: true,
     },
@@ -132,5 +130,5 @@ export default {
       default: () => false,
     },
   },
-};
+}
 </script>

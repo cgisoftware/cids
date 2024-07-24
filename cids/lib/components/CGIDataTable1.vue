@@ -15,8 +15,8 @@
     :multi-sort="ordenarVarios"
     :show-select="selecionarVarios"
     :item-key="chaveTabela"
-    :sort-by="propriedadesDaPaginacao.sortBy"
-    :sort-desc="propriedadesDaPaginacao.sortDesc"
+    :sort-by="propriedadesDaPaginacao.sortBy ?? ordenarPor"
+    :sort-desc="propriedadesDaPaginacao.sortDesc ?? ordenarDesc"
     :group-by="propriedadesDaPaginacao.groupBy ?? agruparPor"
     v-model="itensSelecionados"
     :footer-props="{
@@ -753,6 +753,14 @@ export default {
     "agrupar-por": {
       type: String,
       default: () => null,
+    },
+    'ordenar-por': {
+      type: Array,
+      default: () => [],
+    },
+    'ordenar-desc': {
+      type: Array,
+      default: () => [],
     },
     totalizar: {
       type: Boolean,

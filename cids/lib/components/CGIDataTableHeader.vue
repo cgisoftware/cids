@@ -62,7 +62,7 @@
             v-if="habilitaAgrupamento"
             density="compact"
             class="mt-2 px-3"
-            :items="colunasVisiveisInterna"
+            :items="itensAgrupamento"
             item-title="title"
             item-value="key"
             @update:modelValue="emit('update:agrupamento', $event)"
@@ -76,7 +76,7 @@
                 Colunas na tela
                 <draggable
                   animation="160"
-                  :list="colunasVisiveisInterna"
+                  :list="itensAgrupamento"
                   item-key="key"
                 >
                   <template v-slot:item="{ element: coluna }">
@@ -171,7 +171,7 @@
 </template>
 
 <script setup>
-import { ref, toRef, watch } from 'vue'
+import { computed, ref, toRef, watch } from 'vue'
 import { debounce } from '../util'
 import draggable from 'vuedraggable'
 
@@ -212,6 +212,12 @@ const updateSearch = async () => {
 }
 
 const debounceSearch = debounce(updateSearch, 500)
+
+const itensAgrupamento = computed(() => {
+  return colunasVisiveisInterna.value.filter(
+    (item) => !['acoes', 'data-table-group'].includes(item.key),
+  )
+})
 
 watch(pesquisaInterna, () => {
   debounceSearch()

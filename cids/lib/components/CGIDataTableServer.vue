@@ -44,6 +44,7 @@
         :mostra-propriedades="mostraPropriedades"
         :zoom-dialog="zoomDialog"
         :agrupamento="groupBy"
+        :itens-agrupamento="itensAgrupamento"
       >
         <template v-slot:pesquisa>
           <slot name="pesquisa"></slot>
@@ -157,18 +158,16 @@
       </slot>
     </template>
 
-    <template v-slot:header.data-table-group> </template>
-
     <template v-slot:group-header="{ item, columns, toggleGroup, isGroupOpen }">
       <tr class="group-header-row">
-        <td :colspan="columns.length">
+        <td :colspan="columns.length" class="table-group-header">
           <v-icon @click="toggleGroup(item)">
-            {{ isGroupOpen(item) ? 'mdi-minus' : 'mdi-plus' }}
+            {{ isGroupOpen(item) ? "mdi-minus" : "mdi-plus" }}
           </v-icon>
 
           {{
             item.key.charAt(0).toUpperCase() +
-            item.key.split('_').join(' ').slice(1)
+            item.key.split("_").join(" ").slice(1)
           }}: {{ item.value }}
         </td>
       </tr>
@@ -177,10 +176,10 @@
 </template>
 
 <script setup>
-import CGIDataTableHeader from './CGIDataTableHeader.vue'
-import { computed, onMounted, useSlots, ref, watch, toRaw } from 'vue'
-import { useCids } from '../composable/CGICids'
-import { useTheme, useDisplay } from 'vuetify'
+import CGIDataTableHeader from "./CGIDataTableHeader.vue";
+import { computed, onMounted, useSlots, ref, watch, toRaw } from "vue";
+import { useCids } from "../composable/CGICids";
+import { useTheme, useDisplay } from "vuetify";
 
 const props = defineProps({
   copiar: { type: Boolean, default: () => false },
@@ -194,7 +193,7 @@ const props = defineProps({
   nomeTabela: { type: String, default: () => null },
   nomePrograma: { type: String, default: () => null },
   informacoesDaPesquisa: { type: String, default: () => null },
-  altura: { type: String, default: () => '100vh' },
+  altura: { type: String, default: () => "100vh" },
   colunasFixas: { type: Boolean, default: () => true },
   mostraPaginacao: { type: Boolean, default: () => true },
   itensPorPagina: { type: Number, default: () => 30 },
@@ -216,235 +215,237 @@ const props = defineProps({
   habilitaAgrupamento: { type: Boolean, default: () => false },
   mostraPropriedades: { type: Boolean, default: () => false },
   mostraLinhaSelecionada: { type: Boolean, default: () => false },
-  chaveTabela: { type: String, default: () => 'seq' },
-})
+  chaveTabela: { type: String, default: () => "seq" },
+});
 
 const emit = defineEmits([
-  'paginando',
-  'salvar-propriedades',
-  'ver-detalhes',
-  'copiar-item',
-  'alterar-item',
-  'deletar-item',
-  'exporta-zoom',
-  'cancelar-zoom',
-  'linha-selecionada',
-])
+  "paginando",
+  "salvar-propriedades",
+  "ver-detalhes",
+  "copiar-item",
+  "alterar-item",
+  "deletar-item",
+  "exporta-zoom",
+  "cancelar-zoom",
+  "linha-selecionada",
+]);
 
-const theme = useTheme()
-const display = useDisplay()
+const theme = useTheme();
+const display = useDisplay();
 
 const isDarkTheme = computed(() => {
-  return theme.global.current.value.dark
-})
+  return theme.global.current.value.dark;
+});
 const isMobile = computed(() => {
-  return display.smAndDown.value
-})
+  return display.smAndDown.value;
+});
 
-const cids = useCids()
-const slots = useSlots()
+const cids = useCids();
+const slots = useSlots();
 
-const selected = ref([])
-const totalItens = ref(props.totalItens)
-const previousTotalItens = ref(0)
-const itensPorPagina = ref(props.itensPorPagina)
-const colunas = ref(props.colunas)
-const pesquisa = ref(null)
-const colunasVisiveis = ref([])
-const colunasInvisiveis = ref([])
-const paginacao = ref({})
-const previousPaginacao = ref({})
-const linhaSelecionada = ref(null)
+const selected = ref([]);
+const totalItens = ref(props.totalItens);
+const previousTotalItens = ref(0);
+const itensPorPagina = ref(props.itensPorPagina);
+const colunas = ref(props.colunas);
+const pesquisa = ref(null);
+const itensAgrupamento = ref([]);
+const colunasVisiveis = ref([]);
+const colunasInvisiveis = ref([]);
+const paginacao = ref({});
+const previousPaginacao = ref({});
+const linhaSelecionada = ref(null);
 const opcoesDeAcao = ref([
   {
-    nome: 'Visualizar',
-    icone: 'mdi-eye',
-    cor: 'green',
-    descricao: 'Visualizar registro',
+    nome: "Visualizar",
+    icone: "mdi-eye",
+    cor: "green",
+    descricao: "Visualizar registro",
     acao: (item, index) => {
-      emit('ver-detalhes', { ...item, index })
+      emit("ver-detalhes", { ...item, index });
     },
     mostrar: props.mostraDetalhes,
   },
   {
-    nome: 'Copiar',
-    icone: 'mdi-content-copy',
-    cor: 'green',
-    descricao: 'Copiar registro',
+    nome: "Copiar",
+    icone: "mdi-content-copy",
+    cor: "green",
+    descricao: "Copiar registro",
     acao: (item, index) => {
-      emit('copiar-item', { ...item, index })
+      emit("copiar-item", { ...item, index });
     },
     mostrar: props.copiar,
   },
   {
-    nome: 'Alterar',
-    icone: 'mdi-pencil',
-    cor: 'blue',
-    descricao: 'Alterar registro',
+    nome: "Alterar",
+    icone: "mdi-pencil",
+    cor: "blue",
+    descricao: "Alterar registro",
     acao: (item, index) => {
-      emit('alterar-item', { ...item, index })
+      emit("alterar-item", { ...item, index });
     },
     mostrar: props.alterar,
   },
   {
-    nome: 'Excluir',
-    icone: 'mdi-delete',
-    cor: 'red',
-    descricao: 'Excluir registro',
+    nome: "Excluir",
+    icone: "mdi-delete",
+    cor: "red",
+    descricao: "Excluir registro",
     acao: (item, index) => {
-      emit('deletar-item', { ...item, index })
+      emit("deletar-item", { ...item, index });
     },
     mostrar: props.deletar,
   },
   {
-    nome: 'Exportar registro',
-    icone: 'mdi-arrow-down',
-    cor: 'orange',
-    descricao: 'Exportar registro',
+    nome: "Exportar registro",
+    icone: "mdi-arrow-down",
+    cor: "orange",
+    descricao: "Exportar registro",
     acao: (item, index) => {
-      emit('exporta-zoom', { ...item, index })
+      emit("exporta-zoom", { ...item, index });
     },
     mostrar: props.zoomDialog,
   },
-])
+]);
 
 const updateOptions = (options) => {
-  paginacao.value.search = options.search
+  paginacao.value.search = options.search;
 
-  if (shouldNotPaginate.value) return
+  if (shouldNotPaginate.value) return;
 
-  const pagination = JSON.parse(JSON.stringify(options))
+  const pagination = JSON.parse(JSON.stringify(options));
   pagination.sortBy = options.sortBy
     .filter((value) => value.key)
-    .map((value) => value.key)
-  pagination['sortDesc'] = options.sortBy.map((value) => value.order === 'desc')
-  paginacao.value = pagination
-  emit('paginando', pagination)
-}
+    .map((value) => value.key);
+  pagination["sortDesc"] = options.sortBy.map(
+    (value) => value.order === "desc"
+  );
+  paginacao.value = pagination;
+  emit("paginando", pagination);
+};
 
 const atualizaAgrupamento = (agrupamento) => {
-  paginacao.value.groupBy = []
+  paginacao.value.groupBy = [];
 
   if (agrupamento) {
-    paginacao.value.groupBy.push({ key: agrupamento })
+    paginacao.value.groupBy.push({ key: agrupamento });
   }
-}
+};
 
 const cancelarZoom = () => {
-  emit('cancelar-zoom')
-}
+  emit("cancelar-zoom");
+};
 
 const rowClick = (_, row) => {
-  if (props.carregar) return
+  if (props.carregar) return;
 
-  linhaSelecionada.value = structuredClone(toRaw(row.item))
-  emit('linha-selecionada', row.item)
-}
+  linhaSelecionada.value = structuredClone(toRaw(row.item));
+  emit("linha-selecionada", row.item);
+};
 
 const habilitaLinhaSelecionada = ({ item }) => {
   if (props.mostraLinhaSelecionada && linhaSelecionada.value) {
     if (linhaSelecionada.value[props.chaveTabela] === item[props.chaveTabela]) {
       return {
-        class: cids?.theme?.dataTable?.lineColor ?? 'linha-selecionada',
-      }
+        class: cids?.theme?.dataTable?.lineColor ?? "linha-selecionada",
+      };
     }
   }
 
   if (item.rowProps) {
-    return { ...item.rowProps }
+    return { ...item.rowProps };
   }
-}
+};
 
 const salvarPropriedades = (params) => {
-  const pagination = toRaw(paginacao.value)
+  const pagination = toRaw(paginacao.value);
   const propriedades = {
     colunas: params.colunas.map((coluna) => ({ ...toRaw(coluna) })),
     paginacao: pagination,
-  }
+  };
 
-  emit('salvar-propriedades', propriedades)
-}
+  emit("salvar-propriedades", propriedades);
+};
 
 const organizaColunas = () => {
-  colunasVisiveis.value = []
-  colunasInvisiveis.value = []
-  const colunasAux = [...props.colunas]
-  const propriedadesAux = structuredClone(toRaw(props.propriedades))
-  const agrupamento = groupBy.value?.[0]?.key ?? null
+  colunasVisiveis.value = [];
+  colunasInvisiveis.value = [];
+  const colunasAux = [...props.colunas];
+  const propriedadesAux = structuredClone(toRaw(props.propriedades));
+  const agrupamento = groupBy.value?.[0]?.key ?? null;
 
   propriedadesAux.forEach((propriedade) => {
     const coluna = colunasAux.filter((coluna) => {
-      const col = coluna.key ?? coluna.value
-      const prop = propriedade.key ?? propriedade.value
+      const col = coluna.key ?? coluna.value;
+      const prop = propriedade.key ?? propriedade.value;
 
-      return col === prop
-    })
+      return col === prop;
+    });
 
-    if (coluna.length > 0) Object.assign(propriedade, coluna[0])
-  })
+    if (coluna.length > 0) Object.assign(propriedade, coluna[0]);
+  });
 
   colunasVisiveis.value =
-    propriedadesAux.length > 0 ? propriedadesAux : colunasAux
+    propriedadesAux.length > 0 ? propriedadesAux : colunasAux;
 
   if (propriedadesAux.length) {
     colunasInvisiveis.value = colunasAux.filter(
       (coluna) =>
         !propriedadesAux.some((propriedade) => {
-          const prop = propriedade.key ?? propriedade.value
-          const col = coluna.key ?? coluna.value
+          const prop = propriedade.key ?? propriedade.value;
+          const col = coluna.key ?? coluna.value;
 
-          return prop === col
-        }),
-    )
+          return prop === col;
+        })
+    );
   }
 
   if (props.mostraAcoes) {
-    if (cids.cidsState?.defaults?.dataTable?.acoes === 'right') {
+    if (cids.cidsState?.defaults?.dataTable?.acoes === "right") {
       colunasVisiveis.value.push({
-        title: 'Ações',
-        align: 'end',
+        title: "Ações",
+        align: "end",
         sortable: false,
         hidden: false,
-        key: 'acoes',
-        width: '150',
-      })
-      return
+        key: "acoes",
+        width: "150",
+      });
+      return;
     }
 
-    if (cids.cidsState?.defaults?.dataTable?.acoes === 'left dot') {
+    if (cids.cidsState?.defaults?.dataTable?.acoes === "left dot") {
       colunasVisiveis.value.unshift({
-        title: 'Ações',
-        align: 'center',
+        title: "Ações",
+        align: "center",
         sortable: false,
         hidden: false,
-        key: 'acoes',
-        width: '15',
-      })
+        key: "acoes",
+        width: "15",
+      });
     }
 
-    if (cids.cidsState?.defaults?.dataTable?.acoes === 'left') {
+    if (cids.cidsState?.defaults?.dataTable?.acoes === "left") {
       colunasVisiveis.value.unshift({
-        title: 'Ações',
-        align: 'start',
+        title: "Ações",
+        align: "start",
         sortable: false,
         hidden: false,
-        key: 'acoes',
-        width: '150',
-      })
+        key: "acoes",
+        width: "150",
+      });
     }
   }
 
   if (
     colunasVisiveis.value.findIndex(
-      (item) => item.key === 'data-table-group',
+      (item) => item.key === "data-table-group"
     ) === -1
   ) {
     colunasVisiveis.value.unshift({
-      key: 'data-table-group',
-      headerProps: {
-        style: 'display: none !important;',
-      },
-    })
+      title: "",
+      key: "data-table-group",
+      align: " d-none",
+    });
   }
 
   colunasVisiveis.value = colunasVisiveis.value.map((coluna) => {
@@ -452,76 +453,78 @@ const organizaColunas = () => {
       ...coluna,
       title: coluna.text ?? coluna.title,
       key: coluna.value ?? coluna.key,
-    }
-  })
+    };
+  });
 
   colunasInvisiveis.value = colunasInvisiveis.value.map((coluna) => {
     return {
       ...coluna,
       title: coluna.text ?? coluna.title,
       key: coluna.value ?? coluna.key,
-    }
-  })
+    };
+  });
+
+  itensAgrupamento.value = structuredClone(toRaw(colunasVisiveis.value));
 
   colunasVisiveis.value = colunasVisiveis.value.filter(
-    (item) => item.key !== agrupamento,
-  )
-}
+    (item) => item.key !== agrupamento
+  );
+};
 
 const shouldNotPaginate = computed(() => {
   return (
     paginacao.value.search === previousPaginacao.value.search &&
     totalItens.value === 1 &&
     previousTotalItens.value > totalItens.value
-  )
-})
+  );
+});
 
 const customHeaders = computed(() => {
-  return colunas.value.filter((header) => header.custom)
-})
+  return colunas.value.filter((header) => header.custom);
+});
 
 const sortBy = computed(() => {
   return paginacao.value?.sortBy?.map((value, index) => ({
     key: value,
-    order: paginacao.value.sortDesc[index] ? 'desc' : 'asc',
-  }))
-})
+    order: paginacao.value.sortDesc[index] ? "desc" : "asc",
+  }));
+});
 
 const groupBy = computed(() => {
-  return paginacao.value.groupBy
-})
+  return paginacao.value.groupBy;
+});
 
 const temOutrasAcoes = computed(() => {
-  return !!slots['outras-acoes']
-})
+  return !!slots["outras-acoes"];
+});
 
 if (
   props.showActions &&
-  !colunas.value.some((value) => value.key === 'actions')
+  !colunas.value.some((value) => value.key === "actions")
 ) {
   colunas.value.push({
-    title: 'Ações',
-    key: 'actions',
-    align: 'end',
+    title: "Ações",
+    key: "actions",
+    align: "end",
     sortable: false,
-  })
+  });
 }
 
 watch(groupBy, () => {
-  organizaColunas()
-})
+  organizaColunas();
+});
 
 watch(
   () => props.totalItens,
   (newValue) => {
-    totalItens.value = newValue
-  },
-)
+    totalItens.value = newValue;
+  }
+);
 
 watch(
   () => props.propriedades,
-  () => organizaColunas(),
-)
+  () => organizaColunas()
+);
 
 watch(
   () => props.paginacao,
@@ -535,85 +538,85 @@ watch(
       groupDesc: [],
       multiSort: false,
       mustSort: false,
-    }
-  },
-)
+    };
+  }
+);
 
 watch(
   () => props.mostraDetalhes,
   (value) => {
     const acao = opcoesDeAcao.value.filter(
-      (opcao) => opcao.nome === 'Visualizar',
-    )
+      (opcao) => opcao.nome === "Visualizar"
+    );
 
-    acao[0].mostrar = value
-  },
-)
+    acao[0].mostrar = value;
+  }
+);
 
 watch(
   () => props.copiar,
   (value) => {
-    const acao = opcoesDeAcao.value.filter((opcao) => opcao.nome === 'Copiar')
+    const acao = opcoesDeAcao.value.filter((opcao) => opcao.nome === "Copiar");
 
-    acao[0].mostrar = value
-  },
-)
+    acao[0].mostrar = value;
+  }
+);
 
 watch(
   () => props.alterar,
   (value) => {
-    const acao = opcoesDeAcao.value.filter((opcao) => opcao.nome === 'Alterar')
+    const acao = opcoesDeAcao.value.filter((opcao) => opcao.nome === "Alterar");
 
-    acao[0].mostrar = value
-  },
-)
+    acao[0].mostrar = value;
+  }
+);
 
 watch(
   () => props.deletar,
   (value) => {
-    const acao = opcoesDeAcao.value.filter((opcao) => opcao.nome === 'Excluir')
+    const acao = opcoesDeAcao.value.filter((opcao) => opcao.nome === "Excluir");
 
-    acao[0].mostrar = value
-  },
-)
+    acao[0].mostrar = value;
+  }
+);
 
 watch(
   () => props.zoomDialog,
   (value) => {
     const acao = opcoesDeAcao.value.filter(
-      (opcao) => opcao.nome === 'Exportar registro',
-    )
+      (opcao) => opcao.nome === "Exportar registro"
+    );
 
-    acao[0].mostrar = value
-  },
-)
+    acao[0].mostrar = value;
+  }
+);
 
 watch(
   () => props.totalItens,
   (_, oldValue) => {
-    previousTotalItens.value = oldValue
-  },
-)
+    previousTotalItens.value = oldValue;
+  }
+);
 
 watch(
   () => ({ ...paginacao.value }),
   (_, oldValue) => {
-    previousPaginacao.value = oldValue
-  },
-)
+    previousPaginacao.value = oldValue;
+  }
+);
 
 watch(
   () => paginacao.value.search,
   (currValue, oldValue) => {
     if (currValue !== oldValue && !currValue) {
-      pesquisa.value = null
+      pesquisa.value = null;
     }
-  },
-)
+  }
+);
 
 onMounted(() => {
-  organizaColunas()
-})
+  organizaColunas();
+});
 </script>
 
 <style>

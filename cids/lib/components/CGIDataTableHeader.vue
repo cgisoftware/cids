@@ -62,28 +62,41 @@
             v-if="habilitaAgrupamento"
             density="compact"
             class="mt-2 px-3"
-            :items="itensAgrupamentoInterno"
+            :items="colunasVisiveisInterna"
             item-title="title"
             item-value="key"
             @update:modelValue="emit('update:agrupamento', $event)"
             label="Agrupar por"
             clearable
             v-model="agrupamento"
-          ></v-autocomplete>
+          >
+            <template v-slot:item="{ item, props }">
+              <v-list-item
+                v-show="
+                  !['acoes', 'tb_detalhe', 'data-table-group'].includes(
+                    item.value
+                  )
+                "
+                v-bind="props"
+              />
+            </template>
+          </v-autocomplete>
           <v-container fluid grid-list-md>
             <v-row>
               <v-col cols="6">
                 Colunas na tela
                 <draggable
                   animation="160"
-                  :list="itensAgrupamentoInterno"
+                  :list="colunasVisiveisInterna"
                   item-key="key"
                 >
                   <template v-slot:item="{ element: coluna }">
                     <div
                       :key="coluna.text"
                       v-show="
-                        coluna.key !== 'acoes' && coluna.key !== 'tb_detalhe'
+                        !['acoes', 'tb_detalhe', 'data-table-group'].includes(
+                          coluna.key
+                        )
                       "
                       class="text-center my-1"
                     >
@@ -116,7 +129,11 @@
               <v-col cols="6">
                 Colunas disponíveis
                 <div
-                  v-show="coluna.key !== 'acoes' && coluna.key !== 'tb_detalhe'"
+                  v-show="
+                    !['acoes', 'tb_detalhe', 'data-table-group'].includes(
+                      coluna.key
+                    )
+                  "
                   v-for="(coluna, id) in colunasInvisiveis"
                   :key="id"
                   class="text-center my-1"
@@ -171,9 +188,9 @@
 </template>
 
 <script setup>
-import { computed, ref, toRef, watch } from 'vue'
-import { debounce } from '../util'
-import draggable from 'vuedraggable'
+import { ref, toRef, watch } from "vue";
+import { debounce } from "../util";
+import draggable from "vuedraggable";
 
 const props = defineProps({
   mostraToolbar: { type: Boolean, default: () => true },
@@ -189,99 +206,110 @@ const props = defineProps({
   pesquisa: { type: String, default: () => null },
   carregar: { type: Boolean, default: () => false },
   agrupamento: { type: Array, default: () => [] },
-  itensAgrupamento: { type: Array, default: () => [] },
-})
+});
 
 const emit = defineEmits([
-  'update:pesquisa',
-  'update:colunasVisiveis',
-  'update:colunasInvisiveis',
-  'salvar-propriedades',
-  'update:agrupamento',
-  'cancelar-zoom',
-])
+  "update:pesquisa",
+  "update:colunasVisiveis",
+  "update:colunasInvisiveis",
+  "salvar-propriedades",
+  "update:agrupamento",
+  "cancelar-zoom",
+]);
 
-const pesquisaInterna = ref(props.pesquisa)
-const colunasVisiveisInterna = toRef(props.colunasVisiveis)
-const colunasInvisiveisInterna = ref(props.colunasInvisiveis)
-const agrupamento = ref(null)
+const pesquisaInterna = ref(props.pesquisa);
+const colunasVisiveisInterna = toRef(props.colunasVisiveis);
+const colunasInvisiveisInterna = ref(props.colunasInvisiveis);
+const agrupamento = ref(null);
 
-const menuDePropriedadesDaColuna = ref(false)
+const menuDePropriedadesDaColuna = ref(false);
 
 const updateSearch = async () => {
-  emit('update:pesquisa', pesquisaInterna.value)
-}
+  emit("update:pesquisa", pesquisaInterna.value);
+};
 
-const debounceSearch = debounce(updateSearch, 500)
-
-const itensAgrupamentoInterno = computed(() => {
-  return props.itensAgrupamento.filter(
-    (item) => !['acoes', 'data-table-group'].includes(item.key),
-  )
-})
+const debounceSearch = debounce(updateSearch, 500);
 
 watch(pesquisaInterna, () => {
-  debounceSearch()
-})
+  debounceSearch();
+});
 
 watch(colunasVisiveisInterna, () => {
-  emit('update:colunasVisiveis', colunasVisiveisInterna.value)
-})
+  emit("update:colunasVisiveis", colunasVisiveisInterna.value);
+});
 
 watch(colunasInvisiveisInterna, () => {
-  emit('update:colunasInvisiveis', colunasInvisiveisInterna.value)
-})
+  emit("update:colunasInvisiveis", colunasInvisiveisInterna.value);
+});
 
 watch(
   () => props.colunasVisiveis,
   () => {
-    colunasVisiveisInterna.value = props.colunasVisiveis
-  },
-)
+    colunasVisiveisInterna.value = props.colunasVisiveis;
+  }
+);
 
 watch(
   () => props.colunasInvisiveis,
   () => {
-    colunasInvisiveisInterna.value = props.colunasInvisiveis
-  },
-)
+    colunasInvisiveisInterna.value = props.colunasInvisiveis;
+  }
+);
 
 watch(
   () => props.pesquisa,
   () => {
-    pesquisaInterna.value = props.pesquisa
-  },
-)
+    pesquisaInterna.value = props.pesquisa;
+  }
+);
 
 watch(
   () => props.agrupamento,
   () => {
     if (props.agrupamento.length) {
-      agrupamento.value = props.agrupamento[0].key
+      agrupamento.value = props.agrupamento[0].key;
     }
-  },
-)
+  }
+);
 
 const salvarPropriedades = () => {
-  emit('salvar-propriedades', {
+  emit("salvar-propriedades", {
     colunas: colunasVisiveisInterna.value.filter(
-      (item) => item.key !== 'tb_detalhe' && item.key !== 'acoes',
+      (item) => !["acoes", "data-table-group", "tb_detalhe"].includes(item.key)
     ),
-  })
-  menuDePropriedadesDaColuna.value = false
-}
+  });
+  menuDePropriedadesDaColuna.value = false;
+};
 
 const adicionaColunaNaTela = (coluna) => {
+  const col = {
+    ...coluna,
+    key: coluna?.key ?? coluna?.value,
+    title: coluna?.title ?? coluna?.text,
+  };
+
   colunasInvisiveisInterna.value = colunasInvisiveisInterna.value.filter(
-    (colunaInvisivel) => colunaInvisivel.key != coluna.key,
-  )
-  colunasVisiveisInterna.value.push(coluna)
-}
+    (colunaInvisivel) => colunaInvisivel.key != col.key
+  );
+
+  colunasVisiveisInterna.value.push(col);
+};
 
 const removeColunaDaTela = (coluna) => {
+  const col = {
+    ...coluna,
+    key: coluna?.key ?? coluna?.value,
+    title: coluna?.title ?? coluna?.text,
+  };
+
   colunasVisiveisInterna.value = colunasVisiveisInterna.value.filter(
-    (colunaVisivel) => colunaVisivel.key != coluna.key,
-  )
-  colunasInvisiveisInterna.value.push(coluna)
-}
+    (colunaVisivel) => colunaVisivel.key != col.key
+  );
+
+  if (agrupamento.value === col.key) {
+    agrupamento.value = null;
+  }
+
+  colunasInvisiveisInterna.value.push(col);
+};
 </script>

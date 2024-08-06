@@ -44,7 +44,6 @@
         :mostra-propriedades="mostraPropriedades"
         :zoom-dialog="zoomDialog"
         :agrupamento="groupBy"
-        :itens-agrupamento="itensAgrupamento"
       >
         <template v-slot:pesquisa>
           <slot name="pesquisa"></slot>
@@ -249,7 +248,6 @@ const previousTotalItens = ref(0);
 const itensPorPagina = ref(props.itensPorPagina);
 const colunas = ref(props.colunas);
 const pesquisa = ref(null);
-const itensAgrupamento = ref([]);
 const colunasVisiveis = ref([]);
 const colunasInvisiveis = ref([]);
 const paginacao = ref({});
@@ -372,7 +370,6 @@ const organizaColunas = () => {
   colunasInvisiveis.value = [];
   const colunasAux = [...props.colunas];
   const propriedadesAux = structuredClone(toRaw(props.propriedades));
-  const agrupamento = groupBy.value?.[0]?.key ?? null;
 
   propriedadesAux.forEach((propriedade) => {
     const coluna = colunasAux.filter((coluna) => {
@@ -463,12 +460,6 @@ const organizaColunas = () => {
       key: coluna.value ?? coluna.key,
     };
   });
-
-  itensAgrupamento.value = structuredClone(toRaw(colunasVisiveis.value));
-
-  colunasVisiveis.value = colunasVisiveis.value.filter(
-    (item) => item.key !== agrupamento
-  );
 };
 
 const shouldNotPaginate = computed(() => {
@@ -509,10 +500,6 @@ if (
     sortable: false,
   });
 }
-
-watch(groupBy, () => {
-  organizaColunas();
-});
 
 watch(
   () => props.totalItens,

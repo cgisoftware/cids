@@ -62,7 +62,7 @@
             v-if="habilitaAgrupamento"
             density="compact"
             class="mt-2 px-3"
-            :items="itensAgrupamento"
+            :items="itensAgrupamentoInterno"
             item-title="title"
             item-value="key"
             @update:modelValue="emit('update:agrupamento', $event)"
@@ -76,7 +76,7 @@
                 Colunas na tela
                 <draggable
                   animation="160"
-                  :list="itensAgrupamento"
+                  :list="itensAgrupamentoInterno"
                   item-key="key"
                 >
                   <template v-slot:item="{ element: coluna }">
@@ -189,6 +189,7 @@ const props = defineProps({
   pesquisa: { type: String, default: () => null },
   carregar: { type: Boolean, default: () => false },
   agrupamento: { type: Array, default: () => [] },
+  itensAgrupamento: { type: Array, default: () => [] },
 })
 
 const emit = defineEmits([
@@ -213,8 +214,8 @@ const updateSearch = async () => {
 
 const debounceSearch = debounce(updateSearch, 500)
 
-const itensAgrupamento = computed(() => {
-  return colunasVisiveisInterna.value.filter(
+const itensAgrupamentoInterno = computed(() => {
+  return props.itensAgrupamento.filter(
     (item) => !['acoes', 'data-table-group'].includes(item.key),
   )
 })

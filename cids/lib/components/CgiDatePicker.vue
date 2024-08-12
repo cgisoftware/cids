@@ -25,7 +25,9 @@
             v-bind="props"
             :disabled="desabilitado"
             :readonly="somenteLeitura"
-          >mdi-calendar</v-icon>
+          >
+            mdi-calendar
+          </v-icon>
         </template>
 
         <v-date-picker
@@ -200,5 +202,7 @@ const blurTextField = () => {
     );
     return;
   }
+
+  emit("update:model-value", null);
 };
 </script>

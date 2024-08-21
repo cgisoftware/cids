@@ -8,6 +8,7 @@ import reticencias from './controller/handler/Reticencias'
 import { groupBy } from './controller/handler/GroupBy'
 import { ablFilter } from './controller/handler/AblRead'
 import { debounce } from './controller/handler/Debounce'
+import { configEscEvent } from './controller/handler/Esc'
 
 const publisher = window.parent.publisher ?? window.parent.parent.publisher
 const subscriber = window.parent.subscriber ?? window.parent.parent.subscriber
@@ -25,5 +26,6 @@ export {
   ablFilter,
   useSnackbar,
   useAlert,
-  debounce
+  debounce,
+  configEscEvent
 }

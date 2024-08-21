@@ -20,6 +20,7 @@ import CgiNumber from "./components/CgiNumber.vue";
 import CgiMaskDirective from "./controller/CgiMaskDirective";
 import CgiNumberDirective from "./controller/CgiNumberDirective";
 import CgiMaxLengthDirective from "./controller/CgiMaxLengthDirective";
+import CgiEscDirective from "./controller/CgiEscDirective";
 import CgiNegativeNumber from "./controller/CgiNegativeNumber";
 
 import { useCidsProvider } from "./composable/CGICids";
@@ -75,6 +76,8 @@ export default {
       .use(CgiNumberDirective)
       .use(CgiMaxLengthDirective)
       .use(CgiNegativeNumber);
+
+    app.directive('cgi-esc', CgiEscDirective)
 
     cids.setTheme(options.theme);
     cids.setDefaults(options.defaults);

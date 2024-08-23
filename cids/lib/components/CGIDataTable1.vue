@@ -26,19 +26,17 @@
     @click:row="selecionaLinha"
   >
     <template v-slot:[`item.data-table-select`]="{ isSelected, select }">
-      <v-checkbox
-        hide-details
-        class="mt-0"
+      <v-simple-checkbox
         :color="corCheckbox ? corCheckbox : cids.theme.dataTable.checkboxColor"
         :value="isSelected"
-        @change="select($event)"
-      ></v-checkbox>
+        @input="select($event)"
+      />
     </template>
 
     <template v-slot:[`group.header`]="{ isOpen, toggle, group, groupBy }">
       <th colspan="90">
-        <v-icon @click="toggle"
-          >{{ isOpen ? "mdi-minus" : "mdi-plus" }}
+        <v-icon @click="toggle">
+          {{ isOpen ? "mdi-minus" : "mdi-plus" }}
         </v-icon>
         {{
           groupBy[0][0].toUpperCase() +
@@ -754,11 +752,11 @@ export default {
       type: String,
       default: () => null,
     },
-    'ordenar-por': {
+    "ordenar-por": {
       type: Array,
       default: () => [],
     },
-    'ordenar-desc': {
+    "ordenar-desc": {
       type: Array,
       default: () => [],
     },
@@ -793,4 +791,3 @@ export default {
   },
 };
 </script>
-

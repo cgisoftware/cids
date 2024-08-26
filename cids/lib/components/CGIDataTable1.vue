@@ -25,10 +25,20 @@
     }"
     @click:row="selecionaLinha"
   >
+    <template v-slot:[`header.data-table-select`]="{ props, on }">
+      <v-simple-checkbox
+        v-bind="props"
+        v-on="on"
+        :color="corCheckbox ? corCheckbox : cids.theme.dataTable.checkboxColor"
+        :disabled="carregar"
+      />
+    </template>
+
     <template v-slot:[`item.data-table-select`]="{ isSelected, select }">
       <v-simple-checkbox
         :color="corCheckbox ? corCheckbox : cids.theme.dataTable.checkboxColor"
         :value="isSelected"
+        :disabled="carregar"
         @input="select($event)"
       />
     </template>

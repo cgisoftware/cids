@@ -33,6 +33,7 @@
           tabindex="-1"
           :dense="compacto"
           :value="descricao"
+          :disabled="desabilitado"
           readonly
         />
       </v-col>

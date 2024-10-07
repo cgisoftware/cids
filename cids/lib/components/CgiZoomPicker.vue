@@ -33,10 +33,7 @@
       </v-col>
     </v-row>
 
-    <slot
-      name="customcomp"
-      v-bind:chamaZoom="chamaZoom"
-    > </slot>
+    <slot name="customcomp" v-bind:chamaZoom="chamaZoom"> </slot>
 
     <v-dialog
       v-if="dialog"
@@ -57,27 +54,23 @@
         :registro="valor"
         @exporta-zoom="setaValor"
       ></component>
-      <v-card
-        height="70vh"
-        v-show="!componenteZoom && iframeUrl"
-      >
+      <v-card height="611" v-show="!componenteZoom && iframeUrl">
         <iframe
           :src="iframeUrl"
           width="100%"
           height="100%"
-          style="border: white;"
+          style="border: white"
         ></iframe>
       </v-card>
-      <v-card
-        v-if="!componenteZoom && !iframeUrl"
-        height="500"
-      >
+      <v-card v-if="!componenteZoom && !iframeUrl" height="500">
         <v-card-title>
           <v-spacer></v-spacer>
           <v-icon @click="close">mdi-close</v-icon>
         </v-card-title>
         <v-card-text class="d-flex justify-center align-center">
-          <div class="font-weight-bold red--text display-1"> Zoom não disponível</div>
+          <div class="font-weight-bold red--text display-1">
+            Zoom não disponível
+          </div>
         </v-card-text>
       </v-card>
     </v-dialog>

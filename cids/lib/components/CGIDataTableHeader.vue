@@ -217,10 +217,11 @@ const emit = defineEmits([
   "cancelar-zoom",
 ]);
 
+const groupBy = toRef(props.agrupamento)
 const pesquisaInterna = ref(props.pesquisa);
 const colunasVisiveisInterna = toRef(props.colunasVisiveis);
 const colunasInvisiveisInterna = ref(props.colunasInvisiveis);
-const agrupamento = ref(null);
+const agrupamento = ref(groupBy.value?.map((item) => item.key) ?? []);
 
 const menuDePropriedadesDaColuna = ref(false);
 
@@ -260,15 +261,6 @@ watch(
   () => props.pesquisa,
   () => {
     pesquisaInterna.value = props.pesquisa;
-  }
-);
-
-watch(
-  () => props.agrupamento,
-  () => {
-    if (props.agrupamento.length) {
-      agrupamento.value = props.agrupamento[0].key;
-    }
   }
 );
 

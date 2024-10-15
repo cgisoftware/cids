@@ -176,10 +176,9 @@
 
 <script setup>
 import CGIDataTableHeader from './CGIDataTableHeader.vue'
-import { computed, onMounted, useSlots, ref, watch, toRaw } from 'vue'
+import { computed, onMounted, useSlots, ref, watch, toRaw, toRef } from 'vue'
 import { useCids } from '../composable/CGICids'
 import { useTheme, useDisplay } from 'vuetify'
-import { nextTick } from 'vue'
 
 const props = defineProps({
   copiar: { type: Boolean, default: () => false },
@@ -196,7 +195,6 @@ const props = defineProps({
   altura: { type: String, default: () => '100vh' },
   colunasFixas: { type: Boolean, default: () => true },
   mostraPaginacao: { type: Boolean, default: () => true },
-  itensPorPagina: { type: Number, default: () => 30 },
   totalItens: { type: Number, default: () => 100 },
   carregar: { type: Boolean, default: () => false },
   multipleSort: { type: Boolean, default: () => false },
@@ -211,8 +209,19 @@ const props = defineProps({
   showClipboard: { type: Boolean, default: () => false },
   showPrinter: { type: Boolean, default: () => false },
   propriedades: { type: Array, default: () => [] },
-  paginacao: { type: Object, default: () => {} },
-  // filtro: { type: Object, default: () => {} },
+  paginacao: {
+    type: Object,
+    default: () => ({
+      page: 1,
+      itemsPerPage: 30,
+      sortBy: [],
+      sortDesc: [],
+      groupBy: [],
+      groupDesc: [],
+      multiSort: false,
+      mustSort: false,
+    }),
+  },
   habilitaAgrupamento: { type: Boolean, default: () => false },
   mostraPropriedades: { type: Boolean, default: () => false },
   mostraLinhaSelecionada: { type: Boolean, default: () => false },
@@ -247,12 +256,13 @@ const slots = useSlots()
 const selected = ref([])
 const totalItens = ref(props.totalItens)
 const previousTotalItens = ref(0)
-const itensPorPagina = ref(props.itensPorPagina)
 const colunas = ref(props.colunas)
 const pesquisa = ref(null)
 const colunasVisiveis = ref([])
 const colunasInvisiveis = ref([])
-const paginacao = ref({})
+const paginacao = toRef(props.paginacao)
+const paginacaoInterna = ref(paginacao.value)
+const itensPorPagina = ref(paginacao.value.itemsPerPage)
 const previousPaginacao = ref({})
 const linhaSelecionada = ref(null)
 const opcoesDeAcao = ref([
@@ -308,29 +318,25 @@ const opcoesDeAcao = ref([
   },
 ])
 
-const updateOptions = async (options) => {
-  await nextTick()
-
-  paginacao.value.search = options.search
+const updateOptions = (options) => {
+  paginacaoInterna.value.search = options.search
 
   if (shouldNotPaginate.value) return
 
   const pagination = JSON.parse(JSON.stringify(options))
-  pagination.filtro = props.paginacao?.filtro
-
   pagination.sortBy = options.sortBy
     .filter((value) => value.key)
     .map((value) => value.key)
-  pagination['sortDesc'] = options.sortBy.map((value) => value.order === 'desc')
-  paginacao.value = pagination
+  pagination['sortDesc'] = options.sortBy.map((value) => value.order === 'desc');
+  paginacaoInterna.value = pagination
   emit('paginando', pagination)
-}
+};
 
 const atualizaAgrupamento = (agrupamento) => {
-  paginacao.value.groupBy = []
+  paginacaoInterna.value.groupBy = []
 
   if (agrupamento) {
-    paginacao.value.groupBy.push({ key: agrupamento })
+    paginacaoInterna.value.groupBy.push({ key: agrupamento })
   }
 }
 
@@ -360,14 +366,14 @@ const habilitaLinhaSelecionada = ({ item }) => {
 }
 
 const salvarPropriedades = (params) => {
-  const pagination = toRaw(paginacao.value)
+  const pagination = toRaw(paginacaoInterna.value)
   const propriedades = {
     colunas: params.colunas.map((coluna) => ({ ...toRaw(coluna) })),
     paginacao: pagination,
   }
 
   emit('salvar-propriedades', propriedades)
-}
+};
 
 const organizaColunas = () => {
   colunasVisiveis.value = []
@@ -479,14 +485,14 @@ const customHeaders = computed(() => {
 })
 
 const sortBy = computed(() => {
-  return paginacao.value?.sortBy?.map((value, index) => ({
+  return paginacaoInterna.value?.sortBy?.map((value, index) => ({
     key: value,
-    order: paginacao.value.sortDesc[index] ? 'desc' : 'asc',
+    order: paginacaoInterna.value.sortDesc[index] ? 'desc' : 'asc',
   }))
 })
 
 const groupBy = computed(() => {
-  return paginacao.value.groupBy
+  return paginacaoInterna.value.groupBy;
 })
 
 const temOutrasAcoes = computed(() => {
@@ -518,37 +524,13 @@ watch(
 )
 
 watch(
-  () => props.paginacao,
-  () => {
-    paginacao.value = props.paginacao ?? {
-      page: 1,
-      itemsPerPage: 30,
-      sortBy: [],
-      sortDesc: [],
-      groupBy: [],
-      groupDesc: [],
-      multiSort: false,
-      mustSort: false,
-      filtro: {},
-    }
-  },
-)
-
-watch(
-  () => props.paginacao?.filtro,
-  () => {
-    updateOptions(props.paginacao)
-  },
-)
-
-watch(
   () => props.mostraDetalhes,
   (value) => {
     const acao = opcoesDeAcao.value.filter(
       (opcao) => opcao.nome === 'Visualizar',
     )
 
-    acao[0].mostrar = value
+    acao[0].mostrar = value;
   },
 )
 
@@ -605,7 +587,7 @@ watch(
 )
 
 watch(
-  () => paginacao.value.search,
+  () => paginacaoInterna.value.search,
   (currValue, oldValue) => {
     if (currValue !== oldValue && !currValue) {
       pesquisa.value = null

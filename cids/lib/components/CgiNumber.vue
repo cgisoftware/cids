@@ -11,7 +11,7 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, watch } from "vue";
 import { useCurrencyInput } from "vue-currency-input";
 import { formataMoeda } from "../controller/handler/FormatNumber";
 
@@ -22,7 +22,6 @@ const props = defineProps({
   },
   nome: {
     type: String,
-    required: true,
   },
   regras: {
     type: Array,
@@ -47,7 +46,7 @@ const props = defineProps({
   },
 });
 
-const { inputRef } = useCurrencyInput({
+const { inputRef, setValue } = useCurrencyInput({
   currency: "USD",
   currencyDisplay: "hidden",
   precision: props.precisao,
@@ -64,13 +63,17 @@ const { inputRef } = useCurrencyInput({
   },
 });
 
-const emit = defineEmits(["update:modelValue"]);
+const emit = defineEmits(["update:modelValue", "change"]);
 
 const moeda = formataMoeda(props.modelValue, props.precisao);
 const [numeros, decimais] = moeda.split(",");
 
 const valor = ref(`${numeros},${decimais.padEnd(props.precisao, "0")}`);
-</script>
 
-<style>
-</style>
+watch(
+  () => props.modelValue,
+  (value) => {
+    setValue(value)
+  },
+)
+</script>

@@ -222,6 +222,8 @@ onMounted(async () => {
 });
 
 const renderComponente = async () => {
+  if (props.zoom === null) return null
+
   if (typeof props.zoom === "object" && typeof props.zoom.then === "function") {
     const { component } = (await props.zoom)();
 
@@ -230,9 +232,6 @@ const renderComponente = async () => {
 
   iframeUrl.value = null;
 
-  if (props.zoom === null) {
-    return null;
-  }
 
   if (props.zoom.startsWith("/")) {
     iframeUrl.value = props.zoom;

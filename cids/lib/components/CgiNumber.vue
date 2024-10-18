@@ -1,19 +1,19 @@
 <template>
   <v-text-field
+    v-model="formattedValue"
+    ref="inputRef"
     :label="nome"
     :dense="compacto"
-    ref="inputRef"
     :rules="regras"
     :disabled="desabilitado"
-    v-model="valor"
+    :readonly="somenteLeitura"
   >
   </v-text-field>
 </template>
 
 <script setup>
-import { ref, watch } from "vue";
+import { watch } from "vue";
 import { useCurrencyInput } from "vue-currency-input";
-import { formataMoeda } from "../controller/handler/FormatNumber";
 
 const props = defineProps({
   compacto: {
@@ -32,6 +32,10 @@ const props = defineProps({
     type: Boolean,
     default: () => false,
   },
+  somenteLeitura: {
+    type: Boolean,
+    default: () => false,
+  },
   precisao: {
     type: Number,
     default: () => 2,
@@ -44,9 +48,15 @@ const props = defineProps({
     type: Number,
     default: () => 999999999999999,
   },
+  inputProps: {
+    type: Object,
+    default: () => {},
+  },
 });
 
-const { inputRef, setValue } = useCurrencyInput({
+const emit = defineEmits(["change"]);
+
+const { inputRef, formattedValue, setValue } = useCurrencyInput({
   currency: "USD",
   currencyDisplay: "hidden",
   precision: props.precisao,
@@ -61,19 +71,13 @@ const { inputRef, setValue } = useCurrencyInput({
     min: props.min,
     max: props.max,
   },
+  ...props.inputProps,
 });
-
-const emit = defineEmits(["update:modelValue", "change"]);
-
-const moeda = formataMoeda(props.modelValue, props.precisao);
-const [numeros, decimais] = moeda.split(",");
-
-const valor = ref(`${numeros},${decimais.padEnd(props.precisao, "0")}`);
 
 watch(
   () => props.modelValue,
   (value) => {
-    setValue(value)
-  },
-)
+    setValue(value);
+  }
+);
 </script>

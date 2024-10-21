@@ -474,7 +474,7 @@ const organizaColunas = () => {
 
 const shouldNotPaginate = computed(() => {
   return (
-    paginacao.value.search === previousPaginacao.value.search &&
+    paginacaoInterna.value.search === previousPaginacao.value.search &&
     totalItens.value === 1 &&
     previousTotalItens.value > totalItens.value
   )

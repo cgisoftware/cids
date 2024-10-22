@@ -1,7 +1,7 @@
 <template>
   <v-data-table-server
-    v-model:items-per-page="itensPorPagina"
     v-model="selected"
+    v-bind="{ ...paginacaoInterna }"
     :headers="colunasVisiveis"
     :items-length="totalItens"
     :items="props.linhas"
@@ -176,7 +176,7 @@
 
 <script setup>
 import CGIDataTableHeader from './CGIDataTableHeader.vue'
-import { computed, onMounted, useSlots, ref, watch, toRaw, toRef } from 'vue'
+import { computed, onMounted, useSlots, ref, watch, toRaw } from 'vue'
 import { useCids } from '../composable/CGICids'
 import { useTheme, useDisplay } from 'vuetify'
 
@@ -209,23 +209,12 @@ const props = defineProps({
   showClipboard: { type: Boolean, default: () => false },
   showPrinter: { type: Boolean, default: () => false },
   propriedades: { type: Array, default: () => [] },
-  paginacao: {
-    type: Object,
-    default: () => ({
-      page: 1,
-      itemsPerPage: 30,
-      sortBy: [],
-      sortDesc: [],
-      groupBy: [],
-      groupDesc: [],
-      multiSort: false,
-      mustSort: false,
-    }),
-  },
+  paginacao: { type: Object, default: () => null },
   habilitaAgrupamento: { type: Boolean, default: () => false },
   mostraPropriedades: { type: Boolean, default: () => false },
   mostraLinhaSelecionada: { type: Boolean, default: () => false },
   chaveTabela: { type: String, default: () => 'seq' },
+  buscandoConfiguracoes: { type: Boolean, default: () => false },
 })
 
 const emit = defineEmits([
@@ -239,6 +228,17 @@ const emit = defineEmits([
   'cancelar-zoom',
   'linha-selecionada',
 ])
+
+const defaultPaginacao = {
+  page: 1,
+  itemsPerPage: 30,
+  sortBy: [],
+  sortDesc: [],
+  groupBy: [],
+  groupDesc: [],
+  multiSort: false,
+  mustSort: false,
+}
 
 const theme = useTheme()
 const display = useDisplay()
@@ -260,9 +260,7 @@ const colunas = ref(props.colunas)
 const pesquisa = ref(null)
 const colunasVisiveis = ref([])
 const colunasInvisiveis = ref([])
-const paginacao = toRef(props.paginacao)
-const paginacaoInterna = ref(paginacao.value ?? {})
-const itensPorPagina = ref(paginacao.value?.itemsPerPage ?? 30)
+const paginacaoInterna = ref({ ...defaultPaginacao })
 const previousPaginacao = ref({})
 const linhaSelecionada = ref(null)
 const opcoesDeAcao = ref([
@@ -319,6 +317,8 @@ const opcoesDeAcao = ref([
 ])
 
 const updateOptions = (options) => {
+  if (props.buscandoConfiguracoes) return
+
   paginacaoInterna.value.search = options.search
 
   if (shouldNotPaginate.value) return
@@ -495,6 +495,7 @@ const groupBy = computed(() => {
   return paginacaoInterna.value.groupBy;
 })
 
+
 const temOutrasAcoes = computed(() => {
   return !!slots['outras-acoes']
 })
@@ -510,6 +511,13 @@ if (
     sortable: false,
   })
 }
+
+watch(
+  () => props.paginacao,
+  (value) => {
+    paginacaoInterna.value = value ? { ...value } : { ...defaultPaginacao }
+  },
+)
 
 watch(
   () => props.totalItens,
@@ -580,7 +588,7 @@ watch(
 )
 
 watch(
-  () => ({ ...paginacao.value }),
+  () => ({ ...paginacaoInterna.value }),
   (_, oldValue) => {
     previousPaginacao.value = oldValue
   },

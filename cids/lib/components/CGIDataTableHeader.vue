@@ -188,7 +188,7 @@
 </template>
 
 <script setup>
-import { ref, toRef, watch } from "vue";
+import { ref, watch } from "vue";
 import { debounce } from "../util";
 import draggable from "vuedraggable";
 
@@ -217,11 +217,10 @@ const emit = defineEmits([
   "cancelar-zoom",
 ]);
 
-const groupBy = toRef(props.agrupamento)
 const pesquisaInterna = ref(props.pesquisa);
-const colunasVisiveisInterna = toRef(props.colunasVisiveis);
+const colunasVisiveisInterna = ref(props.colunasVisiveis);
 const colunasInvisiveisInterna = ref(props.colunasInvisiveis);
-const agrupamento = ref(groupBy.value?.map((item) => item.key) ?? []);
+const agrupamento = ref();
 
 const menuDePropriedadesDaColuna = ref(false);
 
@@ -263,6 +262,13 @@ watch(
     pesquisaInterna.value = props.pesquisa;
   }
 );
+
+watch(
+  () => props.agrupamento,
+  () => {
+    agrupamento.value = props.agrupamento?.map((item) => item.key) ?? []
+  },
+)
 
 const salvarPropriedades = () => {
   emit("salvar-propriedades", {

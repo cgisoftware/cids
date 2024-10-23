@@ -261,7 +261,7 @@ const colunas = ref(props.colunas)
 const pesquisa = ref(null)
 const colunasVisiveis = ref([])
 const colunasInvisiveis = ref([])
-const paginacaoInterna = ref({ ...defaultPaginacao })
+const paginacaoInterna = ref({})
 const previousPaginacao = ref({})
 const linhaSelecionada = ref(null)
 const opcoesDeAcao = ref([
@@ -321,6 +321,10 @@ const updateOptions = (options) => {
   if (!isPaginationReady.value) return
 
   paginacaoInterna.value.search = options.search
+
+  if (options.itemsPerPage < 30) {
+    options.itemsPerPage = 30
+  }
 
   if (shouldNotPaginate.value) return
 

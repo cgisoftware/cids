@@ -253,6 +253,7 @@ const isMobile = computed(() => {
 const cids = useCids()
 const slots = useSlots()
 
+const isPaginationReady = ref(!props.mostraPropriedades)
 const selected = ref([])
 const totalItens = ref(props.totalItens)
 const previousTotalItens = ref(0)
@@ -317,7 +318,7 @@ const opcoesDeAcao = ref([
 ])
 
 const updateOptions = (options) => {
-  if (props.buscandoConfiguracoes) return
+  if (!isPaginationReady.value) return
 
   paginacaoInterna.value.search = options.search
 
@@ -475,7 +476,6 @@ const organizaColunas = () => {
 const shouldNotPaginate = computed(() => {
   return (
     paginacaoInterna.value.search === previousPaginacao.value.search &&
-    totalItens.value === 1 &&
     previousTotalItens.value > totalItens.value
   )
 })
@@ -494,7 +494,6 @@ const sortBy = computed(() => {
 const groupBy = computed(() => {
   return paginacaoInterna.value.groupBy;
 })
-
 
 const temOutrasAcoes = computed(() => {
   return !!slots['outras-acoes']
@@ -515,7 +514,14 @@ if (
 watch(
   () => props.paginacao,
   (value) => {
-    paginacaoInterna.value = value ? { ...value } : { ...defaultPaginacao }
+    if (value) {
+      isPaginationReady.value = true
+      paginacaoInterna.value = { ...value }
+    }
+  },
+  {
+    immediate: true,
+    deep: true,
   },
 )
 

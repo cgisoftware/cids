@@ -209,12 +209,11 @@ const props = defineProps({
   showClipboard: { type: Boolean, default: () => false },
   showPrinter: { type: Boolean, default: () => false },
   propriedades: { type: Array, default: () => [] },
-  paginacao: { type: Object, default: () => null },
+  paginacao: { type: Object, default: () => ({}) },
   habilitaAgrupamento: { type: Boolean, default: () => false },
   mostraPropriedades: { type: Boolean, default: () => false },
   mostraLinhaSelecionada: { type: Boolean, default: () => false },
   chaveTabela: { type: String, default: () => 'seq' },
-  buscandoConfiguracoes: { type: Boolean, default: () => false },
 })
 
 const emit = defineEmits([
@@ -261,7 +260,7 @@ const colunas = ref(props.colunas)
 const pesquisa = ref(null)
 const colunasVisiveis = ref([])
 const colunasInvisiveis = ref([])
-const paginacaoInterna = ref({})
+const paginacaoInterna = ref({ ...defaultPaginacao })
 const previousPaginacao = ref({})
 const linhaSelecionada = ref(null)
 const opcoesDeAcao = ref([
@@ -320,11 +319,11 @@ const opcoesDeAcao = ref([
 const updateOptions = (options) => {
   if (!isPaginationReady.value) return
 
-  paginacaoInterna.value.search = options.search
-
   if (options.itemsPerPage < 30) {
     options.itemsPerPage = 30
   }
+
+  paginacaoInterna.value.search = options.search
 
   if (shouldNotPaginate.value) return
 

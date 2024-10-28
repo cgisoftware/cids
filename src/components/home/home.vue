@@ -105,14 +105,14 @@
           <div>
             <v-img
               v-if="darkMode"
-              src="../../assets/static/logo_cgi_software_branca_grande_atualizada.png"
+              :src="logoBranca"
               width="30"
               class="ml-1 mt-1"
             >
             </v-img>
             <v-img
               v-if="!darkMode"
-              src="../../assets/static/logo_cgi_software_azul_atualizada.png"
+              :src="logoAzul"
               width="30"
               class="ml-1 mt-1"
             >
@@ -127,6 +127,8 @@
 <script setup>
 import { ref, watch } from "vue";
 import { useTheme } from "vuetify";
+import logoBranca from "../../assets/static/logo_cgi_software_branca_grande_atualizada.png";
+import logoAzul from "../../assets/static/logo_cgi_software_azul_atualizada.png";
 
 const theme = useTheme();
 const darkMode = ref(theme.global.name.value === "dark");

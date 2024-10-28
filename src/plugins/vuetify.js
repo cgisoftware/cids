@@ -1,18 +1,9 @@
-/**
- * plugins/vuetify.js
- *
- * Framework documentation: https://vuetifyjs.com`
- */
-
-// Styles
-import * as labsComponents from "vuetify/labs/components";
-import * as components from "vuetify/components";
-import "@mdi/font/css/materialdesignicons.css";
 import "vuetify/styles";
-import { pt } from "vuetify/locale";
-
-// Composables
 import { createVuetify } from "vuetify";
+import * as components from "vuetify/components";
+import * as directives from "vuetify/directives";
+import { pt } from "vuetify/locale";
+import "@mdi/font/css/materialdesignicons.css";
 
 const cgi = {
   dark: false,
@@ -45,7 +36,7 @@ export default createVuetify({
   },
   components: {
     ...components,
-    ...labsComponents,
+    ...directives,
   },
   theme: {
     defaultTheme: "cgi",

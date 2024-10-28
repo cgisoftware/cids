@@ -1,18 +1,18 @@
 import { createRouter, createWebHistory } from "vue-router";
-import home from "@/components/home/home.vue";
-import cgiAcoes from "@/components/cgiAcoes/cgiAcoes.vue";
-import cgiAlert from "@/components/cgiAlert/cgiAlert.vue";
-import cgiBtn from "@/components/cgiBtn/cgiBtn.vue";
-import datePicker from "@/components/cgiDatePicker/datePicker.vue";
-import diretivas from "@/components/cgiDiretivas/diretivas.vue";
-import divider from "@/components/cgiDivider/divider.vue";
-import form from "@/components/cgiForm/form.vue";
-import imagePicker from "@/components/cgiImagePicker/imagePicker.vue";
-import snackbar from "@/components/cgiSnackbar/snackbar.vue";
-import timePicker from "@/components/cgiTimePicker/timePicker.vue";
-import treeView from "@/components/cgiTreeView/treeView.vue";
-import zoom from "@/components/cgiZoom/zoom.vue";
-import tabelas from "@/components/tabelas/tabelas.vue";
+import home from "../components/home/home.vue";
+import acoes from "../components/cgiAcoes/acoes.vue";
+import cgiAlert from "../components/cgiAlert/cgiAlert.vue";
+import cgiBtn from "../components/cgiBtn/cgiBtn.vue";
+import datePicker from "../components/cgiDatePicker/datePicker.vue";
+import diretivas from "../components/cgiDiretivas/diretivas.vue";
+import divider from "../components/cgiDivider/divider.vue";
+import form from "../components/cgiForm/form.vue";
+import imagePicker from "../components/cgiImagePicker/imagePicker.vue";
+import snackbar from "../components/cgiSnackbar/snackbar.vue";
+import timePicker from "../components/cgiTimePicker/timePicker.vue";
+import treeView from "../components/cgiTreeView/treeView.vue";
+import zoom from "../components/cgiZoom/zoom.vue";
+import tabelas from "../components/tabelas/tabelas.vue";
 
 const routes = [
   {
@@ -22,8 +22,8 @@ const routes = [
   },
   {
     path: "/acoes",
-    name: "cgiAcoes",
-    component: cgiAcoes,
+    name: "acoes",
+    component: acoes,
   },
   {
     path: "/alert",

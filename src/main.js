@@ -1,12 +1,21 @@
-import { registerPlugins } from "@/plugins";
-import router from "./router";
-import App from "./App.vue";
-
 import { createApp } from "vue";
+import App from "./App.vue";
+import vuetify from "./plugins/vuetify";
+import cids from "cids-cgi/lib";
+import router from "./router";
 
-const app = createApp(App);
+const opt = {
+  theme: {
+    dataTable: {
+      checkboxColor: "orange darken-2",
+      lineColor: "light-blue lighten-5 black--text",
+    },
+  },
+  defaults: {
+    dataTable: {
+      acoes: "left dot",
+    },
+  },
+};
 
-registerPlugins(app);
-
-app.use(router);
-app.mount("#app");
+createApp(App).use(router).use(vuetify).use(cids, opt).mount("#app");

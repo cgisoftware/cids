@@ -1,25 +1,12 @@
-import Vue from 'vue'
-import App from './App.vue'
-import vuetify from './plugins/vuetify';
-import 'prismjs/themes/prism-coy.css'
+import { registerPlugins } from "@/plugins";
+import router from "./router";
+import App from "./App.vue";
 
+import { createApp } from "vue";
 
-import cids from 'cids-cgi/lib'
+const app = createApp(App);
 
-const opt = {
-  theme: {
-    dataTable: {
-      checkboxColor: 'orange darken-2',
-      lineColor: 'blue'
-    }
-  }
-}
+registerPlugins(app);
 
-Vue.use(cids, opt)
-
-Vue.config.productionTip = false
-
-new Vue({
-  vuetify,
-  render: h => h(App)
-}).$mount('#app')
+app.use(router);
+app.mount("#app");

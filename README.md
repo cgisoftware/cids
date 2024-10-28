@@ -1,446 +1,79 @@
-# CGI Design System for Vue
+# Vuetify (Default)
 
-## Sobre o projeto
+This is the official scaffolding tool for Vuetify, designed to give you a head start in building your new Vuetify application. It sets up a base template with all the necessary configurations and standard directory structure, enabling you to begin development without the hassle of setting up the project from scratch.
 
-_"O projeto veio para trazer um conforto a todos os desenvolvedores com casos onde o desenvolvimento se repete constantemente, como em casos de tabelas de CRUD, campos customizados de data, entre outros..."._
+## ❗️ Important Links
 
-<br>
+- 📄 [Docs](https://vuetifyjs.com/)
+- 🚨 [Issues](https://issues.vuetifyjs.com/)
+- 🏬 [Store](https://store.vuetifyjs.com/)
+- 🎮 [Playground](https://play.vuetifyjs.com/)
+- 💬 [Discord](https://community.vuetifyjs.com)
 
-## Funcionalidades
+## 💿 Install
 
-- Criação de tabelas de dados com n opções de propriedades, tudo de acordo com o necessário para o uso da empresa.
+Set up your project using your preferred package manager. Use the corresponding command to install the dependencies:
 
-<br>
+| Package Manager                                                | Command        |
+|---------------------------------------------------------------|----------------|
+| [yarn](https://yarnpkg.com/getting-started)                   | `yarn install` |
+| [npm](https://docs.npmjs.com/cli/v7/commands/npm-install)     | `npm install`  |
+| [pnpm](https://pnpm.io/installation)                          | `pnpm install` |
+| [bun](https://bun.sh/#getting-started)                        | `bun install`  |
 
-## Começando
+After completing the installation, your environment is ready for Vuetify development.
 
-### Pré requisitos
+## ✨ Features
 
-Para rodar um projeto Vue e usar nossa biblioteca você precisa, além do vue corretamente instalado:
+- 🖼️ **Optimized Front-End Stack**: Leverage the latest Vue 3 and Vuetify 3 for a modern, reactive UI development experience. [Vue 3](https://v3.vuejs.org/) | [Vuetify 3](https://vuetifyjs.com/en/)
+- 🗃️ **State Management**: Integrated with [Pinia](https://pinia.vuejs.org/), the intuitive, modular state management solution for Vue.
+- 🚦 **Routing and Layouts**: Utilizes Vue Router for SPA navigation and vite-plugin-vue-layouts for organizing Vue file layouts. [Vue Router](https://router.vuejs.org/) | [vite-plugin-vue-layouts](https://github.com/JohnCampionJr/vite-plugin-vue-layouts)
+- ⚡ **Next-Gen Tooling**: Powered by Vite, experience fast cold starts and instant HMR (Hot Module Replacement). [Vite](https://vitejs.dev/)
+- 🧩 **Automated Component Importing**: Streamline your workflow with unplugin-vue-components, automatically importing components as you use them. [unplugin-vue-components](https://github.com/antfu/unplugin-vue-components)
 
-- Vuetify lib, pode ser achada [aqui](https://www.npmjs.com/package/vuetify).
-- Nossa lib, pode ser achada [aqui](https://www.npmjs.com/package/cids-cgi).
+These features are curated to provide a seamless development experience from setup to deployment, ensuring that your Vuetify application is both powerful and maintainable.
 
-<br>
+## 💡 Usage
 
-### Instalação
+This section covers how to start the development server and build your project for production.
 
-**Baixe a biblioteca vuetify e configure ela corretamente de acordo com a documentação da mesma**
+### Starting the Development Server
 
-<br>
+To start the development server with hot-reload, run the following command. The server will be accessible at [http://localhost:3000](http://localhost:3000):
 
-**Baixe a biblioteca cids-cgi no seu projeto**
-
-```
-$ npm i cids-cgi
-$ npm install @mdi/font -D
-$ npm i moment
-```
-
-**No arquivo main.js do seu projeto adicione**
-
-```js
-import Vue from 'vue'
-import cids from 'cids-cgi/lib'
-
-Vue.use(cids)
-```
-
-<br>
-<br>
-
-### Rodando
-
-Nos seus componentes do projeto use:
-
-<br>
-
-# - Components
-
-## DataTable
-
-### - Component
-
-```html
-<template>
-  <cgi-data-table>
-    <!-- 
-        slot usado somente quando for customizar suas colunas, como formatar a data, por exemplo 
-    -->
-    <template v-slot:name_of_column="{ item }">
-      {{ item.name }}
-    </template>
-
-    <template v-slot:botoes>
-      <!-- 
-        botões customizados
-    -->
-    </template>
-    <template v-slot:pesquisa>
-      <!-- 
-        campo de pesquisa customizado
-    -->
-    </template>
-  </cgi-data-table>
-</template>
+```bash
+yarn dev
 ```
 
-### - Props
+(Repeat for npm, pnpm, and bun with respective commands.)
 
-| Propriedade              | Required? |  Type   |        Default value | Descrição                                                                             |
-| :----------------------- | :-------: | :-----: | -------------------: | :------------------------------------------------------------------------------------ |
-| nome-tabela              |   false   | String  |                 null | Define um nome no cabeçalho da tabela                                                 |
-| linhas                   |   true    |  Array  |            undefined | Define as linhas no corpo da tabela                                                   |
-| colunas                  |   true    |  Array  |            undefined | Define as colunas da tabela                                                           |
-| mostra-linha-selecionada |   false   | Boolean |                false | Mostra com uma cor diferente a linha selecionada                                      |
-| mostra-propriedades      |   false   | Boolean |                false | Mostra as propriedade de ordenação/ocultação/agrupamento das colunas                  |
-| paginacao-servidor       |   false   | Boolean |                false | Desabilita a paginação no front-end e habilita a paginação no servidor                |
-| mostra-colunas           |   false   | Boolean |                 true | Remove ou mostra as colunas da tabela                                                 |
-| mostra-paginacao         |   false   | Boolean |                 true | Remove ou mostra a paginação no rodapé                                                |
-| mostra-pesquisa          |   false   | Boolean |                false | Remove ou mostra o cmapo de pesquisa na no cabeçalho                                  |
-| colunas-fixas            |   false   | Boolean |                 true | Fixa as colunas para não ter scroll                                                   |
-| mostra-agrupador         |   false   | Boolean |                false | Mostra o agrupador                                                                    |
-| ordenar-varios           |   false   | Boolean |                 true | Define de pode ordenar por varias colunas                                             |
-| pesquisa                 |   false   | String  |                 null | Valor do campo pesquisa                                                               |
-| chave-tabela             |   false   | String  |                  seq | Define uma chave para a tabela                                                        |
-| selecionar-varios        |   false   | Boolean |                false | Define se pode selecionar varios itens                                                |
-| mostra-acoes             |   false   | Boolean |                false | Mostra ou esconde ações de alterar/excluir                                            |
-| altura                   |   false   | String  |                100vh | Define uma nova altura para a tabela                                                  |
-| carregar                 |   false   | Boolean |                false | Cria um efeito de loading na tabela                                                   |
-| total-itens              |   false   | Number  |                   30 | Seta o total de itens para paginação no servidor                                      |
-| paginacao                |   false   | Object  | vuetify_page_options | Seta o objeto default de paginação no servidor                                        |
-| agrupar                  |   false   | String  |                 null | Seta por qual coluna deve agrupar                                                     |
-| propriedades             |   false   |  Array  |                   [] | Seta as colunas visiveis na tabela                                                    |
-| mostra-detalhes          |   false   | Boolean |                false | Mostra um icone de olho em cada linha para um evento customizado de detalhamento      |
-| mostra-toolbar           |   false   | Boolean |                false | Esconde ou mostra o cabeçalho da tabela                                               |
-| zoom-dialog              |   false   | Boolean |                false | Define se a tabela está aberta em um zoom ou tela normal                              |
-| nome-programa            |   false   | String  |                   "" | Mostra um tooltip com o nome equivalente do programa progress                         |
-| ordenar-desc             |   false   | Boolean |                false | Configura a ordenação descendente na tabela sem ordenação no servidor                 |
-| ordenar-por              |   false   | String  |                   "" | Configura a ordenação na tabela sem ordenação no servidor                             |
-| totalizar                |   false   | Boolean |                false | Mostra os totalizadores nas colunas definidas na configuração das headers             |
-| ativar-atalhos           |   false   | Boolean |                false | Ativa os atalhos do teclado para incluir, alterar, exluir registros                   |
-| copiar                   |   false   | Boolean |                 true | Mostra o botão de copiar registro na tabela                                           |
-| alterar                  |   false   | Boolean |                false | Mostra o botão de alterar registro na tabela                                          |
-| deletar                  |   false   | Boolean |                false | Mostra o botão de deletar registro na tabela                                          |
-| informacoes-da-pesquisa  |   false   | String  |                 null | Mostra na pesquisa um tooltip com as informações de quais campos é possível pesquisar |
+> Add NODE_OPTIONS='--no-warnings' to suppress the JSON import warnings that happen as part of the Vuetify import mapping. If you are on Node [v21.3.0](https://nodejs.org/en/blog/release/v21.3.0) or higher, you can change this to NODE_OPTIONS='--disable-warning=5401'. If you don't mind the warning, you can remove this from your package.json dev script.
 
-<br>
+### Building for Production
 
-### - Events
+To build your project for production, use:
 
-| Event                |                Return | Descrição                                                                   |
-| :------------------- | --------------------: | :-------------------------------------------------------------------------- |
-| @salvar-propriedades | Array de propriedades | Retorna as colunas/agrupamento e paginação atual para salvar em tela padrão |
-| @linha-selecionada   |                Object | Retorna um objeto com a linha atual selecionanda                            |
-| @paginando           |   Object de paginação | Retorna um objeto de paginação para usar com server side pagination         |
-| @incluir-item        |                Object | Retorna o evento de atalho para incluir um novo registro                    |
-| @alterar-item        |                Object | Retorna a linha selecionada para alterar                                    |
-| @deletar-item        |                Object | Retorna a linha selecionada para deletar                                    |
-| @copiar-item         |                Object | Retorna a linha selecionada para copiar                                     |
-| @exportar-item       |                Object | Retorna o evento de atalho para exportar um registro                        |
-| @ver-detalhes        |                Object | Retorna a linha selecionada para uma ação customizada                       |
-
-<br>
-
-### - Slots
-
-| Slot            | Descrição                                                                                 |
-| :-------------- | :---------------------------------------------------------------------------------------- |
-| v-slot:\<name>  | Slot para customizar uma coluna especifica                                                |
-| v-slot:botoes   | Slot para incluir botões no header da tabela, como botões de filtro e alterar por exemplo |
-| v-slot:pesquisa | Slot para customizar o text-field default de pesquisa da tabela                           |
-
-<br>
-<br>
-<br>
-
-## TreeView
-
-### - Component
-
-```html
-<template>
-  <cgi-tree-view
-    :itens="lista"
-    chave-tree="codItem"
-    chave-pai-tree="codPai"
-    texto-item="descricao"
-  ></cgi-tree-view>
-</template>
+```bash
+yarn build
 ```
 
-### - Props
+(Repeat for npm, pnpm, and bun with respective commands.)
 
-| Propriedade    | Required? |  Type  | Default value | Descrição                                                   |
-| :------------- | :-------: | :----: | ------------: | :---------------------------------------------------------- |
-| itens          |   true    | Array  |     undefined | Define os itens que serão listados na arvore                |
-| chave-tree     |   true    | String |     undefined | Define a chave de cada registro da lista                    |
-| chave-pai-tree |   true    | String |     undefined | Define a chave pai para organizar os níveis da arvore       |
-| texto-item     |   true    | String |     undefined | Define o texto que será apresentado em cada linha da arvore |
+Once the build process is completed, your application will be ready for deployment in a production environment.
 
-<br>
+## 💪 Support Vuetify Development
 
-### - Events
+This project is built with [Vuetify](https://vuetifyjs.com/en/), a UI Library with a comprehensive collection of Vue components. Vuetify is an MIT licensed Open Source project that has been made possible due to the generous contributions by our [sponsors and backers](https://vuetifyjs.com/introduction/sponsors-and-backers/). If you are interested in supporting this project, please consider:
 
-| Event         | Return | Descrição                                    |
-| :------------ | -----: | :------------------------------------------- |
-| @exporta-zoom | Object | Retorna o item para usar em uma tela de zoom |
+- [Requesting Enterprise Support](https://support.vuetifyjs.com/)
+- [Sponsoring John on Github](https://github.com/users/johnleider/sponsorship)
+- [Sponsoring Kael on Github](https://github.com/users/kaelwd/sponsorship)
+- [Supporting the team on Open Collective](https://opencollective.com/vuetify)
+- [Becoming a sponsor on Patreon](https://www.patreon.com/vuetify)
+- [Becoming a subscriber on Tidelift](https://tidelift.com/subscription/npm/vuetify)
+- [Making a one-time donation with Paypal](https://paypal.me/vuetify)
 
-<br>
+## 📑 License
+[MIT](http://opensource.org/licenses/MIT)
 
-### - Slots
-
-Sem slots
-
-<br>
-<br>
-<br>
-
-## CgiDatePicker
-
-### - Component
-
-```html
-<template>
-  <cgi-date-picker
-    compacto
-    tipo="mes"
-    nome="Data"
-    v-model="data"
-    :desabilitado="false"
-  />
-</template>
-```
-
-### - Props
-
-| Propriedade  | Required? |  Type   | Default value |
-| :----------- | :-------: | :-----: | ------------: |
-| compacto     |   false   | Boolean |         false |
-| nome         |   true    | String  |     undefined |
-| tipo         |   false   | String  |        "date" |
-| desabilitado |   false   | Boolean |         false |
-
-<br>
-
-### - Sem Events
-
-<br>
-
-### - Sem Slots
-
-<br>
-<br>
-<br>
-
-## CgiTimePicker
-
-### - Component
-
-```html
-<template>
-  <cgi-time-picker compacto nome="Hora" v-model="hora" :desabilitado="false" />
-</template>
-```
-
-### - Props
-
-| Propriedade  | Required? |  Type   | Default value |
-| :----------- | :-------: | :-----: | ------------: |
-| compacto     |   false   | Boolean |         false |
-| nome         |   true    | String  |     undefined |
-| desabilitado |   false   | Boolean |         false |
-
-<br>
-
-### - Sem Events
-
-<br>
-
-### - Sem Slots
-
-<br>
-<br>
-<br>
-
-## Snackbar
-
-### - Component
-
-```html
-<!-- Instância unica no sistema, deve ser declarado uma unica vez no App.vue -->
-<template>
-  <cgi-snackbar />
-</template>
-```
-
-```js
-import { snackbar } from "cids-cgi/lib/util"
-
-// mensagem sem ações
-snackbar.show({message: "Mensagem para mostrar ao usuário!"})
-
-// mensagem de confirmação (promise que retorna true ou false)
-const response = await snackbar.confirm({message: "Mensagem para mostrar ao usuário!"})
-
-if (response) {
-  // executa algo se o usuário confirmou
-}
-
-// parâmetros que podem ser usados no snackbar
-snackbar.show({
-  message,
-  timeout = 10000,  // default em 10 segundos
-  color = 'red',    // default vermelho
-  position = {      // posição da mensagem na tela, default direita inferior
-    right: true,
-    center: true,
-    top: false,
-  }
-})
-```
-
-### - Sem Props
-
-<br>
-
-### - Sem Events
-
-<br>
-
-### - Sem Slots
-
-<br>
-<br>
-<br>
-
-## Alert
-
-### - Component
-
-```html
-<!-- Instância unica no sistema, deve ser declarado uma unica vez no App.vue -->
-<template>
-  <cgi-alert />
-</template>
-```
-
-```js
-import { alert } from "cids-cgi/lib/util"
-
-// mensagem sem ações
-alert.show({message: "Mensagem para mostrar ao usuário!"})
-
-// mensagem de confirmação (promise que retorna true ou false)
-const response = await alert.confirm({message: "Mensagem para mostrar ao usuário!"})
-
-if (response) {
-  // executa algo se o usuário confirmou
-}
-
-// parâmetros que podem ser usados no snackbar
-alert.show({
-  message,
-  color = 'red',    // default vermelho
-})
-```
-
-### - Sem Props
-
-<br>
-
-### - Sem Events
-
-<br>
-
-### - Sem Slots
-
-<br>
-<br>
-<br>
-
-## Handler
-
-### - Sem Component
-
-<br>
-
-```js
-import { toAblDate, formatNumber, toExcel, groupBy } from 'cids-cgi/lib/util'
-
-// converte data para o formato que o progress espera
-const dataAbl = toAblDate('2021-10-08', 'dia') // retorna = DATE(8, 10, 2021)
-
-// converte data para o formato que o progress espera
-const dataAbl = toAblDate('2021-10-08', 'mes') // retorna = DATE(1, 10, 2021)
-
-// converte data para o formato que o progress espera
-const dataAbl = toAblDate('2021-10-08', 'ano') // retorna = DATE(1, 1, 2021)
-
-// formata numeros para padrão brasileiro
-const stringNumber = formatNumber(1234.12) //retorna = "1.234,12"
-
-// exporta e faz download de um arquivo XLSX a partir de um dataset
-toExcel(dataset, 'placas') // retorna = download de arquivo chamado placas.xlsx
-
-// agrupa dataset por 0 ou n chaves
-const datasetGrouped = groupBy(dataset, (item) => ['nome', 'cod_emp']) // retorna = dataset agrupado por nome e cod_emp respectivamente
-```
-
-### - Sem Props
-
-<br>
-
-### - Sem Events
-
-<br>
-
-### - Sem Slots
-
-<br>
-<br>
-<br>
-
-# Directives
-
-## v-cgi-mask
-
-```html
-<template>
-  <v-text-field label="Data" v-cgi-mask="mask"></v-text-field>
-</template>
-
-<script>
-  export default {
-    data: () => ({
-      mask: 'dia-mes-ano', // tipos: dia-mes-ano; dia-mes; mes-ano; hora; cpf; cnpj, cpf-cnpj;
-    }),
-  }
-</script>
-```
-
-<br>
-<br>
-<br>
-
-## v-cgi-money
-
-```html
-<template>
-  <!-- Converte os dados digitados na moeda brasileira -->
-  <v-text-field label="Valor" v-cgi-money></v-text-field>
-</template>
-```
-
-<br>
-<br>
-<br>
-
-## v-cgi-number
-
-```html
-<template>
-  <!-- Converte os dados digitados no padrão brasileiro de numeros -->
-  <v-text-field label="Valor" v-cgi-number></v-text-field>
-</template>
-```
+Copyright (c) 2016-present Vuetify, LLC

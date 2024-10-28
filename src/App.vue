@@ -13,6 +13,20 @@
           src="../src/assets/static/logo_cgi_software_branca_grande_atualizada.png"
         />
       </v-toolbar-title>
+      <v-spacer></v-spacer>
+      <v-btn
+        variant="text"
+        color="white"
+        icon
+        class="mr-5"
+        @click="toggleDarkMode()"
+      >
+        <v-icon size="x-large">
+          {{
+            darkMode ? "mdi-moon-waning-crescent" : "mdi-white-balance-sunny"
+          }}
+        </v-icon>
+      </v-btn>
     </v-app-bar>
     <div @mouseenter="mini = false" @mouseleave="mini = true">
       <v-navigation-drawer
@@ -47,10 +61,18 @@
 
 <script setup>
 import { ref } from "vue";
-import { useDisplay } from "vuetify";
+import { useDisplay, useTheme } from "vuetify";
 
 const { mobile } = useDisplay();
 const mini = ref(true);
+
+const theme = useTheme();
+const darkMode = ref(theme.global.name.value === "dark");
+
+function toggleDarkMode() {
+  theme.global.name.value = darkMode.value ? "cgi" : "dark";
+  darkMode.value = !darkMode.value;
+}
 
 const items = ref([
   { title: "Home", icon: "mdi-home", to: "/" },

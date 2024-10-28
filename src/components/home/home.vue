@@ -104,7 +104,15 @@
           Desenvolvido pela
           <div>
             <v-img
-              src="../../assets/static/cgi-preta-nova.png"
+              v-if="darkMode"
+              src="../../assets/static/logo_cgi_software_branca_grande_atualizada.png"
+              width="30"
+              class="ml-1 mt-1"
+            >
+            </v-img>
+            <v-img
+              v-if="!darkMode"
+              src="../../assets/static/logo_cgi_software_azul_atualizada.png"
               width="30"
               class="ml-1 mt-1"
             >
@@ -116,4 +124,17 @@
   </v-row>
 </template>
 
-<script setup></script>
+<script setup>
+import { ref, watch } from "vue";
+import { useTheme } from "vuetify";
+
+const theme = useTheme();
+const darkMode = ref(theme.global.name.value === "dark");
+
+watch(
+  () => theme.global.name.value,
+  (newTheme) => {
+    darkMode.value = newTheme === "dark";
+  }
+);
+</script>

@@ -37,51 +37,55 @@
                     Alertas
                   </v-chip>
                   <v-chip class="ma-2" color="primary" label>
-                    <v-icon icon="mdi-label" start></v-icon>
+                    <v-icon icon="mdi-radiobox-marked" start></v-icon>
                     Botões
                   </v-chip>
                   <v-chip class="ma-2" color="primary" label>
-                    <v-icon icon="mdi-label" start></v-icon>
+                    <v-icon icon="mdi-table" start></v-icon>
                     Tabelas
                   </v-chip>
                 </v-row>
                 <v-row>
                   <v-chip class="ma-2" color="primary" label>
-                    <v-icon icon="mdi-label" start></v-icon>
+                    <v-icon icon="mdi-calendar-range" start></v-icon>
+                    Date picker
+                  </v-chip>
+                  <v-chip class="ma-2" color="primary" label>
+                    <v-icon icon="mdi-minus" start></v-icon>
                     Divisores
                   </v-chip>
                   <v-chip class="ma-2" color="primary" label>
-                    <v-icon icon="mdi-label" start></v-icon>
+                    <v-icon icon="mdi-form-select" start></v-icon>
                     Formulários
                   </v-chip>
                   <v-chip class="ma-2" color="primary" label>
-                    <v-icon icon="mdi-label" start></v-icon>
+                    <v-icon icon="mdi-image-area" start></v-icon>
                     Image picker
                   </v-chip>
                   <v-chip class="ma-2" color="primary" label>
-                    <v-icon icon="mdi-label" start></v-icon>
+                    <v-icon icon="mdi-currency-usd" start></v-icon>
                     Diretivas
                   </v-chip>
                 </v-row>
                 <v-row>
                   <v-chip class="ma-2" color="primary" label>
-                    <v-icon icon="mdi-label" start></v-icon>
+                    <v-icon icon="mdi-information" start></v-icon>
                     Snackbar
                   </v-chip>
                   <v-chip class="ma-2" color="primary" label>
-                    <v-icon icon="mdi-label" start></v-icon>
+                    <v-icon icon="mdi-calendar-clock" start></v-icon>
                     Time picker
                   </v-chip>
                   <v-chip class="ma-2" color="primary" label>
-                    <v-icon icon="mdi-label" start></v-icon>
+                    <v-icon icon="mdi-form-dropdown" start></v-icon>
                     Tree view
                   </v-chip>
                   <v-chip class="ma-2" color="primary" label>
-                    <v-icon icon="mdi-label" start></v-icon>
+                    <v-icon icon="mdi-magnify-plus" start></v-icon>
                     Zoom pad
                   </v-chip>
                   <v-chip class="ma-2" color="primary" label>
-                    <v-icon icon="mdi-label" start></v-icon>
+                    <v-icon icon="mdi-magnify-plus" start></v-icon>
                     Zoom picker
                   </v-chip>
                 </v-row>
@@ -93,7 +97,7 @@
         <v-card-text class="font-weight-light text-center mt-3">
           Procuramos deixar tudo documentado aqui, para que você possa consultar
           com facilidade como usar, quais props precisam ser passadas, se tem
-          slot e como utilizá-lo e quais os eventos podem ser criados.
+          slot e como utilizá-lo, além de quais eventos podem ser criados.
         </v-card-text>
         <v-divider class="mt-10"></v-divider>
         <v-card-actions class="d-flex justify-center align-center">

@@ -56,6 +56,17 @@ const items = ref([
   { title: "Home", icon: "mdi-home", to: "/" },
   { title: "Ações", icon: "mdi-gesture-tap", to: "/acoes" },
   { title: "Alertas", icon: "mdi-alert", to: "/alert" },
+  { title: "Botões", icon: "mdi-radiobox-marked", to: "/botoes" },
+  { title: "Tabelas", icon: "mdi-table", to: "/tabelas" },
+  { title: "Date picker", icon: "mdi-calendar-range", to: "/date" },
+  { title: "Divisor", icon: "mdi-minus", to: "/divider" },
+  { title: "Formulário", icon: "mdi-form-select", to: "/form" },
+  { title: "Image picker", icon: "mdi-image-area", to: "/image" },
+  { title: "Diretivas", icon: "mdi-currency-usd", to: "/diretivas" },
+  { title: "Snackbar", icon: "mdi-information", to: "/snackbar" },
+  { title: "Time picker", icon: "mdi-calendar-clock", to: "/time" },
+  { title: "Tree view", icon: "mdi-form-dropdown", to: "/view" },
+  { title: "Zoom", icon: "mdi-magnify-plus", to: "/zoom" },
 ]);
 </script>
 

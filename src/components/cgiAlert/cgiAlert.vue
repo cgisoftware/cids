@@ -17,7 +17,7 @@
         class="mr-5 rounded-xl"
         color="red"
         size="large"
-        >Alerta
+        >Alerta geral
       </v-btn>
       <v-btn
         @click="mostraConfirmacao"
@@ -75,7 +75,7 @@
       </v-card>
     </v-col>
   </v-row>
-  <v-row>
+  <v-row class="mb-10">
     <v-col cols="12" class="d-flex justify-center align-center">
       <v-card width="80%" class="rounded-b-lg pa-5">
         <cgi-data-table

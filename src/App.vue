@@ -55,6 +55,8 @@
     </div>
     <v-main>
       <router-view />
+      <cgi-snackbar />
+      <cgi-alert />
     </v-main>
   </v-app>
 </template>

@@ -13,6 +13,7 @@
     "axios": "^1.7.7",
     "cids-cgi": "./cids",
     "dayjs": "^1.11.13",
+    "prismjs": "^1.29.0",
     "vue": "^3.5.12",
     "vue-currency-input": "^3.1.0",
     "vue-router": "^4.4.5",

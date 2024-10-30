@@ -3,6 +3,7 @@ import App from "./App.vue";
 import vuetify from "./plugins/vuetify";
 import cids from "cids-cgi/lib";
 import router from "./router";
+import { vMaska } from "maska";
 
 const opt = {
   theme: {
@@ -18,4 +19,9 @@ const opt = {
   },
 };
 
-createApp(App).use(router).use(vuetify).use(cids, opt).mount("#app");
+createApp(App)
+  .directive("maska", vMaska)
+  .use(router)
+  .use(vuetify)
+  .use(cids, opt)
+  .mount("#app");

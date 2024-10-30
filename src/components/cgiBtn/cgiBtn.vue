@@ -155,7 +155,11 @@ const botoesSoltos = `
   const limpar = () => {
     console.log("limpar");
   };
-< /script>
+  const configuracoes = () => {
+  console.log("configuracoes");
+};
+
+< script>
 `;
 
 const botoesDialog = `
@@ -224,6 +228,9 @@ const cancelar = () => {
 };
 const limpar = () => {
   console.log("limpar");
+};
+const configuracoes = () => {
+  console.log("configuracoes");
 };
 
 const colunasProps = [

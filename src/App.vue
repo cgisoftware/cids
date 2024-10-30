@@ -87,8 +87,8 @@ const items = ref([
   { title: "Image picker", icon: "mdi-image-area", to: "/image" },
   { title: "Diretivas", icon: "mdi-currency-usd", to: "/diretivas" },
   { title: "Snackbar", icon: "mdi-information", to: "/snackbar" },
-  { title: "Time picker", icon: "mdi-calendar-clock", to: "/time" },
-  { title: "Tree view", icon: "mdi-form-dropdown", to: "/view" },
+  // { title: "Time picker", icon: "mdi-calendar-clock", to: "/time" },
+  // { title: "Tree view", icon: "mdi-form-dropdown", to: "/view" },
   { title: "Zoom", icon: "mdi-magnify-plus", to: "/zoom" },
 ]);
 </script>

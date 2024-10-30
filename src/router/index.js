@@ -8,8 +8,8 @@ import diretivas from "../components/cgiDiretivas/diretivas.vue";
 import divider from "../components/cgiDivider/divider.vue";
 import imagePicker from "../components/cgiImagePicker/imagePicker.vue";
 import snackbar from "../components/cgiSnackbar/snackbar.vue";
-import timePicker from "../components/cgiTimePicker/timePicker.vue";
-import treeView from "../components/cgiTreeView/treeView.vue";
+// import timePicker from "../components/cgiTimePicker/timePicker.vue";
+// import treeView from "../components/cgiTreeView/treeView.vue";
 import zoom from "../components/cgiZoom/zoom.vue";
 import tabelas from "../components/tabelas/tabelas.vue";
 
@@ -59,16 +59,16 @@ const routes = [
     name: "snackbar",
     component: snackbar,
   },
-  {
-    path: "/time",
-    name: "time",
-    component: timePicker,
-  },
-  {
-    path: "/view",
-    name: "view",
-    component: treeView,
-  },
+  // {
+  //   path: "/time",
+  //   name: "time",
+  //   component: timePicker,
+  // },
+  // {
+  //   path: "/view",
+  //   name: "view",
+  //   component: treeView,
+  // },
   {
     path: "/zoom",
     name: "zoom",

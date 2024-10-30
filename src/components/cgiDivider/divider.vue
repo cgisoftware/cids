@@ -63,6 +63,7 @@ import "prismjs/components/prism-javascript";
 import { ref } from "vue";
 
 const codeExample = `
+<template>
   <v-row class="d-flex justify-center align-center py-15">
     <cgi-divider width="50%">
         “Primamos SEMPRE pela confiabilidade e relacionamento de longa duração,
@@ -72,6 +73,7 @@ const codeExample = `
         MELHORES RESULTADOS.
     </cgi-divider>
   </v-row>
+</template>
 `;
 
 const code = ref(

@@ -8,4 +8,10 @@
       </v-card>
     </v-col>
   </v-row>
+
+  <v-row class="d-flex justify-center align-center py-10">
+    <v-col cols="3" class="d-flex justify-center align-center">
+      <cgi-tree-view></cgi-tree-view>
+    </v-col>
+  </v-row>
 </template>

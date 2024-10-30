@@ -227,7 +227,7 @@ const linhasValores = [
   {
     propriedade: "regras",
     tipo: "Array",
-    default: '" "',
+    default: "[]",
     descricao: "Define regras para o campo",
   },
   {
@@ -263,7 +263,7 @@ const linhasValores = [
   {
     propriedade: "inputProps",
     tipo: "Object",
-    default: '" "',
+    default: "{}",
     descricao: " ",
   },
 ];

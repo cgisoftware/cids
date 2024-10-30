@@ -122,7 +122,7 @@ const linhasProps = [
     parametros: "regras",
     obrigatorio: "false",
     tipo: "Array",
-    default: " ",
+    default: "[]",
   },
   {
     parametros: "modelValue",

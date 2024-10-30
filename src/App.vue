@@ -84,7 +84,6 @@ const items = ref([
   { title: "Tabelas", icon: "mdi-table", to: "/tabelas" },
   { title: "Date picker", icon: "mdi-calendar-range", to: "/date" },
   { title: "Divisor", icon: "mdi-minus", to: "/divider" },
-  { title: "Formulário", icon: "mdi-form-select", to: "/form" },
   { title: "Image picker", icon: "mdi-image-area", to: "/image" },
   { title: "Diretivas", icon: "mdi-currency-usd", to: "/diretivas" },
   { title: "Snackbar", icon: "mdi-information", to: "/snackbar" },

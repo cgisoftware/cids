@@ -6,7 +6,6 @@ import cgiBtn from "../components/cgiBtn/cgiBtn.vue";
 import datePicker from "../components/cgiDatePicker/datePicker.vue";
 import diretivas from "../components/cgiDiretivas/diretivas.vue";
 import divider from "../components/cgiDivider/divider.vue";
-import form from "../components/cgiForm/form.vue";
 import imagePicker from "../components/cgiImagePicker/imagePicker.vue";
 import snackbar from "../components/cgiSnackbar/snackbar.vue";
 import timePicker from "../components/cgiTimePicker/timePicker.vue";
@@ -49,11 +48,6 @@ const routes = [
     path: "/divider",
     name: "divider",
     component: divider,
-  },
-  {
-    path: "/form",
-    name: "form",
-    component: form,
   },
   {
     path: "/image",

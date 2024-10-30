@@ -132,6 +132,20 @@
     </v-col>
   </v-row>
 
+  <v-row class="py-10">
+    <v-col cols="12" class="d-flex justify-center align-center">
+      <cgi-acoes
+        desabilitar-filtro
+        desabilitar-atualizar
+        desabilitar-excel
+        atualizar
+        filtro
+        excel
+      >
+      </cgi-acoes>
+    </v-col>
+  </v-row>
+
   <v-row>
     <v-col cols="12" class="d-flex justify-center align-center">
       <v-card width="80%">
@@ -201,9 +215,9 @@ const codeEvents = `
 const codeBinds = `
         <template v-slot:botoes>
             <cgi-acoes
-              :desabilitar-filtro="carregando.value"
-              :desabilitar-atualizar="carregando.value"
-              :desabilitar-excel="carregando.value"
+              :desabilitar-filtro="carregando()"
+              :desabilitar-atualizar="carregando()"
+              :desabilitar-excel="carregando()"
               atualizar
               filtro
               excel
@@ -307,7 +321,7 @@ const linhasProps = [
     propriedade: "carregarIncluir",
     default: "false",
     tipo: "Boolean",
-    descricao: "",
+    descricao: "Habilita carregamento do botão",
   },
   {
     propriedade: "alterar",
@@ -325,7 +339,7 @@ const linhasProps = [
     propriedade: "carregarAlterar",
     default: "false",
     tipo: "Boolean",
-    descricao: "",
+    descricao: "Habilita carregamento do botão",
   },
   {
     propriedade: "deletar",
@@ -343,7 +357,7 @@ const linhasProps = [
     propriedade: "carregarDeletar",
     default: "false",
     tipo: "Boolean",
-    descricao: "",
+    descricao: "Habilita carregamento do botão",
   },
   {
     propriedade: "copiar",
@@ -361,7 +375,7 @@ const linhasProps = [
     propriedade: "carregarCopiar",
     default: "false",
     tipo: "Boolean",
-    descricao: "",
+    descricao: "Habilita carregamento do botão",
   },
   {
     propriedade: "filtro",
@@ -379,7 +393,7 @@ const linhasProps = [
     propriedade: "carregarFiltro",
     default: "false",
     tipo: "Boolean",
-    descricao: "",
+    descricao: "Habilita carregamento do botão",
   },
   {
     propriedade: "relatorio",
@@ -397,7 +411,7 @@ const linhasProps = [
     propriedade: "carregarRelatorio",
     default: "false",
     tipo: "Boolean",
-    descricao: "",
+    descricao: "Habilita carregamento do botão",
   },
   {
     propriedade: "excel",
@@ -415,7 +429,7 @@ const linhasProps = [
     propriedade: "carregarExcel",
     default: "false",
     tipo: "Boolean",
-    descricao: "",
+    descricao: "Habilita carregamento do botão",
   },
   {
     propriedade: "pdf",
@@ -433,7 +447,7 @@ const linhasProps = [
     propriedade: "carregarPdf",
     default: "false",
     tipo: "Boolean",
-    descricao: "",
+    descricao: "Habilita carregamento do botão",
   },
   {
     propriedade: "configuracoes",
@@ -451,7 +465,7 @@ const linhasProps = [
     propriedade: "carregarConfiguracoes",
     default: "false",
     tipo: "Boolean",
-    descricao: "",
+    descricao: "Habilita carregamento do botão",
   },
   {
     propriedade: "atualizar",
@@ -469,7 +483,7 @@ const linhasProps = [
     propriedade: "carregarAtualizar",
     default: "false",
     tipo: "Boolean",
-    descricao: "",
+    descricao: "Habilita carregamento do botão",
   },
 ];
 

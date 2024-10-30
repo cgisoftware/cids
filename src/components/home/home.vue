@@ -44,20 +44,20 @@
                     <v-icon icon="mdi-table" start></v-icon>
                     Tabelas
                   </v-chip>
-                </v-row>
-                <v-row>
                   <v-chip class="ma-2" color="primary" label>
                     <v-icon icon="mdi-calendar-range" start></v-icon>
                     Date picker
                   </v-chip>
+                </v-row>
+                <v-row>
                   <v-chip class="ma-2" color="primary" label>
                     <v-icon icon="mdi-minus" start></v-icon>
                     Divisores
                   </v-chip>
-                  <v-chip class="ma-2" color="primary" label>
+                  <!-- <v-chip class="ma-2" color="primary" label>
                     <v-icon icon="mdi-form-select" start></v-icon>
                     Formulários
-                  </v-chip>
+                  </v-chip> -->
                   <v-chip class="ma-2" color="primary" label>
                     <v-icon icon="mdi-image-area" start></v-icon>
                     Image picker
@@ -66,28 +66,26 @@
                     <v-icon icon="mdi-currency-usd" start></v-icon>
                     Diretivas
                   </v-chip>
-                </v-row>
-                <v-row>
                   <v-chip class="ma-2" color="primary" label>
                     <v-icon icon="mdi-information" start></v-icon>
                     Snackbar
                   </v-chip>
                   <v-chip class="ma-2" color="primary" label>
-                    <v-icon icon="mdi-calendar-clock" start></v-icon>
-                    Time picker
-                  </v-chip>
-                  <v-chip class="ma-2" color="primary" label>
-                    <v-icon icon="mdi-form-dropdown" start></v-icon>
-                    Tree view
-                  </v-chip>
-                  <v-chip class="ma-2" color="primary" label>
-                    <v-icon icon="mdi-magnify-plus" start></v-icon>
-                    Zoom pad
-                  </v-chip>
-                  <v-chip class="ma-2" color="primary" label>
                     <v-icon icon="mdi-magnify-plus" start></v-icon>
                     Zoom picker
                   </v-chip>
+                  <!-- <v-chip class="ma-2" color="primary" label>
+                    <v-icon icon="mdi-calendar-clock" start></v-icon>
+                    Time picker
+                  </v-chip> -->
+                  <!-- <v-chip class="ma-2" color="primary" label>
+                    <v-icon icon="mdi-form-dropdown" start></v-icon>
+                    Tree view
+                  </v-chip> -->
+                  <!-- <v-chip class="ma-2" color="primary" label>
+                    <v-icon icon="mdi-magnify-plus" start></v-icon>
+                    Zoom pad
+                  </v-chip> -->
                 </v-row>
               </div>
             </v-col>

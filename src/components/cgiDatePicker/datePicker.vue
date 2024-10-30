@@ -209,3 +209,11 @@ const colunasFormato = [
   },
 ];
 </script>
+
+<style scoped>
+pre {
+  background-color: #1e1e1e;
+  border-radius: 5px;
+  padding: 10px;
+}
+</style>

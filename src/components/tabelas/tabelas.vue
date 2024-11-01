@@ -158,6 +158,9 @@
           mostra-detalhes
           mostra-pesquisa
           show-select
+          deletar
+          alterar
+          copiar
         >
           <template v-slot:botoes>
             <cgi-acoes

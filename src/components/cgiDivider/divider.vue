@@ -46,7 +46,7 @@
     <v-col cols="12" class="d-flex justify-center align-center">
       <v-card width="80%" class="rounded-b-lg pa-5">
         <cgi-data-table
-          altura="calc(100vh - 900px)"
+          altura="calc(100vh - 800px)"
           :linhas="linhasTabela"
           :colunas="colunasTabela"
         >

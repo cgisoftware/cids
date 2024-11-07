@@ -58,6 +58,7 @@
             icon="mdi-dots-vertical"
             variant="text"
             :color="isDarkTheme ? 'orange' : 'primary'"
+            @click="selecionarLinhaAntesDeAbrirMenu(item)"
           >
           </v-btn>
         </template>
@@ -412,6 +413,10 @@ const rowClick = (_, row) => {
 
   linhaSelecionada.value = structuredClone(toRaw(row.item));
   emit("linha-selecionada", row.item);
+};
+
+const selecionarLinhaAntesDeAbrirMenu = (item) => {
+  linhaSelecionada.value = structuredClone(toRaw(item));
 };
 
 const habilitaLinhaSelecionada = ({ item }) => {

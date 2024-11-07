@@ -66,6 +66,7 @@
             icon="mdi-dots-vertical"
             variant="text"
             :color="isDarkTheme ? 'orange' : 'primary'"
+            @click="selecionarLinhaAntesDeAbrirMenu(item)"
           >
           </v-btn>
         </template>
@@ -331,10 +332,10 @@ const updateOptions = (options) => {
   pagination.sortBy = options.sortBy
     .filter((value) => value.key)
     .map((value) => value.key)
-  pagination['sortDesc'] = options.sortBy.map((value) => value.order === 'desc');
+  pagination['sortDesc'] = options.sortBy.map((value) => value.order === 'desc')
   paginacaoInterna.value = pagination
   emit('paginando', pagination)
-};
+}
 
 const atualizaAgrupamento = (agrupamento) => {
   paginacaoInterna.value.groupBy = []
@@ -353,6 +354,10 @@ const rowClick = (_, row) => {
 
   linhaSelecionada.value = structuredClone(toRaw(row.item))
   emit('linha-selecionada', row.item)
+}
+
+const selecionarLinhaAntesDeAbrirMenu = (item) => {
+  linhaSelecionada.value = structuredClone(toRaw(item))
 }
 
 const habilitaLinhaSelecionada = ({ item }) => {
@@ -377,7 +382,7 @@ const salvarPropriedades = (params) => {
   }
 
   emit('salvar-propriedades', propriedades)
-};
+}
 
 const organizaColunas = () => {
   colunasVisiveis.value = []
@@ -495,7 +500,7 @@ const sortBy = computed(() => {
 })
 
 const groupBy = computed(() => {
-  return paginacaoInterna.value.groupBy;
+  return paginacaoInterna.value.groupBy
 })
 
 const temOutrasAcoes = computed(() => {
@@ -547,7 +552,7 @@ watch(
       (opcao) => opcao.nome === 'Visualizar',
     )
 
-    acao[0].mostrar = value;
+    acao[0].mostrar = value
   },
 )
 

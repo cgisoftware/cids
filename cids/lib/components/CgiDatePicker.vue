@@ -94,11 +94,13 @@ const formatos = {
       formatoInterno: "MM/YYYY",
       formato: "YYYY-MM",
       dia: "MM",
+      mes: "MM/YYYY",
     },
     "MM/YYYY": {
       formatoInterno: "MM/YYYY",
       formato: "MM/YYYY",
       dia: "MM",
+      mes: "MM/YYYY",
     },
   },
   dia: {
@@ -106,11 +108,13 @@ const formatos = {
       formatoInterno: "DD/MM/YYYY",
       formato: "YYYY-MM-DD",
       dia: "DD",
+      mes: "DD/MM",
     },
     "DD/MM/YYYY": {
       formatoInterno: "DD/MM/YYYY",
       formato: "DD/MM/YYYY",
       dia: "DD",
+      mes: "DD/MM",
     },
   },
 };
@@ -168,7 +172,7 @@ const manipulacaoFormatos = {
   2: () => {
     const [dia, mes] = data.value.split("/");
     const diaMes = `${dia}/${mes.padStart(2, "0")}`;
-    const dataInterna = dayjs(diaMes, formatoMascara.value.formatoInterno);
+    const dataInterna = dayjs(diaMes, formatoMascara.value.mes);
     if (dataValida(dataInterna)) {
       return dataInterna.isValid()
         ? dataInterna.format(formatoMascara.value.formatoInterno)

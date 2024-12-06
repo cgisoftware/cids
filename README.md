@@ -40,10 +40,10 @@ $ npm i moment
 **No arquivo main.js do seu projeto adicione**
 
 ```js
-import Vue from 'vue'
-import cids from 'cids-cgi/lib'
+import Vue from "vue";
+import cids from "cids-cgi/lib";
 
-Vue.use(cids)
+Vue.use(cids);
 ```
 
 <br>
@@ -67,9 +67,7 @@ Nos seus componentes do projeto use:
     <!-- 
         slot usado somente quando for customizar suas colunas, como formatar a data, por exemplo 
     -->
-    <template v-slot:name_of_column="{ item }">
-      {{ item.name }}
-    </template>
+    <template v-slot:name_of_column="{ item }"> {{ item.name }} </template>
 
     <template v-slot:botoes>
       <!-- 
@@ -95,7 +93,6 @@ Nos seus componentes do projeto use:
 | mostra-linha-selecionada |   false   | Boolean |                false | Mostra com uma cor diferente a linha selecionada                                      |
 | mostra-propriedades      |   false   | Boolean |                false | Mostra as propriedade de ordenação/ocultação/agrupamento das colunas                  |
 | paginacao-servidor       |   false   | Boolean |                false | Desabilita a paginação no front-end e habilita a paginação no servidor                |
-| mostra-colunas           |   false   | Boolean |                 true | Remove ou mostra as colunas da tabela                                                 |
 | mostra-paginacao         |   false   | Boolean |                 true | Remove ou mostra a paginação no rodapé                                                |
 | mostra-pesquisa          |   false   | Boolean |                false | Remove ou mostra o cmapo de pesquisa na no cabeçalho                                  |
 | colunas-fixas            |   false   | Boolean |                 true | Fixa as colunas para não ter scroll                                                   |
@@ -115,14 +112,14 @@ Nos seus componentes do projeto use:
 | mostra-toolbar           |   false   | Boolean |                false | Esconde ou mostra o cabeçalho da tabela                                               |
 | zoom-dialog              |   false   | Boolean |                false | Define se a tabela está aberta em um zoom ou tela normal                              |
 | nome-programa            |   false   | String  |                   "" | Mostra um tooltip com o nome equivalente do programa progress                         |
-| ordenar-desc             |   false   | Boolean |                false | Configura a ordenação descendente na tabela sem ordenação no servidor                 |
-| ordenar-por              |   false   | String  |                   "" | Configura a ordenação na tabela sem ordenação no servidor                             |
 | totalizar                |   false   | Boolean |                false | Mostra os totalizadores nas colunas definidas na configuração das headers             |
-| ativar-atalhos           |   false   | Boolean |                false | Ativa os atalhos do teclado para incluir, alterar, exluir registros                   |
 | copiar                   |   false   | Boolean |                 true | Mostra o botão de copiar registro na tabela                                           |
 | alterar                  |   false   | Boolean |                false | Mostra o botão de alterar registro na tabela                                          |
 | deletar                  |   false   | Boolean |                false | Mostra o botão de deletar registro na tabela                                          |
 | informacoes-da-pesquisa  |   false   | String  |                 null | Mostra na pesquisa um tooltip com as informações de quais campos é possível pesquisar |
+| compacto                 |   false   | Boolean |                 true | Linhas da tabela ficam com a propriedade 'dense', deixando mais compacto              |
+| cor-checkbox             |   false   | String  |                 null | Define a cor do checkbox no componente de seleção da tabela                           |
+| habilita-agrupamento     |   false   | Boolean |                 true | Habilita o agrupamento da tabela                                                      |
 
 <br>
 
@@ -144,11 +141,12 @@ Nos seus componentes do projeto use:
 
 ### - Slots
 
-| Slot            | Descrição                                                                                 |
-| :-------------- | :---------------------------------------------------------------------------------------- |
-| v-slot:\<name>  | Slot para customizar uma coluna especifica                                                |
-| v-slot:botoes   | Slot para incluir botões no header da tabela, como botões de filtro e alterar por exemplo |
-| v-slot:pesquisa | Slot para customizar o text-field default de pesquisa da tabela                           |
+| Slot                | Descrição                                                                                 |
+| :------------------ | :---------------------------------------------------------------------------------------- |
+| v-slot:\<name>      | Slot para customizar uma coluna especifica                                                |
+| v-slot:botoes       | Slot para incluir botões no header da tabela, como botões de filtro e alterar por exemplo |
+| v-slot:pesquisa     | Slot para customizar o text-field default de pesquisa da tabela                           |
+| v-slot:outras-acoes | Slot para incluir outros botões referentes ao registro                                    |
 
 <br>
 <br>
@@ -220,6 +218,7 @@ Sem slots
 | nome         |   true    | String  |     undefined |
 | tipo         |   false   | String  |        "date" |
 | desabilitado |   false   | Boolean |         false |
+| regras       |   false   |  Array  |            [] |
 
 <br>
 
@@ -250,6 +249,7 @@ Sem slots
 | compacto     |   false   | Boolean |         false |
 | nome         |   true    | String  |     undefined |
 | desabilitado |   false   | Boolean |         false |
+| regras       |   false   |  Array  |            [] |
 
 <br>
 
@@ -366,25 +366,28 @@ alert.show({
 <br>
 
 ```js
-import { toAblDate, formatNumber, toExcel, groupBy } from 'cids-cgi/lib/util'
+import { toAblDate, formatNumber, toExcel, groupBy } from "cids-cgi/lib/util";
 
 // converte data para o formato que o progress espera
-const dataAbl = toAblDate('2021-10-08', 'dia') // retorna = DATE(8, 10, 2021)
+const dataAbl = toAblDate("2021-10-08", "dia"); // retorna = DATE(8, 10, 2021)
 
 // converte data para o formato que o progress espera
-const dataAbl = toAblDate('2021-10-08', 'mes') // retorna = DATE(1, 10, 2021)
+const dataAbl = toAblDate("2021-10-08", "mes"); // retorna = DATE(1, 10, 2021)
 
 // converte data para o formato que o progress espera
-const dataAbl = toAblDate('2021-10-08', 'ano') // retorna = DATE(1, 1, 2021)
+const dataAbl = toAblDate("2021-10-08", "ano"); // retorna = DATE(1, 1, 2021)
 
 // formata numeros para padrão brasileiro
-const stringNumber = formatNumber(1234.12) //retorna = "1.234,12"
-
-// exporta e faz download de um arquivo XLSX a partir de um dataset
-toExcel(dataset, 'placas') // retorna = download de arquivo chamado placas.xlsx
+const stringNumber = formatNumber(1234.12); //retorna = "1.234,12"
 
 // agrupa dataset por 0 ou n chaves
-const datasetGrouped = groupBy(dataset, (item) => ['nome', 'cod_emp']) // retorna = dataset agrupado por nome e cod_emp respectivamente
+const datasetGrouped = groupBy(dataset, (item) => ["nome", "cod_emp"]); // retorna = dataset agrupado por nome e cod_emp respectivamente
+
+// exporta e faz download de um arquivo XLSX a partir de um dataset
+toExcel(dataset, "placas"); // retorna = download de arquivo chamado placas.xlsx
+
+// Adiciona reticências para limitar a quantidade de caracteres exibidos em tela onde tem campos onde pode ter texto grande na tabela
+cids.reticencias(item.campo, 45); // passa como parâmetro o campo e a quantidade de caracteres
 ```
 
 ### - Sem Props
@@ -413,9 +416,9 @@ const datasetGrouped = groupBy(dataset, (item) => ['nome', 'cod_emp']) // retorn
 <script>
   export default {
     data: () => ({
-      mask: 'dia-mes-ano', // tipos: dia-mes-ano; dia-mes; mes-ano; hora; cpf; cnpj, cpf-cnpj;
+      mask: "dia-mes-ano", // tipos: dia-mes-ano; dia-mes; mes-ano; hora; cpf; cnpj, cpf-cnpj;
     }),
-  }
+  };
 </script>
 ```
 
@@ -442,5 +445,37 @@ const datasetGrouped = groupBy(dataset, (item) => ['nome', 'cod_emp']) // retorn
 <template>
   <!-- Converte os dados digitados no padrão brasileiro de numeros -->
   <v-text-field label="Valor" v-cgi-number></v-text-field>
+</template>
+```
+
+<br>
+<br>
+<br>
+
+## v-cgi-max-length
+
+```html
+<template>
+  <v-text-field
+    label="Texto"
+    v-model="valor"
+    v-cgi-max-length="10"
+  ></v-text-field>
+</template>
+```
+
+<br>
+<br>
+<br>
+
+## v-cgi-negative-number
+
+```html
+<template>
+  <v-text-field
+    label="Número"
+    v-model="valor"
+    v-cgi-negative-number="true"
+  ></v-text-field>
 </template>
 ```

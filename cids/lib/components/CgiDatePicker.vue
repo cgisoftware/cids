@@ -37,7 +37,6 @@
           title="Selecione a data"
           show-adjacent-months
           @update:model-value="changePicker"
-          viewMode="day"
         ></v-date-picker>
       </v-menu>
     </template>

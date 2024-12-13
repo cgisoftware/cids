@@ -77,7 +77,7 @@ function toggleDarkMode() {
 }
 
 const items = ref([
-  { title: "Home", icon: "mdi-home", to: "/" },
+  { title: "Home", icon: "mdi-home", to: "/cids" },
   { title: "Ações", icon: "mdi-gesture-tap", to: "/acoes" },
   { title: "Alertas", icon: "mdi-alert", to: "/alert" },
   { title: "Botões", icon: "mdi-radiobox-marked", to: "/botoes" },

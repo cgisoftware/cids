@@ -10,7 +10,7 @@
         <v-img
           width="70"
           class="hidden-md-and-down"
-          src="../src/assets/static/logo_cgi_software_branca_grande_atualizada.png"
+          src="/cids/assets/static/logo_cgi_software_branca_grande_atualizada.png"
         />
       </v-toolbar-title>
       <v-spacer></v-spacer>

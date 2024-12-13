@@ -15,7 +15,7 @@ import tabelas from "../components/tabelas/tabelas.vue";
 
 const routes = [
   {
-    path: "/",
+    path: "/cids",
     name: "home",
     component: home,
   },

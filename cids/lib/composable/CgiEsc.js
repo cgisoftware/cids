@@ -10,7 +10,15 @@ export function useEsc() {
 
   const close = () => {
     if (!escStack.length) return
-    escStack[escStack.length - 1].value = false
+
+    const escHandler = escStack[escStack.length - 1]
+
+    if (typeof escHandler === 'function') {
+      escHandler()
+    } else {
+      escHandler.value = false
+    }
+
     escStack.pop()
   }
 

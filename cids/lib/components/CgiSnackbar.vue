@@ -1,6 +1,5 @@
 <template>
   <div>
-    <pre>{{ controller }}</pre>
     <v-snackbar
       :color="controller.color"
       v-model="controller.snackbar"
@@ -44,7 +43,7 @@ export default {
   computed: {
     controller() {
       return snackbar;
-    },
+    }
   },
 };
 </script>

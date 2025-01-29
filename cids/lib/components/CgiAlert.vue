@@ -40,10 +40,12 @@
 </template>
 
 <script>
-import Vue from 'vue';
+import { alert } from '../util';
 export default {
-  data: () => ({
-    controller: Vue.prototype.alert
-  })
+  computed: {
+    controller() {
+      return alert;
+    }
+  },
 };
 </script>

@@ -34,10 +34,12 @@
 </template>
 
 <script>
-import Vue from 'vue';
+import { snackbar } from "../util";
 export default {
-  data: () => ({
-    controller: Vue.prototype.snackbar
-  })
+  computed: {
+    controller() {
+      return snackbar
+    },
+  },
 };
 </script>

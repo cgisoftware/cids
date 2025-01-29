@@ -9,15 +9,23 @@ import { groupBy } from './controller/handler/GroupBy'
 import { ablFilter } from './controller/handler/AblRead'
 import Vue from 'vue'
 
-const snackbarController = new CgiSnackbarController()
-const alertController = new CgiAlertController()
+const snackbarController = new CgiSnackbarController();
+const alertController = new CgiAlertController();
 
-Vue.prototype.formataMoeda = formatNumber
-Vue.prototype.snackbar = Vue.observable(snackbarController)
-Vue.prototype.alert = Vue.observable(alertController)
+Vue.prototype.snackbar = Vue.observable(snackbarController);
+Vue.prototype.alert = Vue.observable(alertController);
 
-const snackbar = Vue.prototype.snackbar
-const alert = Vue.prototype.alert
+const snackbar = new Proxy({}, {
+  get(target, prop) {
+    return Vue.prototype.snackbar[prop];
+  }
+});
+
+const alert = new Proxy({}, {
+  get(target, prop) {
+    return Vue.prototype.alert[prop];
+  }
+});
 
 const publisher = window.parent.publisher ?? window.parent.parent.publisher
 const subscriber = window.parent.subscriber ?? window.parent.parent.subscriber

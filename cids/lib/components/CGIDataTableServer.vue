@@ -1,7 +1,10 @@
 <template>
   <v-data-table-server
     v-model="selected"
-    v-bind="{ ...paginacaoInterna }"
+    v-model:page="currentPage"
+    v-model:items-per-page="currentItemsPerPage"
+    v-model:sort-by="currentSortBy"
+    v-model:group-by="currentGroupBy"
     :headers="colunasVisiveis"
     :items-length="totalItens"
     :items="props.linhas"
@@ -9,8 +12,6 @@
     :height="altura"
     :fixed-header="colunasFixas"
     :search="pesquisa"
-    :group-by="groupBy"
-    :sort-by="sortBy"
     :items-per-page-options="[
       { value: 30, title: '30' },
       { value: 60, title: '60' },
@@ -20,7 +21,6 @@
     :row-props="habilitaLinhaSelecionada"
     :hide-default-footer="!mostraPaginacao"
     :mobile="isMobile"
-    @update:options="updateOptions"
     @click:row="rowClick"
     density="compact"
     multi-sort
@@ -43,7 +43,7 @@
         @cancelar-zoom="cancelarZoom"
         :mostra-propriedades="mostraPropriedades"
         :zoom-dialog="zoomDialog"
-        :agrupamento="groupBy"
+        :agrupamento="currentGroupBy"
       >
         <template v-slot:pesquisa>
           <slot name="pesquisa"></slot>
@@ -177,9 +177,18 @@
 
 <script setup>
 import CGIDataTableHeader from './CGIDataTableHeader.vue'
-import { computed, onMounted, useSlots, ref, watch, toRaw } from 'vue'
+import {
+  computed,
+  onBeforeUnmount,
+  onMounted,
+  useSlots,
+  ref,
+  watch,
+  toRaw,
+} from 'vue'
 import { useCids } from '../composable/CGICids'
 import { useTheme, useDisplay } from 'vuetify'
+import debounce from 'lodash/debounce'
 
 const props = defineProps({
   copiar: { type: Boolean, default: () => false },
@@ -250,10 +259,14 @@ const isMobile = computed(() => {
   return display.smAndDown.value
 })
 
+const hasPropriedades = computed(() => {
+  return Array.isArray(props.propriedades) && props.propriedades.length > 0
+})
+
 const cids = useCids()
 const slots = useSlots()
 
-const isPaginationReady = ref(!props.mostraPropriedades)
+const propertiesLoaded = ref(false)
 const selected = ref([])
 const totalItens = ref(props.totalItens)
 const previousTotalItens = ref(0)
@@ -261,8 +274,9 @@ const colunas = ref(props.colunas)
 const pesquisa = ref(null)
 const colunasVisiveis = ref([])
 const colunasInvisiveis = ref([])
-const paginacaoInterna = ref({ ...defaultPaginacao })
-const previousPaginacao = ref({})
+const paginacaoInterna = ref(
+  props.paginacao ? { ...props.paginacao } : { ...defaultPaginacao },
+)
 const linhaSelecionada = ref(null)
 const opcoesDeAcao = ref([
   {
@@ -316,26 +330,6 @@ const opcoesDeAcao = ref([
     mostrar: props.zoomDialog,
   },
 ])
-
-const updateOptions = (options) => {
-  if (!isPaginationReady.value) return
-
-  if (options.itemsPerPage < 30) {
-    options.itemsPerPage = 30
-  }
-
-  paginacaoInterna.value.search = options.search
-
-  if (shouldNotPaginate.value) return
-
-  const pagination = JSON.parse(JSON.stringify(options))
-  pagination.sortBy = options.sortBy
-    .filter((value) => value.key)
-    .map((value) => value.key)
-  pagination['sortDesc'] = options.sortBy.map((value) => value.order === 'desc')
-  paginacaoInterna.value = pagination
-  emit('paginando', pagination)
-}
 
 const atualizaAgrupamento = (agrupamento) => {
   paginacaoInterna.value.groupBy = []
@@ -481,26 +475,64 @@ const organizaColunas = () => {
   })
 }
 
-const shouldNotPaginate = computed(() => {
-  return (
-    paginacaoInterna.value.search === previousPaginacao.value.search &&
-    previousTotalItens.value > totalItens.value
-  )
+const emitPaginationUpdate = debounce(() => {
+  emit('paginando', paginacaoInterna.value)
+}, 0)
+
+const currentPage = computed({
+  get: () => paginacaoInterna.value.page || 1,
+  set: (value) => {
+    paginacaoInterna.value = {
+      ...paginacaoInterna.value,
+      page: value,
+    }
+    emitPaginationUpdate()
+  },
+})
+
+const currentItemsPerPage = computed({
+  get: () => paginacaoInterna.value.itemsPerPage || 30,
+  set: (value) => {
+    paginacaoInterna.value = {
+      ...paginacaoInterna.value,
+      itemsPerPage: value,
+    }
+    emitPaginationUpdate()
+  },
+})
+
+const currentSortBy = computed({
+  get: () => {
+    return (
+      paginacaoInterna.value?.sortBy?.map((value, index) => ({
+        key: value,
+        order: paginacaoInterna.value.sortDesc[index] ? 'desc' : 'asc',
+      })) || []
+    )
+  },
+  set: (value) => {
+    paginacaoInterna.value = {
+      ...paginacaoInterna.value,
+      sortBy: value.filter((v) => v.key).map((v) => v.key),
+      sortDesc: value.map((v) => v.order === 'desc'),
+    }
+    emitPaginationUpdate()
+  },
+})
+
+const currentGroupBy = computed({
+  get: () => paginacaoInterna.value.groupBy || [],
+  set: (value) => {
+    paginacaoInterna.value = {
+      ...paginacaoInterna.value,
+      groupBy: value,
+    }
+    emitPaginationUpdate()
+  },
 })
 
 const customHeaders = computed(() => {
   return colunas.value.filter((header) => header.custom)
-})
-
-const sortBy = computed(() => {
-  return paginacaoInterna.value?.sortBy?.map((value, index) => ({
-    key: value,
-    order: paginacaoInterna.value.sortDesc[index] ? 'desc' : 'asc',
-  }))
-})
-
-const groupBy = computed(() => {
-  return paginacaoInterna.value.groupBy
 })
 
 const temOutrasAcoes = computed(() => {
@@ -522,15 +554,22 @@ if (
 watch(
   () => props.paginacao,
   (value) => {
-    if (value) {
-      isPaginationReady.value = true
-      paginacaoInterna.value = { ...value }
+    if (!value) return
+    paginacaoInterna.value = { ...value }
+  },
+  { deep: true },
+)
+
+watch(
+  () => props.propriedades,
+  (value) => {
+    if (!propertiesLoaded.value && value?.length) {
+      propertiesLoaded.value = true
+      organizaColunas()
+      emitPaginationUpdate()
     }
   },
-  {
-    immediate: true,
-    deep: true,
-  },
+  { immediate: true },
 )
 
 watch(
@@ -538,11 +577,6 @@ watch(
   (newValue) => {
     totalItens.value = newValue
   },
-)
-
-watch(
-  () => props.propriedades,
-  () => organizaColunas(),
 )
 
 watch(
@@ -602,13 +636,6 @@ watch(
 )
 
 watch(
-  () => ({ ...paginacaoInterna.value }),
-  (_, oldValue) => {
-    previousPaginacao.value = oldValue
-  },
-)
-
-watch(
   () => paginacaoInterna.value.search,
   (currValue, oldValue) => {
     if (currValue !== oldValue && !currValue) {
@@ -617,8 +644,27 @@ watch(
   },
 )
 
+watch(
+  () => pesquisa.value,
+  (value) => {
+    paginacaoInterna.value = {
+      ...paginacaoInterna.value,
+      search: value,
+    }
+    emitPaginationUpdate()
+  },
+)
+
 onMounted(() => {
   organizaColunas()
+
+  if (!hasPropriedades.value && !props.mostraPropriedades) {
+    emitPaginationUpdate()
+  }
+})
+
+onBeforeUnmount(() => {
+  emitPaginationUpdate.cancel()
 })
 </script>
 

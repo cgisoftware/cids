@@ -259,13 +259,10 @@ const isMobile = computed(() => {
   return display.smAndDown.value
 })
 
-const hasPropriedades = computed(() => {
-  return Array.isArray(props.propriedades) && props.propriedades.length > 0
-})
-
 const cids = useCids()
 const slots = useSlots()
 
+const isInitialLoad = ref(true)
 const propertiesLoaded = ref(false)
 const selected = ref([])
 const totalItens = ref(props.totalItens)
@@ -476,13 +473,19 @@ const organizaColunas = () => {
 }
 
 const emitPaginationUpdate = debounce(() => {
-  emit('paginando', paginacaoInterna.value)
+  const paginacao = {
+    ...defaultPaginacao,
+    ...paginacaoInterna.value,
+  }
+
+  emit('paginando', paginacao)
 }, 0)
 
 const currentPage = computed({
   get: () => paginacaoInterna.value.page || 1,
   set: (value) => {
     paginacaoInterna.value = {
+      ...defaultPaginacao,
       ...paginacaoInterna.value,
       page: value,
     }
@@ -494,6 +497,7 @@ const currentItemsPerPage = computed({
   get: () => paginacaoInterna.value.itemsPerPage || 30,
   set: (value) => {
     paginacaoInterna.value = {
+      ...defaultPaginacao,
       ...paginacaoInterna.value,
       itemsPerPage: value,
     }
@@ -512,6 +516,7 @@ const currentSortBy = computed({
   },
   set: (value) => {
     paginacaoInterna.value = {
+      ...defaultPaginacao,
       ...paginacaoInterna.value,
       sortBy: value.filter((v) => v.key).map((v) => v.key),
       sortDesc: value.map((v) => v.order === 'desc'),
@@ -524,6 +529,7 @@ const currentGroupBy = computed({
   get: () => paginacaoInterna.value.groupBy || [],
   set: (value) => {
     paginacaoInterna.value = {
+      ...defaultPaginacao,
       ...paginacaoInterna.value,
       groupBy: value,
     }
@@ -562,8 +568,13 @@ watch(
 
 watch(
   () => props.propriedades,
-  (value) => {
-    if (!propertiesLoaded.value && value?.length) {
+  () => {
+    if (isInitialLoad.value) {
+      isInitialLoad.value = false
+      return
+    }
+
+    if (!propertiesLoaded.value) {
       propertiesLoaded.value = true
       organizaColunas()
       emitPaginationUpdate()
@@ -658,7 +669,7 @@ watch(
 onMounted(() => {
   organizaColunas()
 
-  if (!hasPropriedades.value && !props.mostraPropriedades) {
+  if (!props.mostraPropriedades) {
     emitPaginationUpdate()
   }
 })

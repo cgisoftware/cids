@@ -1,13 +1,15 @@
 <template>
   <v-data-table
-    v-model:items-per-page="itensPorPagina"
+    v-model="selected"
+    v-model:page="currentPage"
+    v-model:items-per-page="currentItemsPerPage"
+    v-model:sort-by="currentSortBy"
+    v-model:group-by="currentGroupBy"
     :headers="colunasVisiveis"
     :items="props.linhas"
     :loading="carregar ? 'primary' : null"
     :height="altura"
     :search="pesquisa"
-    :group-by="groupBy"
-    :sort-by="sortBy"
     :items-per-page-options="[
       { value: 30, title: '30' },
       { value: 60, title: '60' },
@@ -19,8 +21,6 @@
     :mobile="isMobile"
     :fixed-header="colunasFixas"
     @click:row="rowClick"
-    @update:options="updateOptions"
-    v-model="selected"
     density="compact"
     multi-sort
     hover
@@ -191,7 +191,6 @@ const props = defineProps({
   altura: { type: String, default: () => "100vh" },
   colunasFixas: { type: Boolean, default: () => true },
   mostraPaginacao: { type: Boolean, default: () => true },
-  itensPorPagina: { type: Number, default: () => 30 },
   totalItens: { type: Number, default: () => 100 },
   carregar: { type: Boolean, default: () => false },
   multipleSort: { type: Boolean, default: () => false },
@@ -224,6 +223,17 @@ const emit = defineEmits([
   "linha-selecionada",
 ]);
 
+const defaultPaginacao = {
+  page: 1,
+  itemsPerPage: 30,
+  sortBy: [],
+  sortDesc: [],
+  groupBy: [],
+  groupDesc: [],
+  multiSort: false,
+  mustSort: false,
+};
+
 const theme = useTheme();
 const display = useDisplay();
 
@@ -238,12 +248,11 @@ const cids = useCids();
 const slots = useSlots();
 
 const pesquisa = ref(null);
-const itensPorPagina = ref(props.itensPorPagina);
 const colunasVisiveis = ref([]);
 const colunasInvisiveis = ref([]);
 const linhaSelecionada = ref(null);
 const colunas = ref(props.colunas);
-const paginacao = ref({});
+const paginacaoInterna = ref({});
 const selected = ref([]);
 const opcoesDeAcao = ref([
   {
@@ -302,31 +311,61 @@ const temOutrasAcoes = computed(() => {
   return !!slots["outras-acoes"];
 });
 
-const sortBy = computed(() => {
-  return paginacao.value?.sortBy?.map((value, index) => ({
-    key: value,
-    order: paginacao.value.sortDesc[index] ? "desc" : "asc",
-  }));
+const currentPage = computed({
+  get: () => paginacaoInterna.value.page || 1,
+  set: (value) => {
+    paginacaoInterna.value = {
+      ...defaultPaginacao,
+      ...paginacaoInterna.value,
+      page: value,
+    };
+  },
 });
 
-const groupBy = computed(() => {
-  return paginacao.value.groupBy;
+const currentItemsPerPage = computed({
+  get: () => paginacaoInterna.value.itemsPerPage || 30,
+  set: (value) => {
+    paginacaoInterna.value = {
+      ...defaultPaginacao,
+      ...paginacaoInterna.value,
+      itemsPerPage: value,
+    };
+  },
+});
+
+const currentSortBy = computed({
+  get: () => {
+    return (
+      paginacaoInterna.value?.sortBy?.map((value, index) => ({
+        key: value,
+        order: paginacaoInterna.value.sortDesc[index] ? "desc" : "asc",
+      })) || []
+    );
+  },
+  set: (value) => {
+    paginacaoInterna.value = {
+      ...defaultPaginacao,
+      ...paginacaoInterna.value,
+      sortBy: value.filter((v) => v.key).map((v) => v.key),
+      sortDesc: value.map((v) => v.order === "desc"),
+    };
+  },
+});
+
+const currentGroupBy = computed({
+  get: () => paginacaoInterna.value.groupBy || [],
+  set: (value) => {
+    paginacaoInterna.value = {
+      ...defaultPaginacao,
+      ...paginacaoInterna.value,
+      groupBy: value,
+    };
+  },
 });
 
 const customHeaders = computed(() => {
   return colunas.value.filter((header) => header.custom);
 });
-
-const updateOptions = (options) => {
-  const pagination = JSON.parse(JSON.stringify(options));
-  pagination.sortBy = options.sortBy
-    .filter((value) => value.key)
-    .map((value) => value.key);
-  pagination["sortDesc"] = options.sortBy.map(
-    (value) => value.order === "desc"
-  );
-  paginacao.value = pagination;
-};
 
 const organizaColunas = () => {
   colunasVisiveis.value = [];
@@ -451,7 +490,7 @@ const habilitaLinhaSelecionada = ({ item }) => {
 };
 
 const salvarPropriedades = (params) => {
-  const pagination = toRaw(paginacao.value);
+  const pagination = toRaw(paginacaoInterna.value);
   const propriedades = {
     colunas: params.colunas.map((coluna) => ({ ...toRaw(coluna) })),
     paginacao: pagination,
@@ -465,10 +504,10 @@ const cancelarZoom = () => {
 };
 
 const atualizaAgrupamento = (agrupamento) => {
-  paginacao.value.groupBy = [];
+  paginacaoInterna.value.groupBy = [];
 
   if (agrupamento) {
-    paginacao.value.groupBy.push({ key: agrupamento });
+    paginacaoInterna.value.groupBy.push({ key: agrupamento });
   }
 };
 
@@ -492,16 +531,9 @@ watch(
 watch(
   () => props.paginacao,
   () => {
-    paginacao.value = props.paginacao ?? {
-      page: 1,
-      itemsPerPage: 30,
-      sortBy: [],
-      sortDesc: [],
-      groupBy: [],
-      groupDesc: [],
-      multiSort: false,
-      mustSort: false,
-    };
+    paginacaoInterna.value = props.paginacao
+      ? { ...props.paginacao }
+      : { ...defaultPaginacao };
   }
 );
 

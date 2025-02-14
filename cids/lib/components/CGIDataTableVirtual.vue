@@ -34,7 +34,7 @@
         @cancelar-zoom="cancelarZoom"
         :mostra-propriedades="mostraPropriedades"
         :zoom-dialog="zoomDialog"
-        :agrupamento="groupBy"
+        :agrupamento="currentGroupBy"
       >
         <template v-slot:pesquisa>
           <slot name="pesquisa"></slot>

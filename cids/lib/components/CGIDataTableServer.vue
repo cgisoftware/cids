@@ -584,6 +584,11 @@ watch(
 )
 
 watch(
+  () => props.propriedades,
+  () => organizaColunas(),
+)
+
+watch(
   () => props.totalItens,
   (newValue) => {
     totalItens.value = newValue

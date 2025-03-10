@@ -144,6 +144,40 @@ const _valorTipado = (vlr, ablType, operator) => {
       }
       break;
 
+    case 'datetime':
+      //vlr += " 12:01:02"
+      // "25/10/2022"
+      if (
+        typeof vlr == 'string' &&
+        vlr.substring(2, 3) == '/' &&
+        vlr.substring(5, 6) == '/' &&
+        vlr.length == 10
+      )
+        retorno = `DATETIME(${vlr.substring(0, 2)}/${vlr.substring(3, 5)}/${vlr.substring(6, 10)})`
+      //"25/10/2022 12:00:00"
+      else if (
+        typeof vlr == 'string' &&
+        vlr.substring(2, 3) == '/' &&
+        vlr.substring(5, 6) == '/' &&
+        vlr.substring(13, 14) == ':' &&
+        vlr.substring(16, 17) == ':' &&
+        vlr.length == 19
+      )
+        retorno = `DATETIME(${vlr.substring(3, 5)},${vlr.substring(0, 2)},${vlr.substring(6, 10)},${vlr.substring(11, 13)},${vlr.substring(14, 16)},${vlr.substring(17, 19)})`
+      //"25/10/2022 12:00:00.000"
+      else if (
+        typeof vlr == 'string' &&
+        vlr.substring(2, 3) == '/' &&
+        vlr.substring(5, 6) == '/' &&
+        vlr.substring(13, 14) == ':' &&
+        vlr.substring(16, 17) == ':' &&
+        vlr.substring(19, 20) == '.' &&
+        vlr.length == 23
+      )
+        retorno = `DATETIME(${vlr.substring(3, 5)},${vlr.substring(0, 2)},${vlr.substring(6, 10)},${vlr.substring(11, 13)},${vlr.substring(14, 16)},${vlr.substring(17, 19)},${vlr.substring(20, 23)})`
+      else retorno = '?'
+      break
+
     case 'logical':
       retorno = (vlr === true)
       break;

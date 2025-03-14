@@ -159,6 +159,14 @@
     </template>
 
     <template v-slot:group-header="{ item, columns, toggleGroup, isGroupOpen }">
+      <template
+        :ref="
+          () => {
+            groupHeaders[item.value] = { item, toggleGroup, isGroupOpen }
+          }
+        "
+      />
+
       <tr class="group-header-row">
         <td :colspan="columns.length" class="table-group-header">
           <v-icon @click="toggleGroup(item)">
@@ -185,6 +193,7 @@ import {
   ref,
   watch,
   toRaw,
+  nextTick,
 } from 'vue'
 import { useCids } from '../composable/CGICids'
 import { useTheme, useDisplay } from 'vuetify'
@@ -274,6 +283,7 @@ const colunasInvisiveis = ref([])
 const paginacaoInterna = ref(
   props.paginacao ? { ...props.paginacao } : { ...defaultPaginacao },
 )
+const groupHeaders = ref({})
 const linhaSelecionada = ref(null)
 const opcoesDeAcao = ref([
   {
@@ -333,6 +343,8 @@ const atualizaAgrupamento = (agrupamento) => {
 
   if (agrupamento) {
     paginacaoInterna.value.groupBy.push({ key: agrupamento })
+
+    nextTick(() => abreAgrupamento())
   }
 }
 
@@ -373,6 +385,18 @@ const salvarPropriedades = (params) => {
   }
 
   emit('salvar-propriedades', propriedades)
+
+  nextTick(() => abreAgrupamento())
+}
+
+const abreAgrupamento = async () => {
+  if (!Object.keys(groupHeaders.value).length) return
+
+  Object.values(groupHeaders.value).forEach((groupHeader) => {
+    if (groupHeader.isGroupOpen(groupHeader.item)) return
+
+    groupHeader.toggleGroup(groupHeader.item)
+  })
 }
 
 const organizaColunas = () => {
@@ -668,6 +692,13 @@ watch(
       search: value,
     }
     emitPaginationUpdate()
+  },
+)
+
+watch(
+  () => props.linhas,
+  () => {
+    nextTick(() => abreAgrupamento())
   },
 )
 

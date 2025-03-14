@@ -153,6 +153,14 @@
     </template>
 
     <template v-slot:group-header="{ item, columns, toggleGroup, isGroupOpen }">
+      <template
+        :ref="
+          () => {
+            groupHeaders[item.value] = { item, toggleGroup, isGroupOpen };
+          }
+        "
+      />
+
       <tr class="group-header-row">
         <td :colspan="columns.length" class="table-group-header">
           <v-icon @click="toggleGroup(item)">
@@ -170,7 +178,15 @@
 </template>
 
 <script setup>
-import { computed, onMounted, useSlots, ref, watch, toRaw } from "vue";
+import {
+  computed,
+  onMounted,
+  useSlots,
+  ref,
+  watch,
+  toRaw,
+  nextTick,
+} from "vue";
 import { useTheme, useDisplay } from "vuetify";
 import { useCids } from "../composable/CGICids";
 
@@ -254,6 +270,7 @@ const linhaSelecionada = ref(null);
 const colunas = ref(props.colunas);
 const paginacaoInterna = ref({});
 const selected = ref([]);
+const groupHeaders = ref({});
 const opcoesDeAcao = ref([
   {
     nome: "Visualizar",
@@ -366,6 +383,16 @@ const currentGroupBy = computed({
 const customHeaders = computed(() => {
   return colunas.value.filter((header) => header.custom);
 });
+
+const abreAgrupamento = () => {
+  if (!Object.keys(groupHeaders.value).length) return;
+
+  Object.values(groupHeaders.value).forEach((groupHeader) => {
+    if (groupHeader.isGroupOpen(groupHeader.item)) return;
+
+    groupHeader.toggleGroup(groupHeader.item);
+  });
+};
 
 const organizaColunas = () => {
   colunasVisiveis.value = [];
@@ -497,6 +524,8 @@ const salvarPropriedades = (params) => {
   };
 
   emit("salvar-propriedades", propriedades);
+
+  nextTick(() => abreAgrupamento());
 };
 
 const cancelarZoom = () => {
@@ -508,6 +537,8 @@ const atualizaAgrupamento = (agrupamento) => {
 
   if (agrupamento) {
     paginacaoInterna.value.groupBy.push({ key: agrupamento });
+
+    nextTick(() => abreAgrupamento());
   }
 };
 
@@ -583,6 +614,13 @@ watch(
     );
 
     acao[0].mostrar = value;
+  }
+);
+
+watch(
+  () => props.linhas,
+  () => {
+    nextTick(() => abreAgrupamento());
   }
 );
 

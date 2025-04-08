@@ -1,23 +1,24 @@
 <template>
   <v-text-field
+    ref="fieldRef"
     density="compact"
-    v-model="data"
-    :label="nome"
-    :rules="regras"
-    persistent-hint
     v-maska:[mask]
-    @blur="blurTextField"
+    v-model="data"
+    :rules="regras"
+    :label="nome"
     :disabled="desabilitado"
     :readonly="somenteLeitura"
+    @blur="blurTextField"
+    persistent-hint
   >
     <template v-slot:append-inner>
       <v-menu
         v-model:model-value="menu"
         :close-on-click="true"
         :close-on-content-click="false"
+        :disabled="desabilitado || somenteLeitura"
         transition="scale-transition"
         location="bottom left"
-        :disabled="desabilitado || somenteLeitura"
       >
         <template v-slot:activator="{ props: props }">
           <v-icon
@@ -31,13 +32,20 @@
         </template>
 
         <v-date-picker
-          density="compact"
-          v-model:model-value="datePicker"
-          v-show="menu"
           title="Selecione a data"
-          show-adjacent-months
+          density="compact"
+          v-show="menu"
+          v-model="datePicker"
+          v-model:year="year"
+          v-model:month="month"
+          :view-mode="tipo"
           @update:model-value="changePicker"
-        ></v-date-picker>
+          @update:view-mode="setViewMode"
+          @update:year="changePicker($event, 'year')"
+          @update:month="changePicker($event, 'months')"
+          show-adjacent-months
+          hide-header
+        />
       </v-menu>
     </template>
   </v-text-field>
@@ -131,24 +139,72 @@ const formataValorInicial = () => {
   );
 };
 
+const getTipo = (tipo) => {
+  if (tipo === "mes") return "months";
+
+  return "date";
+};
+
 const menu = ref(false);
 const data = ref(formataValorInicial());
 const datePicker = ref(dayjs(props.modelValue, props.formato).toDate());
 const mask = ref({ mask: props.tipo == "dia" ? "##/##/####" : "##/####" });
+const year = ref(new Date().getFullYear());
+const month = ref(new Date().getMonth());
+const tipo = ref(getTipo(props.tipo));
+const fieldRef = ref(null);
 
 const dataValida = (data) => {
   return data.isBetween("1900-01-01", "2100-01-01", "day");
 };
 
-const changePicker = (value) => {
-  data.value = dayjs(value).format(formatoMascara.value.formatoInterno);
+const setViewMode = (viewMode) => {
+  fieldRef.value?.focus();
+
+  if (props.tipo === "dia") {
+    tipo.value = viewMode;
+    return;
+  }
+
+  if (viewMode === "month") {
+    tipo.value = "months";
+    return;
+  }
+
+  tipo.value = "year";
+};
+
+const changePicker = (value, type = "month") => {
+  fieldRef.value?.focus();
+
+  switch (type) {
+    case "year":
+      data.value = dayjs()
+        .month(month.value)
+        .year(value)
+        .format(formatoMascara.value.formatoInterno);
+      break;
+    case "months":
+      data.value = dayjs()
+        .month(value)
+        .year(year.value)
+        .format(formatoMascara.value.formatoInterno);
+      break;
+    default:
+      data.value = dayjs(value).format(formatoMascara.value.formatoInterno);
+      break;
+  }
+
   menu.value = false;
+
   emit(
     "update:model-value",
     dayjs(data.value, formatoMascara.value.formatoInterno).format(
       formatoMascara.value.formato
     )
   );
+
+  fieldRef.value?.blur();
 };
 
 const manipulacaoFormatos = {
@@ -197,7 +253,20 @@ const blurTextField = () => {
   if (data.value) {
     const tamanho = data.value.split("/");
     data.value = manipulacaoFormatos[tamanho.length]();
-    datePicker.value = dayjs(data.value, "DD/MM/YYYY").toDate();
+
+    switch (tipo.value) {
+      case "months":
+      case "year":
+        const dateParts = data.value.split("/");
+        const month = parseInt(dateParts[0]) - 1;
+        const year = parseInt(dateParts[1]);
+        datePicker.value = dayjs().year(year).month(month).date(1).toDate();
+        break;
+      default:
+        datePicker.value = dayjs(data.value, "DD/MM/YYYY").toDate();
+        break;
+    }
+
     emit(
       "update:model-value",
       dayjs(data.value, formatoMascara.value.formatoInterno).format(

@@ -370,7 +370,13 @@ const currentSortBy = computed({
 });
 
 const currentGroupBy = computed({
-  get: () => paginacaoInterna.value.groupBy || [],
+  get: () => {
+    return (
+      paginacaoInterna.value?.groupBy?.map((item) => ({
+        key: item?.key ?? item,
+      })) || []
+    );
+  },
   set: (value) => {
     paginacaoInterna.value = {
       ...defaultPaginacao,

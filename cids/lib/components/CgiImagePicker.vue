@@ -12,6 +12,7 @@
         type="file"
         @input="onSelectFile"
         accept="image/*"
+        :disabled="desabilitado || carregando"
       />
     </div>
   </div>
@@ -110,6 +111,14 @@ export default {
     url: {
       type: String,
       default: () => null,
+    },
+    desabilitado: {
+      type: Boolean,
+      default: false,
+    },
+    carregando: {
+      type: Boolean,
+      default: () => false,
     },
   },
 };

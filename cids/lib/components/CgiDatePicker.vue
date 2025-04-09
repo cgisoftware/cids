@@ -258,10 +258,13 @@ const blurTextField = () => {
       case "months":
       case "year":
         const dateParts = data.value.split("/");
-        const month = parseInt(dateParts[0]) - 1;
-        const year = parseInt(dateParts[1]);
-        datePicker.value = dayjs().year(year).month(month).date(1).toDate();
-        break;
+
+        if (dateParts.length === 2) {
+          const month = parseInt(dateParts[0]) - 1;
+          const year = parseInt(dateParts[1]);
+          datePicker.value = dayjs().year(year).month(month).date(1).toDate();
+          break;
+        }
       default:
         datePicker.value = dayjs(data.value, "DD/MM/YYYY").toDate();
         break;

@@ -578,6 +578,7 @@ export default {
     },
     selecionarLinhaAntesDeAbrirMenu(item) {
       this.linhaSelecionada = structuredClone(item)
+      this.$emit('linha-selecionada', item)
     },
     habilitaLinhaSelecionada(item) {
       if (this.mostraLinhaSelecionada && this.linhaSelecionada) {

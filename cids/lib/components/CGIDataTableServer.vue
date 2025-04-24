@@ -162,7 +162,7 @@
       <template
         :ref="
           () => {
-            groupHeaders[item.value] = { item, toggleGroup, isGroupOpen }
+            groupHeaders[item.value] = { item, toggleGroup, isGroupOpen };
           }
         "
       />
@@ -170,12 +170,12 @@
       <tr class="group-header-row">
         <td :colspan="columns.length" class="table-group-header">
           <v-icon @click="toggleGroup(item)">
-            {{ isGroupOpen(item) ? 'mdi-minus' : 'mdi-plus' }}
+            {{ isGroupOpen(item) ? "mdi-minus" : "mdi-plus" }}
           </v-icon>
 
           {{
             item.key.charAt(0).toUpperCase() +
-            item.key.split('_').join(' ').slice(1)
+            item.key.split("_").join(" ").slice(1)
           }}: {{ item.value }}
         </td>
       </tr>
@@ -184,7 +184,7 @@
 </template>
 
 <script setup>
-import CGIDataTableHeader from './CGIDataTableHeader.vue'
+import CGIDataTableHeader from "./CGIDataTableHeader.vue";
 import {
   computed,
   onBeforeUnmount,
@@ -194,10 +194,10 @@ import {
   watch,
   toRaw,
   nextTick,
-} from 'vue'
-import { useCids } from '../composable/CGICids'
-import { useTheme, useDisplay } from 'vuetify'
-import debounce from 'lodash/debounce'
+} from "vue";
+import { useCids } from "../composable/CGICids";
+import { useTheme, useDisplay } from "vuetify";
+import debounce from "lodash/debounce";
 
 const props = defineProps({
   copiar: { type: Boolean, default: () => false },
@@ -211,7 +211,7 @@ const props = defineProps({
   nomeTabela: { type: String, default: () => null },
   nomePrograma: { type: String, default: () => null },
   informacoesDaPesquisa: { type: String, default: () => null },
-  altura: { type: String, default: () => '100vh' },
+  altura: { type: String, default: () => "100vh" },
   colunasFixas: { type: Boolean, default: () => true },
   mostraPaginacao: { type: Boolean, default: () => true },
   totalItens: { type: Number, default: () => 100 },
@@ -232,20 +232,20 @@ const props = defineProps({
   habilitaAgrupamento: { type: Boolean, default: () => false },
   mostraPropriedades: { type: Boolean, default: () => false },
   mostraLinhaSelecionada: { type: Boolean, default: () => false },
-  chaveTabela: { type: String, default: () => 'seq' },
-})
+  chaveTabela: { type: String, default: () => "seq" },
+});
 
 const emit = defineEmits([
-  'paginando',
-  'salvar-propriedades',
-  'ver-detalhes',
-  'copiar-item',
-  'alterar-item',
-  'deletar-item',
-  'exporta-zoom',
-  'cancelar-zoom',
-  'linha-selecionada',
-])
+  "paginando",
+  "salvar-propriedades",
+  "ver-detalhes",
+  "copiar-item",
+  "alterar-item",
+  "deletar-item",
+  "exporta-zoom",
+  "cancelar-zoom",
+  "linha-selecionada",
+]);
 
 const defaultPaginacao = {
   page: 1,
@@ -256,227 +256,228 @@ const defaultPaginacao = {
   groupDesc: [],
   multiSort: false,
   mustSort: false,
-}
+};
 
-const theme = useTheme()
-const display = useDisplay()
+const theme = useTheme();
+const display = useDisplay();
 
 const isDarkTheme = computed(() => {
-  return theme.global.current.value.dark
-})
+  return theme.global.current.value.dark;
+});
 const isMobile = computed(() => {
-  return display.smAndDown.value
-})
+  return display.smAndDown.value;
+});
 
-const cids = useCids()
-const slots = useSlots()
+const cids = useCids();
+const slots = useSlots();
 
-const isInitialLoad = ref(true)
-const propertiesLoaded = ref(false)
-const selected = ref([])
-const totalItens = ref(props.totalItens)
-const previousTotalItens = ref(0)
-const colunas = ref(props.colunas)
-const pesquisa = ref(null)
-const colunasVisiveis = ref([])
-const colunasInvisiveis = ref([])
+const isInitialLoad = ref(true);
+const propertiesLoaded = ref(false);
+const selected = ref([]);
+const totalItens = ref(props.totalItens);
+const previousTotalItens = ref(0);
+const colunas = ref(props.colunas);
+const pesquisa = ref(null);
+const colunasVisiveis = ref([]);
+const colunasInvisiveis = ref([]);
 const paginacaoInterna = ref(
-  props.paginacao ? { ...props.paginacao } : { ...defaultPaginacao },
-)
-const groupHeaders = ref({})
-const linhaSelecionada = ref(null)
+  props.paginacao ? { ...props.paginacao } : { ...defaultPaginacao }
+);
+const groupHeaders = ref({});
+const linhaSelecionada = ref(null);
 const opcoesDeAcao = ref([
   {
-    nome: 'Visualizar',
-    icone: 'mdi-eye',
-    cor: 'green',
-    descricao: 'Visualizar registro',
+    nome: "Visualizar",
+    icone: "mdi-eye",
+    cor: "green",
+    descricao: "Visualizar registro",
     acao: (item, index) => {
-      emit('ver-detalhes', { ...item, index })
+      emit("ver-detalhes", { ...item, index });
     },
     mostrar: props.mostraDetalhes,
   },
   {
-    nome: 'Copiar',
-    icone: 'mdi-content-copy',
-    cor: 'green',
-    descricao: 'Copiar registro',
+    nome: "Copiar",
+    icone: "mdi-content-copy",
+    cor: "green",
+    descricao: "Copiar registro",
     acao: (item, index) => {
-      emit('copiar-item', { ...item, index })
+      emit("copiar-item", { ...item, index });
     },
     mostrar: props.copiar,
   },
   {
-    nome: 'Alterar',
-    icone: 'mdi-pencil',
-    cor: 'blue',
-    descricao: 'Alterar registro',
+    nome: "Alterar",
+    icone: "mdi-pencil",
+    cor: "blue",
+    descricao: "Alterar registro",
     acao: (item, index) => {
-      emit('alterar-item', { ...item, index })
+      emit("alterar-item", { ...item, index });
     },
     mostrar: props.alterar,
   },
   {
-    nome: 'Excluir',
-    icone: 'mdi-delete',
-    cor: 'red',
-    descricao: 'Excluir registro',
+    nome: "Excluir",
+    icone: "mdi-delete",
+    cor: "red",
+    descricao: "Excluir registro",
     acao: (item, index) => {
-      emit('deletar-item', { ...item, index })
+      emit("deletar-item", { ...item, index });
     },
     mostrar: props.deletar,
   },
   {
-    nome: 'Exportar registro',
-    icone: 'mdi-arrow-down',
-    cor: 'orange',
-    descricao: 'Exportar registro',
+    nome: "Exportar registro",
+    icone: "mdi-arrow-down",
+    cor: "orange",
+    descricao: "Exportar registro",
     acao: (item, index) => {
-      emit('exporta-zoom', { ...item, index })
+      emit("exporta-zoom", { ...item, index });
     },
     mostrar: props.zoomDialog,
   },
-])
+]);
 
 const atualizaAgrupamento = (agrupamento) => {
-  paginacaoInterna.value.groupBy = []
+  paginacaoInterna.value.groupBy = [];
 
   if (agrupamento) {
-    paginacaoInterna.value.groupBy.push({ key: agrupamento })
+    paginacaoInterna.value.groupBy.push({ key: agrupamento });
 
-    nextTick(() => abreAgrupamento())
+    nextTick(() => abreAgrupamento());
   }
-}
+};
 
 const cancelarZoom = () => {
-  emit('cancelar-zoom')
-}
+  emit("cancelar-zoom");
+};
 
 const rowClick = (_, row) => {
-  if (props.carregar) return
+  if (props.carregar) return;
 
-  linhaSelecionada.value = structuredClone(toRaw(row.item))
-  emit('linha-selecionada', row.item)
-}
+  linhaSelecionada.value = structuredClone(toRaw(row.item));
+  emit("linha-selecionada", row.item);
+};
 
 const selecionarLinhaAntesDeAbrirMenu = (item) => {
-  linhaSelecionada.value = structuredClone(toRaw(item))
-}
+  linhaSelecionada.value = structuredClone(toRaw(item));
+  emit("linha-selecionada", item);
+};
 
 const habilitaLinhaSelecionada = ({ item }) => {
   if (props.mostraLinhaSelecionada && linhaSelecionada.value) {
     if (linhaSelecionada.value[props.chaveTabela] === item[props.chaveTabela]) {
       return {
-        class: cids?.theme?.dataTable?.lineColor ?? 'linha-selecionada',
-      }
+        class: cids?.theme?.dataTable?.lineColor ?? "linha-selecionada",
+      };
     }
   }
 
   if (item.rowProps) {
-    return { ...item.rowProps }
+    return { ...item.rowProps };
   }
-}
+};
 
 const salvarPropriedades = (params) => {
-  const pagination = toRaw(paginacaoInterna.value)
+  const pagination = toRaw(paginacaoInterna.value);
   const propriedades = {
     colunas: params.colunas.map((coluna) => ({ ...toRaw(coluna) })),
     paginacao: pagination,
-  }
+  };
 
-  emit('salvar-propriedades', propriedades)
+  emit("salvar-propriedades", propriedades);
 
-  nextTick(() => abreAgrupamento())
-}
+  nextTick(() => abreAgrupamento());
+};
 
 const abreAgrupamento = async () => {
-  if (!Object.keys(groupHeaders.value).length) return
+  if (!Object.keys(groupHeaders.value).length) return;
 
   Object.values(groupHeaders.value).forEach((groupHeader) => {
-    if (groupHeader.isGroupOpen(groupHeader.item)) return
+    if (groupHeader.isGroupOpen(groupHeader.item)) return;
 
-    groupHeader.toggleGroup(groupHeader.item)
-  })
-}
+    groupHeader.toggleGroup(groupHeader.item);
+  });
+};
 
 const organizaColunas = () => {
-  colunasVisiveis.value = []
-  colunasInvisiveis.value = []
-  const colunasAux = [...props.colunas]
-  const propriedadesAux = structuredClone(toRaw(props.propriedades))
+  colunasVisiveis.value = [];
+  colunasInvisiveis.value = [];
+  const colunasAux = [...props.colunas];
+  const propriedadesAux = structuredClone(toRaw(props.propriedades));
 
   propriedadesAux.forEach((propriedade) => {
     const coluna = colunasAux.filter((coluna) => {
-      const col = coluna.key ?? coluna.value
-      const prop = propriedade.key ?? propriedade.value
+      const col = coluna.key ?? coluna.value;
+      const prop = propriedade.key ?? propriedade.value;
 
-      return col === prop
-    })
+      return col === prop;
+    });
 
-    if (coluna.length > 0) Object.assign(propriedade, coluna[0])
-  })
+    if (coluna.length > 0) Object.assign(propriedade, coluna[0]);
+  });
 
   colunasVisiveis.value =
-    propriedadesAux.length > 0 ? propriedadesAux : colunasAux
+    propriedadesAux.length > 0 ? propriedadesAux : colunasAux;
 
   if (propriedadesAux.length) {
     colunasInvisiveis.value = colunasAux.filter(
       (coluna) =>
         !propriedadesAux.some((propriedade) => {
-          const prop = propriedade.key ?? propriedade.value
-          const col = coluna.key ?? coluna.value
+          const prop = propriedade.key ?? propriedade.value;
+          const col = coluna.key ?? coluna.value;
 
-          return prop === col
-        }),
-    )
+          return prop === col;
+        })
+    );
   }
 
   if (props.mostraAcoes) {
-    if (cids.cidsState?.defaults?.dataTable?.acoes === 'right') {
+    if (cids.cidsState?.defaults?.dataTable?.acoes === "right") {
       colunasVisiveis.value.push({
-        title: 'Ações',
-        align: 'end',
+        title: "Ações",
+        align: "end",
         sortable: false,
         hidden: false,
-        key: 'acoes',
-        width: '150',
-      })
-      return
+        key: "acoes",
+        width: "150",
+      });
+      return;
     }
 
-    if (cids.cidsState?.defaults?.dataTable?.acoes === 'left dot') {
+    if (cids.cidsState?.defaults?.dataTable?.acoes === "left dot") {
       colunasVisiveis.value.unshift({
-        title: 'Ações',
-        align: 'center',
+        title: "Ações",
+        align: "center",
         sortable: false,
         hidden: false,
-        key: 'acoes',
-        width: '15',
-      })
+        key: "acoes",
+        width: "15",
+      });
     }
 
-    if (cids.cidsState?.defaults?.dataTable?.acoes === 'left') {
+    if (cids.cidsState?.defaults?.dataTable?.acoes === "left") {
       colunasVisiveis.value.unshift({
-        title: 'Ações',
-        align: 'start',
+        title: "Ações",
+        align: "start",
         sortable: false,
         hidden: false,
-        key: 'acoes',
-        width: '150',
-      })
+        key: "acoes",
+        width: "150",
+      });
     }
   }
 
   if (
     colunasVisiveis.value.findIndex(
-      (item) => item.key === 'data-table-group',
+      (item) => item.key === "data-table-group"
     ) === -1
   ) {
     colunasVisiveis.value.unshift({
-      title: '',
-      key: 'data-table-group',
-      align: ' d-none',
-    })
+      title: "",
+      key: "data-table-group",
+      align: " d-none",
+    });
   }
 
   colunasVisiveis.value = colunasVisiveis.value.map((coluna) => {
@@ -484,26 +485,26 @@ const organizaColunas = () => {
       ...coluna,
       title: coluna.text ?? coluna.title,
       key: coluna.value ?? coluna.key,
-    }
-  })
+    };
+  });
 
   colunasInvisiveis.value = colunasInvisiveis.value.map((coluna) => {
     return {
       ...coluna,
       title: coluna.text ?? coluna.title,
       key: coluna.value ?? coluna.key,
-    }
-  })
-}
+    };
+  });
+};
 
 const emitPaginationUpdate = debounce(() => {
   const paginacao = {
     ...defaultPaginacao,
     ...paginacaoInterna.value,
-  }
+  };
 
-  emit('paginando', paginacao)
-}, 0)
+  emit("paginando", paginacao);
+}, 0);
 
 const currentPage = computed({
   get: () => paginacaoInterna.value.page || 1,
@@ -512,10 +513,10 @@ const currentPage = computed({
       ...defaultPaginacao,
       ...paginacaoInterna.value,
       page: value,
-    }
-    emitPaginationUpdate()
+    };
+    emitPaginationUpdate();
   },
-})
+});
 
 const currentItemsPerPage = computed({
   get: () => paginacaoInterna.value.itemsPerPage || 30,
@@ -524,170 +525,171 @@ const currentItemsPerPage = computed({
       ...defaultPaginacao,
       ...paginacaoInterna.value,
       itemsPerPage: value,
-    }
-    emitPaginationUpdate()
+    };
+    emitPaginationUpdate();
   },
-})
+});
 
 const currentSortBy = computed({
   get: () => {
     return (
       paginacaoInterna.value?.sortBy?.map((value, index) => ({
         key: value,
-        order: paginacaoInterna.value.sortDesc[index] ? 'desc' : 'asc',
+        order: paginacaoInterna.value.sortDesc[index] ? "desc" : "asc",
       })) || []
-    )
+    );
   },
   set: (value) => {
     paginacaoInterna.value = {
       ...defaultPaginacao,
       ...paginacaoInterna.value,
       sortBy: value.filter((v) => v.key).map((v) => v.key),
-      sortDesc: value.map((v) => v.order === 'desc'),
-    }
-    emitPaginationUpdate()
+      sortDesc: value.map((v) => v.order === "desc"),
+    };
+    emitPaginationUpdate();
   },
-})
+});
 
 const currentGroupBy = computed({
-
   get: () => {
-    return paginacaoInterna.value?.groupBy?.map(item => ({
-      key: item?.key ?? item
-    })) || []
+    return (
+      paginacaoInterna.value?.groupBy?.map((item) => ({
+        key: item?.key ?? item,
+      })) || []
+    );
   },
   set: (value) => {
     paginacaoInterna.value = {
       ...defaultPaginacao,
       ...paginacaoInterna.value,
       groupBy: value,
-    }
-    emitPaginationUpdate()
+    };
+    emitPaginationUpdate();
   },
-})
+});
 
 const customHeaders = computed(() => {
-  return colunas.value.filter((header) => header.custom)
-})
+  return colunas.value.filter((header) => header.custom);
+});
 
 const temOutrasAcoes = computed(() => {
-  return !!slots['outras-acoes']
-})
+  return !!slots["outras-acoes"];
+});
 
 if (
   props.showActions &&
-  !colunas.value.some((value) => value.key === 'actions')
+  !colunas.value.some((value) => value.key === "actions")
 ) {
   colunas.value.push({
-    title: 'Ações',
-    key: 'actions',
-    align: 'end',
+    title: "Ações",
+    key: "actions",
+    align: "end",
     sortable: false,
-  })
+  });
 }
 
 watch(
   () => props.paginacao,
   (value) => {
-    if (!value) return
-    paginacaoInterna.value = { ...value }
+    if (!value) return;
+    paginacaoInterna.value = { ...value };
   },
-  { deep: true },
-)
+  { deep: true }
+);
 
 watch(
   () => props.propriedades,
   () => {
     if (isInitialLoad.value) {
-      isInitialLoad.value = false
-      return
+      isInitialLoad.value = false;
+      return;
     }
 
     if (!propertiesLoaded.value) {
-      propertiesLoaded.value = true
-      organizaColunas()
-      emitPaginationUpdate()
+      propertiesLoaded.value = true;
+      organizaColunas();
+      emitPaginationUpdate();
     }
   },
-  { immediate: true },
-)
+  { immediate: true }
+);
 
 watch(
   () => props.propriedades,
-  () => organizaColunas(),
-)
+  () => organizaColunas()
+);
 
 watch(
   () => props.totalItens,
   (newValue) => {
-    totalItens.value = newValue
-  },
-)
+    totalItens.value = newValue;
+  }
+);
 
 watch(
   () => props.mostraDetalhes,
   (value) => {
     const acao = opcoesDeAcao.value.filter(
-      (opcao) => opcao.nome === 'Visualizar',
-    )
+      (opcao) => opcao.nome === "Visualizar"
+    );
 
-    acao[0].mostrar = value
-  },
-)
+    acao[0].mostrar = value;
+  }
+);
 
 watch(
   () => props.copiar,
   (value) => {
-    const acao = opcoesDeAcao.value.filter((opcao) => opcao.nome === 'Copiar')
+    const acao = opcoesDeAcao.value.filter((opcao) => opcao.nome === "Copiar");
 
-    acao[0].mostrar = value
-  },
-)
+    acao[0].mostrar = value;
+  }
+);
 
 watch(
   () => props.alterar,
   (value) => {
-    const acao = opcoesDeAcao.value.filter((opcao) => opcao.nome === 'Alterar')
+    const acao = opcoesDeAcao.value.filter((opcao) => opcao.nome === "Alterar");
 
-    acao[0].mostrar = value
-  },
-)
+    acao[0].mostrar = value;
+  }
+);
 
 watch(
   () => props.deletar,
   (value) => {
-    const acao = opcoesDeAcao.value.filter((opcao) => opcao.nome === 'Excluir')
+    const acao = opcoesDeAcao.value.filter((opcao) => opcao.nome === "Excluir");
 
-    acao[0].mostrar = value
-  },
-)
+    acao[0].mostrar = value;
+  }
+);
 
 watch(
   () => props.zoomDialog,
   (value) => {
     const acao = opcoesDeAcao.value.filter(
-      (opcao) => opcao.nome === 'Exportar registro',
-    )
+      (opcao) => opcao.nome === "Exportar registro"
+    );
 
-    acao[0].mostrar = value
-  },
-)
+    acao[0].mostrar = value;
+  }
+);
 
 watch(
   () => props.totalItens,
   (_, oldValue) => {
-    previousTotalItens.value = oldValue
-  },
-)
+    previousTotalItens.value = oldValue;
+  }
+);
 
 watch(
   () => paginacaoInterna.value.search,
   (currValue, oldValue) => {
     if (currValue !== oldValue && !currValue) {
-      pesquisa.value = null
+      pesquisa.value = null;
     }
-  },
-)
+  }
+);
 
 watch(
   () => pesquisa.value,
@@ -695,29 +697,29 @@ watch(
     paginacaoInterna.value = {
       ...paginacaoInterna.value,
       search: value,
-    }
-    emitPaginationUpdate()
-  },
-)
+    };
+    emitPaginationUpdate();
+  }
+);
 
 watch(
   () => props.linhas,
   () => {
-    nextTick(() => abreAgrupamento())
-  },
-)
+    nextTick(() => abreAgrupamento());
+  }
+);
 
 onMounted(() => {
-  organizaColunas()
+  organizaColunas();
 
   if (!props.mostraPropriedades) {
-    emitPaginationUpdate()
+    emitPaginationUpdate();
   }
-})
+});
 
 onBeforeUnmount(() => {
-  emitPaginationUpdate.cancel()
-})
+  emitPaginationUpdate.cancel();
+});
 </script>
 
 <style>

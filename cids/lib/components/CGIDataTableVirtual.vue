@@ -466,6 +466,7 @@ const rowClick = (_, row) => {
 
 const selecionarLinhaAntesDeAbrirMenu = (item) => {
   linhaSelecionada.value = structuredClone(toRaw(item));
+  emit("linha-selecionada", item);
 };
 
 const habilitaLinhaSelecionada = ({ item }) => {

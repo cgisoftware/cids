@@ -1,5 +1,6 @@
 <template>
   <v-data-table
+    v-on="$listeners"
     :headers="colunasVisiveis"
     :items="linhas"
     :options.sync="propriedadesDaPaginacao"

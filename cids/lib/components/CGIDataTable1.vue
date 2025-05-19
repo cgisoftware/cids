@@ -47,11 +47,11 @@
     <template v-slot:[`group.header`]="{ isOpen, toggle, group, groupBy }">
       <th colspan="90">
         <v-icon @click="toggle">
-          {{ isOpen ? 'mdi-minus' : 'mdi-plus' }}
+          {{ isOpen ? "mdi-minus" : "mdi-plus" }}
         </v-icon>
         {{
           groupBy[0][0].toUpperCase() +
-          groupBy[0].split('_').join(' ').slice(1)
+          groupBy[0].split("_").join(" ").slice(1)
         }}: {{ group }}
       </th>
     </template>
@@ -401,8 +401,8 @@
 </template>
 
 <script>
-import draggable from 'vuedraggable'
-import { formatNumber } from '../util'
+import draggable from "vuedraggable";
+import { formatNumber } from "../util";
 export default {
   components: {
     draggable,
@@ -417,223 +417,224 @@ export default {
     itensSelecionados: context.value,
     opcoesDeAcao: [
       {
-        nome: 'Visualizar',
-        icone: 'mdi-eye',
-        cor: 'green',
-        descricao: 'Visualizar registro',
+        nome: "Visualizar",
+        icone: "mdi-eye",
+        cor: "green",
+        descricao: "Visualizar registro",
         acao: (item) => {
-          context.$emit('ver-detalhes', item)
+          context.$emit("ver-detalhes", item);
         },
         mostrar: context.mostraDetalhes,
       },
       {
-        nome: 'Copiar',
-        icone: 'mdi-content-copy',
-        cor: 'green',
-        descricao: 'Copiar registro',
+        nome: "Copiar",
+        icone: "mdi-content-copy",
+        cor: "green",
+        descricao: "Copiar registro",
         acao: (item) => {
-          context.$emit('copiar-item', item)
+          context.$emit("copiar-item", item);
         },
         mostrar: context.copiar,
       },
       {
-        nome: 'Alterar',
-        icone: 'mdi-pencil',
-        cor: 'blue',
-        descricao: 'Alterar registro',
+        nome: "Alterar",
+        icone: "mdi-pencil",
+        cor: "blue",
+        descricao: "Alterar registro",
         acao: (item) => {
-          context.$emit('alterar-item', item)
+          context.$emit("alterar-item", item);
         },
         mostrar: context.alterar,
       },
       {
-        nome: 'Excluir',
-        icone: 'mdi-delete',
-        cor: 'red',
-        descricao: 'Excluir registro',
+        nome: "Excluir",
+        icone: "mdi-delete",
+        cor: "red",
+        descricao: "Excluir registro",
         acao: (item) => {
-          context.$emit('deletar-item', item)
+          context.$emit("deletar-item", item);
         },
         mostrar: context.deletar,
       },
       {
-        nome: 'Exportar registro',
-        icone: 'mdi-arrow-down',
-        cor: 'orange',
-        descricao: 'Exportar registro',
+        nome: "Exportar registro",
+        icone: "mdi-arrow-down",
+        cor: "orange",
+        descricao: "Exportar registro",
         acao: (item) => {
-          context.$emit('exporta-zoom', item)
+          context.$emit("exporta-zoom", item);
         },
         mostrar: context.zoomDialog,
       },
     ],
   }),
   mounted() {
-    this.organizaColunas()
+    this.organizaColunas();
   },
   methods: {
     organizaColunas() {
-      this.colunasVisiveis = []
-      this.colunasInvisivel = []
-      const colunas = [...this.colunas]
-      const propriedades = structuredClone(this.propriedades)
+      this.colunasVisiveis = [];
+      this.colunasInvisivel = [];
+      const colunas = [...this.colunas];
+      const propriedades = structuredClone(this.propriedades);
 
       propriedades.forEach((propriedade) => {
         const coluna = colunas.filter(
-          (coluna) => coluna.value === propriedade.value,
-        )
-        if (coluna.length > 0) Object.assign(propriedade, coluna[0])
-      })
+          (coluna) => coluna.value === propriedade.value
+        );
+        if (coluna.length > 0) Object.assign(propriedade, coluna[0]);
+      });
 
-      this.colunasVisiveis = propriedades.length > 0 ? propriedades : colunas
+      this.colunasVisiveis = propriedades.length > 0 ? propriedades : colunas;
 
       if (propriedades.length) {
         this.colunasInvisiveis = colunas.filter(
           (coluna) =>
             !propriedades.some(
-              (propriedade) => propriedade.value === coluna.value,
-            ),
-        )
+              (propriedade) => propriedade.value === coluna.value
+            )
+        );
       }
 
       if (this.mostraAcoes) {
-        if (this.cids?.defaults?.dataTable?.acoes === 'right') {
+        if (this.cids?.defaults?.dataTable?.acoes === "right") {
           this.colunasVisiveis.push({
-            text: 'Ações',
-            align: 'end',
+            text: "Ações",
+            align: "end",
             sortable: false,
             hidden: false,
-            value: 'acoes',
-            width: '150',
-          })
-          return
+            value: "acoes",
+            width: "150",
+          });
+          return;
         }
 
-        if (this.cids?.defaults?.dataTable?.acoes === 'left dot') {
+        if (this.cids?.defaults?.dataTable?.acoes === "left dot") {
           this.colunasVisiveis.unshift({
-            text: 'Ações',
-            align: 'center',
+            text: "Ações",
+            align: "center",
             sortable: false,
             hidden: false,
-            value: 'acoes',
-            width: '15',
-          })
+            value: "acoes",
+            width: "15",
+          });
         }
 
-        if (this.cids?.defaults?.dataTable?.acoes === 'left') {
+        if (this.cids?.defaults?.dataTable?.acoes === "left") {
           this.colunasVisiveis.unshift({
-            text: 'Ações',
-            align: 'start',
+            text: "Ações",
+            align: "start",
             sortable: false,
             hidden: false,
-            value: 'acoes',
-            width: '150',
-          })
+            value: "acoes",
+            width: "150",
+          });
         }
       }
     },
     executaPaginacao() {
       if (this.paginacaoServidor) {
-        this.propriedadesDaPaginacao['search'] = this.pesquisaInterna
+        this.propriedadesDaPaginacao["search"] = this.pesquisaInterna;
 
         if (
           this.agrupamento != null &&
           !this.propriedadesDaPaginacao.sortBy.some(
-            (coluna) => coluna === this.agrupamento,
+            (coluna) => coluna === this.agrupamento
           )
         ) {
-          this.propriedadesDaPaginacao.sortBy.unshift(this.agrupamento)
-          this.propriedadesDaPaginacao.sortDesc.unshift(false)
+          this.propriedadesDaPaginacao.sortBy.unshift(this.agrupamento);
+          this.propriedadesDaPaginacao.sortDesc.unshift(false);
         }
 
-        this.$emit('paginando', this.propriedadesDaPaginacao)
+        this.$emit("paginando", this.propriedadesDaPaginacao);
       }
     },
     executaPaginacaoDebounce() {
-      clearTimeout(this.debounceTimeout)
+      clearTimeout(this.debounceTimeout);
 
       this.debounceTimeout = setTimeout(() => {
-        this.executaPaginacao()
-      }, 700)
+        this.executaPaginacao();
+      }, 700);
     },
     adicionaColunaNaTela(coluna) {
       this.colunasInvisiveis = this.colunasInvisiveis.filter(
-        (colunaInvisivel) => colunaInvisivel.value != coluna.value,
-      )
-      this.colunasVisiveis.push(coluna)
+        (colunaInvisivel) => colunaInvisivel.value != coluna.value
+      );
+      this.colunasVisiveis.push(coluna);
     },
     removeColunaDaTela(coluna) {
       this.colunasVisiveis = this.colunasVisiveis.filter(
-        (colunaVisivel) => colunaVisivel.value != coluna.value,
-      )
-      this.colunasInvisiveis.push(coluna)
+        (colunaVisivel) => colunaVisivel.value != coluna.value
+      );
+      this.colunasInvisiveis.push(coluna);
     },
     salvarPropriedades() {
-      this.$emit('salvar-propriedades', {
+      this.$emit("salvar-propriedades", {
         colunas: this.colunasVisiveis.filter(
-          (item) => item.value !== 'tb_detalhe' && item.value !== 'acoes',
+          (item) => item.value !== "tb_detalhe" && item.value !== "acoes"
         ),
         paginacao: this.propriedadesDaPaginacao,
-      })
-      this.menuDePropriedadesDaColuna = false
+      });
+      this.menuDePropriedadesDaColuna = false;
     },
     selecionarLinhaAntesDeAbrirMenu(item) {
-      this.linhaSelecionada = structuredClone(item)
-      this.$emit('linha-selecionada', item)
+      this.linhaSelecionada = structuredClone(item);
+      this.$emit("linha-selecionada", item);
     },
     habilitaLinhaSelecionada(item) {
       if (this.mostraLinhaSelecionada && this.linhaSelecionada) {
         if (this.linhaSelecionada[this.chaveTabela] == item[this.chaveTabela]) {
-          return this.cids?.theme?.dataTable?.lineColor ?? 'blue lighten-5'
+          return this.cids?.theme?.dataTable?.lineColor ?? "blue lighten-5";
         }
       }
 
       if (item.cor) {
-        return item.cor
+        return item.cor;
       }
     },
     selecionaLinha(item) {
-      this.linhaSelecionada = structuredClone(item)
-      this.$emit('linha-selecionada', item)
+      this.linhaSelecionada = structuredClone(item);
+      this.$emit("linha-selecionada", item);
     },
     somarRegistros(key, itens) {
       if (itens != undefined) {
-        const valor = itens.reduce((a, b) => a + (b[key] || 0), 0)
-        return formatNumber(valor)
+        const valor = itens.reduce((a, b) => a + (b[key] || 0), 0);
+        return formatNumber(valor);
       }
     },
     limpaPesquisa() {
-      this.pesquisaInterna = null
+      this.pesquisaInterna = null;
     },
   },
   computed: {
     colunasCustomizaveis() {
-      return this.colunasVisiveis.filter((coluna) => coluna.custom)
+      return this.colunasVisiveis.filter((coluna) => coluna.custom);
     },
     agrupamento: {
       get: function () {
-        return this.propriedadesDaPaginacao?.groupBy?.[0] ?? null
+        return this.propriedadesDaPaginacao?.groupBy?.[0] ?? null;
       },
       set: function (value) {
-        this.propriedadesDaPaginacao.groupBy = []
+        this.propriedadesDaPaginacao.groupBy = [];
         if (value) {
-          this.propriedadesDaPaginacao.groupBy.push(value)
+          this.propriedadesDaPaginacao.groupBy.push(value);
         }
       },
     },
     temOutrasAcoes() {
-      return this.$slots['outras-acoes'] || this.$scopedSlots['outras-acoes']
+      return this.$slots["outras-acoes"] || this.$scopedSlots["outras-acoes"];
     },
   },
   watch: {
     propriedadesDaPaginacao() {
-      this.executaPaginacao()
+      this.executaPaginacao();
     },
     pesquisaInterna() {
-      this.executaPaginacaoDebounce()
+      this.executaPaginacaoDebounce();
+      this.$emit("pesquisa-tabela", this.pesquisaInterna);
     },
     propriedades() {
-      this.organizaColunas()
+      this.organizaColunas();
     },
     paginacao() {
       this.propriedadesDaPaginacao = this.paginacao ?? {
@@ -645,19 +646,19 @@ export default {
         groupDesc: [],
         multiSort: false,
         mustSort: false,
-      }
+      };
     },
     zoomDialog() {
       const acao = this.opcoesDeAcao.filter(
-        (opcao) => opcao.nome === 'Exportar registro',
-      )
-      acao[0].mostrar = this.zoomDialog
+        (opcao) => opcao.nome === "Exportar registro"
+      );
+      acao[0].mostrar = this.zoomDialog;
     },
     itensSelecionados() {
-      this.$emit('input', this.itensSelecionados)
+      this.$emit("input", this.itensSelecionados);
     },
     value() {
-      this.itensSelecionados = this.value
+      this.itensSelecionados = this.value;
     },
   },
   props: {
@@ -675,31 +676,31 @@ export default {
       type: Boolean,
       default: () => true,
     },
-    'mostra-propriedades': {
+    "mostra-propriedades": {
       type: Boolean,
       default: () => false,
     },
-    'mostra-paginacao': {
+    "mostra-paginacao": {
       type: Boolean,
       default: () => true,
     },
-    'mostra-pesquisa': {
+    "mostra-pesquisa": {
       type: Boolean,
       default: () => false,
     },
-    'colunas-fixas': {
+    "colunas-fixas": {
       type: Boolean,
       default: () => true,
     },
-    'paginacao-servidor': {
+    "paginacao-servidor": {
       type: Boolean,
       default: () => false,
     },
-    'mostra-agrupador': {
+    "mostra-agrupador": {
       type: Boolean,
       default: () => false,
     },
-    'ordenar-varios': {
+    "ordenar-varios": {
       type: Boolean,
       default: () => true,
     },
@@ -707,29 +708,29 @@ export default {
       type: String,
       default: () => null,
     },
-    'chave-tabela': {
+    "chave-tabela": {
       type: String,
-      default: () => 'seq',
+      default: () => "seq",
     },
-    'mostra-linha-selecionada': {
+    "mostra-linha-selecionada": {
       type: Boolean,
       default: () => false,
     },
-    'selecionar-varios': {
+    "selecionar-varios": {
       type: Boolean,
       default: () => false,
     },
-    'mostra-acoes': {
+    "mostra-acoes": {
       type: Boolean,
       default: () => false,
     },
-    'nome-tabela': {
+    "nome-tabela": {
       type: String,
-      default: () => '',
+      default: () => "",
     },
     altura: {
       type: String,
-      default: () => '100vh',
+      default: () => "100vh",
     },
     carregar: {
       type: Boolean,
@@ -740,7 +741,7 @@ export default {
       default: () => {},
     },
     value: {},
-    'total-itens': {
+    "total-itens": {
       type: Number,
       default: () => 30,
     },
@@ -748,31 +749,31 @@ export default {
       type: Array,
       default: () => [],
     },
-    'mostra-detalhes': {
+    "mostra-detalhes": {
       type: Boolean,
       default: () => false,
     },
-    'mostra-toolbar': {
+    "mostra-toolbar": {
       type: Boolean,
       default: () => true,
     },
-    'zoom-dialog': {
+    "zoom-dialog": {
       type: Boolean,
       default: () => false,
     },
-    'nome-programa': {
+    "nome-programa": {
       type: String,
-      default: () => '',
+      default: () => "",
     },
-    'agrupar-por': {
+    "agrupar-por": {
       type: String,
       default: () => null,
     },
-    'ordenar-por': {
+    "ordenar-por": {
       type: Array,
       default: () => [],
     },
-    'ordenar-desc': {
+    "ordenar-desc": {
       type: Array,
       default: () => [],
     },
@@ -792,18 +793,18 @@ export default {
       type: Boolean,
       default: () => true,
     },
-    'informacoes-da-pesquisa': {
+    "informacoes-da-pesquisa": {
       type: String,
       default: () => null,
     },
-    'cor-checkbox': {
+    "cor-checkbox": {
       type: String,
       default: () => null,
     },
-    'habilita-agrupamento': {
+    "habilita-agrupamento": {
       type: Boolean,
       default: () => true,
     },
   },
-}
+};
 </script>

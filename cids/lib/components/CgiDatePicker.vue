@@ -55,7 +55,7 @@
 import dayjs from "dayjs";
 import isBetween from "dayjs/esm/plugin/isBetween";
 import customParseFormat from "dayjs/esm/plugin/customParseFormat";
-import { computed, ref } from "vue";
+import { computed, ref, watch } from "vue";
 
 dayjs.extend(customParseFormat);
 dayjs.extend(isBetween);
@@ -281,4 +281,11 @@ const blurTextField = () => {
 
   emit("update:model-value", null);
 };
+
+watch(
+  () => props.modelValue,
+  () => {
+    data.value = formataValorInicial()
+  },
+)
 </script>
